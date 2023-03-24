@@ -1,0 +1,107 @@
+body {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
+.disposisi__header h1 {
+    font-size: 24px;
+    line-height: 2.25rem;
+}
+
+.disposisi__info h4 {
+    line-height: 2.25rem;
+    font-size: 18px;
+}
+
+.disposisi__info-title {
+    width: 40%;
+}
+
+.disposisi__info-body {
+    width: 60%;
+}
+
+.disposisi__info .row .checkbox {
+    min-width: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid var(--grey);
+    margin-right: .5rem;
+}
+
+.disposisi__info .row .checkbox ~ h4 {
+
+}
+
+table {
+    border-color: var(--black) !important;
+}
+
+table thead th {
+    text-align: center;
+}
+
+/* Disposisi : nomor */
+table tbody td:nth-child(3) {
+    width: 5%;
+    text-align: center;
+}
+
+/* Disposisi : keterangan */
+table tbody td:nth-child(4) {
+    width: 25%;
+}
+
+table thead th:first-child {
+    width: 10%;
+}
+
+table thead th:nth-child(2) {
+    width: 20%;
+}
+
+table thead th:nth-child(3) {
+    width: 30%;
+}
+
+table thead th:nth-child(4) {
+    width: 30%;
+}
+
+table thead th:last-child {
+    width: 10%;
+}
+
+@media print {
+    body {
+        width: 21cm;
+        height: 29.7cm;
+        margin-bottom: 30mm;
+        /* margin: 30mm 45mm 30mm 45mm; */
+        /* change the margins as you want them to be. */
+    }
+
+    form .mb-3 {
+        margin-bottom: 3px !important;
+    }
+
+    .disposisi__header {
+        width: 90% !important;
+    }
+
+    .disposisi__info-title {
+        width: 45%;
+    }
+
+    .disposisi__info-body {
+        width: 55%;
+    }
+
+    table thead {
+        display: table-header-group;
+    }
+
+    button {
+        display: none;
+    }
+}

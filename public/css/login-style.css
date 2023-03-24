@@ -1,0 +1,126 @@
+.login .content,
+.login .image {
+    width: 100%;
+    height: 100vh;
+}
+
+.login .content {
+    background-color: var(--blue);
+}
+
+.login .content .body {
+    width: 85%;
+}
+
+.login label {
+    color: white;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.login input {
+    background-color: unset !important;
+    color: white;
+    border-color: var(--grey);
+}
+
+.login input:focus {
+    color: white;
+    border-color: white;
+    outline: var(--grey) solid 2px;
+    box-shadow: none;
+}
+
+.login .eye-icon {
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--light);
+}
+
+.login .image {
+    padding: 15rem 0;
+}
+
+.login .image div:first-child {
+    right: 0;
+    bottom: 20%;
+}
+
+.login .image img {
+    width: 90%;
+}
+
+.login .image .title h5 {
+    width: 70%;
+    line-height: 1.5rem;
+}
+
+.login .image span {
+    width: 15px;
+    height: 15px;
+    background-color: var(--light);
+    border-radius: 50%;
+}
+
+/* ================ Responsive ================ */
+/* Mobile */
+@media only screen and (min-width: 576px) {
+    .login .content .body {
+        width: 50%;
+    }
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) {}
+
+/* Large */
+@media only screen and (min-width: 992px) {
+    .login {
+        display: flex;
+    }
+
+    .login .content,
+    .login .image {
+        width: 50%;
+        height: 100vh;
+    }
+
+    .login .content {
+        background-color: var(--blue);
+    }
+
+    .login .content .title h5 {
+        color: var(--grey);
+    }
+
+    .login .content .btn__green {
+        background-color: var(--green);
+        color: white;
+    }
+
+    .login .brand {
+        margin-bottom: 4.5rem;
+    }
+
+    .login .title h4 {
+        color: var(--black) !important;
+    }
+
+    .login .eye-icon {
+        color: var(--black);
+    }
+
+    .login>div:last-child {
+        display: flex !important;
+    }
+
+    .login .image {
+        display: flex !important;
+    }
+
+    .login .image h4 {
+        width: 50%;
+    }
+}

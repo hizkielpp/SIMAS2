@@ -1,0 +1,648 @@
+/* Nunito font */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap");
+
+/* Variable */
+:root {
+  --blue: #2f5596;
+  --blue-light: #b5d9e7;
+  --black: #3c4648;
+  --black-light: #707a83;
+  --grey: #b4bec0;
+  --light: #d3dae0;
+  --white: #fff;
+}
+
+* {
+  list-style: none;
+  text-decoration: none !important;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 0;
+}
+
+/* Font weight */
+.fw__light {
+  font-weight: 300;
+}
+
+.fw__normal {
+  font-weight: 400;
+}
+
+.fw__med {
+  font-weight: 500;
+}
+
+.fw__semi {
+  font-weight: 600;
+}
+
+.fw__bold {
+  font-weight: 700;
+}
+
+.fw__ebold {
+  font-weight: 800;
+}
+
+/* Color */
+.blue {
+  color: var(--blue);
+}
+
+.blue__light {
+  color: var(--blue-light);
+}
+
+.black {
+  color: var(--black);
+}
+
+.black__light {
+  color: var(--black-light);
+}
+
+.light {
+  color: var(--light);
+}
+
+/* Button */
+.mybtn {
+  padding: 10px 20px;
+  border-radius: 100px;
+  display: block;
+  cursor: pointer;
+  width: fit-content;
+  border: none;
+}
+
+.mybtn.blue {
+  background-color: var(--blue);
+  color: white;
+}
+
+.mybtn.blue:hover {
+  background-color: #254b8c;
+  transition: 0.2s;
+}
+
+.mybtn.blue__light {
+  background-color: var(--light);
+  color: var(--blue);
+}
+
+.mybtn.blue__light:hover {
+  background-color: #cdd4da;
+  transition: 0.2s;
+}
+
+.myicon {
+  display: block;
+  cursor: pointer;
+  background-color: unset;
+  border: 1px solid;
+  border-radius: 50%;
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+}
+
+.myicon.red {
+  background-color: #f3cec6;
+  color: #ff6b83;
+  border-color: rgb(255, 107, 131, 0.4);
+}
+
+.myicon.blue {
+  background-color: var(--blue-light);
+  color: var(--blue);
+  border-color: rgb(47, 85, 150, 0.4);
+}
+
+.myicon.green {
+  background-color: #bff8d4;
+  color: #40a798;
+  border-color: rgb(63, 166, 151, 0.4);
+}
+
+.mybtn.white,
+.mybtn.light {
+  border: 1px solid var(--grey);
+}
+
+.mybtn.white:hover {
+  background-color: var(--blue);
+  color: white;
+  transition: 0.3s;
+}
+
+.mybtn.light {
+  color: var(--black);
+}
+
+.mybtn.light:hover {
+  background-color: var(--light);
+  transition: 0.3s;
+}
+
+.btn__blue {
+  background-color: white;
+}
+
+.btn__blue:hover {
+  background-color: var(--light);
+  transition: 0.3s;
+}
+
+.btn__blue:focus-visible {
+  background-color: var(--light);
+}
+
+/* Margin & padding */
+.mr12 {
+  margin-right: 12px;
+}
+
+.p26 {
+  padding: 26px;
+}
+
+/* Card */
+.card {
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+/* Tabel */
+#mytable thead th {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--black-light);
+}
+
+#mytable tbody tr td {
+  color: var(--black);
+  font-weight: 600;
+}
+
+#mytable tbody .no {
+  text-align: center;
+}
+
+#mytable .sifat {
+  padding: 10px 18px;
+  border-radius: 25px;
+  width: 90px;
+  border: 1px solid;
+}
+
+#mytable .sifat.rahasia {
+  background-color: #b5d9e7;
+  color: #2f5596;
+  border-color: rgb(47, 85, 150, 0.4);
+}
+
+#mytable .sifat.biasa {
+  background-color: var(--light);
+  color: var(--black);
+  border-color: #a2acb5;
+}
+
+#mytable .sifat.segera {
+  background-color: #bff8d4;
+  color: #40a798;
+  border-color: rgb(64, 167, 152, 0.4);
+}
+
+#mytable .sifat.penting {
+  background-color: rgb(255, 235, 188, 0.8);
+  color: #ffa323;
+  border-color: #ffcb4b;
+}
+
+#mytable tbody tr:hover td {
+  background-color: var(--light);
+}
+
+#mytable tbody .date {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+/* Mytable info */
+#mytable_info {
+  padding-top: 0;
+  color: var(--black-light);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/* Mytable length */
+#mytable_length {
+  margin-right: 1rem;
+}
+
+#mytable_length label {
+  margin-bottom: 0;
+  color: var(--black-light);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+#mytable_length select:focus {
+  box-shadow: none;
+  border-color: var(--blue);
+}
+
+/* Mytable paginate */
+#mytable_paginate .page-item {
+  margin: 0 0.25rem;
+  width: 36px;
+  text-align: center;
+}
+
+#mytable_paginate .page-item a {
+  color: var(--black-light);
+}
+
+#mytable_paginate .page-item.active a {
+  border-radius: 50%;
+  background-color: var(--blue);
+  color: white;
+}
+
+#mytable_paginate .page-item.next a,
+#mytable_paginate .page-item.previous a {
+  background-color: unset;
+}
+
+#mytable_paginate li span i {
+  color: var(--black-light);
+  font-weight: 600;
+}
+
+#mytable_paginate li a {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#mytable_paginate li a:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#mytable_paginate .previous {
+  margin-right: 1rem;
+}
+
+#mytable_paginate .next {
+  margin-left: 1rem;
+}
+
+.dtr-details li {
+  margin-bottom: 0.75rem;
+}
+
+.dtr-title {
+  display: block;
+  color: var(--black-light);
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+
+/* Form */
+#myform input,
+#myform select,
+#myform textarea {
+  font-weight: 300;
+  color: var(--black);
+  border-color: var(--grey);
+}
+
+#myform input:focus,
+#myform textarea:focus {
+  color: var(--black);
+}
+
+#myform select:focus,
+#myform input:focus,
+#myform textarea:focus {
+  outline: var(--light) solid 2px;
+  box-shadow: none;
+  border-color: var(--blue);
+}
+
+#mydate input,
+#mydateKeluar input {
+  padding: 6px 12px;
+  border: 1px solid var(--grey);
+  border-radius: 0.25rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  min-height: 38px;
+}
+
+#mydate input::placeholder,
+#mydateKeluar input::placeholder {
+  color: var(--black-light);
+}
+
+#mydate button:focus,
+#mydateKeluar button:focus {
+  border: none;
+  box-shadow: none;
+}
+
+#mydate .duet-date__dialog {
+  bottom: 0;
+  top: unset;
+}
+
+#mydateKeluar .duet-date__dialog {
+  bottom: unset;
+}
+
+#mydate .duet-date__select--month:focus,
+#mydateKeluar .duet-date__select--month:focus {
+  box-shadow: none;
+  border: none;
+  outline: none;
+}
+
+#registrasiSuratMasuk .perihal,
+#editSuratMasuk .perihal {
+  min-height: 7.8rem;
+}
+
+#registrasiSuratKeluar .perihal,
+#editSuratKeluar .perihal {
+  min-height: 7.8rem;
+}
+
+#registrasiSuratKeluar .input input {
+  width: 60%;
+}
+
+#registrasiSuratKeluar .input button {
+  padding: 6px;
+  min-height: 38px;
+  background-color: var(--blue);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid var(--blue);
+  display: block;
+  width: 40%;
+}
+
+/* Modal */
+.modal-content .btn-close {
+  border-radius: 50%;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
+  background-color: var(--grey);
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.modal-content .btn-close:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#mytable .dataTables_filter::before {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+}
+
+.input__tanggal input {
+  display: inline;
+  border: 1px solid var(--grey);
+}
+.input__tanggal input:focus {
+  border-color: var(--blue) !important;
+  outline: var(--blue);
+}
+
+/* ================================== */
+/*               Navbar               */
+/* ================================== */
+#navbar {
+  padding: 20px 16px;
+  background-color: var(--light);
+  border-color: var(--grey);
+}
+
+#navbar a {
+  color: var(--black);
+}
+
+#navbar .icon,
+#navbar .image__user {
+  min-width: 33px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+}
+
+#navbar .icon {
+  border: 1px solid var(--grey);
+}
+
+#navbar .image__user {
+  background-color: var(--blue);
+}
+
+#navbar .icon {
+  margin-right: 0.75rem;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+#navbar .dropdown button {
+  display: block;
+  padding: 0.375rem 0.75rem;
+}
+
+#navbar .dropdown-menu {
+  left: -75%;
+  border-radius: 10px;
+}
+
+/* ================================== */
+/*               Sidebar              */
+/* ================================== */
+#sidebar .brand-link {
+  height: unset;
+}
+
+#sidebar .brand-link .d-flex {
+  background-color: var(--blue);
+  min-width: 33px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+}
+
+#sidebar .brand-link {
+  background-color: white;
+  border: none;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+#sidebarMenu {
+  background-color: white;
+}
+
+#sidebarMenu li {
+  margin-bottom: 0.5rem;
+}
+
+#sidebarMenu li a {
+  color: var(--black);
+  padding: 12px 20px;
+  border-radius: 8px;
+}
+
+#sidebarMenu li a.active {
+  color: white;
+  background-color: var(--blue);
+}
+
+#sidebarMenu li a:hover {
+  background-color: var(--blue);
+  color: white;
+  transition: 0.3s;
+}
+
+.sidebar li i {
+  margin-right: 10px;
+}
+
+.sidebar .active {
+  background-color: var(--blue);
+  color: white;
+}
+
+/* ================================== */
+/*             Main page              */
+/* ================================== */
+#mainPage {
+  margin-top: 80px;
+  min-height: 100vh !important;
+  padding: 26px 16px;
+  background-color: var(--light);
+  border: none !important;
+}
+
+/* ================================== */
+/*               Footer               */
+/* ================================== */
+footer {
+  background-color: white;
+  color: var(--black) !important;
+}
+
+/* ================================== */
+/*            Date picker             */
+/* ================================== */
+#ui-datepicker-div {
+  width: auto;
+  padding: 0.5rem;
+}
+#ui-datepicker-div table tbody tr td a.ui-state-highlight {
+  border: 1px solid var(--grey);
+  background: none;
+}
+#ui-datepicker-div table tbody tr td a.ui-state-active {
+  background-color: var(--blue);
+  color: white;
+}
+#ui-datepicker-div table tbody tr td a {
+  border: 0;
+  border-radius: 50%;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.125rem;
+  color: var(--black);
+}
+
+@media only screen and (min-width: 768px) {
+  /* Font weight */
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  h4 {
+    font-size: 18px;
+  }
+
+  h5 {
+    font-size: 16px;
+  }
+
+  h6 {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+}

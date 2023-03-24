@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- Fontawesome Icons -->
+    <link rel="stylesheet" href="css/all.min.css" />
+
+    <!-- Template : overlayScrollbars -->
+    <link
+      rel="stylesheet"
+      href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+    />
+
+    <!-- Template : theme style -->
+    <link rel="stylesheet" href="css/adminlte.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/beranda-style.css" />
+  </head>
+  <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+      <!-- Preloader start -->
+      <div
+        class="preloader flex-column justify-content-center align-items-center"
+      >
+        <img
+          class="animation__wobble"
+          src="img/AdminLTELogo.png"
+          alt="AdminLTELogo"
+          height="60"
+          width="60"
+        />
+      </div>
+      <!-- Preloader end -->
+
+      <!-- Navbar start -->
+      <nav id="navbar" class="main-header navbar navbar-expand navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"
+              ><i class="fas fa-bars"></i
+            ></a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item d-flex align-items-center user">
+            <div
+              class="image__user d-flex justify-content-center align-items-center"
+            >
+              <h3 class="text-white fw__med">A</h3>
+            </div>
+            <div class="dropdown">
+              <button
+                class="border-0 bg-transparent dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Admin <i class="fa-solid fa-angle-down ms-1"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Keluar</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <!-- Navbar end -->
+
+      <!-- Sidebar start -->
+      <aside id="sidebar" class="main-sidebar sidebar-dark-primary">
+        <a href="index.html" class="brand-link d-flex align-items-center">
+          <div class="d-flex justify-content-center align-items-center mr12">
+            <h3 class="text-white fw__med">S</h3>
+          </div>
+          <div class="name brand-text">
+            <h5 class="black fw__ebold mb-1">SIMAS</h5>
+            <h5 id="brandText" class="black fw__normal">
+              Sistem Manajemen Surat
+            </h5>
+          </div>
+        </a>
+
+        <div id="sidebarMenu" class="sidebar">
+          <nav class="mt-5">
+            <ul
+              class="nav nav-pills nav-sidebar flex-column"
+              data-widget="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="index.html" class="nav-link active">
+                  <i class="fa-solid fa-house me-1"></i>
+                  <p class="fw__light">Dashboard</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="surat-masuk.html" class="nav-link">
+                  <i class="fa-solid fa-envelope me-1"></i>
+                  <p class="fw__light">Surat Masuk</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="surat-keluar.html" class="nav-link">
+                  <i class="fa-solid fa-envelope me-1"></i>
+                  <p class="fw__light">Surat Keluar</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="surat-antidatir.html" class="nav-link">
+                  <i class="fa-solid fa-envelope me-1"></i>
+                  <p class="fw__light">Surat Antidatir</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+      <!-- Sidebar end -->
+
+      <!-- Main page start -->
+      <div id="mainPage" class="content-wrapper dashboard">
+        <section class="content">
+          <div class="dashboard row">
+            <div class="col-lg-8 col-12">
+              <div class="d-flex align-items-start">
+                <h2 class="black fw__bold me-2">Selamat Datang, Admin!</h2>
+                <img src="img/hand-icon.png" width="24px" alt="Hand Icon" />
+              </div>
+              <h4 class="black fw__light mt-2">
+                Silahkan kelola surat sesuai kebutuhan anda.
+              </h4>
+              <div class="row mt-4">
+                <div class="col-sm-6 col-xl-4 col-12">
+                  <div
+                    class="card surat justify-content-center px-3 py-4 mb-3 mb-xl-0"
+                  >
+                    <div class="d-flex align-items-center masuk">
+                      <div
+                        class="icon d-flex justify-content-center align-items-center"
+                      >
+                        <i class="fa-solid fa-envelope masuk"></i>
+                      </div>
+                      <div class="text">
+                        <h4 class="black fw__normal mb-1">Surat Masuk</h4>
+                        <h4 class="black fw__ebold">150</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-4 col-12">
+                  <div
+                    class="card surat justify-content-center px-3 py-4 mb-3 mb-xl-0"
+                  >
+                    <div class="d-flex align-items-center keluar">
+                      <div
+                        class="icon d-flex justify-content-center align-items-center"
+                      >
+                        <i class="fa-solid fa-envelope"></i>
+                      </div>
+                      <div class="text">
+                        <h4 class="black fw__normal mb-1">Surat Keluar</h4>
+                        <h4 class="black fw__ebold">150</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-4 col-12">
+                  <div
+                    class="card surat justify-content-center px-3 py-4 mb-3 mb-xl-0"
+                  >
+                    <div class="d-flex align-items-center antidatir">
+                      <div
+                        class="icon d-flex justify-content-center align-items-center"
+                      >
+                        <i class="fa-solid fa-envelope"></i>
+                      </div>
+                      <div class="text">
+                        <h4 class="black fw__normal mb-1">Surat Antidatir</h4>
+                        <h4 class="black fw__ebold">150</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-12">
+              <div class="card p-4 informasi h-100 mb-0 justify-content-between">
+                  <h3 class="text-white">Informasi Terbaru</h3>
+                  <h4 class="light fw__light mt-3">
+                    Terdapat 30 surat masuk, 10 surat keluar, dan 50 antidatir baru.
+                  </h4>
+                  <h5 class="time light">Rabu, 10 Maret 2023</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Main page end -->
+
+      <!-- Footer start -->
+      <footer class="main-footer px-4 py-3">
+        <strong>Copyright &copy; 2023. Digital Innovasion & Media.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1.0
+        </div>
+      </footer>
+      <!-- Footer end -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+
+    <!-- Template : overlayScrollbars -->
+    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <!-- Template : AdminLTE App -->
+    <script src="js/adminlte.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- Fontawesome Icons -->
+    <script src="js/all.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+  </body>
+</html>

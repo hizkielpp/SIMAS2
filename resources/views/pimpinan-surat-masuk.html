@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | Surat Masuk</title>
+
+    <!-- CSS Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <!-- Fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <!-- overlayScrollbars -->
+    <link
+      rel="stylesheet"
+      href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+    />
+
+    <!-- Bootstrap data tables -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"
+    />
+
+    <!-- Date picker -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/themes/default.css"
+    />
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="css/adminlte.min.css" />
+    <!-- Custom css -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="beranda-style.css" />
+  </head>
+  <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+      <!-- Preloader -->
+      <div
+        class="preloader flex-column justify-content-center align-items-center"
+      >
+        <img
+          class="animation__wobble"
+          src="img/AdminLTELogo.png"
+          alt="AdminLTELogo"
+          height="60"
+          width="60"
+        />
+      </div>
+
+      <!-- Navbar -->
+      <nav id="navbar" class="main-header navbar navbar-expand navbar-dark">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"
+              ><i class="fas fa-bars"></i
+            ></a>
+          </li>
+        </ul>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+          <!-- <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+              <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+          </li> -->
+          <li class="nav-item">
+            <div class="icon d-flex justify-content-center align-items-center">
+              <i class="fa-solid fa-bell black"></i>
+            </div>
+          </li>
+          <li class="nav-item d-flex align-items-center user">
+            <div
+              class="image__user d-flex justify-content-center align-items-center"
+            >
+              <h3 class="text-white fw__med">A</h3>
+            </div>
+            <div class="dropdown">
+              <button
+                class="border-0 bg-transparent dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Admin <i class="fa-solid fa-angle-down ms-1"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fa-solid fa-arrow-right-from-bracket me-2"></i
+                    >Keluar</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <aside id="sidebar" class="main-sidebar sidebar-dark-primary">
+        <!-- Brand Logo -->
+        <a href="index2.html" class="brand-link d-flex align-items-center">
+          <div class="d-flex justify-content-center align-items-center mr12">
+            <h3 class="text-white fw__med">S</h3>
+          </div>
+          <div class="name brand-text">
+            <h5 class="black fw__ebold mb-1">SIMAS</h5>
+            <h5 id="brandText" class="black fw__normal">
+              Sistem Manajemen Surat
+            </h5>
+          </div>
+        </a>
+
+        <!-- Sidebar -->
+        <div id="sidebarMenu" class="sidebar">
+          <!-- Sidebar Menu -->
+          <nav class="mt-5">
+            <ul
+              class="nav nav-pills nav-sidebar flex-column"
+              data-widget="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+              <li class="nav-item">
+                <a href="index2.html" class="nav-link">
+                  <i class="fa-solid fa-house"></i>
+                  <p class="fw__light">Dashboard</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="surat-masuk.html" class="nav-link active">
+                  <i class="fa-solid fa-envelope"></i>
+                  <p class="fw__light">Surat Masuk</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="surat-keluar.html" class="nav-link">
+                  <i class="fa-solid fa-envelope"></i>
+                  <p class="fw__light">Surat Keluar</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="surat-antidatir.html" class="nav-link">
+                  <i class="fa-solid fa-envelope"></i>
+                  <p class="fw__light">Surat Antidatir</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div id="mainPage" class="content-wrapper">
+        <section class="surat__masuk content">
+          <div class="row">
+            <div class="col-md-6 col-lg-8 col-12">
+              <div class="card p-4 m b-md-0">
+                <h4 class="fw__bold black mb-3">Keterangan</h4>
+                <h5 class="fw__normal black__light mb-3">
+                  Surat masuk wajib dilakukan registrasi. Registrasi surat
+                  dilakukan dengan sistem dalam melakukan kearsipan surat.
+                  Operator dapat melakukan registrasi surat masuk dan penerusan
+                  ke pimpinan agar dapat menindak lanjuti surat tersebut. Anda
+                  dapat mendownload "Tata Naskah Dinas di Lingkungan Universitas
+                  Diponegoro" sebagai pedoman dalam membuat nomor surat dengan
+                  menekan tombol dibawah ini.
+                </h5>
+                <a href="" class="mybtn blue__light fw__semi"
+                  ><i class="fa-solid fa-download me-1"></i> Download
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-12">
+              <div class="card p-4 h-100">
+                <h4 class="fw__bold black mb-3">Aktivitas Terakhir</h4>
+              </div>
+            </div>
+          </div>
+          <div class="card p-4 mt-3">
+            <div
+              class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3"
+            >
+              <h4 class="fw__bold black">Daftar Surat Masuk</h4>
+              <div
+                class="d-flex align-items-center gap-3 input__tanggal flex-wrap"
+              >
+                <p class="">Rentang Tanggal :</p>
+                <input
+                  type="date"
+                  name="inputTanggal"
+                  id="inputTanggal"
+                  class="mybtn"
+                />
+                <input
+                  type="date"
+                  name="inputTanggalEnd"
+                  id="inputTanggalEnd"
+                  class="mybtn"
+                />
+                <button
+                  id="tes"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#registrasiSuratMasuk"
+                  class="mybtn blue"
+                >
+                  <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                </button>
+              </div>
+            </div>
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="registrasiSuratMasuk"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                  <div class="modal-header">
+                    <h4
+                      class="modal-title fw__bold black"
+                      id="exampleModalLabel"
+                    >
+                      Form Registrasi Surat Masuk
+                    </h4>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="myform">
+                      <div class="row">
+                        <div class="col-lg-6 col-12">
+                          <div class="mb-3">
+                            <label
+                              for="noSurat"
+                              class="form-label black fw-semibold"
+                              >Nomor Surat</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Masukkan nomor surat"
+                              id="noSurat"
+                              aria-describedby="emailHelp"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label
+                              for="penerima"
+                              class="form-label black fw-semibold"
+                              >Penerima</label
+                            >
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                            >
+                              <option selected>-- Pilih salah satu --</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label
+                              for="date"
+                              class="form-label black fw-semibold"
+                              >Tanggal Pengajuan</label
+                            >
+                            <duet-date-picker
+                              id="mydate"
+                              identifier="date"
+                            ></duet-date-picker>
+                          </div>
+                          <div class="mb-3">
+                            <label
+                              for="asalSurat"
+                              class="form-label black fw-semibold"
+                              >Asal Surat</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="asalSurat"
+                              placeholder="Contoh : Ketua Departemen Kedokteran"
+                              aria-describedby="emailHelp"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                          <div class="mb-3">
+                            <label
+                              for="penerima"
+                              class="form-label black fw-semibold"
+                              >Sifat</label
+                            >
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                            >
+                              <option selected>-- Pilih salah satu --</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label
+                              for="lampiran"
+                              class="form-label black fw-semibold"
+                              >Upload Lampiran</label
+                            >
+                            <input
+                              type="file"
+                              class="form-control"
+                              id="lampiran"
+                              aria-describedby="emailHelp"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label
+                              for="exampleFormControlTextarea1"
+                              class="form-label black fw-semibold"
+                              >Perihal</label
+                            >
+                            <textarea
+                              class="form-control perihal"
+                              id="exampleFormControlTextarea1"
+                              rows="3"
+                              placeholder="Contoh : Permohonan perijinan penelitian"
+                            ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="mybtn light"
+                      data-bs-dismiss="modal"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      type="button"
+                      class="mybtn blue"
+                      onclick="confirmAdd()"
+                    >
+                      Tambah
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table id="mytable" class="table w-100">
+                <thead>
+                  <tr>
+                    <th class="no">No</th>
+                    <th>Asal Surat / No. Surat</th>
+                    <th>Perihal</th>
+                    <th>Penerima</th>
+                    <th>Sifat</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="no">1</td>
+                    <td>
+                      KETUA DEPARTEMEN ILMU GIZI Nomor :
+                      14/UN7.5.4.4/DIG/KP/2021
+                      <br />
+                      <span class="date d-inline-block mt-1"
+                        >23 November 2021 - 04:08 WIB</span
+                      >
+                    </td>
+                    <td>Permohonan Kenaikan Gaji Pegawai Kontrak</td>
+                    <td>Dekan Fakultas</td>
+                    <td>
+                      <div
+                        class="sifat rahasia d-flex justify-content-center align-items-center"
+                      >
+                        <h6 class="fw__semi">Rahasia</h6>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <button
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#registrasiSuratMasuk"
+                          class="myicon blue d-flex align-items-center justify-content-center me-2"
+                        >
+                          <i class="fa-solid fa-circle-info"></i>
+                        </button>
+                        <button
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#registrasiSuratMasuk"
+                          class="myicon blue d-flex align-items-center justify-content-center me-2"
+                        >
+                          <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+
+                        <!-- Modal -->
+                        <div
+                          class="modal fade"
+                          id="registrasiSuratMasuk"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content p-3">
+                              <div class="modal-header">
+                                <h4
+                                  class="modal-title fw__bold black"
+                                  id="exampleModalLabel"
+                                >
+                                  Form Edit Surat Masuk
+                                </h4>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body">
+                                <form id="myform">
+                                  <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                      <div class="mb-3">
+                                        <label
+                                          for="noSurat"
+                                          class="form-label black fw-semibold"
+                                          >Nomor Surat</label
+                                        >
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Masukkan nomor surat"
+                                          id="noSurat"
+                                          aria-describedby="emailHelp"
+                                        />
+                                      </div>
+                                      <div class="mb-3">
+                                        <label
+                                          for="penerima"
+                                          class="form-label black fw-semibold"
+                                          >Penerima</label
+                                        >
+                                        <select
+                                          class="form-select"
+                                          aria-label="Default select example"
+                                        >
+                                          <option selected>
+                                            -- Pilih salah satu --
+                                          </option>
+                                          <option value="1">One</option>
+                                          <option value="2">Two</option>
+                                          <option value="3">Three</option>
+                                        </select>
+                                      </div>
+                                      <div class="mb-3">
+                                        <label
+                                          for="date"
+                                          class="form-label black fw-semibold"
+                                          >Tanggal Pengajuan</label
+                                        >
+                                        <duet-date-picker
+                                          id="mydate"
+                                          identifier="date"
+                                        ></duet-date-picker>
+                                      </div>
+                                      <div class="mb-3">
+                                        <label
+                                          for="asalSurat"
+                                          class="form-label black fw-semibold"
+                                          >Asal Surat</label
+                                        >
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          id="asalSurat"
+                                          placeholder="Contoh : Ketua Departemen Kedokteran"
+                                          aria-describedby="emailHelp"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                      <div class="mb-3">
+                                        <label
+                                          for="penerima"
+                                          class="form-label black fw-semibold"
+                                          >Sifat</label
+                                        >
+                                        <select
+                                          class="form-select"
+                                          aria-label="Default select example"
+                                        >
+                                          <option selected>
+                                            -- Pilih salah satu --
+                                          </option>
+                                          <option value="1">One</option>
+                                          <option value="2">Two</option>
+                                          <option value="3">Three</option>
+                                        </select>
+                                      </div>
+                                      <div class="mb-3">
+                                        <label
+                                          for="lampiran"
+                                          class="form-label black fw-semibold"
+                                          >Upload Lampiran</label
+                                        >
+                                        <input
+                                          type="file"
+                                          class="form-control"
+                                          id="lampiran"
+                                          aria-describedby="emailHelp"
+                                        />
+                                      </div>
+                                      <div class="mb-3">
+                                        <label
+                                          for="exampleFormControlTextarea1"
+                                          class="form-label black fw-semibold"
+                                          >Perihal</label
+                                        >
+                                        <textarea
+                                          class="form-control perihal"
+                                          id="exampleFormControlTextarea1"
+                                          rows="1"
+                                          placeholder="Contoh : Permohonan perijinan penelitian"
+                                        ></textarea>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="mybtn light"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Batal
+                                </button>
+                                <button
+                                  type="button"
+                                  class="mybtn blue"
+                                  onclick="confirmEdit()"
+                                >
+                                  Simpah
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          class="myicon red d-flex align-items-center justify-content-center me-2"
+                          onclick="confirm()"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                        <a
+                          href="lembar-disposisi.html"
+                          class="myicon green d-flex align-items-center justify-content-center"
+                        >
+                          <i class="fa-solid fa-file-export"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="js/adminlte.js"></script>
+
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- PAGE PLUGINS -->
+
+    <!-- AdminLTE for demo purposes -->
+    <script src="js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="js/pages/dashboard2.js"></script>
+
+    <script src="script.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Sweet alert -->
+    <script src="sweetalert2.all.min.js"></script>
+
+    <!-- Sweet alert : confirm delete -->
+    <script>
+      function confirm() {
+        new Audio("audio/warning-edited.mp3").play();
+        Swal.fire({
+          title: "Konfirmasi",
+          text: "Yakin ingin menghapus file?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#2F5596",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, hapus!",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire("Berhasil!", "File anda berhasil dihapus.", "success");
+            new Audio("audio/success-edited.mp3").play();
+          } else {
+            new Audio("audio/cancel-edited.mp3").play();
+          }
+        });
+      }
+    </script>
+
+    <!-- Sweet alert : confirm add -->
+    <script>
+      function confirmAdd() {
+        new Audio("audio/warning-edited.mp3").play();
+        Swal.fire({
+          title: "Konfirmasi",
+          text: "Pastikan data yang anda masukkan benar!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#2F5596",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Tambah",
+          cancelButtonText: "Batal",
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            new Audio("audio/success-edited.mp3").play();
+            Swal.fire("Berhasil!", "Data berhasil ditambahkan.", "success");
+            $("#registrasiSuratMasuk").modal("hide");
+          } else {
+            new Audio("audio/cancel-edited.mp3").play();
+            $("#registrasiSuratMasuk").modal("hide");
+          }
+        });
+      }
+    </script>
+
+    <!-- Sweet alert : confirm edit -->
+    <script>
+      function confirmEdit() {
+        new Audio("audio/warning-edited.mp3").play();
+        Swal.fire({
+          title: "Konfirmasi",
+          text: "Pastikan data yang anda masukkan benar!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#2F5596",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Simpan",
+          cancelButtonText: "Batal",
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            new Audio("audio/success-edited.mp3").play();
+            Swal.fire("Berhasil!", "Data berhasil diperbarui.", "success");
+            $("#editSuratMasuk").modal("hide");
+          } else {
+            new Audio("audio/cancel-edited.mp3").play();
+            $("#editSuratMasuk").modal("hide");
+          }
+        });
+      }
+    </script>
+
+    <!-- Data tables -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"
+    ></script>
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"
+    ></script>
+
+    <!-- Data tables : responsive -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"
+    ></script>
+
+    <!-- Initializing data tables -->
+    <script>
+      $(document).ready(function () {
+        $("#mytable").DataTable({
+          // responsive: false,
+          responsive: {
+            details: {
+              display: $.fn.dataTable.Responsive.display.childRowImmediate,
+              type: "none",
+              target: "",
+            },
+          },
+          dom: '<ft`$coba`<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
+          // dom: '<"table-responsive"tpf>',
+          destroy: true,
+          order: [[0, "desc"]],
+          language: {
+            lengthMenu: "Tampilkan _MENU_",
+            zeroRecords:
+              "Anda belum mengupload laporan kegiatan. <br>Silahkan upload laporan kegiatan terlebih dahulu.",
+            info: "Menampilkan _PAGE_ dari _PAGES_",
+            infoEmpty: "Baris tidak tersedia",
+            infoFiltered: "(filtered from _MAX_ total records)",
+            search: "Cari :",
+            // pagingType: "numbers",
+            // paginate: {
+            //   previous: "Sebelumnya",
+            //   next: "Berikutnya",
+            // },
+          },
+          oLanguage: {
+            oPaginate: {
+              sNext:
+                '<span class="pagination-fa"><i class="fa-solid fa-angle-right"></i></span>',
+              sPrevious:
+                '<span class="pagination-fa"><i class="fa-solid fa-angle-left"></i></span>',
+            },
+          },
+          lengthMenu: [
+            [5, 10, 20, -1],
+            [5, 10, 20, "All"],
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>

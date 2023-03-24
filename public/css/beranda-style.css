@@ -1,0 +1,49 @@
+/* Main page */
+.dashboard .masuk .icon {
+    min-width: 52px;
+    height: 52px;
+    background-color: #BFF8D4;
+    border-radius: 50%;
+}
+
+.dashboard .masuk .icon svg {
+    color: #40A798 ;
+}
+
+.dashboard .keluar .icon {
+    min-width: 52px;
+    height: 52px;
+    background-color: #B5D9E7;
+    border-radius: 50%;
+}
+
+.dashboard .keluar .icon svg {
+    color: #2F5596;
+}
+
+.dashboard .antidatir .icon {
+    min-width: 52px;
+    height: 52px;
+    background-color: #FFEBBC;
+    border-radius: 50%;
+}
+
+.dashboard .antidatir .icon svg {
+    color: #FFA323;
+}
+
+.dashboard .text {
+    margin-left: .75rem;
+}
+
+.dashboard .card.surat {
+    min-height: 116px;
+}
+
+.dashboard .informasi {
+    background-color: var(--blue);
+}
+
+.informasi h4 {
+    line-height: 1.5;
+}
