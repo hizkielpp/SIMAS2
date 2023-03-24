@@ -19,7 +19,7 @@
 }
 
 .login input {
-    background-color: unset !important;
+    background-color: transparent !important;
     color: white;
     border-color: var(--grey);
 }
@@ -64,6 +64,13 @@
     border-radius: 50%;
 }
 
+.login .icon svg {
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    color: white;
+    cursor: pointer;
+}
 /* ================ Responsive ================ */
 /* Mobile */
 @media only screen and (min-width: 576px) {
@@ -73,7 +80,8 @@
 }
 
 /* Tablet */
-@media only screen and (min-width: 768px) {}
+@media only screen and (min-width: 768px) {
+}
 
 /* Large */
 @media only screen and (min-width: 992px) {
@@ -112,7 +120,7 @@
         color: var(--black);
     }
 
-    .login>div:last-child {
+    .login > div:last-child {
         display: flex !important;
     }
 
