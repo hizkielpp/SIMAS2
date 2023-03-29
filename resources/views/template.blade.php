@@ -118,7 +118,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('suratAntidatir') }}" class="nav-link @yield('sa')">
+                            <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
                                 <i class="fa-solid fa-user-gear me-1"></i>
                                 <p class="fw__light">Kelola Akun</p>
                             </a>
