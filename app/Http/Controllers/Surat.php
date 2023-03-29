@@ -253,10 +253,21 @@ class Surat extends Controller
     public function indexSM(Request $request)
     {   
         $user = Auth::user();
-        if($user->role==2){
-            $suratMasuk = DB::table('suratmasuk')->where('created_by',$user->id)->get();
+        if(isset($_GET['start'])&& isset($_GET['end'])){
+            $start = $_GET['start'];
+            $end = $_GET['end']; 
+            if($user->role==2){
+                $suratMasuk = DB::table('suratmasuk')->where('created_at','>=',$start." 00:00:00.0")->where('created_at','<=',$end." 23:59:59.9")->where('created_by',$user->id)->get();
+            }else {
+                $suratMasuk = DB::table('suratmasuk')->where('created_at','>=',$start." 00:00:00.0")->where('created_at','<=',$end." 23:59:59.9")->get();
+            }
         }else{
-            $suratMasuk = DB::table('suratmasuk')->get();
+            //jika operator hanya menampilkan data miliknya
+            if($user->role==2){
+                $suratMasuk = DB::table('suratmasuk')->where('created_by',$user->id)->get();
+            }else {
+                $suratMasuk = DB::table('suratmasuk')->get();
+            }
         }
         $tujuan = DB::table('tujuan')->get();
         $sifat = DB::table('sifat')->get();

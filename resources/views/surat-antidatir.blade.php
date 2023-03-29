@@ -388,7 +388,7 @@
                             class="modal-title fw__bold black"
                             id="exampleModalLabel"
                           >
-                            Form Edit Surat Keluar
+                            Form Edit Surat Antidatir
                           </h4>
                           <button
                             type="button"
@@ -780,29 +780,6 @@
         window.location.href = '{{ route('suratAntidatir') }}'+'?start='+start+'&end='+end;
       }
     })
-    $(".passId").click(function () {  
-      let url = "{{ route('getSK', ':id') }}";
-      url = url.replace(':id',$(this).data('id'));
-        $.ajax({ 
-            type: 'GET', 
-            url: url, 
-            success: function (data) { 
-                console.log(data)
-                $('input[name="jenisSurat"]').val('biasa')
-                $("#tujuanSuratE").val(data.tujuanSurat)
-                $('#tanggalPengesahanE').val(data.tanggalPengesahan)   
-                $('#tujuanSuratE').attr('value',data.tujuanSurat)
-                $('perihalE').attr('value',data.perihal)
-                $("#kodeHalE").val(data.kodeHal)
-                $("#kodeUnitE").val(data.kodeUnit)
-                $("#disahkanOlehE").val(data.disahkanOleh)
-                $('#sifatSuratE').val(data.sifatSurat)
-                $('#jumlahLampiranE').val(data.jumlahLampiran)
-                $('#lampiranE').html(data.lampiran)
-              }
-        });
-        $('input[name="idSurat"]').attr('value',$(this).data('id'));
-    });
 });
 </script>
 @if (isset($_GET['start']) and isset($_GET['end']))
@@ -824,38 +801,67 @@ $('#inputTanggalEnd').attr('value',end)
   charset="utf8"
   src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"
 ></script>
-    <!-- Data tables : responsive -->
-    <script
-      type="text/javascript"
-      charset="utf8"
-      src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"
-    ></script>
-<script>
-  $(document).ready(function () {
-    $(".passId").click(function () {
-      let url = "{{ route('getSK', ':id') }}";
-      url = url.replace(':id',$(this).data('id'));
-        $.ajax({ 
-            type: 'GET', 
-            url: url, 
-            success: function (data) { 
-                $('input[name="jenisSurat"]').val('antidatir')
-                $("#tujuanSuratE").val(data.tujuanSurat)
-                $('#tanggalPengesahanE').val(data.tanggalPengesahan)   
-                $('#tujuanSuratE').attr('value',data.tujuanSurat)
-                $("#kodeHalE").val(data.kodeHal)
-                $("#kodeUnitE").val(data.kodeUnit)
-                $("#disahkanOlehE").val(data.disahkanOleh)
-                $('#sifatSuratE').val(data.sifatSurat)
-                $('#perihalE').val(data.perihal)
-                $('#jumlahLampiranE').val(data.jumlahLampiran)
-                $('#lampiranE').html(data.lampiran)
-              }
+<!-- Data tables : responsive -->
+<script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"
+></script>
+{{-- include tombol ekspor untuk datatable --}}
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script> 
+    <script>
+      $(document).ready(function () {
+        $(".passId").click(function () {
+          let url = "{{ route('getSK', ':id') }}";
+          url = url.replace(':id',$(this).data('id'));
+            $.ajax({ 
+                type: 'GET', 
+                url: url, 
+                success: function (data) { 
+                    $('input[name="jenisSurat"]').val('antidatir')
+                    $("#tujuanSuratE").val(data.tujuanSurat)
+                    $('#tanggalPengesahanE').val(data.tanggalPengesahan)   
+                    $('#tujuanSuratE').attr('value',data.tujuanSurat)
+                    $("#kodeHalE").val(data.kodeHal)
+                    $("#kodeUnitE").val(data.kodeUnit)
+                    $("#disahkanOlehE").val(data.disahkanOleh)
+                    $('#sifatSuratE').val(data.sifatSurat)
+                    $('#perihalE').val(data.perihal)
+                    $('#jumlahLampiranE').val(data.jumlahLampiran)
+                    $('#lampiranE').html(data.lampiran)
+                  }
+            });
+            $('input[name="idSurat"]').attr('value',$(this).data('id'));
         });
-        $('input[name="idSurat"]').attr('value',$(this).data('id'));
     });
-});
-</script>
+    </script>
 <!-- Initializing data tables -->
 <script>
   var btn = document.getElementById("tes");
@@ -868,8 +874,41 @@ $('#inputTanggalEnd').attr('value',end)
               target: "",
             },
           },
-      dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
+      // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
       // dom: '<"table-responsive"tpf>',
+      dom: 'Bfrtip',
+      buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4 ]
+                },
+                className:'mybtn blue'
+  
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4 ]
+                },
+                className:'mybtn blue'
+  
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3,4 ]
+                },
+                className:'mybtn blue'
+  
+            },{
+              extend: 'print',
+              exportOptions: {
+                columns: [0,1,2,3,4]
+              },
+                className:'mybtn blue'
+            },
+        ],
       destroy: true,
       order: [[0, "asc"]],
       language: {

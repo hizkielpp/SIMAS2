@@ -45,6 +45,14 @@ Route::middleware('checkAuth')->group(function () {
     Route::post('/editSK',[Surat::class,'editSK'])->name('editSK');
 
 
+    // Kelola Akun
+    Route::get('/kelolaAkun',[AuthController::class,'kelolaAkun'])->name('kelolaAkun');
+    Route::post('/inputAkun',[AuthController::class,'inputAkun'])->name('inputAkun');
+    Route::post('/editAkun',[AuthController::class,'editAkun'])->name('editAkun');
+    Route::get('/getAkun/{id}',[AuthController::class,'getAkun'])->name('getAkun');
+    Route::post('/deleteAkun',[AuthController::class,'deleteAkun'])->name('deleteAkun');
+
+
     Route::get('/suratAntidatir',[Surat::class,'indexSA'])->name('suratAntidatir');
     Route::post('/inputSA',[Surat::class,'inputSA'])->name('inputSA');
 

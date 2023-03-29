@@ -41,451 +41,431 @@
     </a>
   </div>
   <div class="card p-4 mt-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-                <!-- Modal -->
-                <div
-                  class="modal fade"
-                  id="editSuratKeluar"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content p-3">
-                      <div class="modal-header">
-                        <h4
-                          class="modal-title fw__bold black"
-                          id="exampleModalLabel"
-                        >
-                          Form Edit Surat Keluar
-                        </h4>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <form id="formEdit" method="POST" enctype="multipart/form-data" action="{{ route('editSK') }}">
-                        @csrf
-                          <div class="row">
-                            <div class="col-lg-6 col-12">
-                              {{-- nomor surat tidak usah --}}
-                              {{-- <div class="mb-3">
-                                <label
-                                  for="noSurat"
-                                  class="form-label black fw-semibold"
-                                  >Nomor Surat</label
-                                >
-                                <input
-                                  disabled
+                    <!-- Modal -->
+                    <div
+                    class="modal fade"
+                    id="editSuratKeluar"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content p-3">
+                        <div class="modal-header">
+                          <h4
+                            class="modal-title fw__bold black"
+                            id="exampleModalLabel"
+                          >
+                            Form Edit Surat Keluar
+                          </h4>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="formEdit" method="POST" enctype="multipart/form-data" action="{{ route('editSK') }}">
+                          @csrf
+                            <div class="row">
+                              <div class="col-lg-6 col-12">
+                                <input type="text"name="jenisSurat" hidden>
+                                <input type="text" name="idSurat" hidden>
+                                <div class="mb-3">
+                                  <label
+                                    for="kodeUnitE"
+                                    class="form-label black fw-semibold"
+                                    >Kode Unit Surat</label
+                                  >
+                                  <select
+                                    class="form-select"
+                                    aria-label="Default select example"
+                                    id="kodeUnitE"
+                                    name="kodeUnit"
+                                  >
+                                    <option selected value="">
+                                      -- Pilih salah satu --
+                                    </option>
+                                    @foreach ($unit as $k=>$v)
+                                      <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    for="kodeHalE"
+                                    class="form-label black fw-semibold"
+                                    >Kode Hal</label
+                                  >
+                                  <select
+                                    class="form-select"
+                                    aria-label="Default select example"
+                                    id="kodeHalE"
+                                    name="kodeHal"
+                                  >
+                                    <option value="" selected>
+                                      -- Pilih salah satu --
+                                    </option>
+                                    @foreach ($hal as $k=>$v)
+                                      <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    for="tujuanSuratE"
+                                    class="form-label black fw-semibold"
+                                    >Tujuan Surat</label
+                                  >
+                                  <input
                                   type="text"
                                   class="form-control"
                                   placeholder="Masukkan nomor surat"
-                                  id="noSurat"
+                                  id="tujuanSuratE"
+                                  name="tujuanSurat"
                                   aria-describedby="emailHelp"
                                 />
-                              </div> --}}
-                              <input type="text"name="jenisSurat" hidden>
-                              <input type="text" name="idSurat" hidden>
-                              <div class="mb-3">
-                                <label
-                                  for="kodeUnitE"
-                                  class="form-label black fw-semibold"
-                                  >Kode Unit Surat</label
-                                >
-                                <select
-                                  class="form-select"
-                                  aria-label="Default select example"
-                                  id="kodeUnitE"
-                                  name="kodeUnit"
-                                >
-                                  <option selected value="">
-                                    -- Pilih salah satu --
-                                  </option>
-                                  @foreach ($unit as $k=>$v)
-                                    <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
-                                  @endforeach
-                                </select>
-                              </div>
-                              <div class="mb-3">
-                                <label
-                                  for="kodeHalE"
-                                  class="form-label black fw-semibold"
-                                  >Kode Hal</label
-                                >
-                                <select
-                                  class="form-select"
-                                  aria-label="Default select example"
-                                  id="kodeHalE"
-                                  name="kodeHal"
-                                >
-                                  <option value="" selected>
-                                    -- Pilih salah satu --
-                                  </option>
-                                  @foreach ($hal as $k=>$v)
-                                    <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
-                                  @endforeach
-                                </select>
-                              </div>
-                              <div class="mb-3">
-                                <label
-                                  for="tujuanSuratE"
-                                  class="form-label black fw-semibold"
-                                  >Tujuan Surat</label
-                                >
-                                <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Masukkan nomor surat"
-                                id="tujuanSuratE"
-                                name="tujuanSurat"
-                                aria-describedby="emailHelp"
-                              />
-                              </div>
-                              <div class="mb-3">
-                                <label
-                                  for="sifatSuratE"
-                                  class="form-label black fw-semibold"
-                                  >Sifat</label
-                                >
-                                <select
-                                  id="sifatSuratE"
-                                  name="sifatSurat"
-                                  class="form-select"
-                                  aria-label="Default select example"
-                                >
-                                  <option value="" selected>
-                                    -- Pilih salah satu --
-                                  </option>
-                                  @foreach ($sifat as $k=>$v)
-                                  <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                  @endforeach
-                                </select>
-                              </div>
-                              <div class="mb-3">
-                                <label
-                                  class="form-label black fw-semibold"
-                                  >Upload Lampiran</label
-                                >
-                                <input
-                                  type="file"
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    for="sifatSuratE"
+                                    class="form-label black fw-semibold"
+                                    >Sifat</label
+                                  >
+                                  <select
+                                    id="sifatSuratE"
+                                    name="sifatSurat"
+                                    class="form-select"
+                                    aria-label="Default select example"
+                                  >
+                                    <option value="" selected>
+                                      -- Pilih salah satu --
+                                    </option>
+                                    @foreach ($sifat as $k=>$v)
+                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    class="form-label black fw-semibold"
+                                    >Upload Lampiran</label
+                                  >
+                                  <input
+                                    type="file"
+                                    class="form-control"
+                                    name="lampiran"
+                                    aria-describedby="emailHelp"
+                                  />
+                                  <span>Nama file lampiran : </span><span id="lampiranE"></span>
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    for="jumlahLampiranE"
+                                    class="form-label black fw-semibold"
+                                    >Jumlah Lampiran</label
+                                  >
+                                  <input
+                                  type="number"
                                   class="form-control"
-                                  name="lampiran"
+                                  placeholder="Masukkan jumlah lampiran"
+                                  id="jumlahLampiranE"
+                                  name="jumlahLampiran"
                                   aria-describedby="emailHelp"
                                 />
-                                <span>Nama file lampiran : </span><span id="lampiranE"></span>
+                                </div>
                               </div>
-                              <div class="mb-3">
-                                <label
-                                  for="jumlahLampiranE"
-                                  class="form-label black fw-semibold"
-                                  >Jumlah Lampiran</label
-                                >
-                                <input
-                                type="number"
-                                class="form-control"
-                                placeholder="Masukkan jumlah lampiran"
-                                id="jumlahLampiranE"
-                                name="jumlahLampiran"
-                                aria-describedby="emailHelp"
-                              />
-                              </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                              <div class="mb-3">
-                                <label
-                                  for="disahkanOlehE"
-                                  class="form-label black fw-semibold"
-                                  >Disahkan Oleh</label
-                                >
-                                <select
-                                  id="disahkanOlehE"
-                                  name="disahkanOleh"
-                                  class="form-select"
-                                  aria-label="Default select example"
-                                >
-                                  <option value="" selected>
-                                    -- Pilih salah satu --
-                                  </option>
-                                  @foreach ($unit as $k=>$v )
-                                    <option value="{{ $v->nama }}">{{ $v->nama }}</option>
-                                  @endforeach
-                                </select>
-                              </div>
-                              <div class="mb-3">
-                                <label
-                                  for="tanggalPengesahanE"
-                                  class="form-label black fw-semibold"
-                                  >Tanggal Disahkan</label
-                                >
-                                <duet-date-picker
-                                  id="tanggalPengesahanE"
-                                  identifier="date"
-                                  name="tanggalPengesahan"
-                                ></duet-date-picker>
-                              </div>
-                              <div class="mb-3">
-                                <label
-                                  for="perihalE"
-                                  class="form-label black fw-semibold"
-                                  >Perihal</label
-                                >
-                                <textarea
-                                  class="form-control perihal"
-                                  id="perihalE"
-                                  name="perihal"
-                                  rows="12"
-                                  placeholder="Contoh : Permohonan perijinan penelitian"
-                                ></textarea>
+                              <div class="col-lg-6 col-12">
+                                <div class="mb-3">
+                                  <label
+                                    for="disahkanOlehE"
+                                    class="form-label black fw-semibold"
+                                    >Disahkan Oleh</label
+                                  >
+                                  <select
+                                    id="disahkanOlehE"
+                                    name="disahkanOleh"
+                                    class="form-select"
+                                    aria-label="Default select example"
+                                  >
+                                    <option value="" selected>
+                                      -- Pilih salah satu --
+                                    </option>
+                                    @foreach ($unit as $k=>$v )
+                                      <option value="{{ $v->nama }}">{{ $v->nama }}</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    for="tanggalPengesahanE"
+                                    class="form-label black fw-semibold"
+                                    >Tanggal Disahkan</label
+                                  >
+                                  <duet-date-picker
+                                    id="tanggalPengesahanE"
+                                    identifier="date"
+                                    name="tanggalPengesahan"
+                                  ></duet-date-picker>
+                                </div>
+                                <div class="mb-3">
+                                  <label
+                                    for="perihalE"
+                                    class="form-label black fw-semibold"
+                                    >Perihal</label
+                                  >
+                                  <textarea
+                                    class="form-control perihal"
+                                    id="perihalE"
+                                    name="perihal"
+                                    rows="12"
+                                    placeholder="Contoh : Permohonan perijinan penelitian"
+                                  ></textarea>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="mybtn light"
-                          data-bs-dismiss="modal"
-                        >
-                          Batal
-                        </button>
-                        <button
-                          type="button"
-                          class="mybtn blue"
-                          onclick="confirmEdit()"
-                        >
-                          Simpan
-                        </button>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="mybtn light"
+                            data-bs-dismiss="modal"
+                          >
+                            Batal
+                          </button>
+                          <button
+                            type="button"
+                            class="mybtn blue"
+                            onclick="confirmEdit()"
+                          >
+                            Simpan
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="registrasiSuratKeluar"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content p-3">
-            <div class="modal-header">
-              <h4
-                class="modal-title fw__bold black"
-                id="exampleModalLabel"
-              >
-                Form Registrasi Surat Keluar
-              </h4>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form id="formRegistrasi" action="{{ route('inputSK') }}" method="POST" enctype="multipart/form-data">
-              @csrf 
-                <div class="row">
-                  <div class="col-lg-6 col-12">
-                    <div class="mb-3">
-                      <label
-                        for="nomorSurat"
-                        class="form-label black fw-semibold"
-                        >Nomor Surat</label
-                      >
-                      <div class="input d-flex align-items-center">
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="registrasiSuratKeluar"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content p-3">
+              <div class="modal-header">
+                <h4
+                  class="modal-title fw__bold black"
+                  id="exampleModalLabel"
+                >
+                  Form Registrasi Surat Keluar
+                </h4>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="formRegistrasi" action="{{ route('inputSK') }}" method="POST" enctype="multipart/form-data">
+                @csrf 
+                  <div class="row">
+                    <div class="col-lg-6 col-12">
+                      <div class="mb-3">
+                        <label
+                          for="nomorSurat"
+                          class="form-label black fw-semibold"
+                          >Nomor Surat</label
+                        >
+                        <div class="input d-flex align-items-center">
+                          <input
+                            type="text"
+                            readonly
+                            class="form-control"
+                            placeholder="Nomor surat"
+                            id="nomorSurat"
+                            aria-describedby="emailHelp"
+                            name="nomorSurat"
+                          />
+                          <button type="button" class="ms-2 ambilNomor" >
+                            Ambil Nomor <i class="fas fa-search ms-1"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="kodeUnit"
+                          class="form-label black fw-semibold"
+                          >Kode Unit Surat</label
+                        >
+                        <select
+                          id="kodeUnit"
+                          name="kodeUnit"
+                          class="form-select"
+                          aria-label="Default select example"
+                        >
+                          <option value=""selected>-- Pilih salah satu --</option>
+                          @foreach ($unit as $k=>$v)
+                            <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="kodeHal"
+                          class="form-label black fw-semibold"
+                          >Kode Hal</label
+                        >
+                        <select
+                          class="form-select"
+                          id="kodeHal"
+                          aria-label="Default select example"
+                          name="kodeHal"
+                        >
+                          <option value="" selected>-- Pilih salah satu --</option>
+                          @foreach ($hal as $k=>$v)
+                            <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="tujuanSurat"
+                          class="form-label black fw-semibold"
+                          >Tujuan Surat</label
+                        >
                         <input
-                          type="text"
-                          readonly
-                          class="form-control"
-                          placeholder="Nomor surat"
-                          id="nomorSurat"
-                          aria-describedby="emailHelp"
-                          name="nomorSurat"
-                        />
-                        <button type="button" class="ms-2 ambilNomor" >
-                          Ambil Nomor <i class="fas fa-search ms-1"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="kodeUnit"
-                        class="form-label black fw-semibold"
-                        >Kode Unit Surat</label
-                      >
-                      <select
-                        id="kodeUnit"
-                        name="kodeUnit"
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option value=""selected>-- Pilih salah satu --</option>
-                        @foreach ($unit as $k=>$v)
-                          <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="kodeHal"
-                        class="form-label black fw-semibold"
-                        >Kode Hal</label
-                      >
-                      <select
-                        class="form-select"
-                        id="kodeHal"
-                        aria-label="Default select example"
-                        name="kodeHal"
-                      >
-                        <option value="" selected>-- Pilih salah satu --</option>
-                        @foreach ($hal as $k=>$v)
-                          <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="tujuanSurat"
-                        class="form-label black fw-semibold"
-                        >Tujuan Surat</label
-                      >
-                      <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Masukkan tujuan surat"
-                      id="tujuanSurat"
-                      name="tujuanSurat"
-                      aria-describedby="emailHelp"
-                    />
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="jumlahLampiran"
-                        class="form-label black fw-semibold"
-                        >Jumlah Lampiran</label
-                      >
-                      <input
-                      type="number"
-                      class="form-control"
-                      placeholder="Masukkan tujuan surat"
-                      id="jumlahLampiran"
-                      name="jumlahLampiran"
-                      aria-describedby="emailHelp"
-                    />
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="sifatSurat"
-                        class="form-label black fw-semibold"
-                        >Sifat</label
-                      >
-                      <select
-                        class="form-select"
-                        id="sifatSurat"
-                        name="sifatSurat"
-                        aria-label="Default select example"
-                      >
-                        <option  value=""selected>-- Pilih salah satu --</option>
-                        @foreach ($sifat as $k=>$v)
-                          <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-12">
-                    <div class="mb-3">
-                      <label
-                        for="disahkanOleh"
-                        class="form-label black fw-semibold"
-                        >Disahkan Oleh</label
-                      >
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                        id="disahkanOleh"
-                        name="disahkanOleh"
-                      >
-                        <option selected value="">-- Pilih salah satu --</option>
-                        @foreach ($unit as $k=>$v)
-                          <option value="{{ $v->nama }}">{{ $v->nama }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="mydate" 
-                        class="form-label black fw-semibold"
-                        >Tanggal Disahkan</label
-                      >
-                      <duet-date-picker
-                        id="mydate"
-                        identifier="date"
-                        name="tanggalPengesahan"
-                      ></duet-date-picker>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="lampiran"
-                        class="form-label black fw-semibold"
-                        >Upload Lampiran</label
-                      >
-                      <input
-                        type="file"
+                        type="text"
                         class="form-control"
-                        id="lampiran"
-                        name="lampiran"
+                        placeholder="Masukkan tujuan surat"
+                        id="tujuanSurat"
+                        name="tujuanSurat"
                         aria-describedby="emailHelp"
                       />
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="jumlahLampiran"
+                          class="form-label black fw-semibold"
+                          >Jumlah Lampiran</label
+                        >
+                        <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Masukkan tujuan surat"
+                        id="jumlahLampiran"
+                        name="jumlahLampiran"
+                        aria-describedby="emailHelp"
+                      />
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="sifatSurat"
+                          class="form-label black fw-semibold"
+                          >Sifat</label
+                        >
+                        <select
+                          class="form-select"
+                          id="sifatSurat"
+                          name="sifatSurat"
+                          aria-label="Default select example"
+                        >
+                          <option  value=""selected>-- Pilih salah satu --</option>
+                          @foreach ($sifat as $k=>$v)
+                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                          @endforeach
+                        </select>
+                      </div>
                     </div>
-                    
-                    <div class="mb-3">
-                      <label
-                        for="exampleFormControlTextarea1"
-                        class="form-label black fw-semibold"
-                        >Perihal</label
-                      >
-                      <textarea
-                        name="perihal"
-                        class="form-control perihal"
-                        id="exampleFormControlTextarea1"
-                        rows="8"
-                        placeholder="Contoh : Permohonan perijinan penelitian"
-                      ></textarea>
+                    <div class="col-lg-6 col-12">
+                      <div class="mb-3">
+                        <label
+                          for="disahkanOleh"
+                          class="form-label black fw-semibold"
+                          >Disahkan Oleh</label
+                        >
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          id="disahkanOleh"
+                          name="disahkanOleh"
+                        >
+                          <option selected value="">-- Pilih salah satu --</option>
+                          @foreach ($unit as $k=>$v)
+                            <option value="{{ $v->nama }}">{{ $v->nama }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="mydate" 
+                          class="form-label black fw-semibold"
+                          >Tanggal Disahkan</label
+                        >
+                        <duet-date-picker
+                          id="mydate"
+                          identifier="date"
+                          name="tanggalPengesahan"
+                        ></duet-date-picker>
+                      </div>
+                      <div class="mb-3">
+                        <label
+                          for="lampiran"
+                          class="form-label black fw-semibold"
+                          >Upload Lampiran</label
+                        >
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="lampiran"
+                          name="lampiran"
+                          aria-describedby="emailHelp"
+                        />
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label
+                          for="exampleFormControlTextarea1"
+                          class="form-label black fw-semibold"
+                          >Perihal</label
+                        >
+                        <textarea
+                          name="perihal"
+                          class="form-control perihal"
+                          id="exampleFormControlTextarea1"
+                          rows="8"
+                          placeholder="Contoh : Permohonan perijinan penelitian"
+                        ></textarea>
+                      </div>
+                      
                     </div>
-                    
                   </div>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="mybtn light"
-                data-bs-dismiss="modal"
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                class="mybtn blue"
-                onclick="confirmAdd()"
-              >
-                Tambah
-              </button>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="mybtn light"
+                  data-bs-dismiss="modal"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  class="mybtn blue"
+                  onclick="confirmAdd()"
+                >
+                  Tambah
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-                <div
-              class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3"
-            >
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
               <h4 class="fw__bold black">Daftar Surat Keluar</h4>
               <div
                 class="d-flex align-items-center gap-3 input__tanggal flex-wrap"
@@ -857,7 +837,7 @@
                 $("#tujuanSuratE").val(data.tujuanSurat)
                 $('#tanggalPengesahanE').val(data.tanggalPengesahan)   
                 $('#tujuanSuratE').attr('value',data.tujuanSurat)
-                $('perihalE').attr('value',data.perihal)
+                $('#perihalE').val(data.perihal)
                 $("#kodeHalE").val(data.kodeHal)
                 $("#kodeUnitE").val(data.kodeUnit)
                 $("#disahkanOlehE").val(data.disahkanOleh)
@@ -884,6 +864,35 @@ $('#inputTanggalEnd').attr('value',end)
       charset="utf8"
       src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"
     ></script>
+    {{-- include tombol ekspor untuk datatable --}}
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script
+type="text/javascript"
+charset="utf8"
+src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
 <!-- Initializing data tables -->
 <script>
@@ -901,8 +910,41 @@ $('#inputTanggalEnd').attr('value',end)
             },
           },
       // responsive: false,
-      dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
+      // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
       // dom: '<"table-responsive"tpf>',
+      dom: 'Bfrtip',
+      buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4 ]
+                },
+                className:'mybtn blue'
+  
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4 ]
+                },
+                className:'mybtn blue'
+  
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3,4 ]
+                },
+                className:'mybtn blue'
+  
+            },{
+              extend: 'print',
+              exportOptions: {
+                columns: [0,1,2,3,4]
+              },
+                className:'mybtn blue'
+            },
+        ],
       destroy: true,
       order: [[0, "asc"]],
       language: {

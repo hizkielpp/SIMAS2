@@ -7,6 +7,10 @@
       type="text/css"
       href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"
     />
+    <link 
+    rel="stylesheet" 
+    href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css"
+    />
 
     <!-- Date picker -->
     <script
@@ -42,24 +46,36 @@
     </a>
   </div>
   <div class="card p-4 mt-3">
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-      <h4 class="fw__bold black">Daftar Surat Masuk</h4>
-      <div
-      class="d-flex align-items-center gap-2 input__tanggal flex-wrap"
-    >
-      <p>Rentang tanggal:</p>
-      <input type="text" id="datepickerStart" placeholder="Awal" />
-      <input type="text" id="datepickerEnd" placeholder="Akhir" />
-      <button
-        id="tes"
-        type="button"
-        data-bs-toggle="modal"
-        data-bs-target="#registrasiSuratMasuk"
-        class="mybtn blue"
-      >
-        <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
-      </button>
-    </div>
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+        <h4 class="fw__bold black">Daftar Surat Keluar</h4>
+        <div
+          class="d-flex align-items-center gap-3 input__tanggal flex-wrap"
+        >
+          
+          <p class="">Rentang Tanggal :</p>
+          <input
+            type="date"
+            name="inputTanggal"
+            id="inputTanggalStart"
+            class="mybtn"
+          />
+          <input
+            type="date"
+            name="inputTanggalEnd"
+            id="inputTanggalEnd"
+            class="mybtn"
+          />
+          <button
+            id="tes"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#registrasiSuratMasuk"
+            class="mybtn blue"
+          >
+            <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+          </button>
+        </div>
+      </div>
 
       <!-- Modal -->
       <div
@@ -251,7 +267,6 @@
           </div>
         </div>
       </div>
-    </div>
                                   <!-- Modal -->
                                   <div
                                   class="modal fade"
@@ -398,8 +413,8 @@
                                                   id="lampiran"
                                                   aria-describedby="emailHelp"
                                                   name="lampiran"
-                                                  id="lampiranE"
                                                 />
+                                                <span>Nama file lampiran : </span><span id="lampiranE"></span>
                                               </div>
                                               <div class="mb-3">
                                                 <label
@@ -475,7 +490,7 @@
               {{ $v->nomorSurat }}
               <br />
               <span class="date d-inline-block mt-1"
-                >{{ date('d M Y h:i:s', strtotime($v->tanggalPengajuan))}} WIB</span
+                >{{ date('d M Y h:i:s', strtotime($v->created_at))}} WIB</span
               >
             </td>
             <td>{{ $v->perihal }}</td>
@@ -686,6 +701,25 @@
 </script>
 <script>
   $(document).ready(function () {
+    var start = $('#inputTanggalStart').attr('value')
+    var end = $('#inputTanggalEnd').attr('value')
+    oke = false
+    $('#inputTanggalStart').change(function(){
+      console.log(start)
+      console.log(end)
+      start = this.value
+      if(start&&end){
+        window.location.href = '{{ route('suratMasuk') }}'+'?start='+start+'&end='+end;
+      }
+    })
+    $('#inputTanggalEnd').change(function(){
+      console.log(start)
+      console.log(end)
+      end = this.value
+      if(start&&end){
+        window.location.href = '{{ route('suratMasuk') }}'+'?start='+start+'&end='+end;
+      }
+    })
     $(".passId").click(function () {
       let url = "{{ route('getSM', ':id') }}";
       url = url.replace(':id',$(this).data('id'));
@@ -701,7 +735,7 @@
                 $('#sifatSuratE').val(data.sifatSurat)
                 $('#perihalE').val(data.perihal)
                 $('#jumlahLampiranE').val(data.jumlahLampiran)
-                $('#lampiranE').val(data.lampiran)
+                $('#lampiranE').html(data.lampiran)
               }
         });
         $('#idSurat').attr('value',$(this).data('id'));
@@ -710,6 +744,14 @@
 });
 </script>
 
+@if (isset($_GET['start']) and isset($_GET['end']))
+<script>
+start = "{{ $_GET['start'] }}"
+end = "{{ $_GET['end'] }}" 
+$('#inputTanggalStart').attr('value',start)
+$('#inputTanggalEnd').attr('value',end)
+</script>
+@endif
 <!-- Data tables -->
 <script
   type="text/javascript"
@@ -721,7 +763,41 @@
   charset="utf8"
   src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"
 ></script>
-
+<!-- Data tables : responsive -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"
+    ></script>
+{{-- include tombol ekspor untuk datatable --}}
+<script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+  <script
+  type="text/javascript"
+  charset="utf8"
+  src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>           
 <!-- Initializing data tables -->
 <script>
   $(document).ready(function () {
@@ -729,9 +805,44 @@
       // paging: false,
       // ordering: false,
       // searching: false,
-      responsive: false,
-      dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
-      // dom: '<"table-responsive"tpf>',
+      // responsive: true,
+      responsive: {
+            details: {
+              display: $.fn.dataTable.Responsive.display.childRowImmediate,
+              type: "none",
+              target: "",
+            },
+          },
+      dom: 'Bfrtip',
+      buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                },
+                className:'mybtn blue'
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                },
+                className:'mybtn blue'
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                },
+                className:'mybtn blue'
+            },{
+              extend: 'print',
+              exportOptions: {
+                columns: [0,1,2,3]
+              },
+              className:'mybtn blue'
+            },
+        ],
       destroy: true,
       order: [[0, "asc"]],
       language: {
