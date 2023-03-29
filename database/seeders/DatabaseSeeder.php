@@ -19,6 +19,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $role = [["1","Super Admin"],
+        ["2","Operator"],
+        ["3","Pimpinan"]];
+        foreach($role as $k => $v)
+        {
+            DB::table('role')->insert([
+                "kode" => $v[0],
+                "nama" => $v[1],
+                "created_at" => now(),
+                "updated_at" => now()
+            ]);            
+        }
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
