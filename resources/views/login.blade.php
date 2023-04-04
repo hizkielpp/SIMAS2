@@ -102,7 +102,7 @@
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Something went wrong!",
+                text: "Username atau kata sandi salah. Silahkan periksa dan coba lagi!",
             });
         }
     </script>

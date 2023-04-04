@@ -8,7 +8,7 @@
     --black: #3c4648;
     --black-light: #707a83;
     --grey: #b4bec0;
-    --light: #d3dae0;
+    --light: #edf2f4;
     --white: #fff;
 }
 
@@ -223,8 +223,40 @@ p {
     font-weight: 600;
 }
 
-#mytable tbody .no {
+#mytabel thead {
+    border: none;
+}
+
+#mytable .no {
+    width: 16px !important;
     text-align: center;
+}
+
+#mytable tr {
+    border-width: 0 !important;
+    border-style: solid;
+    border-color: var(--grey);
+}
+
+#mytable ul {
+    padding: 0;
+}
+
+/* Mytable button export */
+.dt-buttons {
+    gap: .25rem !important;
+}
+.btn__export {
+    background-color: var(--blue) !important;
+    background: none !important;
+    color: var(--black) !important;
+    border-color: var(--blue);
+    padding: 10px 20px;
+}
+.btn__export:hover {
+    border-color: var(--blue) !important;
+    transition: .2s;
+    color: var(--blue) !important;
 }
 
 #mytable .sifat {
@@ -410,6 +442,19 @@ p {
     outline: none;
 }
 
+/* ================================== */
+/*           Modal section            */
+/* ================================== */
+
+.modal__section input:focus, .modal__section select:focus, .modal__section textarea:focus, #mydate input:focus {
+    box-shadow: none !important;
+    border-color: var(--blue);
+}
+.modal__section input:focus-visible, .modal__section select:focus-visible, .modal__section textarea:focus-visible {
+    border-color: var(--blue);
+    outline: none;
+}
+
 #registrasiSuratMasuk .perihal,
 #editSuratMasuk .perihal {
     min-height: 7.8rem;
@@ -590,6 +635,55 @@ p {
     border: none !important;
 }
 
+.surat__masuk .keterangan h5 {
+    line-height: 1.5;
+}
+
+/* Input rentang tanggal */
+.input-container input {
+    box-sizing: border-box;
+    outline: 0;
+    padding: 10px 20px;
+    position: relative;
+    width: auto;
+}
+.input-container input:after {
+    content: "";
+    width: 20px;
+    background-image: url("../img/calendar.png");
+    background-size: cover;
+    height: 20px;
+    display: inline-block;
+    position: absolute;
+    right: 12%;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+/* Button export */
+.dt-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+.dt-buttons button {
+    border-radius: 20px !important;
+}
+.desc__export {
+    display: inline-block;
+}
+
 /* ================================== */
 /*               Footer               */
 /* ================================== */
@@ -653,5 +747,8 @@ footer {
     }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 306px) {
+    #mytable ul {
+        padding-left: 3.8rem;
+    }
 }

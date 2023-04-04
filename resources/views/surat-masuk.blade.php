@@ -10,10 +10,13 @@
 <script nomodule src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/themes/default.css" />
 
-
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/surat-masuk-style.css" />
 @endsection
 @section('content')
 <section class="surat__masuk content">
+
+  {{-- Keterangan start --}}
   <div class="card p-4 mb-md-0 keterangan">
     <h4 class="fw__bold black mb-3">Keterangan</h4>
     <h5 class="fw__normal black__light mb-3">
@@ -25,25 +28,36 @@
       pedoman dalam membuat nomor surat dengan menekan tombol dibawah
       ini.
     </h5>
-    <a href="{{ route('downloadNaskah') }}" class="mybtn blue fw__light"><i class="fa-solid fa-download me-1"></i> Download
+    <a href="{{ route('downloadNaskah') }}" class="mybtn blue fw__light"><i class="fa-solid fa-download me-1"></i>
+      Download
     </a>
   </div>
+  {{-- Keterangan start --}}
+
+  {{-- Tabel wrapper start --}}
   <div class="card p-4 mt-3">
+
+    {{-- Tabel header start --}}
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
       <h4 class="fw__bold black">Daftar Surat Keluar</h4>
       <div class="d-flex align-items-center gap-3 input__tanggal flex-wrap">
 
         <p class="">Rentang Tanggal :</p>
-        <input type="date" name="inputTanggal" id="inputTanggalStart" class="mybtn" />
-        <input type="date" name="inputTanggalEnd" id="inputTanggalEnd" class="mybtn" />
+        <div class="input-container">
+          <input type="date" name="inputTanggal" id="inputTanggalStart" class="mybtn" />
+        </div>
+        <div class="input-container">
+          <input type="date" name="inputTanggalEnd" id="inputTanggalEnd" class="mybtn" />
+        </div>
         <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk" class="mybtn blue">
           <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
         </button>
       </div>
     </div>
+    {{-- Tabel header end --}}
 
-    <!-- Modal -->
-    <div class="modal fade" id="registrasiSuratMasuk" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+    <!-- Modal registrasi start -->
+    <div class="modal modal__section fade" id="registrasiSuratMasuk" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content p-3">
           <div class="modal-header">
@@ -65,14 +79,16 @@
                     <label for="penerima" class="form-label black fw-semibold">Penerima</label>
                     <select class="form-select" aria-label="Default select example" name="tujuanSurat">
                       <option selected>-- Pilih salah satu --</option>
-                      @foreach ($tujuan as $k=>$v )
+                      @foreach ($tujuan as $k => $v)
                       <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                       @endforeach
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="date" class="form-label black fw-semibold">Tanggal Pengajuan</label>
-                    <duet-date-picker id="mydate" identifier="date" name="tanggalPengajuan"></duet-date-picker>
+                    <label for="date" class="form-label black fw-semibold">Tanggal
+                      Pengajuan</label>
+                    <duet-date-picker id="mydate" identifier="date" name="tanggalPengajuan" aria-placeholder="coba">
+                    </duet-date-picker>
                   </div>
                   <div class="mb-3">
                     <label for="asalSurat" class="form-label black fw-semibold">Asal Surat</label>
@@ -82,8 +98,10 @@
                     <label for="kodeHal" class="form-label black fw-semibold">Kode Hal</label>
                     <select class="form-select" aria-label="Default select example" id="kodeHal" name="kodeHal">
                       <option selected>-- Pilih salah satu --</option>
-                      @foreach ($hal as $k=>$v )
-                      <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
+                      @foreach ($hal as $k => $v)
+                      <option value="{{ $v->kode }}">{{ $v->nama }}
+                        ({{ $v->kode }})
+                      </option>
                       @endforeach
                     </select>
                   </div>
@@ -93,13 +111,14 @@
                     <label for="penerima" class="form-label black fw-semibold">Sifat</label>
                     <select class="form-select" aria-label="Default select example" name="sifatSurat">
                       <option selected>-- Pilih salah satu --</option>
-                      @foreach ($sifat as $k=>$v )
+                      @foreach ($sifat as $k => $v)
                       <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                       @endforeach
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="lampiran" class="form-label black fw-semibold">Upload Lampiran</label>
+                    <label for="lampiran" class="form-label black fw-semibold">Upload
+                      Lampiran</label>
                     <input type="file" class="form-control" id="lampiran" name="lampiran" aria-describedby="emailHelp" />
                   </div>
                   <div class="mb-3">
@@ -107,7 +126,8 @@
                     <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4" placeholder="Contoh : Permohonan perijinan penelitian" name="perihal"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="jumlahLampiran" class="form-label black fw-semibold">Jumlah Lampiran</label>
+                    <label for="jumlahLampiran" class="form-label black fw-semibold">Jumlah
+                      Lampiran</label>
                     <input type="number" class="form-control" placeholder="Masukkan nomor surat" id="jumlahLampiran" name="jumlahLampiran" />
                   </div>
                 </div>
@@ -125,8 +145,10 @@
         </div>
       </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="editSuratMasuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal registrasi end -->
+
+    <!-- Modal edit start -->
+    <div class="modal modal__section fade" id="editSuratMasuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content p-3">
           <div class="modal-header">
@@ -142,7 +164,8 @@
               <div class="row">
                 <div class="col-lg-6 col-12">
                   <div class="mb-3">
-                    <label for="nomorSuratE" class="form-label black fw-semibold">Nomor Surat</label>
+                    <label for="nomorSuratE" class="form-label black fw-semibold">Nomor
+                      Surat</label>
                     <input type="text" class="form-control" placeholder="Masukkan nomor surat" id="nomorSuratE" name="nomorSurat" aria-describedby="emailHelp" />
                   </div>
                   <div class="mb-3">
@@ -151,14 +174,16 @@
                       <option selected>
                         -- Pilih salah satu --
                       </option>
-                      @foreach ($tujuan as $k=>$v )
-                      <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
-
+                      @foreach ($tujuan as $k => $v)
+                      <option value="{{ $v->kode }}">{{ $v->nama }}
+                        ({{ $v->kode }})
+                      </option>
                       @endforeach
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="date" class="form-label black fw-semibold">Tanggal Pengajuan</label>
+                    <label for="date" class="form-label black fw-semibold">Tanggal
+                      Pengajuan</label>
                     <duet-date-picker identifier="date" name="tanggalPengajuan" id="tanggalPengajuanE" value="2020-06-16"></duet-date-picker>
                   </div>
                   <div class="mb-3">
@@ -169,8 +194,10 @@
                     <label for="kodeHal" class="form-label black fw-semibold">Kode Hal</label>
                     <select class="form-select" aria-label="Default select example" id="kodeHalE" name="kodeHal">
                       <option selected>-- Pilih salah satu --</option>
-                      @foreach ($hal as $k=>$v )
-                      <option value="{{ $v->kode }}">{{ $v->nama }} ({{ $v->kode }})</option>
+                      @foreach ($hal as $k => $v)
+                      <option value="{{ $v->kode }}">{{ $v->nama }}
+                        ({{ $v->kode }})
+                      </option>
                       @endforeach
                     </select>
                   </div>
@@ -182,13 +209,14 @@
                       <option selected>
                         -- Pilih salah satu --
                       </option>
-                      @foreach ($sifat as $k=>$v )
+                      @foreach ($sifat as $k => $v)
                       <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                       @endforeach
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="lampiran" class="form-label black fw-semibold">Upload Lampiran</label>
+                    <label for="lampiran" class="form-label black fw-semibold">Upload
+                      Lampiran</label>
                     <input type="file" class="form-control" id="lampiran" aria-describedby="emailHelp" name="lampiran" />
                     <span>Nama file lampiran : </span><span id="lampiranE"></span>
                   </div>
@@ -197,7 +225,8 @@
                     <textarea id="perihalE" class="form-control perihal" id="exampleFormControlTextarea1" rows="1" placeholder="Contoh : Permohonan perijinan penelitian" name="perihal"></textarea>
                   </div>
                   <div class="mb-3">
-                    <label for="jumlahLampiran" class="form-label black fw-semibold">Jumlah Lampiran</label>
+                    <label for="jumlahLampiran" class="form-label black fw-semibold">Jumlah
+                      Lampiran</label>
                     <input id="jumlahLampiranE" type="number" class="form-control" placeholder="Masukkan nomor surat" id="jumlahLampiranE" name="jumlahLampiran" />
                   </div>
                 </div>
@@ -215,6 +244,9 @@
         </div>
       </div>
     </div>
+    <!-- Modal edit end -->
+
+    {{-- Tabel content start --}}
     <div class="table-responsive">
       <table id="mytable" class="table">
         <thead>
@@ -228,40 +260,36 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($suratMasuk as $k=>$v )
+          @foreach ($suratMasuk as $k => $v)
           <tr>
-            <td class="no">{{ $k+1 }}</td>
+            <td class="no">{{ $k + 1 }}</td>
             <td>
               {{ $v->asalSurat }} <br>Nomor :
               {{ $v->nomorSurat }}
               <br />
-              <span class="date d-inline-block mt-1">{{ date('d M Y h:i:s', strtotime($v->created_at))}} WIB</span>
+              <span class="date d-inline-block mt-1">{{ date('d M Y h:i:s', strtotime($v->created_at)) }}
+                WIB</span>
             </td>
             <td>{{ $v->perihal }}</td>
             <td>{{ $v->tujuanSurat }}</td>
             <td>
-              @if ($v->sifatSurat==1)
+              @if ($v->sifatSurat == 1)
               <div class="sifat biasa d-flex justify-content-center align-items-center">
                 <h6 class="fw__semi">Biasa</h6>
               </div>
-              @elseif ($v->sifatSurat==2)
+              @elseif ($v->sifatSurat == 2)
               <div class="sifat penting d-flex justify-content-center align-items-center">
                 <h6 class="fw__semi">Penting</h6>
               </div>
-              @elseif ($v->sifatSurat==3)
+              @elseif ($v->sifatSurat == 3)
               <div class="sifat segera d-flex justify-content-center align-items-center">
                 <h6 class="fw__semi">Segera</h6>
               </div>
-              @elseif ($v->sifatSurat==4)
+              @elseif ($v->sifatSurat == 4)
               <div class="sifat rahasia d-flex justify-content-center align-items-center">
                 <h6 class="fw__semi">Rahasia</h6>
               </div>
               @endif
-              {{-- <div
-                class="sifat rahasia d-flex justify-content-center align-items-center"
-              >
-                <h6 class="fw__semi">Rahasia</h6>
-              </div> --}}
             </td>
             <td>
               <div class="d-flex align-items-center">
@@ -271,33 +299,43 @@
                 <button type="button" class="myicon red d-flex align-items-center justify-content-center me-2" onclick="confirmHapus('{{ $v->id }}')">
                   <i class="fa-solid fa-trash"></i>
                 </button>
-                <a href="{{ route('disposisi')."?id=".$v->id}}" class="myicon green d-flex align-items-center justify-content-center">
+                <a href="{{ route('disposisi') . '?id=' . $v->id }}" class="myicon green d-flex align-items-center justify-content-center">
                   <i class="fa-solid fa-file-export"></i>
                 </a>
               </div>
             </td>
           </tr>
           @endforeach
-
         </tbody>
       </table>
     </div>
+    {{-- Tabel content end --}}
+
   </div>
+  {{-- Tabel wrapper end --}}
 
 </section>
 @endsection
-@section('sm','active')
-@section('title','Surat Masuk')
+@section('sm', 'active')
+@section('title', 'Surat Masuk')
 @section('js')
+{{-- Sweet alert start --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Sweet alert -->
 <script src="sweetalert2.all.min.js"></script>
+{{-- Sweet alert end --}}
+
+<script>
+  var x = document.querySelector
+</script>
+{{-- Function refresh datatables start --}}
 <script>
   function refreshDatatable() {
     setInterval('location.reload()', 4000);
   }
 </script>
-<!-- Sweet alert : confirm delete -->
+{{-- Function refresh datatables end --}}
+
+<!-- Sweet alert : confirm delete start -->
 <script>
   function confirmHapus(id) {
     new Audio("audio/warning-edited.mp3").play();
@@ -315,7 +353,7 @@
         var token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
           type: 'POST',
-          url: '{{ route("deleteSM") }}',
+          url: "{{ route('deleteSM') }}",
           data: {
             "idSurat": id,
             "_token": token,
@@ -339,7 +377,9 @@
     });
   }
 </script>
-<!-- Sweet alert : confirm add -->
+<!-- Sweet alert : confirm delete end -->
+
+<!-- Sweet alert : confirm add start -->
 <script>
   function confirmAdd() {
     new Audio("audio/warning-edited.mp3").play();
@@ -386,21 +426,22 @@
     })
   }
 </script>
+<!-- Sweet alert : confirm add end -->
+
 @if ($message = Session::get('success'))
 <script>
   berhasil("{{ Session::get('success') }}")
 </script>
 </div>
 @endif
-@if($errors->any())
+@if ($errors->any())
 <script>
   gagal()
 </script>
 {{-- {{ implode('', $errors->all('<div>:message</div>')) }} --}}
-
 @endif
 
-<!-- Sweet alert : confirm edit -->
+<!-- Sweet alert : confirm edit start -->
 <script>
   function confirmEdit() {
     new Audio("audio/warning-edited.mp3").play();
@@ -427,6 +468,8 @@
     });
   }
 </script>
+<!-- Sweet alert : confirm edit end -->
+
 <script>
   $(document).ready(function() {
     var start = $('#inputTanggalStart').attr('value')
@@ -480,22 +523,34 @@
   $('#inputTanggalEnd').attr('value', end)
 </script>
 @endif
-<!-- Data tables -->
+
+<!-- Data tables start -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-<!-- Data tables : responsive -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
+</script>
+<!-- Data tables end -->
+
+<!-- Data tables : responsive start -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-{{-- include tombol ekspor untuk datatable --}}
+<!-- Data tables : responsive end -->
+
+{{-- Data tables : button export start --}}
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
+</script>
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
+</script>
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-<!-- Initializing data tables -->
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js">
+</script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js">
+</script>
+{{-- Data tables : button export end --}}
+
+<!-- Initializing data tables start -->
 <script>
   $(document).ready(function() {
+
     $("#mytable").DataTable({
       // paging: false,
       // ordering: false,
@@ -508,34 +563,21 @@
           target: "",
         },
       },
-      dom: 'Bfrtip',
+      dom: '<"d-flex justify-content-between align-item-center gap-2 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
       buttons: [{
-          extend: 'copyHtml5',
-          exportOptions: {
-            columns: [0, 1, 2, 3]
-          },
-          className: 'mybtn blue'
-        },
-        {
           extend: 'excelHtml5',
           exportOptions: {
-            columns: [0, 1, 2, 3]
+            columns: [0, 1, 2, 3, 4]
           },
-          className: 'mybtn blue'
+          className: 'mybtn btn__export'
         },
         {
           extend: 'pdfHtml5',
           exportOptions: {
-            columns: [0, 1, 2, 3]
+            columns: [0, 1, 2, 3, 4]
           },
-          className: 'mybtn blue'
-        }, {
-          extend: 'print',
-          exportOptions: {
-            columns: [0, 1, 2, 3]
-          },
-          className: 'mybtn blue'
-        },
+          className: 'mybtn btn__export'
+        }
       ],
       destroy: true,
       order: [
@@ -567,6 +609,19 @@
     });
   });
 </script>
+<!-- Initializing data tables end -->
 
+{{-- Add keterangan button export start --}}
+<script>
+  $(document).ready(function() {
+    var btn = document.querySelector(".dt-buttons")
+    var descText = document.createElement('h5')
+    descText.textContent = "Export :";
+    descText.className = "desc__export"
+    btn.insertBefore(descText, btn[0]);
+
+  })
+</script>
+{{-- Add keterangan button export end --}}
 
 @endsection
