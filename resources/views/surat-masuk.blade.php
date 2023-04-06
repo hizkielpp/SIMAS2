@@ -248,7 +248,7 @@
 
     {{-- Tabel content start --}}
     <div class="table-responsive">
-      <table id="mytable" class="table">
+      <table id="mytable" class="table table-borderless table-hover">
         <thead>
           <tr>
             <th class="no">No</th>
@@ -563,7 +563,7 @@
           target: "",
         },
       },
-      dom: '<"d-flex justify-content-between align-item-center gap-2 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+      dom: '<"d-flex justify-content-between align-item-center gap-3 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
       buttons: [{
           extend: 'excelHtml5',
           exportOptions: {

@@ -32,19 +32,19 @@ h2 {
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 h4 {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 h5 {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 h6 {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 h1,
@@ -111,6 +111,7 @@ p {
     cursor: pointer;
     width: fit-content;
     border: none;
+    font-size: 14px;
 }
 
 .mybtn.blue {
@@ -209,13 +210,23 @@ p {
 .card {
     border-radius: 20px;
     box-shadow: none;
+    padding: 1.5rem !important;
 }
 
 /* Tabel */
+#mytable {
+    width: 100% !important;
+}
+
 #mytable thead th {
     font-weight: 400;
+    border-bottom: none !important;
     font-size: 16px;
     color: var(--black-light);
+}
+
+#mytable tfoot th {
+    border-top: none !important;
 }
 
 #mytable tbody tr td {
@@ -223,20 +234,16 @@ p {
     font-weight: 600;
 }
 
-#mytabel thead {
-    border: none;
-}
-
 #mytable .no {
     width: 16px !important;
     text-align: center;
 }
 
-#mytable tr {
+/* #mytable tr {
     border-width: 0 !important;
     border-style: solid;
     border-color: var(--grey);
-}
+} */
 
 #mytable ul {
     padding: 0;
@@ -244,14 +251,17 @@ p {
 
 /* Mytable button export */
 .dt-buttons {
-    gap: .25rem !important;
+    gap: .5rem !important;
 }
 .btn__export {
     background-color: var(--blue) !important;
     background: none !important;
     color: var(--black) !important;
-    border-color: var(--blue);
-    padding: 10px 20px;
+    border-color: var(--grey);
+    padding: .5rem 1rem !important;
+    border-width: 1px;
+    border-style: solid;
+    margin: 0 !important;
 }
 .btn__export:hover {
     border-color: var(--blue) !important;
@@ -290,8 +300,8 @@ p {
     border-color: #ffcb4b;
 }
 
-#mytable tbody tr:hover td {
-    background-color: var(--light);
+#mytable tbody tr:hover {
+    background-color: #fff !important;
 }
 
 #mytable tbody .date {
@@ -426,6 +436,12 @@ p {
     box-shadow: none;
 }
 
+.duet-date__input {
+    border: 1px solid var(--grey);
+    padding: 6px 12px;
+    min-height: 38px;
+}
+
 #mydate .duet-date__dialog {
     bottom: 0;
     top: unset;
@@ -457,12 +473,12 @@ p {
 
 #registrasiSuratMasuk .perihal,
 #editSuratMasuk .perihal {
-    min-height: 7.8rem;
+    min-height: 6.3rem;
 }
 
 #registrasiSuratKeluar .perihal,
 #editSuratKeluar .perihal {
-    min-height: 7.8rem;
+    min-height: 6.3rem;
 }
 
 #registrasiSuratKeluar .input input {
@@ -731,11 +747,11 @@ footer {
     }
 
     h3 {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     h4 {
-        font-size: 18px;
+        font-size: 20px;
     }
 
     h5 {
@@ -743,8 +759,20 @@ footer {
     }
 
     h6 {
-        font-size: 14px;
+        font-size: 16px;
     }
+
+    .card {
+        padding: 2.5rem !important;
+    }
+
+    .mybtn {
+        font-size: 16px;
+    }
+
+    .dt-buttons {
+    gap: .75rem !important;
+}
 }
 
 @media only screen and (min-width: 306px) {

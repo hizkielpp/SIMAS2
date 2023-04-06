@@ -28,8 +28,7 @@
     <div class="wrapper">
         {{-- Preloader start --}}
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
-                width="60" />
+            <img class="animation__wobble" src="img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60" />
         </div>
         {{-- Preloader end --}}
 
@@ -37,8 +36,7 @@
         <nav id="navbar" class="main-header navbar navbar-expand navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -47,22 +45,18 @@
                         <h3 class="text-white fw__med">A</h3>
                     </div>
                     <div class="dropdown">
-                        <button class="border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <button class="border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Admin <i class="fa-solid fa-angle-down ms-1"></i>
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="profil-pengguna.html"><i
-                                        class="fa-solid fa-user me-2"></i>Profile</a>
+                                <a class="dropdown-item" href="profil-pengguna.html"><i class="fa-solid fa-user me-2"></i>Profile</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="ubah-password.html"><i
-                                        class="fa-solid fa-lock me-2"></i>Ubah Password</a>
+                                <a class="dropdown-item" href="ubah-password.html"><i class="fa-solid fa-lock me-2"></i>Ubah Password</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"><i
-                                        class="fa-solid fa-arrow-right-from-bracket me-2"></i>Keluar</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Keluar</a>
                             </li>
                         </ul>
                     </div>
@@ -91,8 +85,7 @@
             {{-- Sidebar content start --}}
             <div id="sidebarMenu" class="sidebar">
                 <nav class="mt-5">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link @yield('db')">
                                 <i class="fa-solid fa-house me-1"></i>
