@@ -1,5 +1,5 @@
 body {
-    font-family: 'Times New Roman', Times, serif !important;
+    font-family: "Times New Roman", Times, serif !important;
 }
 
 .disposisi__header h1 {
@@ -26,11 +26,10 @@ body {
     height: 30px;
     border-radius: 6px;
     border: 1px solid var(--grey);
-    margin-right: .5rem;
+    margin-right: 0.5rem;
 }
 
 .disposisi__info .row .checkbox ~ h4 {
-
 }
 
 table {
@@ -70,6 +69,10 @@ table thead th:nth-child(4) {
 
 table thead th:last-child {
     width: 10%;
+}
+
+.disposisi button {
+    font-family: "Nunito", sans-serif;
 }
 
 @media print {

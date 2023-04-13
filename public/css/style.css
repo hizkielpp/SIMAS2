@@ -24,7 +24,7 @@ body {
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 h2 {
@@ -32,19 +32,19 @@ h2 {
 }
 
 h3 {
-    font-size: 20px;
-}
-
-h4 {
     font-size: 18px;
 }
 
-h5 {
+h4 {
     font-size: 16px;
 }
 
-h6 {
+h5 {
     font-size: 14px;
+}
+
+h6 {
+    font-size: 12px;
 }
 
 h1,
@@ -251,21 +251,21 @@ p {
 
 /* Mytable button export */
 .dt-buttons {
-    gap: .5rem !important;
+    gap: 0.5rem !important;
 }
 .btn__export {
     background-color: var(--blue) !important;
     background: none !important;
     color: var(--black) !important;
     border-color: var(--grey);
-    padding: .5rem 1rem !important;
+    padding: 0.5rem 1rem !important;
     border-width: 1px;
     border-style: solid;
     margin: 0 !important;
 }
 .btn__export:hover {
     border-color: var(--blue) !important;
-    transition: .2s;
+    transition: 0.2s;
     color: var(--blue) !important;
 }
 
@@ -462,23 +462,31 @@ p {
 /*           Modal section            */
 /* ================================== */
 
-.modal__section input:focus, .modal__section select:focus, .modal__section textarea:focus, #mydate input:focus {
+.modal__section input:focus,
+.modal__section select:focus,
+.modal__section textarea:focus,
+#mydate input:focus {
     box-shadow: none !important;
     border-color: var(--blue);
 }
-.modal__section input:focus-visible, .modal__section select:focus-visible, .modal__section textarea:focus-visible {
+.modal__section input:focus-visible,
+.modal__section select:focus-visible,
+.modal__section textarea:focus-visible {
     border-color: var(--blue);
     outline: none;
 }
 
-#registrasiSuratMasuk .perihal,
-#editSuratMasuk .perihal {
+#registrasiSuratMasuk .perihal {
+    min-height: 7.7rem;
+}
+
+#editSuratMasuk .perihal,
+#editSuratKeluar .perihal {
     min-height: 6.3rem;
 }
 
-#registrasiSuratKeluar .perihal,
-#editSuratKeluar .perihal {
-    min-height: 6.3rem;
+#registrasiSuratKeluar .perihal {
+    min-height: 6.4rem;
 }
 
 #registrasiSuratKeluar .input input {
@@ -739,7 +747,7 @@ footer {
 @media only screen and (min-width: 768px) {
     /* Font weight */
     h1 {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     h2 {
@@ -747,11 +755,11 @@ footer {
     }
 
     h3 {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     h4 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     h5 {
@@ -759,11 +767,11 @@ footer {
     }
 
     h6 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .card {
-        padding: 2.5rem !important;
+        padding: 2rem !important;
     }
 
     .mybtn {
@@ -771,8 +779,14 @@ footer {
     }
 
     .dt-buttons {
-    gap: .75rem !important;
+        gap: 0.75rem !important;
+    }
 }
+
+@media only screen and (min-width: 2048px) {
+    .card {
+        padding: 2.5rem !important;
+    }
 }
 
 @media only screen and (min-width: 306px) {
