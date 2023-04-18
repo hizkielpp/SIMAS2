@@ -209,7 +209,8 @@ p {
 /* Card */
 .card {
     border-radius: 20px;
-    box-shadow: none;
+    /* box-shadow: none; */
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     padding: 1.5rem !important;
 }
 
@@ -220,7 +221,6 @@ p {
 
 #mytable thead th {
     font-weight: 400;
-    border-bottom: none !important;
     font-size: 16px;
     color: var(--black-light);
 }
@@ -239,6 +239,9 @@ p {
     text-align: center;
 }
 
+#mytable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
 /* #mytable tr {
     border-width: 0 !important;
     border-style: solid;
@@ -343,12 +346,17 @@ p {
 
 #mytable_paginate .page-item a {
     color: var(--black-light);
+    border-radius: 50%;
 }
 
 #mytable_paginate .page-item.active a {
     border-radius: 50%;
     background-color: var(--blue);
     color: white;
+}
+
+#mytable_paginate .page-link:hover {
+    border-radius: 50%;
 }
 
 #mytable_paginate .page-item.next a,
@@ -477,7 +485,7 @@ p {
 }
 
 #registrasiSuratMasuk .perihal {
-    min-height: 7.7rem;
+    min-height: 7.8rem;
 }
 
 #editSuratMasuk .perihal,
@@ -486,7 +494,7 @@ p {
 }
 
 #registrasiSuratKeluar .perihal {
-    min-height: 6.4rem;
+    height: 13.2rem !important;
 }
 
 #registrasiSuratKeluar .input input {
@@ -655,7 +663,8 @@ p {
     margin-top: 80px;
     min-height: 100vh !important;
     padding: 26px 16px;
-    background-color: var(--light);
+    /* background-color: var(--light); */
+    background-color: rgb(241 245 249);
     border: none !important;
 }
 
@@ -712,8 +721,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /*               Footer               */
 /* ================================== */
 footer {
-    background-color: white;
+    background-color: rgb(241 245 249) !important;
     color: var(--black) !important;
+    border-top: 1px solid var(--grey) !important;
 }
 
 /* ================================== */
@@ -783,7 +793,7 @@ footer {
     }
 }
 
-@media only screen and (min-width: 2048px) {
+@media only screen and (min-width: 1200px) {
     .card {
         padding: 2.5rem !important;
     }

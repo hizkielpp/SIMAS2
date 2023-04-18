@@ -12,6 +12,9 @@
     ></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/themes/default.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/surat-masuk-style.css" />
 @endsection
 @section('content')
     <section class="surat__masuk content">
@@ -95,7 +98,7 @@
 
             {{-- Tabel content start --}}
             <div class="table-responsive">
-                <table id="mytable" class="table">
+                <table id="mytable" class="table table-borderless">
                     <thead>
                         <tr>
                             <th>Nama</th>
@@ -110,7 +113,7 @@
                                 <td>{{ $v->name }}</td>
                                 <td>{{ $v->email }}</td>
                                 @if ($v->role == 1)
-                                    <td><b>Super Admin</b></td>
+                                    <td>Super Admin</td>
                                 @elseif ($v->role == 2)
                                     <td>Operator</td>
                                 @elseif ($v->role == 3)
@@ -488,7 +491,7 @@
                         target: "",
                     },
                 },
-                dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
+                dom: 'frt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 // dom: '<"table-responsive"tpf>',
                 destroy: true,
                 order: [

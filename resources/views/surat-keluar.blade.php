@@ -35,7 +35,7 @@
         </div>
         <div class="card p-4 mt-3">
             <!-- Modal edit start -->
-            <div class="modal fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal modal__section fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
@@ -157,8 +157,8 @@
             <!-- Modal edit end -->
 
             <!-- Modal registrasi start -->
-            <div class="modal fade" id="registrasiSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal modal__section fade" id="registrasiSuratKeluar" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
@@ -285,6 +285,7 @@
             </div>
             <!-- Modal registrasi end -->
 
+            {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw__bold black">Daftar Surat Keluar</h4>
                 <div class="d-flex align-items-center gap-3 input__tanggal flex-wrap">
@@ -302,8 +303,11 @@
                     </button>
                 </div>
             </div>
+            {{-- Tabel header end --}}
+
+            {{-- Tabel content start --}}
             <div class="table-responsive">
-                <table id="mytable" class="table w-100">
+                <table id="mytable" class="table table-borderless">
                     <thead>
                         <tr>
                             <th class="no">No</th>
@@ -332,19 +336,19 @@
                                 <td>
                                     @if ($v->sifatSurat == 1)
                                         <div class="sifat biasa d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Biasa</h6>
+                                            <h5 class="fw__semi">Biasa</h5>
                                         </div>
                                     @elseif ($v->sifatSurat == 2)
                                         <div class="sifat penting d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Penting</h6>
+                                            <h5 class="fw__semi">Penting</h5>
                                         </div>
                                     @elseif ($v->sifatSurat == 3)
                                         <div class="sifat segera d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Segera</h6>
+                                            <h5 class="fw__semi">Segera</h5>
                                         </div>
                                     @elseif ($v->sifatSurat == 4)
                                         <div class="sifat rahasia d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Rahasia</h6>
+                                            <h5 class="fw__semi">Rahasia</h5>
                                         </div>
                                     @endif
                                 </td>
@@ -368,6 +372,8 @@
                     </tbody>
                 </table>
             </div>
+            {{-- Tabel content end --}}
+
         </div>
     </section>
 @endsection
@@ -682,7 +688,7 @@
                 // responsive: false,
                 // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
                 // dom: '<"table-responsive"tpf>',
-                dom: '<"d-flex justify-content-between align-item-center gap-2 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                dom: '<"d-flex justify-content-between align-item-center gap-3 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 buttons: [{
                         extend: 'excelHtml5',
                         exportOptions: {

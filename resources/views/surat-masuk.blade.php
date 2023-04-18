@@ -246,9 +246,34 @@
     </div>
     <!-- Modal edit end -->
 
+    <!-- Modal registrasi start -->
+    <div class="modal modal__section fade" id="disposisi" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-3">
+          <div class="modal-header">
+            <h4 class="modal-title fw__bold black" id="exampleModalLabel">
+              Form Registrasi Surat Masuk
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="mybtn light" data-bs-dismiss="modal">
+              Batal
+            </button>
+            <button type="button" class="mybtn blue" onclick="confirmAdd()">
+              Tambah
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal registrasi end -->
+
     {{-- Tabel content start --}}
     <div class="table-responsive">
-      <table id="mytable" class="table table-borderless table-hover">
+      <table id="mytable" class="table table-borderless">
         <thead>
           <tr>
             <th class="no">No</th>
@@ -270,24 +295,24 @@
               <span class="date d-inline-block mt-1">{{ date('d M Y h:i:s', strtotime($v->created_at)) }}
                 WIB</span>
             </td>
-            <td>{{ $v->perihal }}</td>
+            <td class="fw__normal">{{ $v->perihal }}</td>
             <td>{{ $v->tujuanSurat }}</td>
             <td>
               @if ($v->sifatSurat == 1)
               <div class="sifat biasa d-flex justify-content-center align-items-center">
-                <h6 class="fw__semi">Biasa</h6>
+                <h5 class="fw__semi">Biasa</h5>
               </div>
               @elseif ($v->sifatSurat == 2)
               <div class="sifat penting d-flex justify-content-center align-items-center">
-                <h6 class="fw__semi">Penting</h6>
+                <h5 class="fw__semi">Penting</h5>
               </div>
               @elseif ($v->sifatSurat == 3)
               <div class="sifat segera d-flex justify-content-center align-items-center">
-                <h6 class="fw__semi">Segera</h6>
+                <h5 class="fw__semi">Segera</h5>
               </div>
               @elseif ($v->sifatSurat == 4)
               <div class="sifat rahasia d-flex justify-content-center align-items-center">
-                <h6 class="fw__semi">Rahasia</h6>
+                <h5 class="fw__semi">Rahasia</h5>
               </div>
               @endif
             </td>
@@ -299,9 +324,10 @@
                 <button type="button" class="myicon red d-flex align-items-center justify-content-center me-2" onclick="confirmHapus('{{ $v->id }}')">
                   <i class="fa-solid fa-trash"></i>
                 </button>
-                <a href="{{ route('disposisi') . '?id=' . $v->id }}" class="myicon green d-flex align-items-center justify-content-center">
+                <a data-id="{{ $v->id }}" data-bs-toggle="modal" data-bs-target="#disposisi" class="test myicon green d-flex align-items-center justify-content-center">
                   <i class="fa-solid fa-file-export"></i>
                 </a>
+                <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
               </div>
             </td>
           </tr>
@@ -620,8 +646,14 @@
     descText.className = "desc__export"
     btn.insertBefore(descText, btn[0]);
 
+    $('.test').on('click', function() {
+      alert($(this).attr('data-id'));
+
+    })
+
   })
 </script>
+
 {{-- Add keterangan button export end --}}
 
 @endsection

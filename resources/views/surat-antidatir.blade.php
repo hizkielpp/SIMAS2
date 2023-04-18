@@ -57,8 +57,8 @@
             {{-- Tabel header start --}}
 
             <!-- Modal registrasi start -->
-            <div class="modal fade" id="registrasiSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal modal__section fade" id="registrasiSuratKeluar" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
@@ -181,8 +181,8 @@
             <!-- Modal registrasi end -->
 
             <!-- Modal edit start -->
-            <div class="modal fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal modal__section fade" id="editSuratKeluar" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
@@ -198,22 +198,6 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
-                                        {{-- nomor surat tidak usah --}}
-                                        {{-- <div class="mb-3">
-                                    <label
-                                      for="noSurat"
-                                      class="form-label black fw-semibold"
-                                      >Nomor Surat</label
-                                    >
-                                    <input
-                                      disabled
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="Masukkan nomor surat"
-                                      id="noSurat"
-                                      aria-describedby="emailHelp"
-                                    />
-                                  </div> --}}
                                         <input type="text"name="jenisSurat" hidden>
                                         <input type="text" name="idSurat" hidden>
                                         <div class="mb-3">
@@ -322,7 +306,7 @@
 
             {{-- Tabel content start --}}
             <div class="table-responsive">
-                <table id="mytable" class="table">
+                <table id="mytable" class="table table-borderless">
                     <thead>
                         <tr>
                             <th class="no">No</th>
@@ -350,19 +334,19 @@
                                 <td>
                                     @if ($v->sifatSurat == 1)
                                         <div class="sifat biasa d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Biasa</h6>
+                                            <h5 class="fw__semi">Biasa</h5>
                                         </div>
                                     @elseif ($v->sifatSurat == 2)
                                         <div class="sifat penting d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Penting</h6>
+                                            <h5 class="fw__semi">Penting</h5>
                                         </div>
                                     @elseif ($v->sifatSurat == 3)
                                         <div class="sifat segera d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Segera</h6>
+                                            <h5 class="fw__semi">Segera</h5>
                                         </div>
                                     @elseif ($v->sifatSurat == 4)
                                         <div class="sifat rahasia d-flex justify-content-center align-items-center">
-                                            <h6 class="fw__semi">Rahasia</h6>
+                                            <h5 class="fw__semi">Rahasia</h5>
                                         </div>
                                     @endif
                                 </td>
@@ -653,7 +637,7 @@
                 },
                 // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
                 // dom: '<"table-responsive"tpf>',
-                dom: '<"d-flex justify-content-between align-item-center gap-2 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                dom: '<"d-flex justify-content-between align-item-center gap-3 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 buttons: [{
                         extend: 'excelHtml5',
                         exportOptions: {

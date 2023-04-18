@@ -275,6 +275,33 @@
                 onclick="window.print()">Cetak</button>
         </div>
     </div>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk" class="mybtn blue">
+        <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+    </button>
+    <div class="modal modal__section fade" id="registrasiSuratMasuk" tabindex="-1" aria-labelledby="ex ampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title fw__bold black" id="exampleModalLabel">
+                        Form Registrasi Surat Masuk
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                        Batal
+                    </button>
+                    <button type="button" class="mybtn blue" onclick="confirmAdd()">
+                        Tambah
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
