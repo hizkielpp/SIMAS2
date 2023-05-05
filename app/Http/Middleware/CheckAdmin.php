@@ -17,11 +17,10 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::id()==1){
+        if (Auth::id() == 1) {
             return $next($request);
-        }else{
-            return response('Gagal hanya superadmin', 406);
+        } else {
+            return redirect()->back()->with('failed', 'Akses hanya untuk admin');
         }
-
     }
 }

@@ -16,51 +16,52 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware('checkAuth')->group(function () {
-    Route::get('/',[AuthController::class,'dashboard'])->name('dashboard');
+    Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/downloadNaskah',[Surat::class,'downloadNaskah'])->name('downloadNaskah');
+    Route::get('/downloadNaskah', [Surat::class, 'downloadNaskah'])->name('downloadNaskah');
 
     //refresh datatable
-    Route::get('/refreshDatatable',[Surat::class,'refreshDatatable'])->name('refreshDatatable');
+    Route::get('/refreshDatatable', [Surat::class, 'refreshDatatable'])->name('refreshDatatable');
 
     //hanya pak Mul
-    Route::middleware('checkAdmin')->group(function() {
-        Route::post('/deleteSM',[Surat::class,'deleteSM'])->name('deleteSM');
-        Route::post('/deleteSK',[Surat::class,'deleteSK'])->name('deleteSK');
+    Route::middleware('checkAdmin')->group(function () {
+        Route::post('/deleteSM', [Surat::class, 'deleteSM'])->name('deleteSM');
+        Route::post('/deleteSK', [Surat::class, 'deleteSK'])->name('deleteSK');
     });
 
     // Surat Masuk
-    Route::get('/suratMasuk',[Surat::class,'indexSM'])->name('suratMasuk');
-    Route::get('/getSM/{id}',[Surat::class,'getSM'])->name('getSM');
-    Route::post('/editSM',[Surat::class,'editSM'])->name('editSM');
-    Route::get('/refreshSM',[Surat::class,'refreshSM'])->name('refreshSM');
-    Route::post('/inputSM',[Surat::class,'inputSM'])->name('inputSM');
-    Route::get('/disposisi',[Surat::class,'disposisi'])->name('disposisi');
+    Route::get('/suratMasuk', [Surat::class, 'indexSM'])->name('suratMasuk');
+    Route::get('/getSM/{id}', [Surat::class, 'getSM'])->name('getSM');
+    Route::post('/editSM', [Surat::class, 'editSM'])->name('editSM');
+    Route::get('/refreshSM', [Surat::class, 'refreshSM'])->name('refreshSM');
+    Route::post('/inputSM', [Surat::class, 'inputSM'])->name('inputSM');
+    Route::get('/disposisi', [Surat::class, 'disposisi'])->name('disposisi');
 
 
     // Surat Keluar dan Antidatir
-    Route::get('/getSK/{id}',[Surat::class,'getSK'])->name('getSK');
-    Route::get('/suratKeluar',[Surat::class,'indexSK'])->name('suratKeluar');
-    Route::post('/inputSK',[Surat::class,'inputSK'])->name('inputSK');
-    Route::post('/editSK',[Surat::class,'editSK'])->name('editSK');
+    Route::get('/getSK/{id}', [Surat::class, 'getSK'])->name('getSK');
+    Route::get('/suratKeluar', [Surat::class, 'indexSK'])->name('suratKeluar');
+    Route::post('/inputSK', [Surat::class, 'inputSK'])->name('inputSK');
+    Route::post('/editSK', [Surat::class, 'editSK'])->name('editSK');
 
 
-    // Kelola Akun
-    Route::get('/kelolaAkun',[AuthController::class,'kelolaAkun'])->name('kelolaAkun');
-    Route::post('/inputAkun',[AuthController::class,'inputAkun'])->name('inputAkun');
-    Route::post('/editAkun',[AuthController::class,'editAkun'])->name('editAkun');
-    Route::get('/getAkun/{id}',[AuthController::class,'getAkun'])->name('getAkun');
-    Route::post('/deleteAkun',[AuthController::class,'deleteAkun'])->name('deleteAkun');
+    Route::middleware('checkAdmin')->group(function () {
+        // Kelola Akun
+        Route::get('/kelolaAkun', [AuthController::class, 'kelolaAkun'])->name('kelolaAkun');
+        Route::post('/inputAkun', [AuthController::class, 'inputAkun'])->name('inputAkun');
+        Route::post('/editAkun', [AuthController::class, 'editAkun'])->name('editAkun');
+        Route::get('/getAkun/{id}', [AuthController::class, 'getAkun'])->name('getAkun');
+        Route::post('/deleteAkun', [AuthController::class, 'deleteAkun'])->name('deleteAkun');
+    });
 
 
-    Route::get('/suratAntidatir',[Surat::class,'indexSA'])->name('suratAntidatir');
-    Route::post('/inputSA',[Surat::class,'inputSA'])->name('inputSA');
+    Route::get('/suratAntidatir', [Surat::class, 'indexSA'])->name('suratAntidatir');
+    Route::post('/inputSA', [Surat::class, 'inputSA'])->name('inputSA');
 
-    Route::get('/ambilNomor',[Surat::class,'ambilNomor'])->name('ambilNomor');
-    Route::get('/cekTersedia/{id}',[Surat::class,'cekTersedia'])->name('cekTersedia');
+    Route::get('/ambilNomor', [Surat::class, 'ambilNomor'])->name('ambilNomor');
+    Route::get('/cekTersedia/{id}', [Surat::class, 'cekTersedia'])->name('cekTersedia');
 });
-Route::post('/login2',[AuthController::class,'login'])->name('login2');
-Route::get('/login',[AuthController::class,'index'])->name('login');
-Route::post('/customLogin',[AuthController::class,'customLogin'])->name('login.custom');
-Route::get('logout',[AuthController::class,'signOut'])->name('logout');
-
+Route::post('/login2', [AuthController::class, 'login'])->name('login2');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login.custom');
+Route::get('logout', [AuthController::class, 'signOut'])->name('logout');

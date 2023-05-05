@@ -516,9 +516,9 @@ p {
 /* Modal */
 .modal-content .btn-close {
     border-radius: 50%;
-    min-width: 32px;
-    width: 32px;
-    height: 32px;
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
     background-color: var(--grey);
     transition: 0.2s;
     font-size: 14px;
@@ -689,6 +689,7 @@ p {
     display: inline-block;
     position: absolute;
     right: 12%;
+    top: 25%;
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
     background: transparent;

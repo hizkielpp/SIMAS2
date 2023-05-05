@@ -3,13 +3,14 @@ body {
 }
 
 .disposisi__header h1 {
-    font-size: 24px;
+    font-size: 20px;
     line-height: 2.25rem;
+    margin-bottom: 1rem;
 }
 
 .disposisi__info h4 {
-    line-height: 2.25rem;
-    font-size: 18px;
+    line-height: 2rem;
+    font-size: 16px;
 }
 
 .disposisi__info-title {
@@ -21,15 +22,12 @@ body {
 }
 
 .disposisi__info .row .checkbox {
-    min-width: 30px;
-    width: 30px;
-    height: 30px;
-    border-radius: 6px;
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 0.25rem;
     border: 1px solid var(--grey);
     margin-right: 0.5rem;
-}
-
-.disposisi__info .row .checkbox ~ h4 {
 }
 
 table {
@@ -104,7 +102,10 @@ table thead th:last-child {
         display: table-header-group;
     }
 
-    button {
-        display: none;
+    #cetak {
+        display: none !important;
     }
+}
+@page {
+    margin: 0px auto;
 }

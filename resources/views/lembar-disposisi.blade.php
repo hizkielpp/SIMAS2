@@ -18,6 +18,7 @@
 
 <body>
     <div class="disposisi py-4 mx-auto container">
+        {{-- Header start --}}
         <div class="disposisi__header w-75 mx-auto mb-1">
             <h1 class="text-center fw__semi">
                 KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI UNIVERSITAS
@@ -25,6 +26,9 @@
                 LEMBAR DISPOSISI
             </h1>
         </div>
+        {{-- Header end --}}
+
+        {{-- Informasi start --}}
         <div class="disposisi__info row">
             <div class="col-6">
                 <form action="">
@@ -135,6 +139,9 @@
                 </div>
             </div>
         </div>
+        {{-- Informasi end --}}
+
+        {{-- Tabel start --}}
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
@@ -268,16 +275,19 @@
                 </tr>
             </tbody>
         </table>
-        <div class="d-flex justify-content-end mt-5 gap-2" id="cetak">
-            <button class="mybtn light d-flex justify-content-center align-items-center"><a
-                    href="{{ route('suratMasuk') }}" class="">Batal</a></button>
-            <button class="d-flex justify-content-center align-items-center mybtn blue"
+        {{-- Tabel end --}}
+
+        {{-- Button cetak start --}}
+        <div class="d-flex justify-content-end mt-5">
+            <button id="cetak" class="d-flex justify-content-center align-items-center mybtn blue"
                 onclick="window.print()">Cetak</button>
         </div>
+        {{-- Button cetak end --}}
+
     </div>
-    <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk" class="mybtn blue">
-        <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
-    </button>
+
+
+    {{-- Modal iframe start start --}}
     <div class="modal modal__section fade" id="registrasiSuratMasuk" tabindex="-1" aria-labelledby="ex ampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -301,7 +311,7 @@
             </div>
         </div>
     </div>
-
+    {{-- Modal iframe start end --}}
 </body>
 
 </html>

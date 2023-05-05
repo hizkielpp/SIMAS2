@@ -15,19 +15,22 @@ class AuthController extends Controller
 {
     public function sendResponse($result, $message)
     {
-    	$response = [
+        $response = [
             'success' => true,
             'data'    => $result,
             'message' => $message,
         ];
         return response()->json($response, 200);
     }
-    public function kelolaAkun(){
-        $role = DB::table('role')->select('kode','nama')->get();
-        $akun = DB::table('users')->select('name','id','email','role')->get();
-        return view('akun')->with('users',$akun)->with('role',$role);
+    public function kelolaAkun()
+    {
+        $user = Auth::user();
+        $role = DB::table('role')->select('kode', 'nama')->get();
+        $akun = DB::table('users')->select('name', 'id', 'email', 'role')->get();
+        return view('akun')->with(['users' => $akun, 'role' => $role, 'user' => $user]);
     }
-    public function inputAkun(Request $request){
+    public function inputAkun(Request $request)
+    {
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -36,46 +39,47 @@ class AuthController extends Controller
         ]);
         $input = $request->except('_token');
         $input['password'] = Hash::make($input['password']);
-        try{
+        try {
             DB::table('users')->insert($request->except('_token'));
-            return redirect()->route('kelolaAkun')->with('success','berhasil membuat data akun baru');
-        }catch(\Exception $e)
-        {
-            return redirect()->route('kelolaAkun')->with('failed','gagal membuat data akun baru');
+            return redirect()->route('kelolaAkun')->with('success', 'berhasil membuat data akun baru');
+        } catch (\Exception $e) {
+            return redirect()->route('kelolaAkun')->with('failed', 'gagal membuat data akun baru');
         }
     }
-    public function getAkun(Request $request){
-        $user = DB::table('users')->where('id',$request->id)->first();
+    public function getAkun(Request $request)
+    {
+        $user = DB::table('users')->where('id', $request->id)->first();
         return response()->json($user);
     }
-    public function deleteAkun(Request $request){
+    public function deleteAkun(Request $request)
+    {
         $deleted = DB::table('users')->where('id', $request->input('idAkun'))->delete();
-        if($deleted==0){
+        if ($deleted == 0) {
             return response('Data gagal dihapus', 406);
-        }else{
-            return response('Data berhasil dihapus',200);
+        } else {
+            return response('Data berhasil dihapus', 200);
         }
     }
-    public function editAkun(Request $request){
+    public function editAkun(Request $request)
+    {
         $request->validate([
             'name' => 'required',
             'role' => 'required'
         ]);
-        $users = DB::table('users')->where('id',$request->input('idAkun'))->first();
-        if($request->input('password') == null){
-            $updatedValue = $request->except(['_token','idAkun','password']);
-        }else{
-            $updatedValue = $request->except(['_token','idAkun']);
+        $users = DB::table('users')->where('id', $request->input('idAkun'))->first();
+        if ($request->input('password') == null) {
+            $updatedValue = $request->except(['_token', 'idAkun', 'password']);
+        } else {
+            $updatedValue = $request->except(['_token', 'idAkun']);
         }
-        try{
+        try {
             DB::table('users')
-            ->where('id',$request->input('idAkun'))  // find your surat by id
-            ->limit(1)  // optional - to ensure only one record is updated.
-            ->update($updatedValue); 
-            return redirect()->route('kelolaAkun')->with('success','berhasil mengubah data akun');
-        }catch(\Exception $e)
-        {
-            return redirect()->route('kelolaAkun')->with('failed','gagal mengubah data akun');
+                ->where('id', $request->input('idAkun'))  // find your surat by id
+                ->limit(1)  // optional - to ensure only one record is updated.
+                ->update($updatedValue);
+            return redirect()->route('kelolaAkun')->with('success', 'berhasil mengubah data akun');
+        } catch (\Exception $e) {
+            return redirect()->route('kelolaAkun')->with('failed', 'gagal mengubah data akun');
         }
     }
     public function index()
@@ -90,24 +94,23 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-                return redirect()->route('dashboard')->with('success', 'Signed in');
+            return redirect()->route('dashboard')->with('success', 'Signed in');
         }
         return redirect('login')->with('Login details are not valid');
     }
     public function dashboard()
-    {   
+    {
         $user = Auth::user();
-        if($user->role==2){
-            $jumlahSM = DB::table('suratmasuk')->where('created_by',$user->id)->count();
-            $jumlahSK = DB::table('suratkeluar')->where('jenis','biasa')->where('status','digunakan')->where('created_by',$user->id)->count();
-            $jumlahSA = DB::table('suratkeluar')->where('jenis','antidatir')->where('status','digunakan')->where('created_by',$user->id)->count();
-        }else{
+        if ($user->role == 2) {
+            $jumlahSM = DB::table('suratmasuk')->where('created_by', $user->id)->count();
+            $jumlahSK = DB::table('suratkeluar')->where('jenis', 'biasa')->where('status', 'digunakan')->where('created_by', $user->id)->count();
+            $jumlahSA = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->count();
+        } else {
             $jumlahSM = DB::table('suratmasuk')->count();
-            $jumlahSK = DB::table('suratkeluar')->where('jenis','biasa')->where('status','digunakan')->count();
-            $jumlahSA = DB::table('suratkeluar')->where('jenis','antidatir')->where('status','digunakan')->count();
+            $jumlahSK = DB::table('suratkeluar')->where('jenis', 'biasa')->where('status', 'digunakan')->count();
+            $jumlahSA = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->count();
         }
-        return view('index2')->with('jumlahSM',$jumlahSM)->with('jumlahSK',$jumlahSK)->with('jumlahSA',$jumlahSA)->with('date',now());
-
+        return view('index2')->with(['jumlahSM' => $jumlahSM, 'jumlahSK' => $jumlahSK, 'jumlahSA' => $jumlahSA, 'date' => now(), 'user' => $user]);
     }
     public function signOut()
     {

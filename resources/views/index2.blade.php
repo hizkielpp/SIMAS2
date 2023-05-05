@@ -71,6 +71,57 @@
 
         </div>
     </section>
+
+
+@endsection
+@section('js')
+
+    {{-- Sweet alert start --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    {{-- Sweet alert end --}}
+    {{-- script tambahan untuk menangkap session --}}
+    <script>
+        function berhasil(txt) {
+            new Audio("audio/success-edited.mp3").play();
+            // Swal.fire("Berhasil!", `${txt}`, "success");
+            Swal.fire({
+                confirmButtonColor: "#2F5596",
+                icon: 'success',
+                title: `berhasil`,
+                text: `${txt}`,
+            })
+        }
+
+        function gagal(txt) {
+            new Audio("audio/cancel-edited.mp3").play();
+            Swal.fire({
+                confirmButtonColor: "#2F5596",
+                icon: 'error',
+                title: 'Gagal!',
+                text: `Data gagal ditambahkan! pesan error : ${txt}`,
+            })
+        }
+    </script>
+
+    @if ($message = Session::get('success'))
+        <script>
+            berhasil("{{ Session::get('success') }}")
+        </script>
+        </div>
+    @endif
+    @if ($message = Session::get('failed'))
+        <script>
+            gagal("{{ Session::get('failed') }}")
+        </script>
+        </div>
+    @endif
+    @if ($errors->any())
+        <script>
+            gagal()
+        </script>
+        {{ implode('', $errors->all('<div>:message</div>')) }}
+    @endif
 @endsection
 @section('db', 'active')
 @section('title', 'Dashboard')
