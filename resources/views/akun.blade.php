@@ -5,14 +5,6 @@
     <!-- Bootstrap data tables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
-    <!-- Date picker -->
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.esm.js"
-    ></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/themes/default.css" />
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/surat-masuk-style.css" />
 @endsection
@@ -31,39 +23,51 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formRegistrasi" enctype="multipart/form-data" method="POST"
-                                action="{{ route('inputAkun') }}">
+                            <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation" novalidate
+                                method="POST" action="{{ route('inputAkun') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="role" class="form-label black fw-semibold">Role</label>
+                                            <label for="role" class="form-label black fw-semibold">Peran</label>
                                             <select id="role" name="role" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected>-- Pilih salah satu --</option>
+                                                aria-label="Default select example" required>
+                                                <option selected disabled value="">...</option>
                                                 @foreach ($role as $k => $v)
                                                     <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                                                 @endforeach
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan nomor surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="name" class="form-label black fw-semibold">Name</label>
+                                            <label for="name" class="form-label black fw-semibold">Nama</label>
                                             <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                                id="name" name="name" />
+                                                id="name" name="name" required />
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan nomor surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label black fw-semibold">Email</label>
                                             <input type="text" class="form-control" placeholder="Masukkan email akun"
-                                                id="email" name="email" />
+                                                id="email" name="email" required />
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan nomor surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="password" class="form-label black fw-semibold">Password</label>
                                             <div class="d-flex">
                                                 <input type="password" class="form-control"
                                                     placeholder="Masukkan password akun" id="password" name="password"
-                                                    aria-describedby="emailHelp" />
+                                                    aria-describedby="emailHelp" required />
                                                 <i class="far fa-eye-slash" id="passIcon" onclick="showPass()"
                                                     style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan nomor surat dengan benar.
                                             </div>
                                         </div>
 
@@ -75,7 +79,7 @@
                             <button type="button" class="mybtn light" data-bs-dismiss="modal">
                                 Batal
                             </button>
-                            <button type="button" class="mybtn blue" onclick="confirmAdd()">
+                            <button type="submit" class="mybtn blue" form="formRegistrasi">
                                 Tambah
                             </button>
                         </div>
@@ -87,7 +91,7 @@
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw__bold black">Daftar Akun</h4>
-                <div class="d-flex align-items-center gap-3 input__tanggal flex-wrap">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
                     <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiAkun"
                         class="mybtn blue">
                         <i class="fa-solid fa-plus me-2"></i>Tambah Akun
@@ -226,7 +230,7 @@
     {{-- Refresh page start --}}
     <script>
         function refreshDatatable() {
-            setInterval('location.reload()', 4000);
+            setInterval('location.reload()', 2000);
             // window.location.reload();
         }
     </script>
@@ -539,7 +543,7 @@
             Swal.fire({
                 confirmButtonColor: "#2F5596",
                 icon: 'success',
-                title: `berhasil`,
+                title: `Berhasil`,
                 text: `${txt}`,
             })
         }
@@ -567,6 +571,29 @@
         </div>
     @endif
 
+    {{-- Bootstrap form validation start --}}
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    {{-- Bootstrap form validation end --}}
 
 @endsection
 @section('ka', 'active')

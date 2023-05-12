@@ -41,9 +41,9 @@ class AuthController extends Controller
         $input['password'] = Hash::make($input['password']);
         try {
             DB::table('users')->insert($request->except('_token'));
-            return redirect()->route('kelolaAkun')->with('success', 'berhasil membuat data akun baru');
+            return redirect()->route('kelolaAkun')->with('success', 'Data akun baru berhasil dibuat');
         } catch (\Exception $e) {
-            return redirect()->route('kelolaAkun')->with('failed', 'gagal membuat data akun baru');
+            return redirect()->route('kelolaAkun')->with('failed', 'Gagal membuat data akun baru');
         }
     }
     public function getAkun(Request $request)

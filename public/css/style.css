@@ -535,15 +535,6 @@ p {
     background-color: red;
 }
 
-.input__tanggal input {
-    display: inline;
-    border: 1px solid var(--grey);
-}
-.input__tanggal input:focus {
-    border-color: var(--blue) !important;
-    outline: var(--blue);
-}
-
 /* ================================== */
 /*               Navbar               */
 /* ================================== */
@@ -673,35 +664,37 @@ p {
 }
 
 /* Input rentang tanggal */
-.input-container input {
-    box-sizing: border-box;
-    outline: 0;
-    padding: 10px 20px;
-    position: relative;
-    width: auto;
+.input__tanggal {
+    width: 175px;
 }
-.input-container input:after {
-    content: "";
-    width: 20px;
-    background-image: url("../img/calendar.png");
-    background-size: cover;
-    height: 20px;
-    display: inline-block;
-    position: absolute;
-    right: 12%;
-    top: 25%;
+.input__tanggal input {
+    border: 1px solid var(--grey);
+    width: 100%;
+    text-align: center;
 }
-input[type="date"]::-webkit-calendar-picker-indicator {
-    background: transparent;
-    bottom: 0;
-    color: transparent;
-    cursor: pointer;
-    height: auto;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: auto;
+.input__tanggal input:focus {
+    border-color: var(--blue) !important;
+    outline: var(--blue);
+}
+.input__tanggal svg {
+    top: 50%;
+    left: 12%;
+    transform: translateY(-50%);
+}
+
+/* Input tanggal di form */
+.input__tanggal__form input {
+    cursor: default;
+}
+.input__tanggal__form svg {
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+}
+
+/* Invalid feedback */
+.invalid-feedback {
+    font-size: 14px;
 }
 
 /* Button export */

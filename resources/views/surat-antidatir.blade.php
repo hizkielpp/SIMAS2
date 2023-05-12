@@ -5,13 +5,85 @@
     <!-- Bootstrap data tables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
-    <!-- Date picker -->
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.esm.js"
-    ></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/duet.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@duetds/date-picker@1.4.0/dist/duet/themes/default.css" />
+    <!-- Datepicker Jquery -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    {{-- Datepicker Jquery : input tanggal start --}}
+    <script>
+        $(function() {
+            // Initializing
+            $("#inputTanggalStart").datepicker();
+
+            // Ganti tahun
+            $("#inputTanggalStart").datepicker({
+                changeYear: true
+            });
+
+            // Getter
+            var changeYear = $("#inputTanggalStart").datepicker("option", "changeYear");
+
+            // Setter
+            $("#inputTanggalStart").datepicker("option", "changeYear", true);
+        });
+    </script>
+
+    {{-- Datepicker Jquery : input tanggal end --}}
+    <script>
+        $(function() {
+            // Initializing
+            $("#inputTanggalEnd").datepicker();
+
+            // Ganti tahun
+            $("#inputTanggalEnd").datepicker({
+                changeYear: true
+            });
+
+            // Getter
+            var changeYear = $("#inputTanggalEnd").datepicker("option", "changeYear");
+
+            // Setter
+            $("#inputTanggalEnd").datepicker("option", "changeYear", true);
+        });
+    </script>
+
+    {{-- Datepicker Jquery : registrasi surat --}}
+    <script>
+        $(function() {
+            // Initializing
+            $("#datepicker").datepicker();
+
+            // Ganti tahun
+            $("#datepicker").datepicker({
+                changeYear: true
+            });
+
+            // Getter
+            var changeYear = $("#datepicker").datepicker("option", "changeYear");
+
+            // Setter
+            $("#datepicker").datepicker("option", "changeYear", true);
+        });
+    </script>
+
+    {{-- Datepicker Jquery : edit surat --}}
+    <script>
+        $(function() {
+            // Initializing
+            $("#datepickerEdit").datepicker();
+
+            // Ganti tahun
+            $("#datepickerEdit").datepicker({
+                changeYear: true
+            });
+
+            // Getter
+            var changeYear = $("#datepickerEdit").datepicker("option", "changeYear");
+
+            // Setter
+            $("#datepickerEdit").datepicker("option", "changeYear", true);
+        });
+    </script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/surat-masuk-style.css" />
@@ -40,13 +112,17 @@
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw__bold black">Daftar Surat Antidatir</h4>
-                <div class="d-flex align-items-center gap-3 input__tanggal flex-wrap">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
                     <p class="">Rentang Tanggal :</p>
-                    <div class="input-container">
-                        <input type="date" name="inputTanggal" id="inputTanggalStart" class="mybtn" />
+                    <div class="input__tanggal position-relative">
+                        <input type="text" name="inputTanggal" placeholder="Batas awal" id="inputTanggalStart"
+                            class="mybtn" />
+                        <i class="fa-solid fa-calendar-days position-absolute"></i>
                     </div>
-                    <div class="input-container">
-                        <input type="date" name="inputTanggalEnd" id="inputTanggalEnd" class="mybtn" />
+                    <div class="input__tanggal position-relative">
+                        <input type="text" name="inputTanggalEnd" placeholder="Batas akhir" id="inputTanggalEnd"
+                            class="mybtn" />
+                        <i class="fa-solid fa-calendar-days position-absolute"></i>
                     </div>
                     <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
                         class="mybtn blue">
@@ -68,8 +144,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formRegistrasi" enctype="multipart/form-data" method="POST"
-                                action="{{ route('inputSA') }}">
+                            <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation" novalidate
+                                method="POST" action="{{ route('inputSA') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
@@ -78,59 +154,78 @@
                                             <div class="input d-flex align-items-center">
                                                 <input type="text" readonly class="form-control"
                                                     placeholder="Masukkan nomor surat" id="nomorSurat" name="nomorSurat"
-                                                    aria-describedby="emailHelp" />
+                                                    aria-describedby="emailHelp" required />
                                                 <button type="button" class="ms-2" onclick="ambilNomor()">
                                                     Ambil Nomor
                                                 </button>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan nomor surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="kodeUnit" class="form-label black fw-semibold">Kode Unit
                                                 Surat</label>
                                             <select id="kodeUnit" name="kodeUnit" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected>-- Pilih salah satu --</option>
+                                                aria-label="Default select example" required>
+                                                <option selected disabled value="">-- Pilih salah satu --</option>
                                                 @foreach ($unit as $k => $v)
                                                     <option value="{{ $v->kode }}">{{ $v->nama }}
                                                         ({{ $v->kode }})
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan kode unit surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="kodeHal" class="form-label black fw-semibold">Kode Hal</label>
                                             <select id="kodeHal" name="kodeHal" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected>-- Pilih salah satu --</option>
+                                                aria-label="Default select example" required>
+                                                <option selected disabled value="">-- Pilih salah satu --</option>
                                                 @foreach ($hal as $k => $v)
                                                     <option value="{{ $v->kode }}">{{ $v->nama }}
                                                         ({{ $v->kode }})
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan kode hal surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="tujuanSurat" class="form-label black fw-semibold">Tujuan
                                                 Surat</label>
-                                            <input type="text" class="form-control" placeholder="Masukkan tujuan surat"
-                                                id="tujuanSurat" name="tujuanSurat" aria-describedby="emailHelp" />
-
+                                            <input type="text" class="form-control"
+                                                placeholder="Masukkan tujuan surat" id="tujuanSurat" name="tujuanSurat"
+                                                aria-describedby="emailHelp" required />
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan tujuan surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="jumlahLampiran" class="form-label black fw-semibold">Jumlah
                                                 Lampiran</label>
-                                            <input type="number" class="form-control" placeholder="Masukkan tujuan surat"
-                                                id="jumlahLampiran" name="jumlahLampiran" aria-describedby="emailHelp" />
+                                            <input type="number" class="form-control"
+                                                placeholder="Masukkan tujuan surat" id="jumlahLampiran"
+                                                name="jumlahLampiran" aria-describedby="emailHelp" required />
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan jumlah lampiran dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="sifatSurat" class="form-label black fw-semibold">Sifat</label>
                                             <select id="sifatSurat" name="sifatSurat" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected>-- Pilih salah satu --</option>
+                                                aria-label="Default select example" required>
+                                                <option selected disabled value="">-- Pilih salah satu --</option>
                                                 @foreach ($sifat as $k => $v)
                                                     <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                                                 @endforeach
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan sifat surat dengan benar.
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-12">
@@ -138,30 +233,48 @@
                                             <label for="disahkanOleh" class="form-label black fw-semibold">Disahkan
                                                 Oleh</label>
                                             <select id="disahkanOleh" name="disahkanOleh" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected>-- Pilih salah satu --</option>
+                                                aria-label="Default select example" required>
+                                                <option selected disabled value="">-- Pilih salah satu --</option>
                                                 @foreach ($unit as $k => $v)
                                                     <option value="{{ $v->nama }}">{{ $v->nama }}</option>
                                                 @endforeach
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan unit dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="date" class="form-label black fw-semibold">Tanggal
+                                            <label for="tanggalPengesahan" class="form-label black fw-semibold">Tanggal
                                                 Disahkan</label>
-                                            <duet-date-picker id="date" name="tanggalPengesahan" identifier="date">
-                                            </duet-date-picker>
+                                            {{-- <duet-date-picker id="date" name="tanggalPengesahan" identifier="date">
+                                            </duet-date-picker> --}}
+                                            <div class="position-relative input__tanggal__form">
+                                                <input type="text" id="datepicker" identifier="date"
+                                                    placeholder="..." name="tanggalPengesahan" aria-placeholder="coba"
+                                                    class="form-control" required>
+                                                <i class="fa-solid fa-calendar-days position-absolute"></i>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan tanggal disahkan surat dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="lampiran" class="form-label black fw-semibold">Upload
                                                 Lampiran</label>
                                             <input type="file" class="form-control" id="lampiran" name="lampiran"
-                                                aria-describedby="emailHelp" />
+                                                aria-describedby="emailHelp" required />
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan lampiran dengan benar.
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlTextarea1"
                                                 class="form-label black fw-semibold">Perihal</label>
                                             <textarea name="perihal" class="form-control perihal" id="exampleFormControlTextarea1" rows="8"
-                                                placeholder="Contoh : Permohonan perijinan penelitian"></textarea>
+                                                placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan perihal surat dengan benar.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +284,7 @@
                             <button type="button" class="mybtn light" data-bs-dismiss="modal">
                                 Batal
                             </button>
-                            <button type="button" class="mybtn blue" onclick="confirmAdd()">
+                            <button type="submit" class="mybtn blue" form="formRegistrasi">
                                 Tambah
                             </button>
                         </div>
@@ -273,8 +386,14 @@
                                         <div class="mb-3">
                                             <label for="tanggalPengesahanE" class="form-label black fw-semibold">Tanggal
                                                 Disahkan</label>
-                                            <duet-date-picker id="tanggalPengesahanE" identifier="date"
-                                                name="tanggalPengesahan"></duet-date-picker>
+                                            {{-- <duet-date-picker id="tanggalPengesahanE" identifier="date"
+                                                name="tanggalPengesahan"></duet-date-picker> --}}
+                                            <div class="position-relative input__tanggal__form">
+                                                <input type="text" id="datepickerEdit" identifier="date"
+                                                    placeholder="..." name="tanggalPengesahanE" aria-placeholder="coba"
+                                                    class="form-control" required>
+                                                <i class="fa-solid fa-calendar-days position-absolute"></i>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label black fw-semibold">Upload Lampiran</label>
@@ -388,7 +507,7 @@
     {{-- Refresh page --}}
     <script>
         function refreshDatatable() {
-            setInterval('location.reload()', 4000);
+            setInterval('location.reload()', 2000);
             // window.location.reload();
         }
     </script>
@@ -740,6 +859,30 @@
         </script>
         </div>
     @endif
+
+    {{-- Bootstrap form validation start --}}
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    {{-- Bootstrap form validation end --}}
 
 
 @endsection

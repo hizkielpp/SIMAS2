@@ -145,7 +145,7 @@
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
-                    <th scope="col">Tanggal</th>
+                    <th scope="col">Tgl</th>
                     <th scope="col">Kepada</th>
                     <th scope="col" colspan="2">Disposisi</th>
                     <th scope="col">Isi</th>
@@ -273,9 +273,37 @@
                     <td></td>
                     <td></td>
                 </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
         {{-- Tabel end --}}
+
+        {{-- Tanda tangan start --}}
+        <h5 class="text-center">Keterangan: Mohon diisi oleh pimpinan sesuai dengan sifat surat</h5>
+        {{-- Tanda tangan end --}}
 
         {{-- Button cetak start --}}
         <div class="d-flex justify-content-end mt-5">

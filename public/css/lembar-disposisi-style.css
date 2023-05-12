@@ -4,12 +4,12 @@ body {
 
 .disposisi__header h1 {
     font-size: 20px;
-    line-height: 2.25rem;
+    line-height: 1.75rem;
     margin-bottom: 1rem;
 }
 
 .disposisi__info h4 {
-    line-height: 2rem;
+    line-height: 1.75rem;
     font-size: 16px;
 }
 
@@ -22,9 +22,9 @@ body {
 }
 
 .disposisi__info .row .checkbox {
-    min-width: 24px;
-    width: 24px;
-    height: 24px;
+    min-width: 20px;
+    width: 20px;
+    height: 20px;
     border-radius: 0.25rem;
     border: 1px solid var(--grey);
     margin-right: 0.5rem;
@@ -39,16 +39,6 @@ table thead th {
 }
 
 /* Disposisi : nomor */
-table tbody td:nth-child(3) {
-    width: 5%;
-    text-align: center;
-}
-
-/* Disposisi : keterangan */
-table tbody td:nth-child(4) {
-    width: 25%;
-}
-
 table thead th:first-child {
     width: 10%;
 }
@@ -58,7 +48,7 @@ table thead th:nth-child(2) {
 }
 
 table thead th:nth-child(3) {
-    width: 30%;
+    width: 35%;
 }
 
 table thead th:nth-child(4) {
@@ -66,7 +56,15 @@ table thead th:nth-child(4) {
 }
 
 table thead th:last-child {
-    width: 10%;
+    width: 5%;
+}
+/* Disposisi : keterangan */
+
+table thead tr th,
+table tbody tr th,
+table tbody tr td {
+    height: 28px;
+    font-size: 14px;
 }
 
 .disposisi button {

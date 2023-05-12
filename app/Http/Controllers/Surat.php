@@ -114,6 +114,7 @@ class Surat extends Controller
     }
     public function inputSM(Request $request)
     {
+        // dd($request);
         $request->validate([
             'nomorSurat' => 'required',
             'kodeHal' => 'required',
@@ -124,6 +125,12 @@ class Surat extends Controller
             'tujuanSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:2000'
         ]);
+        //validasi nomor surat
+        $result = DB::table('suratmasuk')->where('nomorSurat', $request->input('nomorSurat'))->first();
+        if ($result) {
+            return redirect()->route('suratMasuk')->with('failed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
+        }
+
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratmasuk')->max('nomorAgenda');
         if ($nomorAgenda == null) {
@@ -131,10 +138,13 @@ class Surat extends Controller
         } else {
             $nomorAgenda++;
         }
+
         $userId = Auth::id();
         $file = $request->file('lampiran');
         $fileName = time() . '.' . $file->getClientOriginalName();
         $request->lampiran->move(public_path('uploads'), $fileName);
+
+
         try {
             DB::table('suratmasuk')->insert([
                 'created_by' => $userId,
@@ -142,7 +152,7 @@ class Surat extends Controller
                 'nomorSurat' => $request->input('nomorSurat'),
                 'kodeHal' => $request->input('kodeHal'),
                 'sifatSurat' => $request->input('sifatSurat'),
-                'tanggalPengajuan' => $request->input('tanggalPengajuan'),
+                'tanggalPengajuan' => date('Y-m-d', strtotime($request->input('tanggalPengajuan'))),
                 'asalSurat' => $request->input('asalSurat'),
                 'jumlahLampiran' => $request->input('jumlahLampiran'),
                 'lampiran' => $fileName,
@@ -151,8 +161,9 @@ class Surat extends Controller
                 'updated_at' => now(),
                 'tujuanSurat' => $request->input('tujuanSurat')
             ]);
-            return redirect()->route('suratMasuk')->with('success', 'berhasil menginput data surat masuk');
+            return redirect()->route('suratMasuk')->with('success', 'Data surat masuk berhasil ditambahkan');
         } catch (\Exception $e) {
+            return $e;
             return redirect()->route('suratMasuk')->with('failed', 'gagal menginput data surat masuk' . $e);
         }
     }
@@ -205,9 +216,9 @@ class Surat extends Controller
                 ->where('id', $request->input('idSurat'))  // find your surat by id
                 ->limit(1)  // optional - to ensure only one record is updated.
                 ->update($updatedValue);
-            return redirect()->route('suratMasuk')->with('success', 'berhasil mengubah data surat masuk');
+            return redirect()->route('suratMasuk')->with('success', 'Data surat masuk berhasil diubah');
         } catch (\Exception $e) {
-            return redirect()->route('suratMasuk')->with('failed', 'gagal mengubah data surat masuk' . $e);
+            return redirect()->route('suratMasuk')->with('failed', 'Gagal mengubah data surat masuk' . $e);
         }
     }
     public function editSK(Request $request)
@@ -234,15 +245,15 @@ class Surat extends Controller
                 ->update($updatedValue);
             $jenisSurat = $request->input('jenisSurat');
             if ($jenisSurat == "biasa") {
-                return redirect()->route('suratKeluar')->with('success', 'berhasil mengubah data surat keluar');
+                return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil diubah');
             } else if ($jenisSurat == 'antidatir') {
-                return redirect()->route('suratAntidatir')->with('success', 'berhasil mengubah data surat antidatir');
+                return redirect()->route('suratAntidatir')->with('success', 'Data surat antidatir berhasil diubah');
             }
         } catch (\Exception $e) {
             if ($jenisSurat == "biasa") {
-                return redirect()->route('suratKeluar')->with('failed', 'gagal mengubah data surat keluar' . $e);
+                return redirect()->route('suratKeluar')->with('failed', 'Gagal mengubah data surat keluar' . $e);
             } else if ($jenisSurat == 'antidatir') {
-                return redirect()->route('suratAntidatir')->with('failed', 'gagal mengubah data surat antidatir' . $e);
+                return redirect()->route('suratAntidatir')->with('failed', 'Gagal mengubah data surat antidatir' . $e);
             }
         }
     }

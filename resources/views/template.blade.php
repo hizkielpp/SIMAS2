@@ -18,6 +18,9 @@
     <!-- Template : theme style -->
     <link rel="stylesheet" href="css/adminlte.min.css" />
 
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/beranda-style.css" />
@@ -143,9 +146,6 @@
         </footer>
         {{-- Footer end --}}
     </div>
-
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
 
     <!-- Template : overlayScrollbars -->
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
