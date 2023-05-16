@@ -21,6 +21,10 @@ body {
     width: 60%;
 }
 
+.disposisi__info-body h4 {
+    font-weight: 800;
+}
+
 .disposisi__info .row .checkbox {
     min-width: 20px;
     width: 20px;
@@ -58,13 +62,17 @@ table thead th:nth-child(4) {
 table thead th:last-child {
     width: 5%;
 }
-/* Disposisi : keterangan */
 
+table tbody tr td:nth-child(3) {
+    text-align: center;
+}
+/* Disposisi : keterangan */
 table thead tr th,
 table tbody tr th,
 table tbody tr td {
     height: 28px;
     font-size: 14px;
+    /* padding: 0.25rem !important; */
 }
 
 .disposisi button {
