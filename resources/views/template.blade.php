@@ -31,7 +31,8 @@
     <div class="wrapper">
         {{-- Preloader start --}}
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="img/logo-undip.png" alt="Loading Animation" height="100" width="100" />
+            <img class="animation__wobble" src="img/logo-undip.png" alt="Loading Animation" height="100"
+                width="100" />
         </div>
         {{-- Preloader end --}}
 
@@ -39,27 +40,32 @@
         <nav id="navbar" class="main-header navbar navbar-expand navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item d-flex align-items-center user">
                     <div class="image__user d-flex justify-content-center align-items-center">
-                        <h3 class="text-white fw__med">A</h3>
+                        <h5 class="text-white">A</h5>
                     </div>
                     <div class="dropdown">
-                        <button class="border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             {{ $user->name }} <i class="fa-solid fa-angle-down ms-1"></i>
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="profil-pengguna.html"><i class="fa-solid fa-user me-2"></i>Profile</a>
+                                <a class="dropdown-item" href="profil-pengguna.html"><i
+                                        class="fa-solid fa-user me-2"></i>Profile</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="ubah-password.html"><i class="fa-solid fa-lock me-2"></i>Ubah Password</a>
+                                <a class="dropdown-item" href="ubah-password.html"><i
+                                        class="fa-solid fa-lock me-2"></i>Ubah Password</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Keluar</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"><i
+                                        class="fa-solid fa-arrow-right-from-bracket me-2"></i>Keluar</a>
                             </li>
                         </ul>
                     </div>
@@ -74,13 +80,13 @@
             {{-- Sidebar brand start --}}
             <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center">
                 <div class="d-flex justify-content-center align-items-center mr12">
-                    <h3 class="text-white fw__med">S</h3>
+                    <h3 class="black fw__med">S</h3>
                 </div>
                 <div class="name brand-text">
-                    <h5 class="black fw__ebold mb-1">SIMAS</h5>
-                    <h5 id="brandText" class="black fw__normal">
+                    <h6 class="fw-semibold mb-1">SIMAS</h6>
+                    <h6 id="brandText" class="fw__normal">
                         Sistem Manajemen Surat
-                    </h5>
+                    </h6>
                 </div>
             </a>
             {{-- Sidebar brand end --}}
@@ -88,38 +94,39 @@
             {{-- Sidebar content start --}}
             <div id="sidebarMenu" class="sidebar">
                 <nav class="mt-5">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
                         <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link @yield('db')">
-                                <i class="fa-solid fa-house me-1"></i>
-                                <p class="fw__light">Dashboard</p>
+                                <i class="fa-solid fa-house me-2"></i>
+                                <p class="fw-normal">Dashboard</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('suratMasuk') }}" class="nav-link @yield('sm')">
-                                <i class="fa-solid fa-envelope me-1"></i>
-                                <p class="fw__light">Surat Masuk</p>
+                                <i class="fa-solid fa-envelope me-2"></i>
+                                <p class="fw-normal">Surat Masuk</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('suratKeluar') }}" class="nav-link @yield('sk')">
-                                <i class="fa-solid fa-envelope me-1"></i>
-                                <p class="fw__light">Surat Keluar</p>
+                                <i class="fa-solid fa-envelope me-2"></i>
+                                <p class="fw-normal">Surat Keluar</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('suratAntidatir') }}" class="nav-link @yield('sa')">
-                                <i class="fa-solid fa-envelope me-1"></i>
-                                <p class="fw__light">Surat Antidatir</p>
+                                <i class="fa-solid fa-envelope me-2"></i>
+                                <p class="fw-normal">Surat Antidatir</p>
                             </a>
                         </li>
-                        @if ($user->role==1)
-                        <li class="nav-item">
-                            <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
-                                <i class="fa-solid fa-user-gear me-1"></i>
-                                <p class="fw__light">Kelola Akun</p>
-                            </a>
-                        </li>
+                        @if ($user->role == 1)
+                            <li class="nav-item">
+                                <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
+                                    <i class="fa-solid fa-user-gear me-2"></i>
+                                    <p class="fw-normal">Kelola Akun</p>
+                                </a>
+                            </li>
                         @endif
 
                     </ul>
@@ -138,7 +145,7 @@
 
         {{-- Footer start --}}
         <footer class="main-footer px-4 py-3">
-            <strong>Copyright &copy; 2023. Digital Innovation & Media.</strong>
+            Copyright &copy; 2023. <b> Digital Innovation & Media.</b>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0

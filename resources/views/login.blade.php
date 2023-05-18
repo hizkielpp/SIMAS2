@@ -52,7 +52,7 @@
                     @csrf
                     <div class="mb-3 mt-4">
                         <label for="email" class="form-label">Username</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="email" aria-describedby="emailHelp"
                             name="email" autofocus />
                     </div>
                     <div class="mb-3">

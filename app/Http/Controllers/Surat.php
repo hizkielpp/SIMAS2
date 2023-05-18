@@ -141,7 +141,7 @@ class Surat extends Controller
 
         $userId = Auth::id();
         $file = $request->file('lampiran');
-        $fileName = time() . '.' . $file->getClientOriginalName();
+        $fileName = time();
         $request->lampiran->move(public_path('uploads'), $fileName);
 
 
@@ -209,9 +209,10 @@ class Surat extends Controller
             }
             $updatedValue['lampiran'] = $fileName;
         }
-        // dd($updatedValue);
         $userId = Auth::id();
+        $updatedValue['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
         try {
+
             DB::table('suratmasuk')
                 ->where('id', $request->input('idSurat'))  // find your surat by id
                 ->limit(1)  // optional - to ensure only one record is updated.
@@ -223,6 +224,7 @@ class Surat extends Controller
     }
     public function editSK(Request $request)
     {
+        $jenisSurat = $request->input('jenisSurat');
         $surat = DB::table('suratkeluar')->where('id', $request->input('idSurat'))->first();
         $updatedValue = $request->except(['_token', 'idSurat', 'jenisSurat']);
         // dd($updatedValue);
@@ -236,14 +238,20 @@ class Surat extends Controller
             }
             $updatedValue['lampiran'] = $fileName;
         }
+        if ($request->input('tanggalPengesahanE') == null) {
+            // dd('tidak ada');
+            unset($updatedValue['tanggalPengesahanE']);
+        } else {
+            $updatedValue['tanggalPengesahan'] = $request->input('tanggalPengesahanE');
+            unset($updatedValue['tanggalPengesahanE']);
+            $updatedValue['tanggalPengesahan'] = date('Y-m-d', strtotime($updatedValue['tanggalPengesahan']));
+        }
         $updatedValue['updated_at'] = now();
-        // dd($updatedValue);
         try {
             DB::table('suratkeluar')
                 ->where('id', $request->input('idSurat'))  // find your surat by id
                 ->limit(1)  // optional - to ensure only one record is updated.
                 ->update($updatedValue);
-            $jenisSurat = $request->input('jenisSurat');
             if ($jenisSurat == "biasa") {
                 return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil diubah');
             } else if ($jenisSurat == 'antidatir') {
@@ -261,19 +269,20 @@ class Surat extends Controller
     {
         $user = Auth::user();
         if (isset($_GET['start']) && isset($_GET['end'])) {
-            $start = $_GET['start'];
-            $end = $_GET['end'];
+            $start = strtotime($_GET['start']);
+            $end = strtotime($_GET['end']);
+
             if ($user->role == 2) {
-                $suratMasuk = DB::table('suratmasuk')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->where('created_by', $user->id)->get();
+                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
             } else {
-                $suratMasuk = DB::table('suratmasuk')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->get();
+                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->orderBy('created_at', 'desc')->get();
             }
         } else {
             //jika operator hanya menampilkan data miliknya
             if ($user->role == 2) {
-                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->id)->get();
+                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
             } else {
-                $suratMasuk = DB::table('suratmasuk')->get();
+                $suratMasuk = DB::table('suratmasuk')->orderBy('created_at', 'desc')->get();
             }
         }
         $tujuan = DB::table('tujuan')->get();

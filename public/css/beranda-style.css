@@ -2,38 +2,34 @@
 .dashboard .masuk .icon {
     min-width: 52px;
     height: 52px;
-    background-color: #BFF8D4;
+    background-color: #bff8d4;
     border-radius: 50%;
 }
 
 .dashboard .masuk .icon svg {
-    color: #40A798 ;
+    color: #40a798;
 }
 
 .dashboard .keluar .icon {
     min-width: 52px;
     height: 52px;
-    background-color: #B5D9E7;
+    background-color: #b5d9e7;
     border-radius: 50%;
 }
 
 .dashboard .keluar .icon svg {
-    color: #2F5596;
+    color: #2f5596;
 }
 
 .dashboard .antidatir .icon {
     min-width: 52px;
     height: 52px;
-    background-color: #FFEBBC;
+    background-color: #ffebbc;
     border-radius: 50%;
 }
 
 .dashboard .antidatir .icon svg {
-    color: #FFA323;
-}
-
-.dashboard .text {
-    margin-left: .75rem;
+    color: #ffa323;
 }
 
 .dashboard .card.surat {

@@ -309,9 +309,10 @@
                             <form id="formEdit" method="POST" enctype="multipart/form-data"
                                 action="{{ route('editSK') }}">
                                 @csrf
+                                <input type="text" name="jenisSurat" value="antidatir"hidden>
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
-                                        <input type="text"name="jenisSurat" hidden>
+                                        <input type="text"name="jenisSurat" value="antidatir" hidden>
                                         <input type="text" name="idSurat" hidden>
                                         <div class="mb-3">
                                             <label for="kodeUnitE" class="form-label black fw-semibold">Kode Unit

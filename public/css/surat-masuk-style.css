@@ -1,43 +1,44 @@
 /* Datepicker start */
 #datepickerStart,
 #datepickerEnd {
-  width: 120px;
-  padding: 0.5rem 1rem;
-  border-radius: 100px;
-  color: var(--black);
+    width: 120px;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    color: var(--black);
 }
 
 #datepickerStart:visited,
 #datepickerEnd:visited {
-  border-color: var(--blue) !important;
+    border-color: var(--blue) !important;
 }
 /* Datepicker start */
 
 /* Datatable filter start */
 #mytable_filter input {
-  border-radius: 20px;
-  padding: 1.25rem 1rem;
-  font-size: 16px;
-  border-color: var(--grey);
-  color: var(--black);
-  width: 174px;
+    height: 40px;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+    font-size: 16px;
+    border-color: var(--grey);
+    color: var(--black);
+    width: 170px;
 }
 
 #mytable_filter input:focus {
-  border-color: var(--blue);
+    border-color: var(--blue);
 }
 /* Datatable filter end */
 
 /* Button export start */
 .mybtn.export {
-  background-color: #40a798;
-  color: white;
+    background-color: #40a798;
+    color: white;
 }
 .mybtn.export:hover {
-  background-color: hsl(171, 44%, 45%);
+    background-color: hsl(171, 44%, 45%);
 }
 /* Button export end */
 
 .tes .dt-buttons button {
-  border: none;
+    border: none;
 }

@@ -17,10 +17,10 @@ class CheckAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check()){
+
+        if (Auth::check()) {
             return $next($request);
         }
-        return redirect()->route('login')->with('failed','Silahkan login terlebih dahulu');
-        
+        return redirect()->route('login')->with('failed', 'Silahkan login terlebih dahulu');
     }
 }

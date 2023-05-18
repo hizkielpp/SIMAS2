@@ -66,7 +66,6 @@ class AuthController extends Controller
             'name' => 'required',
             'role' => 'required'
         ]);
-        $users = DB::table('users')->where('id', $request->input('idAkun'))->first();
         if ($request->input('password') == null) {
             $updatedValue = $request->except(['_token', 'idAkun', 'password']);
         } else {
@@ -92,8 +91,16 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
+        // $password = Hash::make($request->input('password'));
+        // $login = DB::table('users')->where('NIP', $request->input('email'))->orWhere('email', $request->input('email'))->where('password', $password)->first();
+        // if ($login) {
+        //     // dd('success');
+        //     $request->session()->put('user', $login);
+        // }
+        $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
+        $request->only('email', 'password');
+        $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
+        if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
             return redirect()->route('dashboard')->with('success', 'Signed in');
         }
         return redirect('login')->with('Login details are not valid');

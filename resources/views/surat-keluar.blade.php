@@ -82,6 +82,17 @@
         });
     </script>
 
+    {{-- Set attribut modal lampiran --}}
+    <script>
+        function showLampiran(id) {
+            $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
+        }
+
+        function showDate(val) {
+            console.log(val)
+        }
+    </script>
+
     <!-- Bootstrap data tables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
@@ -106,6 +117,25 @@
             </a>
         </div>
         <div class="card p-4 mt-3">
+
+            <!-- Modal lampiran surat start -->
+            <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl h-100">
+                    <div class="modal-content modal-xl h-100">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="lampiranLabel">Lampiran Surat</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe src="" id="iframeLampiran" frameborder="0" style="width:100%;"
+                                class="h-100"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal lampiran surat end -->
+
             <!-- Modal edit start -->
             <div class="modal modal__section fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -123,7 +153,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
-                                        <input type="text"name="jenisSurat" hidden>
+                                        <input type="text"name="jenisSurat" value="biasa" hidden>
                                         <input type="text" name="idSurat" hidden>
                                         <div class="mb-3">
                                             <label for="kodeUnitE" class="form-label black fw-semibold">Kode Unit
@@ -202,7 +232,7 @@
                                             <div class="position-relative input__tanggal__form">
                                                 <input type="text" id="datepickerEdit" identifier="date"
                                                     placeholder="..." name="tanggalPengesahanE" aria-placeholder="coba"
-                                                    class="form-control" required>
+                                                    onchange="showDate(this.value)" class="form-control" required>
                                                 <i class="fa-solid fa-calendar-days position-absolute"></i>
                                             </div>
                                         </div>
@@ -468,9 +498,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button type="button" class="mybtn light" data-bs-toggle="modal"
+                                            data-bs-target="#lampiran" onclick="showLampiran('{{ $v->lampiran }}')">
+                                            Lihat lampiran
+                                        </button>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
-                                            class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
+                                            class="myicon blue d-flex align-items-center justify-content-center passId"
                                             data-id="{{ $v->id }}">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </button>
@@ -742,7 +776,17 @@
                         console.log(data)
                         $('input[name="jenisSurat"]').val('biasa')
                         $("#tujuanSuratE").val(data.tujuanSurat)
-                        $('#tanggalPengesahanE').val(data.tanggalPengesahan)
+                        tanggal = new Date(data.tanggalPengesahan)
+                        y = tanggal.getFullYear()
+                        m = parseInt(tanggal.getMonth()) + 1
+                        d = tanggal.getDate()
+                        console.log(`0${m}/${d}/${y}`)
+                        // Ganti tahun
+                        $("#datepickerEdit").datepicker(
+                            'setDate',
+                            `0${m}/${d}/${y}`);
+                        // console.log(data.tanggalPengesahan)
+                        $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
                         $('#tujuanSuratE').attr('value', data.tujuanSurat)
                         $('#perihalE').val(data.perihal)
                         $("#kodeHalE").val(data.kodeHal)
