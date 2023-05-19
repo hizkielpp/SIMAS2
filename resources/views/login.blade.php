@@ -22,8 +22,9 @@
         {{-- Hero start --}}
         <div class="image d-none flex-column justify-content-center align-items-center">
             <img src="img/login-image-3x.png" alt="Gambar Login" />
-            <h3 class="blue fw__bold">Sistem Manajemen Surat (SIMAS)</h3>
-            <h4 class="blue fw__normal text-center mt-2">Aplikasi Pengelola Surat Masuk dan Keluar Fakultas Kedokteran
+            <h3 class="fw__bold" style="color: #2F5596">Sistem Manajemen Surat (SIMAS)</h3>
+            <h4 class="fw__normal text-center mt-2" style="color: #2F5596">Aplikasi Pengelola Surat Masuk dan Keluar
+                Fakultas Kedokteran
             </h4>
         </div>
         {{-- Hero end --}}
@@ -43,8 +44,8 @@
 
                 {{-- Main section start --}}
                 <div class="title mb-5">
-                    <h1 class="text-white fw__bold mb-3">Selamat Datang!</h1>
-                    <h3 class="text-white fw__light">
+                    <h1 class="text-white fw-semibold mb-3">Selamat Datang!</h1>
+                    <h3 class="text-white fw-normal">
                         Silahkan masuk dengan akun sesuai prodi masing -masing
                     </h3>
                 </div>

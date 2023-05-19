@@ -171,6 +171,30 @@ p {
     border-color: var(--blue);
 }
 
+.myicon:hover .mytooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.mytooltip {
+    bottom: 110%;
+    background-color: var(--black);
+    font-size: 14px;
+    border-radius: 0.25rem;
+    visibility: hidden;
+    opacity: 0;
+}
+
+#arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    top: 100%;
+    right: 50%;
+    transform: translate(50%, -50%) rotate(45deg);
+}
+
 .myicon.green {
     background-color: #34c38f;
     color: white;
@@ -571,11 +595,11 @@ p {
 #registrasiSuratKeluar .input button {
     padding: 6px;
     min-height: 38px;
-    background-color: var(--blue);
+    background-color: var(--black);
     color: white;
-    border-radius: 8px;
+    border-radius: 0.25rem;
     font-size: 14px;
-    border: 1px solid var(--blue);
+    border: 1px solid var(--black-light);
     display: block;
     width: 40%;
 }

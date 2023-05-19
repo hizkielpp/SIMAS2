@@ -91,7 +91,7 @@
 @section('content')
     <section class="surat__masuk content">
         <div class="card p-4 mb-md-0 keterangan">
-            <h4 class="fw__bold black mb-3">Keterangan</h4>
+            <h4 class="fw-semibold black mb-2">Keterangan</h4>
             <h5 class="fw__normal black__light mb-3">
                 Surat masuk wajib dilakukan registrasi. Registrasi surat dilakukan
                 dengan sistem dalam melakukan kearsipan surat. Operator dapat
@@ -138,7 +138,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
-                            <h4 class="modal-title fw__bold black" id="exampleModalLabel">
+                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
                                 Form Registrasi Surat Antidatir
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -150,7 +150,7 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <div class="mb-3">
-                                            <label for="nomorSurat" class="form-label black fw-semibold">Nomor Surat</label>
+                                            <label for="nomorSurat" class="form-label black fw-normal">Nomor Surat</label>
                                             <div class="input d-flex align-items-center">
                                                 <input type="text" readonly class="form-control"
                                                     placeholder="Masukkan nomor surat" id="nomorSurat" name="nomorSurat"
@@ -164,7 +164,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="kodeUnit" class="form-label black fw-semibold">Kode Unit
+                                            <label for="kodeUnit" class="form-label black fw-normal">Kode Unit
                                                 Surat</label>
                                             <select id="kodeUnit" name="kodeUnit" class="form-select"
                                                 aria-label="Default select example" required>
@@ -180,7 +180,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="kodeHal" class="form-label black fw-semibold">Kode Hal</label>
+                                            <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
                                             <select id="kodeHal" name="kodeHal" class="form-select"
                                                 aria-label="Default select example" required>
                                                 <option selected disabled value="">-- Pilih salah satu --</option>
@@ -195,7 +195,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="tujuanSurat" class="form-label black fw-semibold">Tujuan
+                                            <label for="tujuanSurat" class="form-label black fw-normal">Tujuan
                                                 Surat</label>
                                             <input type="text" class="form-control"
                                                 placeholder="Masukkan tujuan surat" id="tujuanSurat" name="tujuanSurat"
@@ -205,7 +205,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="jumlahLampiran" class="form-label black fw-semibold">Jumlah
+                                            <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
                                                 Lampiran</label>
                                             <input type="number" class="form-control"
                                                 placeholder="Masukkan tujuan surat" id="jumlahLampiran"
@@ -215,7 +215,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="sifatSurat" class="form-label black fw-semibold">Sifat</label>
+                                            <label for="sifatSurat" class="form-label black fw-normal">Sifat</label>
                                             <select id="sifatSurat" name="sifatSurat" class="form-select"
                                                 aria-label="Default select example" required>
                                                 <option selected disabled value="">-- Pilih salah satu --</option>
@@ -230,7 +230,7 @@
                                     </div>
                                     <div class="col-lg-6 col-12">
                                         <div class="mb-3">
-                                            <label for="disahkanOleh" class="form-label black fw-semibold">Disahkan
+                                            <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
                                                 Oleh</label>
                                             <select id="disahkanOleh" name="disahkanOleh" class="form-select"
                                                 aria-label="Default select example" required>
@@ -244,7 +244,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="tanggalPengesahan" class="form-label black fw-semibold">Tanggal
+                                            <label for="tanggalPengesahan" class="form-label black fw-normal">Tanggal
                                                 Disahkan</label>
                                             {{-- <duet-date-picker id="date" name="tanggalPengesahan" identifier="date">
                                             </duet-date-picker> --}}
@@ -259,7 +259,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="lampiran" class="form-label black fw-semibold">Upload
+                                            <label for="lampiran" class="form-label black fw-normal">Upload
                                                 Lampiran</label>
                                             <input type="file" class="form-control" id="lampiran" name="lampiran"
                                                 aria-describedby="emailHelp" required />
@@ -269,7 +269,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleFormControlTextarea1"
-                                                class="form-label black fw-semibold">Perihal</label>
+                                                class="form-label black fw-normal">Perihal</label>
                                             <textarea name="perihal" class="form-control perihal" id="exampleFormControlTextarea1" rows="8"
                                                 placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
                                             <div class="invalid-feedback">
@@ -431,6 +431,7 @@
                         <tr>
                             <th class="no">No</th>
                             <th>Asal Surat / No. Surat</th>
+                            <th>Tanggal Pengajuan</th>
                             <th>Perihal</th>
                             <th>Penerima</th>
                             <th>Sifat</th>
@@ -449,6 +450,7 @@
                                         class="date d-inline-block mt-1">{{ date('d M Y h:i', strtotime($v->created_at)) }}
                                         WIB</span>
                                 </td>
+                                <td>Tes</td>
                                 <td>{{ $v->perihal }}</td>
                                 <td>{{ $v->tujuanSurat }}</td>
                                 <td>
@@ -473,14 +475,26 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
-                                            class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
+                                            class="myicon position-relative blue d-flex align-items-center justify-content-center me-2 passId"
                                             data-id="{{ $v->id }}">
                                             <i class="fa-regular fa-pen-to-square"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Edit
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </button>
                                         <button type="button"
-                                            class="myicon red d-flex align-items-center justify-content-center"
+                                            class="myicon position-relative red d-flex align-items-center justify-content-center"
                                             onclick="confirmHapus('{{ $v->id }}')">
                                             <i class="fa-solid fa-trash"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Hapus
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </button>
                                     </div>
                                 </td>
@@ -755,6 +769,10 @@
                         target: "",
                     },
                 },
+                columnDefs: [{
+                    orderable: false,
+                    targets: [0, 1, 2, 3, 4, 5, 6]
+                }],
                 // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
                 // dom: '<"table-responsive"tpf>',
                 dom: '<"d-flex justify-content-between align-item-center gap-3 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
@@ -774,9 +792,7 @@
                     }
                 ],
                 destroy: true,
-                order: [
-                    [0, "asc"]
-                ],
+                order: false,
                 language: {
                     lengthMenu: "Tampilkan _MENU_",
                     zeroRecords: "Anda belum mengupload laporan kegiatan. <br>Silahkan upload laporan kegiatan terlebih dahulu.",
@@ -797,8 +813,8 @@
                     },
                 },
                 lengthMenu: [
-                    [5, 10, 20, -1],
-                    [5, 10, 20, "All"],
+                    [10, 20, -1],
+                    [10, 20, "All"],
                 ],
             });
         });

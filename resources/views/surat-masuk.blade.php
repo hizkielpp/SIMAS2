@@ -115,7 +115,7 @@
         {{-- Keterangan start --}}
         <div class="card p-4 mb-md-0 keterangan">
             <h5 class="fw-semibold black mb-2">Keterangan</h5>
-            <h5 class="fw-normal black mb-3">
+            <h5 class="fw-normal black__light mb-3">
                 Surat masuk wajib dilakukan registrasi. Registrasi surat dilakukan
                 dengan sistem dalam melakukan kearsipan surat. Operator dapat
                 melakukan registrasi surat masuk dan penerusan ke pimpinan agar
@@ -504,20 +504,38 @@
                                             Lihat lampiran
                                         </button>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
-                                            class="myicon blue d-flex align-items-center justify-content-center passId"
+                                            class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
                                             data-id="{{ $v->id }}">
                                             <i class="fa-regular fa-pen-to-square"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Edit
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </button>
                                         <button type="button"
-                                            class="myicon red d-flex align-items-center justify-content-center"
+                                            class="myicon position-relative red d-flex align-items-center justify-content-center"
                                             onclick="confirmHapus('{{ $v->id }}')">
                                             <i class="fa-solid fa-trash"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Hapus
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </button>
                                         <a data-id="{{ $v->id }}" data-bs-toggle="modal"
                                             data-bs-target="#disposisi"
-                                            class="test myicon green d-flex align-items-center justify-content-center"
+                                            class="test myicon position-relative green d-flex align-items-center justify-content-center"
                                             onclick="showDisposisi('{{ $v->id }}')">
                                             <i class="fa-solid fa-file-export"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Disposisi
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </a>
                                         <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
                                     </div>
@@ -838,8 +856,8 @@
                     },
                 },
                 lengthMenu: [
-                    [5, 10, 20, -1],
-                    [5, 10, 20, "All"],
+                    [10, 20, -1],
+                    [10, 20, "All"],
                 ],
             });
         });
