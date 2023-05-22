@@ -142,7 +142,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
-                            <h4 class="modal-title fw__bold black" id="exampleModalLabel">
+                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
                                 Form Edit Surat Keluar
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -156,7 +156,7 @@
                                         <input type="text"name="jenisSurat" value="biasa" hidden>
                                         <input type="text" name="idSurat" hidden>
                                         <div class="mb-3">
-                                            <label for="kodeUnitE" class="form-label black fw-semibold">Kode Unit
+                                            <label for="kodeUnitE" class="form-label black fw-normal">Kode Unit
                                                 Surat</label>
                                             <select class="form-select" aria-label="Default select example" id="kodeUnitE"
                                                 name="kodeUnit">
@@ -171,7 +171,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="kodeHalE" class="form-label black fw-semibold">Kode Hal</label>
+                                            <label for="kodeHalE" class="form-label black fw-normal">Kode Hal</label>
                                             <select class="form-select" aria-label="Default select example" id="kodeHalE"
                                                 name="kodeHal">
                                                 <option value="" selected>
@@ -185,13 +185,13 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="tujuanSuratE" class="form-label black fw-semibold">Tujuan
+                                            <label for="tujuanSuratE" class="form-label black fw-normal">Tujuan
                                                 Surat</label>
                                             <input type="text" class="form-control" placeholder="Masukkan nomor surat"
                                                 id="tujuanSuratE" name="tujuanSurat" aria-describedby="emailHelp" />
                                         </div>
                                         <div class="mb-3">
-                                            <label for="sifatSuratE" class="form-label black fw-semibold">Sifat</label>
+                                            <label for="sifatSuratE" class="form-label black fw-normal">Sifat</label>
                                             <select id="sifatSuratE" name="sifatSurat" class="form-select"
                                                 aria-label="Default select example">
                                                 <option value="" selected>
@@ -203,16 +203,16 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="jumlahLampiranE" class="form-label black fw-semibold">Jumlah
+                                            <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
                                                 Lampiran</label>
                                             <input type="number" class="form-control"
                                                 placeholder="Masukkan jumlah lampiran" id="jumlahLampiranE"
-                                                name="jumlahLampiran" aria-describedby="emailHelp" />
+                                                name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-12">
                                         <div class="mb-3">
-                                            <label for="disahkanOlehE" class="form-label black fw-semibold">Disahkan
+                                            <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                                 Oleh</label>
                                             <select id="disahkanOlehE" name="disahkanOleh" class="form-select"
                                                 aria-label="Default select example">
@@ -225,7 +225,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="tanggalPengesahanE" class="form-label black fw-semibold">Tanggal
+                                            <label for="tanggalPengesahanE" class="form-label black fw-normal">Tanggal
                                                 Disahkan</label>
                                             {{-- <duet-date-picker id="tanggalPengesahanE" identifier="date"
                                                 name="tanggalPengesahan"></duet-date-picker> --}}
@@ -237,13 +237,13 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label black fw-semibold">Upload Lampiran</label>
+                                            <label class="form-label black fw-normal">Upload Lampiran</label>
                                             <input type="file" class="form-control" name="lampiran"
-                                                aria-describedby="emailHelp" />
+                                                aria-describedby="emailHelp" accept=".pdf" />
                                             <span>Nama file lampiran : </span><span id="lampiranE"></span>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="perihalE" class="form-label black fw-semibold">Perihal</label>
+                                            <label for="perihalE" class="form-label black fw-normal">Perihal</label>
                                             <textarea class="form-control perihal" id="perihalE" name="perihal" rows="2"
                                                 placeholder="Contoh : Permohonan perijinan penelitian"></textarea>
                                         </div>
@@ -342,8 +342,8 @@
                                             <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
                                                 Lampiran</label>
                                             <input type="number" class="form-control" placeholder="Contoh : 1"
-                                                id="jumlahLampiran" name="jumlahLampiran" aria-describedby="emailHelp"
-                                                required />
+                                                id="jumlahLampiran" name="jumlahLampiran" min="0"
+                                                aria-describedby="emailHelp" required />
                                             <div class="invalid-feedback">
                                                 Mohon masukkan jumlah lampiran surat dengan benar.
                                             </div>
@@ -394,7 +394,7 @@
                                             <label for="lampiran" class="form-label black fw-normal">Upload
                                                 Lampiran</label>
                                             <input type="file" class="form-control" id="lampiran" name="lampiran"
-                                                aria-describedby="emailHelp" required />
+                                                aria-describedby="emailHelp" accept=".pdf" required />
                                             <div class="invalid-feedback">
                                                 Mohon masukkan lampiran dengan benar.
                                             </div>

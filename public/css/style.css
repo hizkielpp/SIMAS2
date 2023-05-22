@@ -481,25 +481,26 @@ p {
 }
 
 /* Form */
+.form-control,
+.form-select,
 #myform input,
 #myform select,
 #myform textarea {
-    font-weight: 300;
-    color: var(--black);
-    border-color: var(--grey);
+    font-weight: 400 !important;
+    color: var(--black-light) !important;
+    border-color: var(--grey) !important;
 }
 
-#myform input:focus,
-#myform textarea:focus {
-    color: var(--black);
-}
-
+.form-select:focus,
+.form-control:focus,
 #myform select:focus,
 #myform input:focus,
 #myform textarea:focus {
-    outline: var(--light) solid 2px;
-    box-shadow: none;
-    border-color: var(--blue);
+    font-weight: 400 !important;
+    color: var(--black) !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: var(--blue) !important;
 }
 
 #mydate input,
@@ -522,21 +523,6 @@ p {
 #mydateKeluar button:focus {
     border: none;
     box-shadow: none;
-}
-
-.duet-date__input {
-    border: 1px solid var(--grey);
-    padding: 6px 12px;
-    min-height: 38px;
-}
-
-#mydate .duet-date__dialog {
-    bottom: 0;
-    top: unset;
-}
-
-#lampiran {
-    z-index: 9999;
 }
 
 #mydateKeluar .duet-date__dialog {

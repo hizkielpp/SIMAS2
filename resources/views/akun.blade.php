@@ -17,7 +17,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
-                            <h4 class="modal-title fw__bold black" id="exampleModalLabel">
+                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
                                 Form Registrasi Akun
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -29,7 +29,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="role" class="form-label black fw-semibold">Peran</label>
+                                            <label for="role" class="form-label black fw-normal">Peran</label>
                                             <select id="role" name="role" class="form-select"
                                                 aria-label="Default select example" required>
                                                 <option selected disabled value="">...</option>
@@ -42,7 +42,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="name" class="form-label black fw-semibold">Nama</label>
+                                            <label for="name" class="form-label black fw-normal">Nama</label>
                                             <input type="text" class="form-control" placeholder="Masukkan nama akun"
                                                 id="name" name="name" required />
                                             <div class="invalid-feedback">
@@ -50,7 +50,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="email" class="form-label black fw-semibold">Email</label>
+                                            <label for="email" class="form-label black fw-normal">Email</label>
                                             <input type="text" class="form-control" placeholder="Masukkan email akun"
                                                 id="email" name="email" required />
                                             <div class="invalid-feedback">
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label black fw-semibold">Password</label>
+                                            <label for="password" class="form-label black fw-normal">Password</label>
                                             <div class="d-flex">
                                                 <input type="password" class="form-control"
                                                     placeholder="Masukkan password akun" id="password" name="password"
@@ -150,7 +150,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
-                            <h4 class="modal-title fw__bold black" id="exampleModalLabel">
+                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
                                 Form Edit Akun
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -164,7 +164,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <input type="text" name="idAkun" hidden>
-                                            <label for="role" class="form-label black fw-semibold">Role</label>
+                                            <label for="role" class="form-label black fw-normal">Role</label>
                                             <select id="roleE" name="role" class="form-select"
                                                 aria-label="Default select example">
                                                 <option selected>-- Pilih salah satu --</option>
@@ -174,12 +174,12 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="name" class="form-label black fw-semibold">Name</label>
+                                            <label for="name" class="form-label black fw-normal">Name</label>
                                             <input type="text" class="form-control" placeholder="Masukkan nama akun"
                                                 id="nameE" name="name" />
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label black fw-semibold">Password</label>
+                                            <label for="password" class="form-label black fw-normal">Password</label>
                                             <div class="d-flex">
                                                 <input type="password" class="form-control"
                                                     placeholder="Masukkan password akun" id="passwordE" name="password"
@@ -189,7 +189,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label black fw-semibold">Password
+                                            <label for="password" class="form-label black fw-normal">Password
                                                 Confirmation</label>
                                             <div class="d-flex">
                                                 <input type="password" class="form-control"
@@ -521,8 +521,8 @@
                     },
                 },
                 lengthMenu: [
-                    [5, 10, 20, -1],
-                    [5, 10, 20, "All"],
+                    [10, 20, -1],
+                    [10, 20, "All"],
                 ],
             });
         });
