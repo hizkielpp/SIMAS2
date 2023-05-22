@@ -162,7 +162,7 @@
                 <div class="modal-dialog modal-xl h-100">
                     <div class="modal-content modal-xl h-100">
                         <div class="modal-header">
-                            <h1 class="modal-title" id="lampiranLabel">Lampiran Surat</h1>
+                            <h4 class="modal-title fw-semibold black" id="lampiranLabel">Lampiran Surat</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -197,7 +197,7 @@
                                                 placeholder="Contoh : 4/UN7.F4/2015/X" id="noSurat" name="nomorSurat"
                                                 aria-describedby="emailHelp" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan nomor surat dengan benar.
+                                                Masukkan nomor surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -210,7 +210,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan penerima surat dengan benar.
+                                                Masukkan penerima surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -223,7 +223,7 @@
                                                 <i class="fa-solid fa-calendar-days position-absolute"></i>
                                             </div>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan tanggal pengajuan dengan benar.
+                                                Masukkan tanggal pengajuan dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -232,7 +232,7 @@
                                                 placeholder="Contoh : Ketua Departemen Kedokteran"
                                                 aria-describedby="emailHelp" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan asal surat dengan benar.
+                                                Masukkan asal surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -247,7 +247,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan kode hal surat dengan benar.
+                                                Masukkan kode hal surat dengan benar.
                                             </div>
                                         </div>
                                     </div>
@@ -262,7 +262,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan sifat surat dengan benar.
+                                                Masukkan sifat surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -280,7 +280,7 @@
                                             <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4"
                                                 placeholder="Contoh : Permohonan perijinan penelitian" name="perihal" required></textarea>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan perihal surat dengan benar.
+                                                Masukkan perihal surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -289,7 +289,7 @@
                                             <input type="number" class="form-control" placeholder="Contoh : 1"
                                                 id="jumlahLampiran" name="jumlahLampiran" min="0" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan jumlah lampiran surat dengan benar.
+                                                Masukkan jumlah lampiran surat dengan benar.
                                             </div>
                                         </div>
                                     </div>
@@ -857,7 +857,7 @@
                 },
                 lengthMenu: [
                     [10, 20, -1],
-                    [10, 20, "All"],
+                    [10, 20, "Semua"],
                 ],
             });
         });

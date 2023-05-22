@@ -20,7 +20,7 @@
 <body>
     <div class="login">
         {{-- Hero start --}}
-        <div class="image d-none flex-column justify-content-center align-items-center">
+        <div class="image flex-column justify-content-center align-items-center">
             <img src="img/login-image-3x.png" alt="Gambar Login" />
             <h3 class="fw__bold" style="color: #2F5596">Sistem Manajemen Surat (SIMAS)</h3>
             <h4 class="fw__normal text-center mt-2" style="color: #2F5596">Aplikasi Pengelola Surat Masuk dan Keluar
@@ -49,7 +49,7 @@
                         Silahkan masuk dengan akun sesuai prodi masing -masing
                     </h3>
                 </div>
-                <form method="POST" action="{{ route('login.custom') }}">
+                <form method="POST" action="{{ route('login.custom') }}" class="myform">
                     @csrf
                     <div class="mb-3 mt-4">
                         <label for="email" class="form-label">Username</label>
@@ -63,7 +63,7 @@
                             <i class="fa-solid fa-eye position-absolute" onclick="showPass()" id="passIcon"></i>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn__blue w-100 fw__bold mt-4">
+                    <button type="submit" class="btn btn__blue w-100 black fw-semibold mt-4">
                         Masuk
                     </button>
                 </form>
@@ -86,10 +86,10 @@
             var icon = document.getElementById("passIcon");
             if (input.type === "password") {
                 input.type = "text";
-                icon.style.color = "#000";
+                icon.style.color = "#fff";
             } else {
                 input.type = "password";
-                icon.style.color = "#fff";
+                icon.style.color = "#000";
             }
         }
     </script>

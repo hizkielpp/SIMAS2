@@ -90,8 +90,14 @@
 @endsection
 @section('content')
     <section class="surat__masuk content">
+        {{-- Navigation start --}}
+        <div class="navigation__content mb-4">
+            <h5 class="fw__semi black">SURAT ANTIDATIR</h5>
+        </div>
+        {{-- Navigation end --}}
+
         <div class="card p-4 mb-md-0 keterangan">
-            <h4 class="fw-semibold black mb-2">Keterangan</h4>
+            <h5 class="fw-semibold black mb-2">Keterangan</h5>
             <h5 class="fw__normal black__light mb-3">
                 Surat masuk wajib dilakukan registrasi. Registrasi surat dilakukan
                 dengan sistem dalam melakukan kearsipan surat. Operator dapat
@@ -111,7 +117,7 @@
 
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-                <h4 class="fw__bold black">Daftar Surat Antidatir</h4>
+                <h4 class="fw-semibold black">Daftar Surat Antidatir</h4>
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <p class="">Rentang Tanggal :</p>
                     <div class="input__tanggal position-relative">
@@ -152,8 +158,8 @@
                                         <div class="mb-3">
                                             <label for="nomorSurat" class="form-label black fw-normal">Nomor Surat</label>
                                             <div class="input d-flex align-items-center">
-                                                <input type="text" readonly class="form-control"
-                                                    placeholder="Masukkan nomor surat" id="nomorSurat" name="nomorSurat"
+                                                <input type="text" readonly class="form-control input__nomor"
+                                                    placeholder="..." id="nomorSurat" name="nomorSurat"
                                                     aria-describedby="emailHelp" required />
                                                 <button type="button" class="ms-2" onclick="ambilNomor()">
                                                     Ambil Nomor
@@ -650,7 +656,8 @@
             if (dateNow == "") {
                 Swal.fire({
                     confirmButtonColor: "#2F5596",
-                    text: "Silahkan isi tanggal disahkan terlebih dahulu!"
+                    text: "Silahkan isi tanggal disahkan terlebih dahulu!",
+                    icon: 'warning'
                 });
                 new Audio("audio/error-edited.mp3").play();
 
@@ -816,14 +823,14 @@
                 },
                 lengthMenu: [
                     [10, 20, -1],
-                    [10, 20, "All"],
+                    [10, 20, "Semua"],
                 ],
             });
         });
     </script>
 
     {{-- Add keterangan button export start --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             var btn = document.querySelector(".dt-buttons")
             var descText = document.createElement('h5')
@@ -832,7 +839,7 @@
             btn.insertBefore(descText, btn[0]);
 
         })
-    </script>
+    </script> --}}
     {{-- Add keterangan button export end --}}
 
     {{-- set value of duet date picker --}}

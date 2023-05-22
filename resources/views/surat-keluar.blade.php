@@ -101,8 +101,14 @@
 @endsection
 @section('content')
     <section class="surat__masuk content">
+        {{-- Navigation start --}}
+        <div class="navigation__content mb-4">
+            <h5 class="fw__semi black">SURAT KELUAR</h5>
+        </div>
+        {{-- Navigation end --}}
+
         <div class="card p-4 mb-md-0 keterangan">
-            <h4 class="fw-semibold black mb-2">Keterangan</h4>
+            <h5 class="fw-semibold black mb-2">Keterangan</h5>
             <h5 class="fw__normal black__light mb-3">
                 Surat masuk wajib dilakukan registrasi. Registrasi surat dilakukan
                 dengan sistem dalam melakukan kearsipan surat. Operator dapat
@@ -294,7 +300,7 @@
                                                 </button>
                                             </div>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan nomor surat dengan benar.
+                                                Masukkan nomor surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -310,7 +316,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan kode unit surat dengan benar.
+                                                Masukkan kode unit surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -325,7 +331,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan kode hal surat dengan benar.
+                                                Masukkan kode hal surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -335,7 +341,7 @@
                                                 placeholder="Contoh : Fakultas Kedokteran" id="tujuanSurat"
                                                 name="tujuanSurat" aria-describedby="emailHelp" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan tujuan surat dengan benar.
+                                                Masukkan tujuan surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -345,7 +351,7 @@
                                                 id="jumlahLampiran" name="jumlahLampiran" min="0"
                                                 aria-describedby="emailHelp" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan jumlah lampiran surat dengan benar.
+                                                Masukkan jumlah lampiran surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -358,7 +364,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan sifat surat dengan benar.
+                                                Masukkan sifat surat dengan benar.
                                             </div>
                                         </div>
                                     </div>
@@ -374,7 +380,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan unit dengan benar.
+                                                Masukkan unit dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -387,7 +393,7 @@
                                                 <i class="fa-solid fa-calendar-days position-absolute"></i>
                                             </div>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan tanggal pengesahan surat dengan benar.
+                                                Masukkan tanggal pengesahan surat dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -396,7 +402,7 @@
                                             <input type="file" class="form-control" id="lampiran" name="lampiran"
                                                 aria-describedby="emailHelp" accept=".pdf" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan lampiran dengan benar.
+                                                Masukkan lampiran dengan benar.
                                             </div>
                                         </div>
 
@@ -406,7 +412,7 @@
                                             <textarea name="perihal" class="form-control perihal" id="exampleFormControlTextarea1" rows="8"
                                                 placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan perihal surat dengan benar.
+                                                Masukkan perihal surat dengan benar.
                                             </div>
                                         </div>
 
@@ -429,7 +435,7 @@
 
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-                <h4 class="fw__bold black">Daftar Surat Keluar</h4>
+                <h4 class="fw-semibold black">Daftar Surat Keluar</h4>
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <p class="">Rentang Tanggal :</p>
                     <div class="input__tanggal position-relative">
@@ -906,14 +912,14 @@
                 },
                 lengthMenu: [
                     [10, 20, -1],
-                    [10, 20, "All"],
+                    [10, 20, "Semua"],
                 ],
             });
         });
     </script>
 
     {{-- Add keterangan button export start --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             var btn = document.querySelector(".dt-buttons")
             var descText = document.createElement('h5')
@@ -922,7 +928,7 @@
             btn.insertBefore(descText, btn[0]);
 
         })
-    </script>
+    </script> --}}
     {{-- Add keterangan button export end --}}
 
     <script>

@@ -111,7 +111,7 @@ p {
     display: block;
     cursor: pointer;
     width: fit-content;
-    border: none;
+    border: 1px solid;
     font-size: 14px;
     border: 1px solid;
     transition: 0.2s;
@@ -120,6 +120,7 @@ p {
 .mybtn.blue {
     background-color: var(--blue);
     color: white;
+    border-color: var(--blue);
 }
 
 .mybtn.blue:hover {
@@ -290,10 +291,6 @@ p {
     min-width: 200px;
 }
 
-/* #mytable thead th:nth-child(3) {
-    min-width: 160px;
-} */
-
 #mytable thead th:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
@@ -313,15 +310,6 @@ p {
     width: 16px !important;
     text-align: center;
 }
-
-/* #mytable tbody tr:hover td {
-    background-color: #f8f9fa !important;
-} */
-/* #mytable tr {
-    border-width: 0 !important;
-    border-style: solid;
-    border-color: var(--grey);
-} */
 
 #mytable ul {
     padding: 0;
@@ -412,6 +400,11 @@ p {
     font-weight: 300;
 }
 
+#mytable_length select {
+    width: 80px;
+    padding: 0.25rem 0.5rem !important;
+    height: unset;
+}
 #mytable_length select:focus {
     box-shadow: none;
     border-color: var(--blue);
@@ -483,24 +476,41 @@ p {
 /* Form */
 .form-control,
 .form-select,
-#myform input,
-#myform select,
-#myform textarea {
-    font-weight: 400 !important;
-    color: var(--black-light) !important;
-    border-color: var(--grey) !important;
+.myform input,
+.myform select,
+.myform textarea {
+    font-weight: 400;
+    color: var(--black-light);
+    border-color: var(--grey);
+    padding: 0.5rem 0.75rem !important;
+    height: 42px;
+    font-size: 16px;
+}
+
+.myform button {
+    padding: 0.5rem 0.75rem !important;
+    height: 42px;
 }
 
 .form-select:focus,
 .form-control:focus,
-#myform select:focus,
-#myform input:focus,
-#myform textarea:focus {
-    font-weight: 400 !important;
-    color: var(--black) !important;
-    outline: none !important;
-    box-shadow: none !important;
-    border-color: var(--blue) !important;
+.myform select:focus,
+.myform input:focus,
+.myform textarea:focus {
+    font-weight: 500;
+    color: var(--black);
+    outline: none;
+    box-shadow: none;
+    border-color: var(--blue);
+}
+
+.input__nomor {
+    cursor: not-allowed;
+}
+
+::selection {
+    color: white;
+    background-color: #3297fd;
 }
 
 #mydate input,
@@ -562,16 +572,16 @@ p {
 }
 
 #registrasiSuratMasuk .perihal {
-    min-height: 7.8rem;
+    min-height: 8.3rem;
 }
 
 #editSuratMasuk .perihal,
 #editSuratKeluar .perihal {
-    min-height: 6.3rem;
+    min-height: 6.8rem;
 }
 
 #registrasiSuratKeluar .perihal {
-    height: 13.2rem !important;
+    height: 13.9rem !important;
 }
 
 #registrasiSuratKeluar .input input {
@@ -580,7 +590,7 @@ p {
 
 #registrasiSuratKeluar .input button {
     padding: 6px;
-    min-height: 38px;
+    min-height: 42px;
     background-color: var(--black);
     color: white;
     border-radius: 0.25rem;
