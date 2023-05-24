@@ -25,6 +25,8 @@
 
             // Setter
             $("#inputTanggalStart").datepicker("option", "changeYear", true);
+
+            errorMsg = ""
         });
     </script>
 
@@ -84,6 +86,7 @@
             $("#tanggalPengajuanE").datepicker("option", "changeYear", true);
         });
     </script>
+
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/surat-masuk-style.css" />
@@ -671,12 +674,7 @@
         </script>
         </div>
     @endif
-    @if ($errors->any())
-        <script>
-            gagal()
-        </script>
-        {{ implode('', $errors->all('<div>:message</div>')) }}
-    @endif
+
 
     <!-- Sweet alert : confirm edit start -->
     <script>
@@ -906,21 +904,25 @@
 
     @if ($message = Session::get('success'))
         <script>
-            berhasil("{{ Session::get('success') }}")
+            // berhasil("{{ Session::get('success') }}")
         </script>
         </div>
     @endif
     @if ($message = Session::get('failed'))
         <script>
-            gagal("{{ Session::get('failed') }}")
+            // gagal("{{ Session::get('failed') }}")
         </script>
         </div>
     @endif
     @if ($errors->any())
-        <script>
-            gagal()
-        </script>
-        {{ implode('', $errors->all('<div>:message</div>')) }}
+        @foreach ($errors->all() as $error)
+            {{-- <div>$error</div> --}}
+            <script>
+                // gagal()
+                console.log($error)
+                // errorMsg += {{ $error }}
+            </script>
+        @endforeach
     @endif
 
     {{-- Bootstrap form validation start --}}
@@ -932,10 +934,18 @@
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             const forms = document.querySelectorAll('.needs-validation')
 
+            // Validasi nomor surat jika sudah digunakan
+            function cekNomorSurat() {
+
+            }
+
             // Loop over them and prevent submission
             Array.from(forms).forEach(form => {
+                console.log('tes')
+                console.log(form)
                 form.addEventListener('submit', event => {
                     if (!form.checkValidity()) {
+
                         event.preventDefault()
                         event.stopPropagation()
                     }

@@ -6,7 +6,7 @@
             {{-- Data surat start --}}
             <div class="col-lg-8 col-12">
                 <div class="d-flex align-items-start">
-                    <h3 class="black fw-bold me-2">Selamat Datang, Admin!</h3>
+                    <h3 class="black fw-bold me-2">Selamat, Admin!</h3>
                     <img src="img/hand-icon.png" width="24px" alt="Hand Icon" />
                 </div>
                 <h5 class="black fw-normal mt-2 mb-3">

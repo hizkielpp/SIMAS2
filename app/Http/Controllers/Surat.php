@@ -12,6 +12,12 @@ use PDF;
 
 class Surat extends Controller
 {
+    public function messages(): array
+    {
+        return [
+            'lampiran.max' => 'File terlalu gede bos',
+        ];
+    }
     public function refreshDatatable(Request $request)
     {
         if (isset($_GET['jenis'])) {
@@ -72,8 +78,9 @@ class Surat extends Controller
             'tanggalPengesahan' => 'required',
             'jumlahLampiran' => 'required|integer',
             'tujuanSurat' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:2000'
+            'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);
+
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratkeluar')->max('nomorAgenda');
         if ($nomorAgenda == null) {
@@ -123,8 +130,10 @@ class Surat extends Controller
             'jumlahLampiran' => 'required',
             'asalSurat' => 'required',
             'tujuanSurat' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:2000'
+            'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);
+        // dd($request);
+
         //validasi nomor surat
         $result = DB::table('suratmasuk')->where('nomorSurat', $request->input('nomorSurat'))->first();
         if ($result) {
@@ -143,7 +152,6 @@ class Surat extends Controller
         $file = $request->file('lampiran');
         $fileName = time();
         $request->lampiran->move(public_path('uploads'), $fileName);
-
 
         try {
             DB::table('suratmasuk')->insert([
@@ -331,13 +339,13 @@ class Surat extends Controller
             $start = $_GET['start'];
             $end = $_GET['end'];
             if ($user->role == 2) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->where('created_by', $user->id)->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
             } else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->orderBy('created_at', 'desc')->get();
             }
         } else {
             if ($user->role == 2) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
             } else {
                 $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->get();
             }
@@ -363,7 +371,7 @@ class Surat extends Controller
             'tanggalPengesahan' => 'required',
             'jumlahLampiran' => 'required|integer',
             'tujuanSurat' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:2000'
+            'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratkeluar')->max('nomorAgenda');
@@ -384,11 +392,13 @@ class Surat extends Controller
         $input['status'] = 'digunakan';
         $input['created_at'] = now();
         $input['updated_at'] = now();
+        $input['tanggalPengesahan'] = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
         // dd($input);
         try {
             DB::table('suratkeluar')->insert($input);
             return redirect()->route('suratKeluar')->with('success', 'berhasil menginput data surat keluar');
         } catch (\Exception $e) {
+            return $e;
             return redirect()->route('suratKeluar')->with('failed', 'gagal menginput data surat keluar' . $e);
         }
     }

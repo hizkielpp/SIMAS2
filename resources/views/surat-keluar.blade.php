@@ -289,17 +289,17 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <div class="mb-3">
-                                            <label for="nomorSurat" class="form-label black fw-normal">Nomor
+                                            <label for="nomorSurat" class="form-label black fw-normal">
                                                 Surat</label>
                                             <div class="input d-flex align-items-center">
-                                                <input type="text" readonly class="form-control"
+                                                <input type="text" class="form-control readonly"
                                                     placeholder="Nomor surat" id="nomorSurat"
                                                     aria-describedby="emailHelp" name="nomorSurat" required />
                                                 <button type="button" class="ms-2 ambilNomor">
                                                     Ambil Nomor <i class="fas fa-search ms-1"></i>
                                                 </button>
                                             </div>
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" id="feedbackNomorSurat">
                                                 Masukkan nomor surat dengan benar.
                                             </div>
                                         </div>
@@ -315,7 +315,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" id="feedback-u">
                                                 Masukkan kode unit surat dengan benar.
                                             </div>
                                         </div>
@@ -424,7 +424,8 @@
                             <button type="button" class="mybtn light" data-bs-dismiss="modal">
                                 Batal
                             </button>
-                            <button type="submit" class="mybtn blue" form="formRegistrasi">
+                            <button type="submit" id="confirmRegistrasi" onclick="confirmAdd()" form="formRegistrasi"
+                                class="mybtn blue">
                                 Tambah
                             </button>
                         </div>
@@ -677,6 +678,44 @@
     <!-- Sweet alert : confirm add -->
     <script>
         function confirmAdd() {
+            // valid = true
+            // inputs = document.querySelectorAll('.my__validation input, .my__validation select, .my__validation textarea')
+            invalidFeedback = document.querySelectorAll('.invalid-feedback')
+            // Array.from(inputs).forEach(input => {
+            //     if (input.value == "") {
+            //         Array.from(invalidFeedback).forEach(feedback => {
+            //             feedback.style.display = "block"
+            //         })
+            //         input.style.borderColor = "#dc3545"
+            //         valid = false
+            //     } else {
+            //         Array.from(invalidFeedback).forEach(feedback => {
+            //             feedback.style.display = "none"
+            //         })
+            //         input.style.borderColor = "#b4bec0"
+            //         valid = true
+            //     }
+            // })
+
+            // Swal.fire({
+            //     title: "Konfirmasi",
+            //     text: "Pastikan data yang anda masukkan benar!",
+            //     icon: "warning",
+            //     showCancelButton: true,
+            //     confirmButtonColor: "#2F5596",
+            //     cancelButtonColor: "#d33",
+            //     confirmButtonText: "Tambah",
+            //     cancelButtonText: "Batal",
+            //     reverseButtons: true,
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
+            //         document.getElementById('formRegistrasi').submit();
+            //         $("#registrasiSuratKeluar").modal("hide");
+            //     } else {
+            //         new Audio("audio/cancel-edited.mp3").play();
+            //         $("#registrasiSuratKeluar").modal("hide");
+            //     }
+            // });
             nomorSurat = $('input[name="nomorSurat"]').attr('value')
             var url = '{{ route('cekTersedia', ':id') }}';
             url = url.replace(':id', $('input[name="nomorSurat"]').attr('value'));
@@ -684,43 +723,34 @@
             $.ajax({
                 type: 'GET',
                 url: url,
+                async: false,
                 statusCode: {
                     400: function() {
-                        Swal.fire("Gagal!", "Error.", "error");
+                        $('#feedbackNomorSurat').style.display = "block"
+                        $('#feedbackNomorSurat').html("Error")
+                        valid = false
                     },
                     201: function() {
-                        Swal.fire("Gagal!", "Nomor sudah terpakai silahkan ambil nomor lagi.", "error");
+                        $('#feedbackNomorSurat').style.display = "block"
+                        $('#feedbackNomorSurat').html("Nomor surat telah digunakan")
+                        valid = false
+
                     },
                     200: function() {
-                        Swal.fire({
-                            title: "Konfirmasi",
-                            text: "Pastikan data yang anda masukkan benar!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#2F5596",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Tambah",
-                            cancelButtonText: "Batal",
-                            reverseButtons: true,
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                document.getElementById('formRegistrasi').submit();
-                                $("#registrasiSuratKeluar").modal("hide");
-                            } else {
-                                new Audio("audio/cancel-edited.mp3").play();
-                                $("#registrasiSuratKeluar").modal("hide");
-                            }
-                        });
+                        // $('#nomorSurat').style.borderColor = "none"
+                        // $('#feedbackNomorSurat').html("")
+                        $('#feedbackNomorSurat').style.display = "block"
+                        valid = true
                     }
                 },
             });
-
         }
     </script>
 
     <!-- Sweet alert : confirm edit -->
     <script>
         function confirmEdit() {
+
             new Audio("audio/warning-edited.mp3").play();
             Swal.fire({
                 title: "Konfirmasi",
@@ -998,6 +1028,15 @@
         })()
     </script>
     {{-- Bootstrap form validation end --}}
+
+    {{-- Readonly ambil nomor start --}}
+    <script>
+        $(".readonly").on('keydown paste focus mousedown', function(e) {
+            if (e.keyCode != 9) // ignore tab
+                e.preventDefault();
+        });
+    </script>
+    {{-- Readonly ambil nomor end --}}
 
 @endsection
 @section('sk', 'active')

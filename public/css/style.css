@@ -508,6 +508,10 @@ p {
     cursor: not-allowed;
 }
 
+#nomorSurat {
+    cursor: not-allowed;
+}
+
 ::selection {
     color: white;
     background-color: #3297fd;
