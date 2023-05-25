@@ -76,9 +76,9 @@ class AuthController extends Controller
                 ->where('id', $request->input('idAkun'))  // find your surat by id
                 ->limit(1)  // optional - to ensure only one record is updated.
                 ->update($updatedValue);
-            return redirect()->route('kelolaAkun')->with('success', 'berhasil mengubah data akun');
+            return redirect()->route('kelolaAkun')->with('success', 'Berhasil mengubah data akun');
         } catch (\Exception $e) {
-            return redirect()->route('kelolaAkun')->with('failed', 'gagal mengubah data akun');
+            return redirect()->route('kelolaAkun')->with('failed', 'Gagal mengubah data akun');
         }
     }
     public function index()

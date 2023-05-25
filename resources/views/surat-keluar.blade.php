@@ -968,7 +968,7 @@
             Swal.fire({
                 confirmButtonColor: "#2F5596",
                 icon: 'success',
-                title: `berhasil`,
+                title: `Berhasil`,
                 text: `${txt}`,
             })
         }

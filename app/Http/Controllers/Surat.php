@@ -111,9 +111,9 @@ class Surat extends Controller
                     ->limit(1)  // optional - to ensure only one record is updated.
                     ->update($input);
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-                return redirect()->route('suratAntidatir')->with('success', 'berhasil menginput data surat antidatir');
+                return redirect()->route('suratAntidatir')->with('success', 'Data surat antidatir berhasil ditambahkan');
             } else {
-                return redirect()->route('suratAntidatir')->with('failed', 'nomor surat telah dipakai, silahkan input ulang');
+                return redirect()->route('suratAntidatir')->with('failed', 'Nomor surat telah digunakan, silahkan input ulang');
             }
         } catch (\Exception $e) {
             return redirect()->route('suratAntidatir')->with('failed', 'gagal menginput data surat antidatir' . $e);
@@ -396,10 +396,10 @@ class Surat extends Controller
         // dd($input);
         try {
             DB::table('suratkeluar')->insert($input);
-            return redirect()->route('suratKeluar')->with('success', 'berhasil menginput data surat keluar');
+            return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
         } catch (\Exception $e) {
             return $e;
-            return redirect()->route('suratKeluar')->with('failed', 'gagal menginput data surat keluar' . $e);
+            return redirect()->route('suratKeluar')->with('failed', 'Gagal menambahkan data surat keluar' . $e);
         }
     }
 

@@ -650,8 +650,16 @@
             });
         }
     </script>
+
+    {{-- set value of date picker start --}}
+    <script></script>
+    {{-- set value of date picker end --}}
+
     <script>
         function ambilNomor() {
+
+            var dateNow = $('#datepicker').val();
+            const picker = document.querySelector("#datepicker")
 
             if (dateNow == "") {
                 Swal.fire({
@@ -842,15 +850,6 @@
     </script> --}}
     {{-- Add keterangan button export end --}}
 
-    {{-- set value of duet date picker --}}
-    <script>
-        var dateNow = "";
-        const picker = document.querySelector("duet-date-picker")
-        picker.addEventListener("duetChange", function(event) {
-            $('input[name="nomorSurat"]').attr('value', '');
-            dateNow = event.detail.valueAsDate
-        });
-    </script>
     <script>
         function berhasil(txt) {
             new Audio("audio/success-edited.mp3").play();
@@ -858,7 +857,7 @@
             Swal.fire({
                 confirmButtonColor: "#2F5596",
                 icon: 'success',
-                title: `berhasil`,
+                title: `Berhasil`,
                 text: `${txt}`,
             })
         }
