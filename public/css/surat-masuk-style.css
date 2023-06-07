@@ -1,17 +1,6 @@
-/* Datepicker start */
-#datepickerStart,
-#datepickerEnd {
-    width: 120px;
-    padding: 0.5rem 1rem;
-    border-radius: 100px;
-    color: var(--black);
+.surat__masuk .keterangan h5 {
+    line-height: 1.5;
 }
-
-#datepickerStart:visited,
-#datepickerEnd:visited {
-    border-color: var(--blue) !important;
-}
-/* Datepicker start */
 
 /* Datatable filter start */
 #mytable_filter input {

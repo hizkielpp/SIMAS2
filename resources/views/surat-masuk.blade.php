@@ -87,7 +87,6 @@
         });
     </script>
 
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/surat-masuk-style.css" />
 @endsection
@@ -97,22 +96,6 @@
         <div class="navigation__content mb-4">
             <h5 class="fw__semi black">SURAT MASUK</h5>
         </div>
-        {{-- <div class="navigation__content mb-4 d-flex flex-wrap gap-2 justify-content-between">
-            <h5 class="fw__semi black">Surat Masuk</h5>
-                <div class="d-flex align-items-center gap-2">
-                    <a href="">
-                        <h6 class="fw__normal black">Dashboard</h6>
-                    </a>
-                    <h6 class="fw__normal">/</h6>
-                    <a href="">
-                        <h6 class="fw__normal black">Kriteria</h6>
-                    </a>
-                    <h6 class="fw__normal">/</h6>
-                    <a href="">
-                        <h6 class="fw__normal">Sub Kriteria</h6>
-                    </a>
-                </div>
-        </div> --}}
         {{-- Navigation end --}}
 
         {{-- Keterangan start --}}
@@ -135,7 +118,6 @@
 
         {{-- Tabel wrapper start --}}
         <div class="card p-4 mt-3">
-
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Daftar Surat Keluar</h4>

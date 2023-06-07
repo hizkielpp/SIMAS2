@@ -1,7 +1,9 @@
 /* Poppin font */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-/* Variable */
+/* ================================== */
+/*          Variabel start            */
+/* ================================== */
 :root {
     --blue: #556ee6;
     --blue2: rgb(80, 165, 241);
@@ -12,42 +14,40 @@
     --light: #eff2f7;
     --white: #fff;
 }
+/* ================================== */
+/*          Variabel end              */
+/* ================================== */
 
+/* ================================== */
+/*       Inisialisasi start           */
+/* ================================== */
 * {
     list-style: none;
     text-decoration: none !important;
     box-sizing: border-box;
 }
-
 body {
     font-family: "Poppins", sans-serif;
     min-height: 100vh;
 }
-
 h1 {
     font-size: 24px;
 }
-
 h2 {
     font-size: 20px;
 }
-
 h3 {
     font-size: 18px;
 }
-
 h4 {
     font-size: 16px;
 }
-
 h5 {
     font-size: 14px;
 }
-
 h6 {
     font-size: 12px;
 }
-
 h1,
 h2,
 h3,
@@ -58,53 +58,46 @@ p {
     margin-bottom: 0;
 }
 
-/* Font weight */
+/* Font weight start */
 .fw__light {
     font-weight: 300;
 }
-
 .fw__normal {
     font-weight: 400;
 }
-
 .fw__med {
     font-weight: 500;
 }
-
 .fw__semi {
     font-weight: 600;
 }
-
 .fw__bold {
     font-weight: 700;
 }
-
 .fw__ebold {
     font-weight: 800;
 }
+/* Font weight start */
 
-/* Color */
+/* Color start */
 .blue {
     color: var(--blue);
 }
-
 .blue__light {
     color: var(--blue-light);
 }
-
 .black {
     color: var(--black);
 }
-
 .black__light {
     color: var(--black-light);
 }
-
 .light {
     color: var(--light);
 }
+/* Color end */
 
-/* Button */
+/* Button start */
 .mybtn {
     padding: 0.75rem 1.25rem;
     border-radius: 0.25rem;
@@ -116,208 +109,56 @@ p {
     border: 1px solid;
     transition: 0.2s;
 }
-
 .mybtn.blue {
     background-color: var(--blue);
     color: white;
     border-color: var(--blue);
 }
-
 .mybtn.blue:hover {
     background-color: #254b8c;
     transition: 0.2s;
 }
-
 .mybtn.blue__light {
     background-color: var(--light);
     color: var(--blue);
 }
-
 .mybtn.blue__light:hover {
     background-color: #cdd4da;
     transition: 0.2s;
 }
-
 .mybtn.white__reverse {
     background-color: unset;
     color: white;
 }
-
 .mybtn.white__reverse:hover {
     background-color: white;
     color: var(--black);
 }
-
-.myicon {
-    display: block;
-    cursor: pointer;
-    background-color: unset;
-    border: 1px solid;
-    border-radius: 0.25rem;
-    min-width: 40px;
-    height: 40px;
-    font-size: 14px;
-    padding: 0.75rem;
-}
-
-.myicon.red {
-    background-color: #f46a6a;
-    color: white;
-    border-color: rgb(255, 107, 131, 0.4);
-}
-
-.myicon.blue {
-    background-color: var(--blue);
-    color: white;
-    border-color: var(--blue);
-}
-
-.myicon:hover .mytooltip {
-    visibility: visible;
-    opacity: 1;
-}
-
-.mytooltip {
-    bottom: 110%;
-    background-color: var(--black);
-    font-size: 14px;
-    border-radius: 0.25rem;
-    visibility: hidden;
-    opacity: 0;
-}
-
-#arrow {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: inherit;
-    top: 100%;
-    right: 50%;
-    transform: translate(50%, -50%) rotate(45deg);
-}
-
-.myicon.green {
-    background-color: #34c38f;
-    color: white;
-    border-color: rgb(63, 166, 151, 0.4);
-}
-
-.myicon.light {
-    border-color: var(--grey);
-    color: var(--black);
-    transition: 0.2s;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-}
-
-/* .myicon.light:hover {
-    background-color: var(--black);
-    color: white;
-    border-color: var(--grey) !important;
-} */
-
 .mybtn.white,
 .mybtn.light {
     border: 1px solid var(--grey);
 }
-
 .mybtn.white:hover {
     background-color: var(--blue);
     color: white;
     transition: 0.3s;
 }
-
 .mybtn.light {
     color: var(--black);
 }
-
 .mybtn.light:hover {
     background-color: var(--light);
     transition: 0.3s;
 }
-
 .btn__blue {
     background-color: white;
 }
-
 .btn__blue:hover {
     background-color: var(--light);
     transition: 0.3s;
 }
-
 .btn__blue:focus-visible {
     background-color: var(--light);
-}
-
-/* Margin & padding */
-.mr12 {
-    margin-right: 12px;
-}
-
-.p26 {
-    padding: 26px;
-}
-
-/* Card */
-.card {
-    border-radius: 0.5rem;
-    /* box-shadow: none; */
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    padding: 1.5rem;
-    margin-bottom: unset;
-}
-
-/* Tabel */
-#mytable {
-    width: 100% !important;
-    padding: 0.5rem 0;
-}
-
-#mytable thead th {
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--black);
-    background-color: var(--light);
-    padding: 1rem;
-}
-
-#mytable thead th:first-child {
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
-}
-
-#mytable thead th:nth-child(2) {
-    min-width: 200px;
-}
-
-#mytable thead th:last-child {
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-}
-
-#mytable tbody tr td {
-    color: var(--black);
-    font-weight: 400;
-    padding: 1rem;
-}
-
-#mytable tfoot th {
-    border-top: none !important;
-}
-
-#mytable .no {
-    width: 16px !important;
-    text-align: center;
-}
-
-#mytable ul {
-    padding: 0;
-}
-
-/* Mytable button export */
-.dt-buttons {
-    gap: 0.5rem !important;
 }
 .btn__export {
     background: var(--black-light) !important;
@@ -335,71 +176,177 @@ p {
     transition: 0.2s;
     color: white !important;
 }
+.dt-buttons {
+    gap: 0.5rem !important;
+}
+/* Button end */
 
+/* Icon start */
+.myicon {
+    display: block;
+    cursor: pointer;
+    background-color: unset;
+    border: 1px solid;
+    border-radius: 0.25rem;
+    min-width: 40px;
+    height: 40px;
+    font-size: 14px;
+    padding: 0.75rem;
+}
+.myicon.red {
+    background-color: #f46a6a;
+    color: white;
+    border-color: rgb(255, 107, 131, 0.4);
+}
+.myicon.blue {
+    background-color: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
+.myicon.green {
+    background-color: #34c38f;
+    color: white;
+    border-color: rgb(63, 166, 151, 0.4);
+}
+.myicon.light {
+    border-color: var(--grey);
+    color: var(--black);
+    transition: 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+/* Icon end */
+
+/* Tooltip start */
+.mytooltip {
+    bottom: 110%;
+    background-color: var(--black);
+    font-size: 14px;
+    border-radius: 0.25rem;
+    visibility: hidden;
+    opacity: 0;
+}
+.myicon:hover .mytooltip {
+    visibility: visible;
+    opacity: 1;
+}
+/* Tooltip end */
+
+/* Card start */
+.card {
+    border-radius: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 1.5rem;
+    margin-bottom: unset;
+}
+/* Card end */
+
+/* ================================== */
+/*         Inisialisasi end           */
+/* ================================== */
+
+/* ================================== */
+/*         Datatables start           */
+/* ================================== */
+/* Tabel start */
+#mytable {
+    width: 100% !important;
+    padding: 0.5rem 0;
+}
+#mytable thead th {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--black);
+    background-color: var(--light);
+    padding: 1rem;
+}
+#mytable thead th:first-child {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+#mytable thead th:nth-child(2) {
+    min-width: 200px;
+}
+#mytable thead th:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+#mytable tbody tr td {
+    color: var(--black);
+    font-weight: 400;
+    padding: 1rem;
+}
+#mytable tfoot th {
+    border-top: none !important;
+}
+#mytable .no {
+    width: 16px !important;
+    text-align: center;
+}
+#mytable ul {
+    padding: 0;
+}
+#mytable tbody tr:hover {
+    background-color: #fff !important;
+}
+#mytable tbody .date {
+    font-weight: 300;
+    font-size: 14px;
+}
+/* Tabel end */
+
+/* Tabel sifat start */
 #mytable .sifat h5 {
     font-size: 14px;
     font-weight: 500;
 }
-
 #mytable .sifat {
     padding: 0.75rem 1rem;
     border-radius: 2rem;
     width: 90px;
     height: 40px;
 }
-
 #mytable .sifat.rahasia {
     background-color: rgba(80, 165, 241, 0.25);
     color: rgb(80, 165, 241);
     border-color: rgb(47, 85, 150, 0.4);
 }
-
 #mytable .sifat.biasa {
     background-color: var(--light);
     color: var(--black);
     border-color: #a2acb5;
 }
-
 #mytable .sifat.segera {
     background-color: rgba(52, 195, 143, 0.18);
     color: #34c38f;
 }
-
 #mytable .sifat.penting {
     background-color: rgba(241, 180, 76, 0.18);
     color: #f1b44c;
     border-color: #ffcb4b;
 }
+/* Tabel sifat start */
 
-#mytable tbody tr:hover {
-    background-color: #fff !important;
-}
-
-#mytable tbody .date {
-    font-weight: 300;
-    font-size: 14px;
-}
-
-/* Mytable info */
+/* Tabel info start */
 #mytable_info {
     padding-top: 0;
     color: var(--black-light);
     font-size: 16px;
     font-weight: 300;
 }
+/* Tabel info end */
 
-/* Mytable length */
+/* Tabel length start */
 #mytable_length {
     margin-right: 1rem;
 }
-
 #mytable_length label {
     margin-bottom: 0;
     color: var(--black-light);
     font-size: 16px;
     font-weight: 300;
 }
-
 #mytable_length select {
     width: 80px;
     padding: 0.25rem 0.5rem !important;
@@ -409,58 +356,54 @@ p {
     box-shadow: none;
     border-color: var(--blue);
 }
+/* Tabel length end */
 
-/* Mytable paginate */
+/* Tabel paginate start */
 #mytable_paginate .page-item {
     margin: 0 0.25rem;
     width: 36px;
     text-align: center;
 }
-
 #mytable_paginate .page-item a {
     color: var(--black-light);
     border-radius: 50%;
 }
-
 #mytable_paginate .page-item.active a {
     border-radius: 50%;
     background-color: var(--blue);
     color: white;
 }
-
 #mytable_paginate .page-link:hover {
     border-radius: 50%;
 }
-
 #mytable_paginate .page-item.next a,
 #mytable_paginate .page-item.previous a {
     background-color: unset;
 }
-
 #mytable_paginate li span i {
     color: var(--black-light);
     font-weight: 600;
 }
-
 #mytable_paginate li a {
     border: none;
     outline: none;
     box-shadow: none;
 }
-
 #mytable_paginate li a:focus {
     border: none;
     outline: none;
     box-shadow: none;
 }
-
 #mytable_paginate .previous {
     margin-right: 1rem;
 }
-
 #mytable_paginate .next {
     margin-left: 1rem;
 }
+/* Tabel paginate start */
+/* ================================== */
+/*          Datatables end            */
+/* ================================== */
 
 .dtr-details li {
     margin-bottom: 1rem;
@@ -553,14 +496,6 @@ p {
 /* ================================== */
 /*           Modal section            */
 /* ================================== */
-/* .modal__section input,
-.modal__section select,
-.modal__section textarea {
-    padding: 0.5rem;
-    height: 40px;
-    font-size: 14px;
-} */
-
 .modal__section input:focus,
 .modal__section select:focus,
 .modal__section textarea:focus,
@@ -627,141 +562,85 @@ p {
 }
 
 /* ================================== */
-/*               Navbar               */
+/*           Navbar start             */
 /* ================================== */
 #navbar {
     padding: 20px 16px;
-    background-color: white;
-    border: none;
 }
-
-#navbar a {
-    color: var(--black);
-}
-
-#navbar .icon,
 #navbar .image__user {
     min-width: 28px;
-    width: 28px;
+    width: 100%;
+    max-width: 28px;
     height: 28px;
     border-radius: 50%;
 }
-
-#navbar .icon {
-    border: 1px solid var(--grey);
+#navbar .dropdown-toggle::after {
+    visibility: hidden;
 }
-
-#navbar .image__user {
-    background-color: var(--black);
-}
-
-#navbar .icon {
-    margin-right: 0.75rem;
-}
-
-.dropdown-toggle::after {
-    display: none;
-}
-
-#navbar .dropdown button {
-    display: block;
-    padding: 0.375rem 0.75rem;
-    font-size: 14px;
-}
-
 #navbar .dropdown-menu {
-    left: -85%;
+    right: 5%;
+    left: -10%;
     top: 120%;
-    border-radius: 10px;
 }
-
-#navbar .dropdown-menu li {
-    margin: 0.5rem 0;
-}
-
-#navbar .dropdown-menu svg {
-    width: 16px;
-}
+/* ================================== */
+/*           Navbar end               */
+/* ================================== */
 
 /* ================================== */
-/*               Sidebar              */
+/*           Sidebar start            */
 /* ================================== */
 #sidebar .brand-link {
     height: unset;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
     border-bottom: 1px solid white !important;
+    background-color: #2a3042;
 }
-
-#sidebar .brand-link .d-flex {
+#sidebar .brand-link .abjad {
     background-color: white;
     min-width: 36px;
     width: 36px;
     height: 36px;
     border-radius: 50%;
 }
-
-#sidebar .brand-text {
-    color: white !important;
-}
-
-#sidebar .brand-link {
-    background-color: #2a3042;
-    border: none;
-    padding-top: 20px !important;
-    padding-bottom: 20px !important;
-}
-
 #sidebarMenu {
     background-color: #2a3042;
 }
-
-#sidebarMenu li {
-    margin-bottom: 0.5rem;
-}
-
 #sidebarMenu li a {
     color: var(--grey);
     padding: 12px 20px;
     border-radius: 0.25rem;
     font-size: 14px;
 }
-
 #sidebarMenu li a.active {
     color: var(--black);
     background-color: white;
 }
-
 #sidebarMenu li a:hover {
     background-color: white;
     color: var(--black);
     transition: 0.3s;
 }
-
-.sidebar li svg {
-    width: 16px;
-}
-
 .sidebar .active {
     background-color: var(--blue);
     color: white;
 }
+.sidebar li svg {
+    width: 16px;
+}
+/* ================================== */
+/*           Sidebar end              */
+/* ================================== */
 
 /* ================================== */
-/*             Main page              */
+/*          Main page start           */
 /* ================================== */
 #mainPage {
     margin-top: 80px;
     min-height: 100vh !important;
     padding: 26px 16px;
     background-color: var(--light);
-    /* background-color: rgb(241 245 249); */
-    border: none !important;
 }
-
-.surat__masuk .keterangan h5 {
-    line-height: 1.5;
-}
-
-/* Input rentang tanggal */
 .input__tanggal {
     width: 175px;
 }
@@ -808,6 +687,9 @@ p {
 .desc__export {
     display: inline-block;
 }
+/* ================================== */
+/*          Main page end             */
+/* ================================== */
 
 /* ================================== */
 /*               Footer               */
