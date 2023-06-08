@@ -20,18 +20,18 @@
 <body>
     <div class="login">
         {{-- Hero start --}}
-        <div class="image flex-column justify-content-center align-items-center">
+        <section class="image flex-column justify-content-center align-items-center">
             <img src="img/login-image-3x.png" alt="Gambar Login" />
             <h3 class="fw__bold" style="color: #2F5596">Sistem Manajemen Surat (SIMAS)</h3>
             <h4 class="fw__normal text-center mt-2" style="color: #2F5596">Aplikasi Pengelola Surat Masuk dan Keluar
                 Fakultas Kedokteran
             </h4>
-        </div>
+        </section>
         {{-- Hero end --}}
 
-        <div class="content d-flex justify-content-center align-items-center">
+        {{-- Content start --}}
+        <section class="content d-flex justify-content-center align-items-center">
             <div class="body">
-
                 {{-- Brand start --}}
                 <div class="d-flex align-items-center brand mb-5">
                     <img src="img/logo-fk.png" alt="Logo Fakultas Kedokteran" width="46px" />
@@ -43,11 +43,15 @@
                 {{-- Brand end --}}
 
                 {{-- Main section start --}}
-                <div class="title mb-5">
+                <div class="title mb-3">
                     <h1 class="text-white fw-semibold mb-3">Selamat Datang!</h1>
                     <h3 class="text-white fw-normal">
                         Silahkan masuk dengan akun sesuai prodi masing -masing
                     </h3>
+                    <div class="feedback p-3 bg-white mt-3 rounded-2">
+                        <h5 class="text-danger">Username atau password salah. Silahkan periksa kembali dan coba lagi.
+                        </h5>
+                    </div>
                 </div>
                 <form method="POST" action="{{ route('login.custom') }}" class="myform">
                     @csrf
@@ -68,9 +72,9 @@
                     </button>
                 </form>
                 {{-- Main section end --}}
-
             </div>
-        </div>
+        </section>
+        {{-- Content end --}}
     </div>
 
     <!-- Bootstrap JS -->

@@ -106,7 +106,6 @@
             <h5 class="fw__semi black">SURAT KELUAR</h5>
         </div>
         {{-- Navigation end --}}
-
         <div class="card p-4 mb-md-0 keterangan">
             <h5 class="fw-semibold black mb-2">Keterangan</h5>
             <h5 class="fw__normal black__light mb-3">
@@ -122,7 +121,7 @@
                 Download
             </a>
         </div>
-        <div class="card p-4 mt-3">
+        <div class="card p-4 mt-3 surat__keluar">
 
             <!-- Modal lampiran surat start -->
             <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
@@ -508,9 +507,17 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <button type="button" class="myicon light" data-bs-toggle="modal"
-                                            data-bs-target="#lampiran" onclick="showLampiran('{{ $v->lampiran }}')">
-                                            Lihat lampiran
+                                        <button type="button"
+                                            class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
+                                            data-bs-toggle="modal" data-bs-target="#lampiran"
+                                            onclick="showLampiran('{{ $v->lampiran }}')">
+                                            <i class="fa-solid fa-paperclip"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Lampiran
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </button>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                             class="myicon position-relative blue d-flex align-items-center justify-content-center passId"

@@ -484,9 +484,17 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                                        <button type="button" class="myicon light" data-bs-toggle="modal"
-                                            data-bs-target="#lampiran" onclick="showLampiran('{{ $v->lampiran }}')">
-                                            Lihat lampiran
+                                        <button type="button"
+                                            class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
+                                            data-bs-toggle="modal" data-bs-target="#lampiran"
+                                            onclick="showLampiran('{{ $v->lampiran }}')">
+                                            <i class="fa-solid fa-paperclip"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Lampiran
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
                                         </button>
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
                                             class="myicon position-relative blue d-flex align-items-center justify-content-center passId"

@@ -52,14 +52,14 @@
                             {{ $user->name }} <i class="fa-solid fa-angle-down ms-1"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li>
+                            {{-- <li>
                                 <a class="dropdown-item" href="profil-pengguna.html"><i
                                         class="fa-solid fa-user me-2"></i>Profile</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="ubah-password.html"><i
                                         class="fa-solid fa-lock me-2"></i>Ubah Password</a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"><i
                                         class="fa-solid fa-arrow-right-from-bracket me-2"></i>Keluar</a>
