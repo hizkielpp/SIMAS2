@@ -16,15 +16,9 @@
             $("#inputTanggalStart").datepicker();
 
             // Ganti tahun
-            $("#inputTanggalStart").datepicker({
-                changeYear: true
-            });
-
-            // Getter
-            var changeYear = $("#inputTanggalStart").datepicker("option", "changeYear");
-
-            // Setter
             $("#inputTanggalStart").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy");
 
             errorMsg = ""
         });
@@ -37,15 +31,9 @@
             $("#inputTanggalEnd").datepicker();
 
             // Ganti tahun
-            $("#inputTanggalEnd").datepicker({
-                changeYear: true
-            });
-
-            // Getter
-            var changeYear = $("#inputTanggalEnd").datepicker("option", "changeYear");
-
-            // Setter
             $("#inputTanggalEnd").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
         });
     </script>
 
@@ -53,18 +41,12 @@
     <script>
         $(function() {
             // Initializing
-            $("#datepicker").datepicker();
+            $("#datepicker").datepicker({});
 
             // Ganti tahun
-            $("#datepicker").datepicker({
-                changeYear: true
-            });
-
-            // Getter
-            var changeYear = $("#datepicker").datepicker("option", "changeYear");
-
-            // Setter
             $("#datepicker").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
         });
     </script>
 
@@ -75,15 +57,9 @@
             $("#tanggalPengajuanE").datepicker();
 
             // Ganti tahun
-            $("#tanggalPengajuanE").datepicker({
-                changeYear: true
-            });
-
-            // Getter
-            var changeYear = $("#tanggalPengajuanE").datepicker("option", "changeYear");
-
-            // Setter
             $("#tanggalPengajuanE").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#tanggalPengajuanE").datepicker("option", "dateFormat", "dd-mm-yy");
         });
     </script>
 
@@ -293,6 +269,7 @@
                 </div>
             </div>
             <!-- Modal registrasi end -->
+
 
             <!-- Modal edit start -->
             <div class="modal modal__section fade" id="editSuratMasuk" tabindex="-1"
@@ -701,21 +678,23 @@
             var end = $('#inputTanggalEnd').attr('value')
             oke = false
             $('#inputTanggalStart').change(function() {
-                // console.log(start)
                 // console.log(end)
                 start = this.value
+                console.log(start)
                 if (start && end) {
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
                 }
             })
             $('#inputTanggalEnd').change(function() {
                 // console.log(start)
-                // console.log(end)
                 end = this.value
+                console.log(end)
                 if (start && end) {
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
                 }
             })
+
+            // Edit surat start
             $(".passId").click(function() {
                 let url = "{{ route('getSM', ':id') }}";
                 url = url.replace(':id', $(this).data('id'));
@@ -725,7 +704,8 @@
                     success: function(data) {
                         $('#nomorSuratE').attr('value', data.nomorSurat)
                         $("#tujuanSuratE").val(data.tujuanSurat)
-                        $('#tanggalPengajuanE').val(data.tanggalPengajuan)
+                        $('#tanggalPengajuanE').val(new Date(data.tanggalPengajuan)
+                            .toLocaleDateString('en-GB'))
                         $('#asalSuratE').attr('value', data.asalSurat)
                         $("#kodeHalE").val(data.kodeHal)
                         $('#sifatSuratE').val(data.sifatSurat)
@@ -737,14 +717,18 @@
                 $('#idSurat').attr('value', $(this).data('id'));
                 // alert($(this).data('id'));
             });
+            // Edit surat end
         });
     </script>
 
     @if (isset($_GET['start']) and isset($_GET['end']))
         <script>
             start = "{{ $_GET['start'] }}"
-            end = "{{ $_GET['end'] }}"
+            start = new Date(start).toLocaleDateString('en-GB')
             $('#inputTanggalStart').attr('value', start)
+
+            end = "{{ $_GET['end'] }}"
+            end = new Date(end).toLocaleDateString('en-GB')
             $('#inputTanggalEnd').attr('value', end)
         </script>
     @endif
@@ -909,7 +893,7 @@
             {{-- <div>$error</div> --}}
             <script>
                 // gagal()
-                console.log($error)
+                // console.log($error)
                 // errorMsg += {{ $error }}
             </script>
         @endforeach
@@ -931,8 +915,8 @@
 
             // Loop over them and prevent submission
             Array.from(forms).forEach(form => {
-                console.log('tes')
-                console.log(form)
+                // console.log('tes')
+                // console.log(form)
                 form.addEventListener('submit', event => {
                     if (!form.checkValidity()) {
 
