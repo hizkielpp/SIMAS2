@@ -446,7 +446,7 @@ p {
 .myform select:focus,
 .myform input:focus,
 .myform textarea:focus {
-    font-weight: 500;
+    font-weight: 400;
     color: var(--black);
     outline: none;
     box-shadow: none;
