@@ -81,6 +81,7 @@ class Surat extends Controller
             'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);
 
+        // dd($request);
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratkeluar')->max('nomorAgenda');
         if ($nomorAgenda == null) {
@@ -95,6 +96,7 @@ class Surat extends Controller
         $input['jenis'] = 'antidatir';
         $input['status'] = 'digunakan';
         $input['updated_at'] = now();
+        $input['tanggalPengesahan'] = date('Y-m-d', strtotime($input['tanggalPengesahan']));
         $time = strtotime($input['tanggalPengesahan']);
         // dd(date('Y-m-01', strtotime($input['tanggalPengesahan'])).date('Y-m-t', strtotime($input['tanggalPengesahan'])));
         try {
@@ -116,6 +118,7 @@ class Surat extends Controller
                 return redirect()->route('suratAntidatir')->with('failed', 'Nomor surat telah digunakan, silahkan input ulang');
             }
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->route('suratAntidatir')->with('failed', 'gagal menginput data surat antidatir' . $e);
         }
     }
@@ -309,18 +312,18 @@ class Surat extends Controller
         $unit = DB::table('unit')->get();
         $tujuan = DB::table('tujuan')->get();
         if (isset($_GET['start']) && isset($_GET['end'])) {
-            $start = $_GET['start'];
-            $end = $_GET['end'];
+            $start = strtotime($_GET['start']);
+            $end = strtotime($_GET['end']);
             if ($user->role == 2) {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'asc')->get();
             } else {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->orderBy('tanggalPengesahan', 'asc')->get();
             }
         } else {
             if ($user->role == 2) {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'asc')->get();
             } else {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->orderBy('tanggalPengesahan', 'asc')->get();
             }
         }
         $sifat = DB::table('sifat')->get();
@@ -336,18 +339,18 @@ class Surat extends Controller
         $user = Auth::user();
         $unit = DB::table('unit')->get();
         if (isset($_GET['start']) && isset($_GET['end'])) {
-            $start = $_GET['start'];
-            $end = $_GET['end'];
+            $start = strtotime($_GET['start']);
+            $end = strtotime($_GET['end']);
             if ($user->role == 2) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'desc')->get();
             } else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_at', '>=', $start . " 00:00:00.0")->where('created_at', '<=', $end . " 23:59:59.9")->orderBy('created_at', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->orderBy('tanggalPengesahan', 'desc')->get();
             }
         } else {
             if ($user->role == 2) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'desc')->get();
             } else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->orderBy('tanggalPengesahan', 'desc')->get();
             }
         }
 
@@ -373,6 +376,7 @@ class Surat extends Controller
             'tujuanSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);
+        // dd($request);
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratkeluar')->max('nomorAgenda');
         if ($nomorAgenda == null) {
@@ -393,7 +397,7 @@ class Surat extends Controller
         $input['created_at'] = now();
         $input['updated_at'] = now();
         $input['tanggalPengesahan'] = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
-        // dd($input);
+
         try {
             DB::table('suratkeluar')->insert($input);
             return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
@@ -411,7 +415,7 @@ class Surat extends Controller
             $suratKeluar = DB::table('suratKeluar')->where('created_at', '>=', $start)->where('created_at', '<=', $end)->max('nomorSurat');
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
         } elseif (($request->input('jenis') == "antidatir") and ($request->input('tanggalPengesahan'))) {
-            $suratKeluar = DB::table('suratKeluar')->where('created_at', '>=', $request->input('tanggalPengesahan') . " 00:00:00.0")->where('created_at', '<=', $request->input('tanggalPengesahan') . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'belum')->min('nomorSurat');
+            $suratKeluar = DB::table('suratKeluar')->where('created_at', '>=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'belum')->min('nomorSurat');
             if ($suratKeluar == 0) {
                 return response('Antidatir tidak tersedia', 404)->header('Content-Type', 'text/plain');
             } else {

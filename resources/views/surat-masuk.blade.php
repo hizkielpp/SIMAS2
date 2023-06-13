@@ -9,39 +9,72 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
+
+    @if (isset($_GET['start']) and isset($_GET['end']))
+        <script>
+            start = "{{ $_GET['start'] }}"
+            end = "{{ $_GET['end'] }}"
+        </script>
+    @endif
     {{-- Datepicker Jquery : input tanggal start --}}
     <script>
         $(function() {
             // Initializing
-            $("#inputTanggalStart").datepicker();
-
+            $("#inputTanggalStart").datepicker()
             // Ganti tahun
             $("#inputTanggalStart").datepicker("option", "changeYear", true);
             // Ganti format tanggal
-            $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy");
+            $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
+            if (start) {
+                $("#inputTanggalStart").datepicker("setDate", `${start}`)
+                $("#inputTanggalStart").attr('value', start)
+
+            }
+
 
             errorMsg = ""
         });
     </script>
 
+
     {{-- Datepicker Jquery : input tanggal end --}}
     <script>
         $(function() {
             // Initializing
-            $("#inputTanggalEnd").datepicker();
-
+            $("#inputTanggalEnd").datepicker()
             // Ganti tahun
             $("#inputTanggalEnd").datepicker("option", "changeYear", true);
             // Ganti format tanggal
             $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
+            if (end) {
+                $("#inputTanggalEnd").datepicker("setDate", `${end}`)
+                $("#inputTanggalEnd").attr('value', end)
+            }
+
+
+
+
         });
     </script>
+    {{-- @if (isset($_GET['start']) and isset($_GET['end']))
+        <script>
+            start = "{{ $_GET['start'] }}"
+            end = "{{ $_GET['end'] }}"
+            $("#inputTanggalStart").datepicker('setDate', `${start}`)
+            $("#inputTanggalEnd").datepicker('setDate', `${end}`)
+
+
+            // var end = $.datepicker.parseDate('dd-mm-yy', end);
+            // $("#inputTanggalEnd").datepicker('setDate', new Date(end));
+        </script>
+    @endif --}}
+
 
     {{-- Datepicker Jquery : registrasi surat --}}
     <script>
         $(function() {
             // Initializing
-            $("#datepicker").datepicker({});
+            $("#datepicker").datepicker();
 
             // Ganti tahun
             $("#datepicker").datepicker("option", "changeYear", true);
@@ -676,11 +709,13 @@
         $(document).ready(function() {
             var start = $('#inputTanggalStart').attr('value')
             var end = $('#inputTanggalEnd').attr('value')
+
             oke = false
             $('#inputTanggalStart').change(function() {
                 // console.log(end)
                 start = this.value
                 console.log(start)
+                console.log(end)
                 if (start && end) {
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
                 }
@@ -688,6 +723,7 @@
             $('#inputTanggalEnd').change(function() {
                 // console.log(start)
                 end = this.value
+                console.log(start)
                 console.log(end)
                 if (start && end) {
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
@@ -721,17 +757,18 @@
         });
     </script>
 
-    @if (isset($_GET['start']) and isset($_GET['end']))
+    {{-- @if (isset($_GET['start']) and isset($_GET['end']))
         <script>
             start = "{{ $_GET['start'] }}"
-            start = new Date(start).toLocaleDateString('en-GB')
-            $('#inputTanggalStart').attr('value', start)
-
+            // $('#inputTanggalStart').attr('value', new Date(start).toLocaleDateString('en-GB'))
+            $('#inputTanggalStart').datepicker('setDate', start)
             end = "{{ $_GET['end'] }}"
-            end = new Date(end).toLocaleDateString('en-GB')
-            $('#inputTanggalEnd').attr('value', end)
+            console.log(end)
+            $('#inputTanggalEnd').datepicker('setDate', end)
+
+            // $('#inputTanggalEnd').attr('value', new Date(end).toLocaleDateString('en-GB'))
         </script>
-    @endif
+    @endif --}}
 
     <!-- Data tables start -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>

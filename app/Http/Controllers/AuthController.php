@@ -35,7 +35,8 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
-            'role' => 'required'
+            'role' => 'required',
+            'NIP' => 'required'
         ]);
         $input = $request->except('_token');
         $input['password'] = Hash::make($input['password']);
@@ -43,6 +44,7 @@ class AuthController extends Controller
             DB::table('users')->insert($request->except('_token'));
             return redirect()->route('kelolaAkun')->with('success', 'Data akun baru berhasil dibuat');
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->route('kelolaAkun')->with('failed', 'Gagal membuat data akun baru');
         }
     }
@@ -103,7 +105,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
             return redirect()->route('dashboard')->with('success', 'Signed in');
         }
-        return redirect('login')->with('Login details are not valid');
+        return redirect('login')->with('failed', 'Login details are not valid');
     }
     public function dashboard()
     {

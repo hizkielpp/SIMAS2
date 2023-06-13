@@ -10,37 +10,40 @@
     <script>
         $(function() {
             // Initializing
-            $("#inputTanggalStart").datepicker();
-
+            $("#inputTanggalStart").datepicker()
             // Ganti tahun
-            $("#inputTanggalStart").datepicker({
-                changeYear: true
-            });
-
-            // Getter
-            var changeYear = $("#inputTanggalStart").datepicker("option", "changeYear");
-
-            // Setter
             $("#inputTanggalStart").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
+            if (start) {
+                $("#inputTanggalStart").datepicker("setDate", `${start}`)
+                $("#inputTanggalStart").attr('value', start)
+
+            }
+
+
+            errorMsg = ""
         });
     </script>
+
 
     {{-- Datepicker Jquery : input tanggal end --}}
     <script>
         $(function() {
             // Initializing
-            $("#inputTanggalEnd").datepicker();
-
+            $("#inputTanggalEnd").datepicker()
             // Ganti tahun
-            $("#inputTanggalEnd").datepicker({
-                changeYear: true
-            });
-
-            // Getter
-            var changeYear = $("#inputTanggalEnd").datepicker("option", "changeYear");
-
-            // Setter
             $("#inputTanggalEnd").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
+            if (end) {
+                $("#inputTanggalEnd").datepicker("setDate", `${end}`)
+                $("#inputTanggalEnd").attr('value', end)
+            }
+
+
+
+
         });
     </script>
 
@@ -55,11 +58,11 @@
                 changeYear: true
             });
 
-            // Getter
-            var changeYear = $("#datepicker").datepicker("option", "changeYear");
-
             // Setter
             $("#datepicker").datepicker("option", "changeYear", true);
+
+            $("#datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+
         });
     </script>
 
@@ -479,11 +482,10 @@
                                     {{ $v->disahkanOleh }} <br>Nomor :
                                     {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}/{{ convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}
                                     <br />
-                                    <span
-                                        class="date d-inline-block mt-1">{{ date('d M Y h:i', strtotime($v->created_at)) }}
-                                        WIB</span>
+
                                 </td>
-                                <td>Tes</td>
+                                <td>{{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
+                                </td>
                                 <td>{{ $v->perihal }}</td>
                                 <td>{{ $v->tujuanSurat }}</td>
                                 <td>
@@ -806,8 +808,8 @@
             var end = $('#inputTanggalEnd').attr('value')
             oke = false
             $('#inputTanggalStart').change(function() {
-                console.log(start)
-                console.log(end)
+                // console.log(start)
+                // console.log(end)
                 start = this.value
                 if (start && end) {
                     window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
@@ -815,8 +817,8 @@
                 }
             })
             $('#inputTanggalEnd').change(function() {
-                console.log(start)
-                console.log(end)
+                // console.log(start)
+                // console.log(end)
                 end = this.value
                 if (start && end) {
                     window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +

@@ -38,7 +38,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan nomor surat dengan benar.
+                                                Mohon masukkan role dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -46,15 +46,24 @@
                                             <input type="text" class="form-control" placeholder="Masukkan nama akun"
                                                 id="name" name="name" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan nomor surat dengan benar.
+                                                Mohon masukkan nama dengan benar.
                                             </div>
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="NIP" class="form-label black fw-normal">NIP</label>
+                                            <input type="text" class="form-control" placeholder="Masukkan nama akun"
+                                                id="NIP" name="NIP" required />
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan NIP dengan benar.
+                                            </div>
+                                        </div>
+
                                         <div class="mb-3">
                                             <label for="email" class="form-label black fw-normal">Email</label>
                                             <input type="text" class="form-control" placeholder="Masukkan email akun"
                                                 id="email" name="email" required />
                                             <div class="invalid-feedback">
-                                                Mohon masukkan nomor surat dengan benar.
+                                                Mohon masukkan email dengan benar.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -67,7 +76,7 @@
                                                     style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
                                             </div>
                                             <div class="invalid-feedback">
-                                                Mohon masukkan nomor surat dengan benar.
+                                                Mohon masukkan password dengan benar.
                                             </div>
                                         </div>
 

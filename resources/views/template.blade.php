@@ -163,20 +163,6 @@
     <!-- Custom JS -->
     <script src="js/script.js"></script>
     @yield('js')
-
-    <!-- Initializing date picker : rentang start -->
-    <script>
-        $(function() {
-            $("#datepickerStart").datepicker();
-        });
-    </script>
-
-    <!-- Initializing date picker : rentang end -->
-    <script>
-        $(function() {
-            $("#datepickerEnd").datepicker();
-        });
-    </script>
 </body>
 
 </html>

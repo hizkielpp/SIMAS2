@@ -48,10 +48,15 @@
                     <h3 class="text-white fw-normal">
                         Silahkan masuk dengan akun sesuai prodi masing -masing
                     </h3>
-                    <div class="feedback p-3 bg-white mt-3 rounded-2">
-                        <h5 class="text-danger">Username atau password salah. Silahkan periksa kembali dan coba lagi.
-                        </h5>
-                    </div>
+
+                    @if ($message = Session::get('failed'))
+                        <div class="feedback p-3 bg-white mt-3 rounded-2">
+                            <h5 class="text-danger">Username atau password salah. Silahkan periksa kembali dan coba
+                                lagi.
+                            </h5>
+                        </div>
+                    @endif
+
                 </div>
                 <form method="POST" action="{{ route('login.custom') }}" class="myform">
                     @csrf
