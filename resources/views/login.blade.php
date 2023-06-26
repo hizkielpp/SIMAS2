@@ -45,21 +45,22 @@
                 {{-- Main section start --}}
                 <div class="title mb-3">
                     <h1 class="text-white fw-semibold mb-3">Selamat Datang!</h1>
-                    <h3 class="text-white fw-normal">
+                    <h3 class="text-white fw-normal" style="font-size: 18px; line-height: 1.5">
                         Silahkan masuk dengan akun sesuai prodi masing -masing
                     </h3>
 
                     {{-- Alert login failed start --}}
                     @if (session()->has('loginFailed'))
                     <div class="feedback p-3 bg-white mt-3 rounded-2">
-                        <h5 class="text-danger">{{ session('loginFailed') }}
+                        <h5 class="text-danger"><span class="fw-bold">{{ session('loginFailed') }}</span> Email atau
+                            password salah.
                         </h5>
                     </div>
                     @endif
 
                     @if ($errors->any())
                     <div class="feedback p-3 bg-white mt-3 rounded-2">
-                        <h5 class="text-danger">Login gagal! silahkan coba lagi.
+                        <h5 class="text-danger"><span class="fw-bold">Login gagal!</span> email atau password salah.
                         </h5>
                     </div>
                     @endif

@@ -69,4 +69,5 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 // Fungsi login
 Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login.custom');
 
+// Halaman logout
 Route::get('logout', [AuthController::class, 'signOut'])->name('logout');

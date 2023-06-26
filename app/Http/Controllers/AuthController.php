@@ -31,17 +31,21 @@ class AuthController extends Controller
     }
     public function inputAkun(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
             'role' => 'required',
             'NIP' => 'required'
         ]);
-        $input = $request->except('_token');
-        $input['password'] = Hash::make($input['password']);
+        $validatedData = $request->except('_token');
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $result = DB::table('users')->where('NIP', $request->input('NIP'))->first();
+        if ($result) {
+            return redirect()->route('kelolaAkun')->with('failed', 'NIP telah digunakan');
+        }
         try {
-            DB::table('users')->insert($request->except('_token'));
+            DB::table('users')->insert($validatedData);
             return redirect()->route('kelolaAkun')->with('success', 'Data akun baru berhasil dibuat');
         } catch (\Exception $e) {
             // dd($e);
@@ -94,7 +98,7 @@ class AuthController extends Controller
         //     'password' => 'required',
         // ]);
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email:dns',
             'password' => 'required',
         ]);
         // $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
@@ -106,7 +110,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard')->with('success', 'Signed in');
         }
-        return redirect('login')->with('loginFailed', 'Login gagal! silahkan coba lagi.');
+        return redirect('login')->with('loginFailed', 'Login gagal!');
     }
     public function dashboard()
     {
@@ -120,7 +124,13 @@ class AuthController extends Controller
             $jumlahSK = DB::table('suratkeluar')->where('jenis', 'biasa')->where('status', 'digunakan')->count();
             $jumlahSA = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->count();
         }
-        return view('index2')->with(['jumlahSM' => $jumlahSM, 'jumlahSK' => $jumlahSK, 'jumlahSA' => $jumlahSA, 'date' => now(), 'user' => $user]);
+        return view('index2')->with([
+            'jumlahSM' => $jumlahSM,
+            'jumlahSK' => $jumlahSK,
+            'jumlahSA' => $jumlahSA,
+            'date' => now(),
+            'user' => $user
+        ]);
     }
     public function signOut()
     {

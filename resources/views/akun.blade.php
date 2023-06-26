@@ -10,6 +10,30 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
+    {{-- Navigation start --}}
+    <div class="navigation__content mb-4">
+        <h5 class="fw__semi black">KELOLA AKUN</h5>
+    </div>
+    {{-- Navigation end --}}
+
+    {{-- Alert gagal menambahkan surat start --}}
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Tambah akun gagal!</strong>
+        <p class="mt-2">@foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    @if (session()->has('failed'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Tambah akun gagal!</strong>
+        <p class="mt-2">{{session('failed')}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    {{-- Alert gagal menambahkan surat end --}}
     <div class="card p-4 mt-3">
         <!-- Modal registrasi start -->
         <div class="modal fade" id="registrasiAkun" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -572,11 +596,11 @@
     berhasil("{{ Session::get('success') }}")
 </script>
 @endif
-@if ($message = Session::get('failed'))
+{{-- @if ($message = Session::get('failed'))
 <script>
     gagal("{{ Session::get('failed') }}")
 </script>
-@endif
+@endif --}}
 
 {{-- Bootstrap form validation start --}}
 <script>
