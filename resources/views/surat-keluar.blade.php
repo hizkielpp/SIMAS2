@@ -109,6 +109,19 @@
         <h5 class="fw__semi black">SURAT KELUAR</h5>
     </div>
     {{-- Navigation end --}}
+
+    {{-- Alert gagal menambahkan surat start --}}
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Registrasi gagal!</strong>
+        <p class="mt-2">@foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    {{-- Alert gagal menambahkan surat end --}}
+
     <div class="card p-4 mb-md-0 keterangan">
         <h5 class="fw-semibold black mb-2">Keterangan</h5>
         <h5 class="fw__normal black__light mb-3">
@@ -120,7 +133,7 @@
             pedoman dalam membuat nomor surat dengan menekan tombol dibawah
             ini.
         </h5>
-        <a href="{{ route('downloadNaskah') }}" class="mybtn blue fw__light"><i class="fa-solid fa-download me-1"></i>
+        <a href="{{ route('downloadNaskah') }}" class="mybtn blue"><i class="fa-solid fa-download me-1"></i>
             Download
         </a>
     </div>
@@ -305,8 +318,8 @@
                                     <div class="mb-3">
                                         <label for="kodeUnit" class="form-label black fw-normal">Kode Unit
                                             Surat</label>
-                                        <select id="kodeUnit" name="kodeUnit" class="form-select"
-                                            aria-label="Default select example" required>
+                                        <select id="kodeUnit" required name="kodeUnit" class="form-select"
+                                            aria-label="Default select example">
                                             <option value="" selected disabled value="">...</option>
                                             @foreach ($unit as $k => $v)
                                             <option value="{{ $v->kode }}">{{ $v->nama }}
@@ -320,8 +333,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                                        <select class="form-select" id="kodeHal" aria-label="Default select example"
-                                            name="kodeHal" required>
+                                        <select class="form-select" required id="kodeHal"
+                                            aria-label="Default select example" name="kodeHal">
                                             <option value="" selected disabled value="">...</option>
                                             @foreach ($hal as $k => $v)
                                             <option value="{{ $v->kode }}">{{ $v->nama }}
@@ -336,9 +349,9 @@
                                     <div class="mb-3">
                                         <label for="tujuanSurat" class="form-label black fw-normal">Tujuan
                                             Surat</label>
-                                        <input type="text" class="form-control"
+                                        <input type="text" required class="form-control"
                                             placeholder="Contoh : Fakultas Kedokteran" id="tujuanSurat"
-                                            name="tujuanSurat" aria-describedby="emailHelp" required />
+                                            name="tujuanSurat" aria-describedby="emailHelp" />
                                         <div class="invalid-feedback">
                                             Masukkan tujuan surat dengan benar.
                                         </div>
@@ -398,6 +411,20 @@
                                     <div class="mb-3">
                                         <label for="lampiran" class="form-label black fw-normal">Upload
                                             Lampiran</label>
+                                        <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+                                                style="width: 20px" viewBox="0 0 16 16" role="img"
+                                                aria-label="Warning:">
+                                                <path
+                                                    d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                            </svg>
+                                            <div>
+                                                Format file <span class="fw-semibold">.pdf</span> dan ukuran file
+                                                maksimal <span class="fw-semibold">1
+                                                    MB</span>.
+                                            </div>
+                                        </div>
                                         <input type="file" class="form-control" id="lampiran" name="lampiran"
                                             aria-describedby="emailHelp" accept=".pdf" required />
                                         <div class="invalid-feedback">
@@ -408,7 +435,7 @@
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1"
                                             class="form-label black fw-normal">Perihal</label>
-                                        <textarea name="perihal" class="form-control perihal"
+                                        <textarea name="perihal" class="form-control" style="height: 8.3rem"
                                             id="exampleFormControlTextarea1" rows="8"
                                             placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
                                         <div class="invalid-feedback">
@@ -532,7 +559,7 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
-                                <button type="button"
+                                {{-- <button type="button"
                                     class="myicon position-relative red d-flex align-items-center justify-content-center"
                                     onclick="confirmHapus('{{ $v->id }}')">
                                     <i class="fa-solid fa-trash"></i>
@@ -542,7 +569,7 @@
                                         </div>
                                         <div id="arrow"></div>
                                     </div>
-                                </button>
+                                </button> --}}
                             </div>
                         </td>
                     </tr>
@@ -910,24 +937,7 @@
                 // responsive: false,
                 // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
                 // dom: '<"table-responsive"tpf>',
-                dom: '<"d-flex justify-content-between align-item-center gap-3 flex-wrap"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
-                buttons: [{
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        },
-                        className: 'mybtn btn__export'
-
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        },
-                        className: 'mybtn btn__export'
-
-                    },
-                ],
+                dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 destroy: true,
                 order: false,
                 language: {

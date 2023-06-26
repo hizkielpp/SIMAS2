@@ -62,6 +62,11 @@ Route::middleware('checkAuth')->group(function () {
     Route::get('/cekTersedia/{id}', [Surat::class, 'cekTersedia'])->name('cekTersedia');
 });
 Route::post('/login2', [AuthController::class, 'login'])->name('login2');
+
+// Halaman login
 Route::get('/login', [AuthController::class, 'index'])->name('login');
+
+// Fungsi login
 Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login.custom');
+
 Route::get('logout', [AuthController::class, 'signOut'])->name('logout');

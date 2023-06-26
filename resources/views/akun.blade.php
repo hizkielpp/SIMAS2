@@ -1,253 +1,253 @@
 @extends('template')
 @section('css')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Bootstrap data tables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
+<!-- Bootstrap data tables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/surat-masuk-style.css" />
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/surat-masuk-style.css" />
 @endsection
 @section('content')
-    <section class="surat__masuk content">
-        <div class="card p-4 mt-3">
-            <!-- Modal registrasi start -->
-            <div class="modal fade" id="registrasiAkun" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                Form Registrasi Akun
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation" novalidate
-                                method="POST" action="{{ route('inputAkun') }}">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label for="role" class="form-label black fw-normal">Peran</label>
-                                            <select id="role" name="role" class="form-select"
-                                                aria-label="Default select example" required>
-                                                <option selected disabled value="">...</option>
-                                                @foreach ($role as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan role dengan benar.
-                                            </div>
+<section class="surat__masuk content">
+    <div class="card p-4 mt-3">
+        <!-- Modal registrasi start -->
+        <div class="modal fade" id="registrasiAkun" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                            Form Registrasi Akun
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation" novalidate
+                            method="POST" action="{{ route('inputAkun') }}">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label black fw-normal">Peran</label>
+                                        <select id="role" name="role" class="form-select"
+                                            aria-label="Default select example" required>
+                                            <option selected disabled value="">...</option>
+                                            @foreach ($role as $k => $v)
+                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan role dengan benar.
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label black fw-normal">Nama</label>
-                                            <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                                id="name" name="name" required />
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan nama dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="NIP" class="form-label black fw-normal">NIP</label>
-                                            <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                                id="NIP" name="NIP" required />
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan NIP dengan benar.
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label black fw-normal">Email</label>
-                                            <input type="text" class="form-control" placeholder="Masukkan email akun"
-                                                id="email" name="email" required />
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan email dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label black fw-normal">Password</label>
-                                            <div class="d-flex">
-                                                <input type="password" class="form-control"
-                                                    placeholder="Masukkan password akun" id="password" name="password"
-                                                    aria-describedby="emailHelp" required />
-                                                <i class="far fa-eye-slash" id="passIcon" onclick="showPass()"
-                                                    style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan password dengan benar.
-                                            </div>
-                                        </div>
-
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label black fw-normal">Nama</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
+                                            id="name" name="name" required />
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan nama dengan benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="NIP" class="form-label black fw-normal">NIP</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
+                                            id="NIP" name="NIP" required />
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan NIP dengan benar.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label black fw-normal">Email</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan email akun"
+                                            id="email" name="email" required />
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan email dengan benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label black fw-normal">Password</label>
+                                        <div class="position-relative">
+                                            <input type="password" class="form-control"
+                                                placeholder="Masukkan password akun" id="password" name="password"
+                                                aria-describedby="emailHelp" required />
+                                            <i class="far fa-eye-slash position-absolute" id="passIcon"
+                                                onclick="showPass()"
+                                                style="top: 50%; right:3%; transform: translateY(-50%)"></i>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan password dengan benar.
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="mybtn light" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-                            <button type="submit" class="mybtn blue" form="formRegistrasi">
-                                Tambah
-                            </button>
-                        </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="mybtn blue" form="formRegistrasi">
+                            Tambah
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- Modal registrasi end -->
-
-            {{-- Tabel header start --}}
-            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-                <h4 class="fw__bold black">Daftar Akun</h4>
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiAkun"
-                        class="mybtn blue">
-                        <i class="fa-solid fa-plus me-2"></i>Tambah Akun
-                    </button>
-                </div>
-            </div>
-            {{-- Tabel header end --}}
-
-            {{-- Tabel content start --}}
-            <div class="table-responsive">
-                <table id="mytable" class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Username / Email</th>
-                            <th>Role</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $k => $v)
-                            <tr>
-                                <td>{{ $v->name }}</td>
-                                <td>{{ $v->email }}</td>
-                                @if ($v->role == 1)
-                                    <td>Super Admin</td>
-                                @elseif ($v->role == 2)
-                                    <td>Operator</td>
-                                @elseif ($v->role == 3)
-                                    <td>Pimpinan</td>
-                                @endif
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
-                                            class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
-                                            data-id="{{ $v->id }}">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                        <button type="button"
-                                            class="myicon red d-flex align-items-center justify-content-center"
-                                            onclick="confirmHapus('{{ $v->id }}')">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            {{-- Tabel content end --}}
-
-            <!-- Modal edit start -->
-            <div class="modal fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                Form Edit Akun
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formEdit" enctype="multipart/form-data" method="POST"
-                                action="{{ route('editAkun') }}">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="idAkun" hidden>
-                                            <label for="role" class="form-label black fw-normal">Role</label>
-                                            <select id="roleE" name="role" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected>-- Pilih salah satu --</option>
-                                                @foreach ($role as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label black fw-normal">Name</label>
-                                            <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                                id="nameE" name="name" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label black fw-normal">Password</label>
-                                            <div class="d-flex">
-                                                <input type="password" class="form-control"
-                                                    placeholder="Masukkan password akun" id="passwordE" name="password"
-                                                    aria-describedby="emailHelp" />
-                                                <i class="far fa-eye-slash" id="passIconE" onclick="showPassE()"
-                                                    style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label black fw-normal">Password
-                                                Confirmation</label>
-                                            <div class="d-flex">
-                                                <input type="password" class="form-control"
-                                                    placeholder="Masukkan password confirmation akun"
-                                                    id="passwordConfirmation" name="password"
-                                                    aria-describedby="emailHelp" />
-                                                <i class="far fa-eye-slash" id="passIconEC" onclick="showPassEC()"
-                                                    style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="mybtn light" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-                            <button type="button" class="mybtn blue" onclick="confirmEdit()">
-                                Simpan
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal edit end -->
-
         </div>
+        <!-- Modal registrasi end -->
 
-    </section>
+        {{-- Tabel header start --}}
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+            <h4 class="fw-semibold black">Daftar Akun</h4>
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiAkun"
+                    class="mybtn blue">
+                    <i class="fa-solid fa-plus me-2"></i>Tambah Akun
+                </button>
+            </div>
+        </div>
+        {{-- Tabel header end --}}
+
+        {{-- Tabel content start --}}
+        <div class="table-responsive">
+            <table id="mytable" class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Username / Email</th>
+                        <th>Role</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $k => $v)
+                    <tr>
+                        <td>{{ $v->name }}</td>
+                        <td>{{ $v->email }}</td>
+                        @if ($v->role == 1)
+                        <td>Super Admin</td>
+                        @elseif ($v->role == 2)
+                        <td>Operator</td>
+                        @elseif ($v->role == 3)
+                        <td>Pimpinan</td>
+                        @endif
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
+                                    class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
+                                    data-id="{{ $v->id }}">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <button type="button"
+                                    class="myicon red d-flex align-items-center justify-content-center"
+                                    onclick="confirmHapus('{{ $v->id }}')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        {{-- Tabel content end --}}
+
+        <!-- Modal edit start -->
+        <div class="modal fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                            Form Edit Akun
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEdit" enctype="multipart/form-data" method="POST"
+                            action="{{ route('editAkun') }}">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <input type="text" name="idAkun" hidden>
+                                        <label for="role" class="form-label black fw-normal">Role</label>
+                                        <select id="roleE" name="role" class="form-select"
+                                            aria-label="Default select example">
+                                            <option selected>-- Pilih salah satu --</option>
+                                            @foreach ($role as $k => $v)
+                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label black fw-normal">Name</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
+                                            id="nameE" name="name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label black fw-normal">Password</label>
+                                        <div class="d-flex">
+                                            <input type="password" class="form-control"
+                                                placeholder="Masukkan password akun" id="passwordE" name="password"
+                                                aria-describedby="emailHelp" />
+                                            <i class="far fa-eye-slash" id="passIconE" onclick="showPassE()"
+                                                style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label black fw-normal">Password
+                                            Confirmation</label>
+                                        <div class="d-flex">
+                                            <input type="password" class="form-control"
+                                                placeholder="Masukkan password confirmation akun"
+                                                id="passwordConfirmation" name="password"
+                                                aria-describedby="emailHelp" />
+                                            <i class="far fa-eye-slash" id="passIconEC" onclick="showPassEC()"
+                                                style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="button" class="mybtn blue" onclick="confirmEdit()">
+                            Simpan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal edit end -->
+
+    </div>
+
+</section>
 @endsection
 @section('js')
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Sweet alert -->
-    <script src="sweetalert2.all.min.js"></script>\
+<!-- Sweet alert -->
+<script src="sweetalert2.all.min.js"></script>\
 
-    {{-- Refresh page start --}}
-    <script>
-        function refreshDatatable() {
+{{-- Refresh page start --}}
+<script>
+    function refreshDatatable() {
             setInterval('location.reload()', 2000);
             // window.location.reload();
         }
-    </script>
-    {{-- Refresh page end --}}
+</script>
+{{-- Refresh page end --}}
 
-    <!-- Sweet alert : confirm delete start -->
-    <script>
-        function confirmHapus(id) {
+<!-- Sweet alert : confirm delete start -->
+<script>
+    function confirmHapus(id) {
             new Audio("audio/warning-edited.mp3").play();
             Swal.fire({
                 title: "Konfirmasi",
@@ -286,12 +286,12 @@
                 }
             });
         }
-    </script>
-    <!-- Sweet alert : confirm delete end -->
+</script>
+<!-- Sweet alert : confirm delete end -->
 
-    <!-- Sweet alert : confirm add start -->
-    <script>
-        function confirmAdd() {
+<!-- Sweet alert : confirm add start -->
+<script>
+    function confirmAdd() {
             Swal.fire({
                 title: "Konfirmasi",
                 text: "Pastikan data yang anda masukkan benar!",
@@ -312,13 +312,13 @@
                 }
             });
         }
-    </script>
-    <!-- Sweet alert : confirm add end -->
+</script>
+<!-- Sweet alert : confirm add end -->
 
 
-    <!-- Sweet alert : confirm edit start -->
-    <script>
-        function confirmEdit() {
+<!-- Sweet alert : confirm edit start -->
+<script>
+    function confirmEdit() {
             new Audio("audio/warning-edited.mp3").play();
             Swal.fire({
                 title: "Konfirmasi",
@@ -350,13 +350,13 @@
                 }
             });
         }
-    </script>
-    <!-- Sweet alert : confirm edit end -->
+</script>
+<!-- Sweet alert : confirm edit end -->
 
 
-    <!-- Show/hide password start -->
-    <script>
-        function showPassE() {
+<!-- Show/hide password start -->
+<script>
+    function showPassE() {
             var input = document.getElementById("passwordE");
             var icon = document.getElementById("passIconE");
             if (input.type === "password") {
@@ -397,11 +397,11 @@
                 icon.classList.toggle('fa-eye-slash');
             }
         }
-    </script>
-    <!-- Show/hide password end -->
+</script>
+<!-- Show/hide password end -->
 
-    <script>
-        function ambilNomor() {
+<script>
+    function ambilNomor() {
 
             if (dateNow == "") {
                 Swal.fire({
@@ -432,10 +432,10 @@
                 });
             }
         }
-    </script>
+</script>
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             var start = $('#inputTanggalStart').attr('value')
             var end = $('#inputTanggalEnd').attr('value')
             oke = false
@@ -455,28 +455,28 @@
             })
 
         });
-    </script>
-    @if (isset($_GET['start']) and isset($_GET['end']))
-        <script>
-            start = "{{ $_GET['start'] }}"
+</script>
+@if (isset($_GET['start']) and isset($_GET['end']))
+<script>
+    start = "{{ $_GET['start'] }}"
             end = "{{ $_GET['end'] }}"
             $('#inputTanggalStart').attr('value', start)
             $('#inputTanggalEnd').attr('value', end)
-        </script>
-    @endif
+</script>
+@endif
 
-    <!-- Data tables -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
-    </script>
+<!-- Data tables -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
+</script>
 
-    <!-- Data tables : responsive start -->
-    <script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <!-- Data tables : responsive end -->
+<!-- Data tables : responsive start -->
+<script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+<!-- Data tables : responsive end -->
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             $(".passId").click(function() {
                 let url = "{{ route('getAkun', ':id') }}";
                 url = url.replace(':id', $(this).data('id'));
@@ -491,10 +491,10 @@
                 $('input[name="idAkun"]').attr('value', $(this).data('id'));
             });
         });
-    </script>
-    <!-- Initializing data tables -->
-    <script>
-        var btn = document.getElementById("tes");
+</script>
+<!-- Initializing data tables -->
+<script>
+    var btn = document.getElementById("tes");
         $(document).ready(function() {
             $("#mytable").DataTable({
                 responsive: {
@@ -535,18 +535,18 @@
                 ],
             });
         });
-    </script>
-    {{-- set value of duet date picker --}}
-    <script>
-        var dateNow = "";
+</script>
+{{-- set value of duet date picker --}}
+<script>
+    var dateNow = "";
         const picker = document.querySelector("duet-date-picker")
         picker.addEventListener("duetChange", function(event) {
             $('input[name="nomorSurat"]').attr('value', '');
             dateNow = event.detail.valueAsDate
         });
-    </script>
-    <script>
-        function berhasil(txt) {
+</script>
+<script>
+    function berhasil(txt) {
             new Audio("audio/success-edited.mp3").play();
             // Swal.fire("Berhasil!", `${txt}`, "success");
             Swal.fire({
@@ -566,23 +566,21 @@
                 text: `Data gagal ditambahkan! pesan error : ${txt}`,
             })
         }
-    </script>
-    @if ($message = Session::get('success'))
-        <script>
-            berhasil("{{ Session::get('success') }}")
-        </script>
-        </div>
-    @endif
-    @if ($message = Session::get('failed'))
-        <script>
-            gagal("{{ Session::get('failed') }}")
-        </script>
-        </div>
-    @endif
+</script>
+@if ($message = Session::get('success'))
+<script>
+    berhasil("{{ Session::get('success') }}")
+</script>
+@endif
+@if ($message = Session::get('failed'))
+<script>
+    gagal("{{ Session::get('failed') }}")
+</script>
+@endif
 
-    {{-- Bootstrap form validation start --}}
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
+{{-- Bootstrap form validation start --}}
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
         (() => {
             'use strict'
 
@@ -601,8 +599,8 @@
                 }, false)
             })
         })()
-    </script>
-    {{-- Bootstrap form validation end --}}
+</script>
+{{-- Bootstrap form validation end --}}
 
 @endsection
 @section('ka', 'active')

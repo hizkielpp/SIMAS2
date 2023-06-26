@@ -242,6 +242,13 @@ p {
 }
 /* Card end */
 
+/* Alert start */
+.alert-primary {
+    color: #004085 !important;
+    background-color: #cce5ff !important;
+    border-color: #b8daff !important;
+}
+/* Alert end */
 /* ================================== */
 /*         Inisialisasi end           */
 /* ================================== */
@@ -298,6 +305,9 @@ p {
     min-width: 180px;
 }
 .surat__keluar #mytable thead th:last-child {
+    min-width: unset;
+}
+.surat__antidatir #mytable thead th:last-child {
     min-width: unset;
 }
 /* Tabel end */
@@ -517,7 +527,7 @@ p {
 }
 
 #registrasiSuratMasuk .perihal {
-    min-height: 8.3rem;
+    min-height: 13.9rem;
 }
 
 #editSuratMasuk .perihal,

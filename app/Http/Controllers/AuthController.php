@@ -44,7 +44,7 @@ class AuthController extends Controller
             DB::table('users')->insert($request->except('_token'));
             return redirect()->route('kelolaAkun')->with('success', 'Data akun baru berhasil dibuat');
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return redirect()->route('kelolaAkun')->with('failed', 'Gagal membuat data akun baru');
         }
     }
@@ -89,23 +89,24 @@ class AuthController extends Controller
     }
     public function customLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required',
+        // $request->validate([
+        //     'email' => 'required',
+        //     'password' => 'required',
+        // ]);
+        $credentials = $request->validate([
+            'email' => 'required|email',
             'password' => 'required',
         ]);
-        // $password = Hash::make($request->input('password'));
-        // $login = DB::table('users')->where('NIP', $request->input('email'))->orWhere('email', $request->input('email'))->where('password', $password)->first();
-        // if ($login) {
-        //     // dd('success');
-        //     $request->session()->put('user', $login);
+        // $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
+        // $request->only('email', 'password');
+        // $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
+        // if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
+        //     return redirect()->route('dashboard')->with('success', 'Signed in');
         // }
-        $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
-        $request->only('email', 'password');
-        $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
-        if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
+        if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard')->with('success', 'Signed in');
         }
-        return redirect('login')->with('failed', 'Login details are not valid');
+        return redirect('login')->with('loginFailed', 'Login gagal! silahkan coba lagi.');
     }
     public function dashboard()
     {

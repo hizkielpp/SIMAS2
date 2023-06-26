@@ -28,8 +28,7 @@
     <div class="wrapper">
         {{-- Preloader start --}}
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="img/logo-undip.png" alt="Loading Animation" height="100"
-                width="100" />
+            <img class="animation__wobble" src="img/logo-undip.png" alt="Loading Animation" height="100" width="100" />
         </div>
         {{-- Preloader end --}}
 
@@ -93,6 +92,9 @@
                 <nav class="mt-5">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
+                        <li class="nav-item nav-link mb-2 text-secondary pb-0" style="font-size: 14px">
+                            MENU
+                        </li>
                         <li class="nav-item mb-2">
                             <a href="{{ route('dashboard') }}" class="nav-link @yield('db')">
                                 <i class="fa-solid fa-house me-2"></i>
@@ -118,12 +120,15 @@
                             </a>
                         </li>
                         @if ($user->role == 1)
-                            <li class="nav-item mb-2">
-                                <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
-                                    <i class="fa-solid fa-user-gear me-2"></i>
-                                    <p class="fw-normal">Kelola Akun</p>
-                                </a>
-                            </li>
+                        <li class="nav-item nav-link mb-2 text-secondary pt-4 pb-0" style="font-size: 14px">
+                            ADMINISTRATOR
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
+                                <i class="fa-solid fa-user-gear me-2"></i>
+                                <p class="fw-normal">Kelola Akun</p>
+                            </a>
+                        </li>
                         @endif
 
                     </ul>

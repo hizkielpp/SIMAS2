@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PDF;
 
-
 class Surat extends Controller
 {
     public function messages(): array
@@ -375,8 +374,6 @@ class Surat extends Controller
             'jumlahLampiran' => 'required|integer',
             'tujuanSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:1024'
-        ], [
-            'lampiran.required' => 'tolong diisi',
         ]);
         // dd($request);
         //ambil nomor agenda
@@ -403,7 +400,6 @@ class Surat extends Controller
         $input['tanggalPengesahan'] = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
 
         try {
-            dd($input);
             DB::table('suratkeluar')->insert($input);
             return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
         } catch (\Exception $e) {

@@ -49,26 +49,34 @@
                         Silahkan masuk dengan akun sesuai prodi masing -masing
                     </h3>
 
-                    @if ($message = Session::get('failed'))
-                        <div class="feedback p-3 bg-white mt-3 rounded-2">
-                            <h5 class="text-danger">Username atau password salah. Silahkan periksa kembali dan coba
-                                lagi.
-                            </h5>
-                        </div>
+                    {{-- Alert login failed start --}}
+                    @if (session()->has('loginFailed'))
+                    <div class="feedback p-3 bg-white mt-3 rounded-2">
+                        <h5 class="text-danger">{{ session('loginFailed') }}
+                        </h5>
+                    </div>
                     @endif
+
+                    @if ($errors->any())
+                    <div class="feedback p-3 bg-white mt-3 rounded-2">
+                        <h5 class="text-danger">Login gagal! silahkan coba lagi.
+                        </h5>
+                    </div>
+                    @endif
+                    {{-- Alert login failed end --}}
 
                 </div>
                 <form method="POST" action="{{ route('login.custom') }}" class="myform">
                     @csrf
                     <div class="mb-3 mt-4">
-                        <label for="email" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="email" aria-describedby="emailHelp"
-                            name="email" autofocus />
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" aria-describedby="emailHelp" name="email"
+                            autofocus required />
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <div class="position-relative icon">
-                            <input type="password" class="form-control" id="password" name="password" />
+                            <input type="password" class="form-control" id="password" name="password" required />
                             <i class="fa-solid fa-eye position-absolute" onclick="showPass()" id="passIcon"></i>
                         </div>
                     </div>
