@@ -115,7 +115,9 @@ class AuthController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        if ($user->role == 2) {
+        // dd($user->role->nama);
+        // dd($user->role_id);
+        if ($user->role_id == 2) {
             $jumlahSM = DB::table('suratmasuk')->where('created_by', $user->id)->count();
             $jumlahSK = DB::table('suratkeluar')->where('jenis', 'biasa')->where('status', 'digunakan')->where('created_by', $user->id)->count();
             $jumlahSA = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->count();
@@ -129,7 +131,7 @@ class AuthController extends Controller
             'jumlahSK' => $jumlahSK,
             'jumlahSA' => $jumlahSA,
             'date' => now(),
-            'user' => $user
+            'user' => $user,
         ]);
     }
     public function signOut()

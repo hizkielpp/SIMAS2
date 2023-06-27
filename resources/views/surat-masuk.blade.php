@@ -225,7 +225,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="date" class="form-label black fw-normal">Tanggal
-                                            Pengajuan</label>
+                                            Surat</label>
                                         <div class="position-relative input__tanggal__form">
                                             <input type="text" id="datepicker" identifier="date" placeholder="..."
                                                 name="tanggalPengajuan" aria-placeholder="coba" class="form-control"
@@ -376,7 +376,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="date" class="form-label black fw-normal">Tanggal
-                                            Pengajuan</label>
+                                            Surat</label>
                                         <div class="position-relative input__tanggal__form">
                                             <input identifier="date" class="form-control" name="tanggalPengajuan"
                                                 id="tanggalPengajuanE" value="2020-06-16">

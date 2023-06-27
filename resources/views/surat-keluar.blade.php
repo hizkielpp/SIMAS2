@@ -502,7 +502,7 @@
                 <tbody>
                     @foreach ($suratKeluar as $k => $v)
                     <tr>
-                        <td class="no">{{ $k + 1 }}</td>
+                        <td class="no">{{ $loop->iteration }}</td>
                         <td>
                             {{ $v->disahkanOleh }} <br>Nomor :
                             {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}/{{

@@ -92,9 +92,11 @@
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Registrasi gagal!</strong>
-        <p class="mt-2">@foreach ($errors->all() as $error)
+        <p class="mt-2">
+            @foreach ($errors->all() as $error)
             {{ $error }}
-            @endforeach</p>
+            @endforeach
+        </p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -249,24 +251,6 @@
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
-                                        <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
-                                            Oleh</label>
-                                        <select id="disahkanOleh" name="disahkanOleh" class="form-select"
-                                            aria-label="Default select example" required>
-                                            <option selected disabled value="">
-                                                -- Pilih salah satu --
-                                            </option>
-                                            @foreach ($unit as $k => $v)
-                                            <option value="{{ $v->nama }}">
-                                                {{ $v->nama }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Mohon masukkan unit dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="tanggalPengesahan" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
                                         {{--
@@ -285,6 +269,24 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
+                                            Oleh</label>
+                                        <select id="disahkanOleh" name="disahkanOleh" class="form-select"
+                                            aria-label="Default select example" required>
+                                            <option selected disabled value="">
+                                                -- Pilih salah satu --
+                                            </option>
+                                            @foreach ($unit as $k => $v)
+                                            <option value="{{ $v->nama }}">
+                                                {{ $v->nama }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan unit dengan benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="lampiran" class="form-label black fw-normal">Upload Lampiran</label>
                                         <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -295,9 +297,10 @@
                                                     d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                                             </svg>
                                             <div>
-                                                Format file <span class="fw-semibold">.pdf</span> dan ukuran file
-                                                maksimal <span class="fw-semibold">1
-                                                    MB</span>.
+                                                Format file
+                                                <span class="fw-semibold">.pdf</span>
+                                                dan ukuran file maksimal
+                                                <span class="fw-semibold">1 MB</span>.
                                             </div>
                                         </div>
                                         <input type="file" class="form-control" id="lampiran" name="lampiran"
@@ -491,15 +494,19 @@
                         <td>
                             {{ $v->tujuanSurat }} <br />Nomor :
                             {{ $v->nomorSurat }}/{{ $v->kodeUnit
+
                             }}/{{ date('Y', strtotime($v->tanggalPengesahan))
+
                             }}/{{
                             convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}
                             <br />
                         </td>
                         <td>
                             {{ date('d ', strtotime($v->tanggalPengesahan))
+
                             }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengesahan)))
+
                             }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
                         </td>
                         <td>{{ $v->perihal }}</td>
@@ -536,7 +543,8 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
-                                {{-- <button type="button"
+                                {{--
+                                <button type="button"
                                     class="myicon position-relative red d-flex align-items-center justify-content-center"
                                     onclick="confirmHapus('{{ $v->id }}')">
                                     <i class="fa-solid fa-trash"></i>
@@ -546,7 +554,8 @@
                                         </div>
                                         <div id="arrow"></div>
                                     </div>
-                                </button> --}}
+                                </button>
+                                --}}
                             </div>
                         </td>
                     </tr>

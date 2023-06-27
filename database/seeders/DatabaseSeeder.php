@@ -3,11 +3,13 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\Models\Role;
+use App\Models\User;
+use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Faker\Factory as Faker;
 
 
 class DatabaseSeeder extends Seeder
@@ -32,6 +34,57 @@ class DatabaseSeeder extends Seeder
                 "updated_at" => now()
             ]);
         }
+
+        // Role admin
+        // Role::create([
+        //     "kode" => 1,
+        //     "nama" => "Admin",
+        // ]);
+
+        // // Role operator
+        // Role::create([
+        //     "kode" => 2,
+        //     "nama" => "Operator",
+        // ]);
+
+        // // Role pimpinan
+        // Role::create([
+        //     "kode" => 3,
+        //     "nama" => "Pimpinan",
+        // ]);
+
+        // // User admin
+        // User::create([
+        //     "role" => 1,
+        //     "name" => "Admin",
+        //     "password" => Hash::make("password"),
+        //     "email" => "admin@gmail.com",
+        //     "created_at" => now(),
+        //     "updated_at" => now(),
+        //     "NIP" => '1',
+        // ]);
+
+        // // User operator
+        // User::create([
+        //     "role" => 2,
+        //     "name" => "Operator",
+        //     "password" => Hash::make("password"),
+        //     "email" => "operator@gmail.com",
+        //     "created_at" => now(),
+        //     "updated_at" => now(),
+        //     "NIP" => '2',
+        // ]);
+
+        // // User pimpinan
+        // User::create([
+        //     "role" => 3,
+        //     "name" => "Pimpinan",
+        //     "password" => Hash::make("password"),
+        //     "email" => "pimpinan@gmail.com",
+        //     "created_at" => now(),
+        //     "updated_at" => now(),
+        //     "NIP" => '3',
+        // ]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
@@ -39,8 +92,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $faker = Faker::create();
+
         DB::table('users')->insert([
-            "role" => 1,
+            "role_id" => 1,
             "name" => "Pak Admin Mul",
             "password" => Hash::make("password"),
             "email" => "admin@gmail.com",
@@ -49,14 +103,13 @@ class DatabaseSeeder extends Seeder
             "NIP" => '24060119130105',
         ]);
         DB::table('users')->insert([
-            "role" => 2,
+            "role_id" => 2,
             "name" => "Pak Kadep1",
             "password" => Hash::make("password"),
             "email" => "kadep1@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
             "NIP" => '24060119130106',
-
         ]);
         // DB::table('users')->insert([
         //     "role" => 2,
