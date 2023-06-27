@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>okee| @yield('title')</title>
+    <title>{{ $user->roleTabel->nama }} | @yield('title')</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -120,16 +120,9 @@
                                 <p class="fw-normal">Surat Antidatir</p>
                             </a>
                         </li>
-                        <li class="nav-item mb-2">
-                            <a href="{{ route('suratAntidatir') }}" class="nav-link @yield('sa')">
-                                <i class="fa-solid fa-envelope me-2"></i>
-                                <p class="fw-normal">oke</p>
-                            </a>
-                        </li>
-                        {{ $user->ok->name }}
                         @if ($user->role_id == 1)
                         <li class="nav-item nav-link mb-2 text-secondary pt-4 pb-0" style="font-size: 14px">
-                            {{ ADMINISTRATOR }}
+                            ADMINISTRATOR
                         </li>
                         <li class="nav-item mb-2">
                             <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">

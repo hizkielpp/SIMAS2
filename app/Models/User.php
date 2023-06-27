@@ -45,8 +45,8 @@ class User extends Authenticatable
     ];
 
     // Relasi ke role
-    // public function roleTabel()
-    // {
-    //     return $this->belongsTo(Role::class, 'role_id');
-    // }
+    public function roleTabel()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }

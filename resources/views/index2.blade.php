@@ -5,7 +5,7 @@
     {{-- @dd($user->role->nama) --}}
     <div class="dashboard">
         <div class="d-flex align-items-start">
-            <h3 class="black fw-bold me-2">Selamat, Admin!</h3>
+            <h3 class="black fw-bold me-2">Selamat datang, {{ $user->roleTabel->nama }}!</h3>
             <img src="img/hand-icon.png" width="24px" alt="Hand Icon" />
         </div>
         <h5 class="black fw-normal mt-2 mb-3">
@@ -57,7 +57,6 @@
 </section>
 @endsection
 @section('js')
-{{-- a --}}
 {{-- Sweet alert start --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="sweetalert2.all.min.js"></script>

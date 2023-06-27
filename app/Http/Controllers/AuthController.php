@@ -26,7 +26,8 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $role = DB::table('role')->select('kode', 'nama')->get();
-        $akun = DB::table('users')->select('name', 'id', 'email', 'role')->get();
+        // $role = $user->roleTabel;
+        $akun = DB::table('users')->select('name', 'id', 'email', 'role_id')->get();
         return view('akun')->with(['users' => $akun, 'role' => $role, 'user' => $user]);
     }
     public function inputAkun(Request $request)
