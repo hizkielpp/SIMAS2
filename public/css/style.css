@@ -594,8 +594,8 @@ p {
     visibility: hidden;
 }
 #navbar .dropdown-menu {
-    right: 5%;
-    left: -10%;
+    right: 0;
+    left: -50%;
     top: 120%;
 }
 /* ================================== */

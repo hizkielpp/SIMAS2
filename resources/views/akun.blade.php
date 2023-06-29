@@ -10,13 +10,24 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
+    {{-- @dd($role) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">KELOLA AKUN</h5>
     </div>
     {{-- Navigation end --}}
 
-    {{-- Alert gagal menambahkan surat start --}}
+    {{-- Alert gagal jika NIP sama start --}}
+    @if (session()->has('nipFailed'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Tambah akun gagal!</strong>
+        <p class="mt-2">{{session('nipFailed')}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    {{-- Alert gagal jika NIP sama end --}}
+
+    {{-- Alert gagal default start --}}
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Tambah akun gagal!</strong>
@@ -26,13 +37,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    @if (session()->has('failed'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Tambah akun gagal!</strong>
-        <p class="mt-2">{{session('failed')}}</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
+    {{-- Alert gagal default end --}}
+
     {{-- Alert gagal menambahkan surat end --}}
     <div class="card p-4 mt-3">
         <!-- Modal registrasi start -->
@@ -53,8 +59,32 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
+                                        <label for="name" class="form-label black fw-normal">Nama</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan nama pengguna"
+                                            id="name" name="name" />
+                                        <div class="invalid-feedback">
+                                            Isian nama wajib diisi.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="NIP" class="form-label black fw-normal">NIP</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan NIP pengguna"
+                                            id="NIP" name="NIP" required />
+                                        <div class="invalid-feedback">
+                                            Isian NIP wajib diisi.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label black fw-normal">Email</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan email pengguna"
+                                            id="email" name="email" required />
+                                        <div class="invalid-feedback">
+                                            Isian email wajib diisi.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="role" class="form-label black fw-normal">Peran</label>
-                                        <select id="role" name="role" class="form-select"
+                                        <select id="role" name="role_id" class="form-select"
                                             aria-label="Default select example" required>
                                             <option selected disabled value="">...</option>
                                             @foreach ($role as $k => $v)
@@ -62,46 +92,21 @@
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
-                                            Mohon masukkan role dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label black fw-normal">Nama</label>
-                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                            id="name" name="name" required />
-                                        <div class="invalid-feedback">
-                                            Mohon masukkan nama dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="NIP" class="form-label black fw-normal">NIP</label>
-                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                            id="NIP" name="NIP" required />
-                                        <div class="invalid-feedback">
-                                            Mohon masukkan NIP dengan benar.
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label black fw-normal">Email</label>
-                                        <input type="text" class="form-control" placeholder="Masukkan email akun"
-                                            id="email" name="email" required />
-                                        <div class="invalid-feedback">
-                                            Mohon masukkan email dengan benar.
+                                            Isian peran wajib diisi.
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label black fw-normal">Password</label>
                                         <div class="position-relative">
                                             <input type="password" class="form-control"
-                                                placeholder="Masukkan password akun" id="password" name="password"
+                                                placeholder="Masukkan password pengguna" id="password" name="password"
                                                 aria-describedby="emailHelp" required />
                                             <i class="far fa-eye-slash position-absolute" id="passIcon"
                                                 onclick="showPass()"
                                                 style="top: 50%; right:3%; transform: translateY(-50%)"></i>
                                         </div>
                                         <div class="invalid-feedback">
-                                            Mohon masukkan password dengan benar.
+                                            Isian password wajib diisi.
                                         </div>
                                     </div>
 
@@ -140,33 +145,27 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th>Username / Email</th>
+                        <th>Email</th>
                         <th>Role</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $k => $v)
+                    @foreach ($users as $pengguna)
                     <tr>
-                        <td>{{ $v->name }}</td>
-                        <td>{{ $v->email }}</td>
-                        @if ($v->role == 1)
-                        <td>Super Admin</td>
-                        @elseif ($v->role == 2)
-                        <td>Operator</td>
-                        @elseif ($v->role == 3)
-                        <td>Pimpinan</td>
-                        @endif
+                        <td>{{ $pengguna->name }}</td>
+                        <td>{{ $pengguna->email }}</td>
+                        <td>{{ $pengguna->roleTabel->nama }}</td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
-                                    data-id="{{ $v->id }}">
+                                    data-id="{{ $pengguna->id }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
                                 <button type="button"
                                     class="myicon red d-flex align-items-center justify-content-center"
-                                    onclick="confirmHapus('{{ $v->id }}')">
+                                    onclick="confirmHapus('{{ $pengguna->id }}')">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
@@ -196,20 +195,20 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
+                                        <label for="name" class="form-label black fw-normal">Nama</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
+                                            id="nameE" name="name" />
+                                    </div>
+                                    <div class="mb-3">
                                         <input type="text" name="idAkun" hidden>
                                         <label for="role" class="form-label black fw-normal">Role</label>
-                                        <select id="roleE" name="role" class="form-select"
+                                        <select id="roleE" name="roleE" class="form-select"
                                             aria-label="Default select example">
                                             <option selected>-- Pilih salah satu --</option>
                                             @foreach ($role as $k => $v)
                                             <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label black fw-normal">Name</label>
-                                        <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                            id="nameE" name="name" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label black fw-normal">Password</label>
@@ -424,71 +423,6 @@
 </script>
 <!-- Show/hide password end -->
 
-<script>
-    function ambilNomor() {
-
-            if (dateNow == "") {
-                Swal.fire({
-                    confirmButtonColor: "#2F5596",
-                    text: "Silahkan isi tanggal disahkan terlebih dahulu!"
-                });
-                new Audio("audio/error-edited.mp3").play();
-
-            } else {
-                month = 1 + dateNow.getMonth()
-                date = dateNow.getFullYear() + '-' + month + '-' + dateNow.getDate()
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ route('ambilNomor') }}" + "?jenis=antidatir&tanggalPengesahan=" + date,
-                    statusCode: {
-                        404: function(xhr) {
-                            new Audio("audio/error-edited.mp3").play();
-                            Swal.fire("Gagal!", xhr.responseText, "error");
-                        },
-                        401: function(xhr) {
-                            new Audio("audio/error-edited.mp3").play();
-                            Swal.fire("Gagal!", xhr.responseText, "error");
-                        },
-                        200: function(xhr) {
-                            $('#nomorSurat').attr('value', xhr)
-                        }
-                    },
-                });
-            }
-        }
-</script>
-
-<script>
-    $(document).ready(function() {
-            var start = $('#inputTanggalStart').attr('value')
-            var end = $('#inputTanggalEnd').attr('value')
-            oke = false
-            $('#inputTanggalStart').change(function() {
-                start = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratAntidatir') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-            $('#inputTanggalEnd').change(function() {
-                end = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratAntidatir') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-
-        });
-</script>
-@if (isset($_GET['start']) and isset($_GET['end']))
-<script>
-    start = "{{ $_GET['start'] }}"
-            end = "{{ $_GET['end'] }}"
-            $('#inputTanggalStart').attr('value', start)
-            $('#inputTanggalEnd').attr('value', end)
-</script>
-@endif
-
 <!-- Data tables -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
@@ -499,23 +433,6 @@
     src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 <!-- Data tables : responsive end -->
 
-<script>
-    $(document).ready(function() {
-            $(".passId").click(function() {
-                let url = "{{ route('getAkun', ':id') }}";
-                url = url.replace(':id', $(this).data('id'));
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(data) {
-                        $('#nameE').val(data.name)
-                        $('#roleE').val(data.role)
-                    }
-                });
-                $('input[name="idAkun"]').attr('value', $(this).data('id'));
-            });
-        });
-</script>
 <!-- Initializing data tables -->
 <script>
     var btn = document.getElementById("tes");
@@ -561,14 +478,6 @@
         });
 </script>
 {{-- set value of duet date picker --}}
-<script>
-    var dateNow = "";
-        const picker = document.querySelector("duet-date-picker")
-        picker.addEventListener("duetChange", function(event) {
-            $('input[name="nomorSurat"]').attr('value', '');
-            dateNow = event.detail.valueAsDate
-        });
-</script>
 <script>
     function berhasil(txt) {
             new Audio("audio/success-edited.mp3").play();
