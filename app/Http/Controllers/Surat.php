@@ -123,58 +123,52 @@ class Surat extends Controller
     }
     public function inputSM(Request $request)
     {
-        // dd($request);
-        $request->validate([
+        // Validasi input laravel start
+        $validatedData = $request->validate([
             'nomorSurat' => 'required',
+            'tujuanSurat' => 'required',
+            'tanggalPengajuan' => 'required',
+            'asalSurat' => 'required',
             'kodeHal' => 'required',
             'sifatSurat' => 'required',
-            'tanggalPengajuan' => 'required',
+            'lampiran' => 'required|mimes:docx,pdf|max:1024',
+            'perihal' => 'required',
             'jumlahLampiran' => 'required',
-            'asalSurat' => 'required',
-            'tujuanSurat' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);
-        // dd($request);
+        // Validasi input laravel end
 
-        //validasi nomor surat
-        $result = DB::table('suratmasuk')->where('nomorSurat', $request->input('nomorSurat'))->first();
-        if ($result) {
-            return redirect()->route('suratMasuk')->with('failed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
-        }
-
-        //ambil nomor agenda
+        // Set nomor agenda start
         $nomorAgenda = DB::table('suratmasuk')->max('nomorAgenda');
         if ($nomorAgenda == null) {
             $nomorAgenda = 1;
         } else {
             $nomorAgenda++;
         }
+        // Set nomor agenda start
 
+
+        // Set input start
         $userId = Auth::id();
         $file = $request->file('lampiran');
-        $fileName = time();
+        $fileName = time() . '.' . $file->getClientOriginalName();
         $request->lampiran->move(public_path('uploads'), $fileName);
+        $validatedData['created_by'] = $userId;
+        $validatedData['nomorAgenda'] = $nomorAgenda;
+        $validatedData['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
+        $validatedData['lampiran'] = $fileName;
+        $validatedData['created_at'] = now();
+        $validatedData['updated_at'] = now();
+        // Set input end
 
         try {
-            DB::table('suratmasuk')->insert([
-                'created_by' => $userId,
-                'nomorAgenda' => $nomorAgenda,
-                'nomorSurat' => $request->input('nomorSurat'),
-                'kodeHal' => $request->input('kodeHal'),
-                'sifatSurat' => $request->input('sifatSurat'),
-                'tanggalPengajuan' => date('Y-m-d', strtotime($request->input('tanggalPengajuan'))),
-                'asalSurat' => $request->input('asalSurat'),
-                'jumlahLampiran' => $request->input('jumlahLampiran'),
-                'lampiran' => $fileName,
-                'perihal' => $request->input('perihal'),
-                'created_at' => now(),
-                'updated_at' => now(),
-                'tujuanSurat' => $request->input('tujuanSurat')
-            ]);
-            return redirect()->route('suratMasuk')->with('success', 'Data surat masuk berhasil ditambahkan');
+            DB::table('suratmasuk')->insert($validatedData);
+            // dd($validatedData);
+            return back()->with('success', 'Data surat masuk berhasil ditambahkan');
         } catch (\Exception $e) {
-            return $e;
-            return redirect()->route('suratMasuk')->with('failed', 'gagal menginput data surat masuk' . $e);
+            // Validasi nomor surat dengan database
+            if (DB::table('suratmasuk')->where('nomorSurat', $validatedData['nomorSurat'])) {
+                return back()->with('failed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
+            }
         }
     }
     public function deleteSM(Request $request)
@@ -300,7 +294,15 @@ class Surat extends Controller
         $hal = DB::table('hal')->get();
         // dd($suratMasuk);
         if ($suratMasuk) {
-            return view('surat-masuk')->with(['user' => $user, 'suratMasuk' => $suratMasuk, 'sifat' => $sifat, 'hal' => $hal, 'tujuan' => $tujuan]);
+            return view('surat-masuk')->with(
+                [
+                    'user' => $user,
+                    'suratMasuk' => $suratMasuk,
+                    'sifat' => $sifat,
+                    'hal' => $hal,
+                    'tujuan' => $tujuan
+                ]
+            );
         } else {
             return view('suratMasuk')->with(['failed' => 'data surat masuk kosong', 'sifat' => $sifat, 'hal' => $hal]);
         }

@@ -301,9 +301,9 @@ p {
     font-weight: 300;
     font-size: 14px;
 }
-#mytable thead th:last-child {
+/* #mytable thead th:last-child {
     min-width: 180px;
-}
+} */
 .surat__keluar #mytable thead th:last-child {
     min-width: unset;
 }

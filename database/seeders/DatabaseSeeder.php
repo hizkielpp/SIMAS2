@@ -21,8 +21,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Initializing carbon
+        $dateNow = Carbon::now();
+
+        // Role seeder start
         $role = [
-            ["1", "Super Admin"],
+            ["1", "Admin"],
             ["2", "Operator"],
             ["3", "Pimpinan"]
         ];
@@ -34,100 +38,30 @@ class DatabaseSeeder extends Seeder
                 "updated_at" => now()
             ]);
         }
+        // Role seeder start
 
-        // Role admin
-        // Role::create([
-        //     "kode" => 1,
-        //     "nama" => "Admin",
-        // ]);
-
-        // // Role operator
-        // Role::create([
-        //     "kode" => 2,
-        //     "nama" => "Operator",
-        // ]);
-
-        // // Role pimpinan
-        // Role::create([
-        //     "kode" => 3,
-        //     "nama" => "Pimpinan",
-        // ]);
-
-        // // User admin
-        // User::create([
-        //     "role" => 1,
-        //     "name" => "Admin",
-        //     "password" => Hash::make("password"),
-        //     "email" => "admin@gmail.com",
-        //     "created_at" => now(),
-        //     "updated_at" => now(),
-        //     "NIP" => '1',
-        // ]);
-
-        // // User operator
-        // User::create([
-        //     "role" => 2,
-        //     "name" => "Operator",
-        //     "password" => Hash::make("password"),
-        //     "email" => "operator@gmail.com",
-        //     "created_at" => now(),
-        //     "updated_at" => now(),
-        //     "NIP" => '2',
-        // ]);
-
-        // // User pimpinan
-        // User::create([
-        //     "role" => 3,
-        //     "name" => "Pimpinan",
-        //     "password" => Hash::make("password"),
-        //     "email" => "pimpinan@gmail.com",
-        //     "created_at" => now(),
-        //     "updated_at" => now(),
-        //     "NIP" => '3',
-        // ]);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        $faker = Faker::create();
-
+        // User seeder start
         DB::table('users')->insert([
             "role_id" => 1,
-            "name" => "Pak Admin Mul",
+            "name" => "Admin",
             "password" => Hash::make("password"),
             "email" => "admin@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
-            "NIP" => '24060119130105',
+            "nip" => '123',
         ]);
         DB::table('users')->insert([
             "role_id" => 2,
-            "name" => "Pak Kadep1",
+            "name" => "Operator",
             "password" => Hash::make("password"),
-            "email" => "kadep1@gmail.com",
+            "email" => "operator@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
-            "NIP" => '24060119130106',
+            "nip" => '1234',
         ]);
-        // DB::table('users')->insert([
-        //     "role" => 2,
-        //     "name" => "Pak Kadep2",
-        //     "password" => Hash::make("password"),
-        //     "email" => "kadep2@gmail.com",
-        //     "created_at" => now(),
-        //     "updated_at" => now()
-        // ]);
-        // DB::table('users')->insert([
-        //     "role" => 3,
-        //     "name" => "Pak Pemimpin",
-        //     "password" => Hash::make("password"),
-        //     "email" => "pemimpin@gmail.com",
-        //     "created_at" => now(),
-        //     "updated_at" => now()
-        // ]);
-        //seeder untuk tabel Unit
+        // User seeder end
+
+        // Unit seeder start
         $unit = [
             ["UN7.F4", "Dekan"],
             ["UN7.F4.1", "Wakil Dekan Akademik & Kemahasiswaan"],
@@ -148,7 +82,9 @@ class DatabaseSeeder extends Seeder
                 "updated_at" => now()
             ]);
         }
-        //seeder untuk tabel Tujuan
+        // Unit seeder end
+
+        // Tujuan seeder start
         $tujuan = [
             ["DEAN", "Dekan Fakultas"],
             ["WDI", "Wakil Dekan I"],
@@ -174,7 +110,9 @@ class DatabaseSeeder extends Seeder
                 "updated_at" => now()
             ]);
         }
-        //seeder untuk tabel Hal
+        // Tujuan seeder end
+
+        // Hal seeder start
         $hal = [
             ["AK", "Akreditasi"],
             ["BW", "Beasiswa"],
@@ -224,7 +162,15 @@ class DatabaseSeeder extends Seeder
                 "updated_at" => now()
             ]);
         }
-        $sifat = [["1", "Biasa"], ["2", "Penting"], ["3", "Segera"], ["4", "Rahasia"]];
+        // Hal seeder end
+
+        // Sifat seeder start
+        $sifat = [
+            ["1", "Biasa"],
+            ["2", "Penting"],
+            ["3", "Segera"],
+            ["4", "Rahasia"]
+        ];
         foreach ($sifat as $k => $v) {
             DB::table('sifat')->insert([
                 "kode" => $v[0],
@@ -233,87 +179,96 @@ class DatabaseSeeder extends Seeder
                 "updated_at" => now()
             ]);
         }
-        for ($i = 1; $i <= 10; $i++) {
-            DB::table('suratKeluar')->insert([
-                "nomorAgenda" => $i,
-                "nomorSurat" => $i,
-                "kodeUnit" => "UN7.5.4.1",
-                "kodeHal" => "KU",
-                "sifatSurat" => "1",
-                "status" => 'digunakan',
-                "tanggalPengesahan" => now(),
-                // "asalSurat"=> "Ketua Departemen Gizi",
-                "tujuanSurat" => "RSND",
-                "disahkanOleh" => "Dekan",
-                "lampiran" => "oke.jpg",
-                "jumlahLampiran" => 2,
-                "perihal" => "OKee ini adalah perihal",
-                "created_at" => now(),
-                "updated_at" => now(),
-                "created_by" => 1,
+        // Sifat seeder end
 
-            ]);
-        }
-        for ($i = 1; $i <= 10; $i++) {
-            DB::table('suratMasuk')->insert([
-                "nomorAgenda" => $i,
-                "nomorSurat" => $i . "/UN7.F4/2015/X",
-                "kodeHal" => "KU",
-                "tujuanSurat" => "DEAN",
-                "sifatSurat" => "1",
-                "tanggalPengajuan" => now(),
-                "asalSurat" => "KETUA DEPARTEMEN ILMU GIZI",
-                "jumlahLampiran" => 2,
-                "created_by" => 1,
-                "lampiran" => "oke.jpg",
-                "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
-                "created_at" => now(),
-                "updated_at" => now()
-            ]);
-        }
-        $max = DB::table('suratKeluar')->max('nomorAgenda');
-        for ($i = 1; $i <= 20; $i++) {
-            if ($i <= 10) {
-                DB::table('suratKeluar')->insert([
-                    "nomorAgenda" => $max + $i,
-                    "kodeUnit" => "UN7.5.4.1",
-                    "nomorSurat" => $max + $i,
-                    "kodeHal" => "KU",
-                    "tujuanSurat" => "RSND",
-                    "sifatSurat" => "1",
-                    "tanggalPengesahan" => now(),
-                    "created_by" => 1,
-                    // "asalSurat"=> "KETUA DEPARTEMEN ILMU GIZI",
-                    "jumlahLampiran" => 2,
-                    "disahkanOleh" => "Dekan",
-                    "status" => "digunakan",
-                    "lampiran" => "oke.jpg",
-                    "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
-                    "created_at" => now(),
-                    'jenis' => 'antidatir',
-                    "updated_at" => now()
-                ]);
-            } else {
-                DB::table('suratKeluar')->insert([
-                    "nomorAgenda" => null,
-                    "kodeUnit" => "UN7.5.4.1",
-                    "nomorSurat" => $max + $i,
-                    "kodeHal" => "KU",
-                    "tujuanSurat" => "RSND",
-                    "disahkanOleh" => "Dekan",
-                    "sifatSurat" => "1",
-                    "tanggalPengesahan" => now(),
-                    // "asalSurat"=> "KETUA DEPARTEMEN ILMU GIZI",
-                    "jumlahLampiran" => 2,
-                    "created_by" => 1,
-                    "status" => "belum",
-                    "lampiran" => "oke.jpg",
-                    "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
-                    "created_at" => now(),
-                    'jenis' => 'antidatir',
-                    "updated_at" => now()
-                ]);
-            }
-        }
+        // Surat masuk seeder start
+        // for ($i = 1; $i <= 10; $i++) {
+        //     DB::table('suratMasuk')->insert([
+        //         "nomorAgenda" => $i,
+        //         "nomorSurat" => $i . "/UN7.F4/2015/X",
+        //         "kodeHal" => "KU",
+        //         "tujuanSurat" => "DEAN",
+        //         "sifatSurat" => "1",
+        //         "tanggalPengajuan" => $dateNow->subDay(),
+        //         "asalSurat" => "KETUA DEPARTEMEN ILMU GIZI",
+        //         "jumlahLampiran" => 2,
+        //         "created_by" => 1,
+        //         "lampiran" => "default-lampiran.pdf",
+        //         "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
+        //         "created_at" => now(),
+        //         "updated_at" => now()
+        //     ]);
+        // }
+        // Surat masuk seeder end
+
+        // Surat keluar seeder start
+        // for ($i = 1; $i <= 10; $i++) {
+        //     DB::table('suratKeluar')->insert([
+        //         "nomorAgenda" => $i,
+        //         "nomorSurat" => $i,
+        //         "kodeUnit" => "UN7.5.4.1",
+        //         "kodeHal" => "KU",
+        //         "sifatSurat" => "1",
+        //         "status" => 'digunakan',
+        //         "tanggalPengesahan" => $dateNow->subDay(),
+        //         "tujuanSurat" => "RSND",
+        //         "disahkanOleh" => "Dekan",
+        //         "lampiran" => "default-lampiran.pdf",
+        //         "jumlahLampiran" => 2,
+        //         "perihal" => "Permohonan penelitian universitas",
+        //         "created_at" => now(),
+        //         "updated_at" => now(),
+        //         "created_by" => 1,
+
+        //     ]);
+        // }
+        // Surat keluar seeder end
+
+        // Surat antidatir seeder start
+        // $max = DB::table('suratKeluar')->max('nomorAgenda');
+        // for ($i = 1; $i <= 20; $i++) {
+        //     if ($i <= 10) {
+        //         DB::table('suratKeluar')->insert([
+        //             "nomorAgenda" => $max + $i,
+        //             "kodeUnit" => "UN7.5.4.1",
+        //             "nomorSurat" => $max + $i,
+        //             "kodeHal" => "KU",
+        //             "tujuanSurat" => "RSND",
+        //             "sifatSurat" => "1",
+        //             "tanggalPengesahan" => now(),
+        //             "created_by" => 1,
+        //             // "asalSurat"=> "KETUA DEPARTEMEN ILMU GIZI",
+        //             "jumlahLampiran" => 2,
+        //             "disahkanOleh" => "Dekan",
+        //             "status" => "digunakan",
+        //             "lampiran" => "oke.jpg",
+        //             "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
+        //             "created_at" => now(),
+        //             'jenis' => 'antidatir',
+        //             "updated_at" => now()
+        //         ]);
+        //     } else {
+        //         DB::table('suratKeluar')->insert([
+        //             "nomorAgenda" => null,
+        //             "kodeUnit" => "UN7.5.4.1",
+        //             "nomorSurat" => $max + $i,
+        //             "kodeHal" => "KU",
+        //             "tujuanSurat" => "RSND",
+        //             "disahkanOleh" => "Dekan",
+        //             "sifatSurat" => "1",
+        //             "tanggalPengesahan" => now(),
+        //             // "asalSurat"=> "KETUA DEPARTEMEN ILMU GIZI",
+        //             "jumlahLampiran" => 2,
+        //             "created_by" => 1,
+        //             "status" => "belum",
+        //             "lampiran" => "oke.jpg",
+        //             "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
+        //             "created_at" => now(),
+        //             'jenis' => 'antidatir',
+        //             "updated_at" => now()
+        //         ]);
+        //     }
+        // }
+        // Surat antidatir seeder end
     }
 }

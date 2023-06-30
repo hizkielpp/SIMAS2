@@ -574,6 +574,7 @@
                                 <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
                             </div>
                         </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -594,9 +595,6 @@
 <script src="sweetalert2.all.min.js"></script>
 {{-- Sweet alert end --}}
 
-<script>
-    var x = document.querySelector
-</script>
 {{-- Function refresh datatables start --}}
 <script>
     function refreshDatatable() {
@@ -788,19 +786,6 @@
         });
 </script>
 
-{{-- @if (isset($_GET['start']) and isset($_GET['end']))
-<script>
-    start = "{{ $_GET['start'] }}"
-            // $('#inputTanggalStart').attr('value', new Date(start).toLocaleDateString('en-GB'))
-            $('#inputTanggalStart').datepicker('setDate', start)
-            end = "{{ $_GET['end'] }}"
-            console.log(end)
-            $('#inputTanggalEnd').datepicker('setDate', end)
-
-            // $('#inputTanggalEnd').attr('value', new Date(end).toLocaleDateString('en-GB'))
-</script>
-@endif --}}
-
 <!-- Data tables start -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
@@ -812,21 +797,6 @@
     src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 <!-- Data tables : responsive end -->
 
-{{-- Data tables : button export start --}}
-<script type="text/javascript" charset="utf8"
-    src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
-</script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
-</script>
-<script type="text/javascript" charset="utf8"
-    src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js">
-</script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js">
-</script>
-{{-- Data tables : button export end --}}
-
 <!-- Initializing data tables start -->
 <script>
     function showDisposisi(id) {
@@ -834,7 +804,7 @@
         }
 
         function showLampiran(id) {
-            console.log(id)
+            console.log(id);
             $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
         }
 
@@ -904,21 +874,6 @@
 </script>
 <!-- Initializing data tables end -->
 
-{{-- Add keterangan button export start --}}
-{{-- <script>
-    $(document).ready(function() {
-            var btn = document.querySelector(".dt-buttons")
-            var descText = document.createElement('h5')
-            descText.textContent = "Export :";
-            descText.className = "desc__export"
-            btn.insertBefore(descText, btn[0]);
-
-            $('.test').on('click', function() {
-
-            })
-
-        })
-</script> --}}
 {{-- script tambahan untuk menangkap session --}}
 <script>
     function berhasil(txt) {
@@ -948,23 +903,6 @@
 <script>
     // berhasil("{{ Session::get('success') }}")
 </script>
-</div>
-@endif
-@if ($message = Session::get('failed'))
-<script>
-    // gagal("{{ Session::get('failed') }}")
-</script>
-</div>
-@endif
-@if ($errors->any())
-@foreach ($errors->all() as $error)
-{{-- <div>$error</div> --}}
-<script>
-    // gagal()
-                // console.log($error)
-                // errorMsg += {{ $error }}
-</script>
-@endforeach
 @endif
 
 {{-- Bootstrap form validation start --}}

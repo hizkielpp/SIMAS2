@@ -26,32 +26,31 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $role = DB::table('role')->select('kode', 'nama')->get();
-        // $role = $user->roleTabel;
-        // $role = $user->roleTabel;
-        // $akun = DB::table('users')->select('name', 'id', 'email', 'role_id')->get();
         return view('akun')->with(['users' => User::all(), 'role' => $role, 'user' => $user]);
-        // return view('akun')->with(['role' => $role, 'user' => $user]);
     }
     public function inputAkun(Request $request)
     {
         // Validasi input
         $validatedData = $request->validate([
             'name' => 'required',
-            'NIP' => 'required',
+            'nip' => 'required',
             'email' => 'required',
             'role_id' => 'required',
             'password' => 'required'
         ]);
         $validatedData = $request->except('_token');
+
+        // Enkripsi password
         $validatedData['password'] = Hash::make($validatedData['password']);
+
+        // Input ke database
         try {
             DB::table('users')->insert($validatedData);
             return back()->with('success', 'Data akun baru berhasil dibuat');
         } catch (\Exception $e) {
-            if (DB::table('users')->where('NIP', $validatedData['NIP'])) {
+            if (DB::table('users')->where('nip', $validatedData['nip'])) {
                 return back()->with('nipFailed', 'NIP telah digunakan. Pastikan data yang anda masukkan benar!');
             }
-            return back()->with('failed', 'Gagal membuat data akun baru');
         }
     }
     public function getAkun(Request $request)

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('NIP')->unique();
+            $table->string('nip')->unique();
             $table->rememberToken();
             $table->timestamps();
         });

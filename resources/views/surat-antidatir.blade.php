@@ -495,7 +495,9 @@
                             {{ $v->tujuanSurat }} <br />Nomor :
                             {{ $v->nomorSurat }}/{{ $v->kodeUnit
 
+
                             }}/{{ date('Y', strtotime($v->tanggalPengesahan))
+
 
                             }}/{{
                             convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}
@@ -504,8 +506,10 @@
                         <td>
                             {{ date('d ', strtotime($v->tanggalPengesahan))
 
+
                             }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengesahan)))
+
 
                             }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
                         </td>
@@ -853,7 +857,7 @@
             language: {
                 lengthMenu: "Tampilkan _MENU_",
                 zeroRecords:
-                    "Anda belum mengupload laporan kegiatan. <br>Silahkan upload laporan kegiatan terlebih dahulu.",
+                    "Surat antidatir tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
                 info: "Menampilkan _PAGE_ dari _PAGES_",
                 infoEmpty: "Baris tidak tersedia",
                 infoFiltered: "(filtered from _MAX_ total records)",
@@ -878,20 +882,6 @@
         });
     });
 </script>
-
-{{-- Add keterangan button export start --}}
-{{--
-<script>
-    $(document).ready(function () {
-        var btn = document.querySelector(".dt-buttons");
-        var descText = document.createElement("h5");
-        descText.textContent = "Export :";
-        descText.className = "desc__export";
-        btn.insertBefore(descText, btn[0]);
-    });
-</script>
---}}
-{{-- Add keterangan button export end --}}
 
 <script>
     function berhasil(txt) {

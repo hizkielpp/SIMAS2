@@ -67,9 +67,9 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="NIP" class="form-label black fw-normal">NIP</label>
+                                        <label for="nip" class="form-label black fw-normal">NIP</label>
                                         <input type="text" class="form-control" placeholder="Masukkan NIP pengguna"
-                                            id="NIP" name="NIP" required />
+                                            id="nip" name="nip" required />
                                         <div class="invalid-feedback">
                                             Isian NIP wajib diisi.
                                         </div>
@@ -505,11 +505,6 @@
     berhasil("{{ Session::get('success') }}")
 </script>
 @endif
-{{-- @if ($message = Session::get('failed'))
-<script>
-    gagal("{{ Session::get('failed') }}")
-</script>
-@endif --}}
 
 {{-- Bootstrap form validation start --}}
 <script>

@@ -91,9 +91,9 @@
             $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
         }
 
-        function showDate(val) {
-            console.log(val)
-        }
+        // function showDate(val) {
+        //     console.log(val)
+        // }
 </script>
 
 <!-- Bootstrap data tables -->
@@ -476,8 +476,7 @@
                         class="mybtn" />
                     <i class="fa-solid fa-calendar-days position-absolute"></i>
                 </div>
-                <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
-                    class="mybtn blue">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar" class="mybtn blue">
                     <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
                 </button>
             </div>
@@ -917,13 +916,9 @@
 
 <!-- Initializing data tables -->
 <script>
-    var btn = document.getElementById("tes");
-        $(document).ready(function() {
-            $("#mytable").DataTable({
-                // paging: false,
-                // ordering: false,
-                // searching: false,
-                columnDefs: [{
+    $(document).ready(function() {
+        $("#mytable").DataTable({
+            columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5, 6]
                 }],
@@ -934,24 +929,16 @@
                         target: "",
                     },
                 },
-                // responsive: false,
-                // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
-                // dom: '<"table-responsive"tpf>',
                 dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 destroy: true,
                 order: false,
                 language: {
                     lengthMenu: "Tampilkan _MENU_",
-                    zeroRecords: "Anda belum mengupload laporan kegiatan. <br>Silahkan upload laporan kegiatan terlebih dahulu.",
+                    zeroRecords: "Surat keluar tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
                     info: "Menampilkan _PAGE_ dari _PAGES_",
                     infoEmpty: "Baris tidak tersedia",
                     infoFiltered: "(filtered from _MAX_ total records)",
                     search: "Cari :",
-                    // pagingType: "numbers",
-                    // paginate: {
-                    //   previous: "Sebelumnya",
-                    //   next: "Berikutnya",
-                    // },
                 },
                 oLanguage: {
                     oPaginate: {
@@ -962,23 +949,10 @@
                 lengthMenu: [
                     [10, 20, -1],
                     [10, 20, "Semua"],
-                ],
-            });
+            ],
         });
+    });
 </script>
-
-{{-- Add keterangan button export start --}}
-{{-- <script>
-    $(document).ready(function() {
-            var btn = document.querySelector(".dt-buttons")
-            var descText = document.createElement('h5')
-            descText.textContent = "Export :";
-            descText.className = "desc__export"
-            btn.insertBefore(descText, btn[0]);
-
-        })
-</script> --}}
-{{-- Add keterangan button export end --}}
 
 <script>
     function berhasil(txt) {
@@ -1017,16 +991,6 @@
 </script>
 </div>
 @endif
-{{-- @if($errors->has('lampiran'))
-<script>
-    alert('{{ $message }}')
-
-</script>
-@endif --}}
-{{-- @if (isset($errors->lampiran))
-<script>
-</script>
-@endif --}}
 
 {{-- Bootstrap form validation start --}}
 <script>
