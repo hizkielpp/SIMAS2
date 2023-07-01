@@ -5,7 +5,7 @@
 }
 
 .login .content {
-    background-color: var(--blue);
+    background-color: #2f5596;
 }
 
 .login .content .body {
@@ -86,7 +86,7 @@
 /* Large */
 @media only screen and (min-width: 992px) {
     .login {
-        display: flex;
+        display: flex !important;
     }
 
     .login .content,
