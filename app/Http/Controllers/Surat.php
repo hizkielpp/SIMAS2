@@ -61,9 +61,9 @@ class Surat extends Controller
     }
     public function downloadNaskah()
     {
-        $filePath = public_path("TATA_NASKAH_DINAS.pdf");
+        $filePath = public_path("Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf");
         $headers = ['Content-Type: application/pdf'];
-        $fileName = time() . '.pdf';
+        $fileName = "Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf";
         return response()->download($filePath, $fileName, $headers);
     }
     public function inputSA(Request $request)
@@ -375,10 +375,14 @@ class Surat extends Controller
             'jumlahLampiran' => 'required|integer',
             'tujuanSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:1024'
+        ], [
+            'lampiran.required' => 'tolong diisi',
         ]);
         // dd($request);
         //ambil nomor agenda
-        $nomorAgenda = DB::table('suratkeluar')->max('nomorAgenda');
+        $nomorAgenda = DB::table('suratkeluar')
+            ->whereMonth('tanggalPengesahan', '=', date('m', strtotime(now())))
+            ->max('nomorAgenda');
         if ($nomorAgenda == null) {
             $nomorAgenda = 1;
         } else {
@@ -399,6 +403,7 @@ class Surat extends Controller
         $input['tanggalPengesahan'] = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
 
         try {
+            dd($input);
             DB::table('suratkeluar')->insert($input);
             return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
         } catch (\Exception $e) {

@@ -76,16 +76,16 @@ class DatabaseSeeder extends Seeder
         // ]);
         //seeder untuk tabel Unit
         $unit = [
-            ["UN7.5.4.1", "Ketua Senat"],
-            ["UN7.5.4.1.1", "Sekretaris Senat"],
-            ["UN7.5.4.2", "Dekan"],
-            ["UN7.5.4.2.1", "Wakil Dekan Akademik & Kemahasiswaan"],
-            ["UN7.5.4.2.2", "Wakil Dekan Sumberdaya"],
-            ["UN7.5.4.3", "Kepala Bagian Tata Usaha"],
-            ["UN7.5.4.3.1", "Kepala Subbagian Akademik & Kemahasiswaan"],
-            ["UN7.5.4.3.2", "Kepala Subbagian Keuangan & Kepegawaian"],
-            ["UN7.5.4.3.3", "Kepala Subbagian Umum & Pengelolaan Aset"],
-            ["UN7.5.4.4", "Ketua Departemen"]
+            ["UN7.F4", "Dekan"],
+            ["UN7.F4.1", "Wakil Dekan Akademik & Kemahasiswaan"],
+            ["UN7.F4.2", "Wakil Dekan Sumber Daya"],
+            ["UN7.F4.3", "Ketua Senat"],
+            ["UN7.F4.3.1", "Sekretaris Senat"],
+            ["UN7.F4.4", "Manager Tata Usaha"],
+            ["UN7.F4.4.1", "Supervisor Akademik & Kemahasiswaan"],
+            ["UN7.F4.4.2", "Supervisor Sumber Daya"],
+            ["UN7.F4.5", "Ketua Departemen"],
+            ["UN7.F4.6", "Ketua Program Studi"]
         ];
         foreach ($unit as $k => $v) {
             DB::table('unit')->insert([
