@@ -103,7 +103,8 @@ class Surat extends Controller
             // dd($target);
             if ($target) {
                 $file = $request->file('lampiran');
-                $fileName = time() . '.' . $file->getClientOriginalName();
+                // $fileName = time() . '.' . $file->getClientOriginalName();
+                $fileName = $file->getClientOriginalName();
                 $request->lampiran->move(public_path('uploads'), $fileName);
                 $input['lampiran'] = $fileName;
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -150,7 +151,8 @@ class Surat extends Controller
         // Set input start
         $userId = Auth::id();
         $file = $request->file('lampiran');
-        $fileName = time() . '.' . $file->getClientOriginalName();
+        // $fileName = $file->getClientOriginalName() . '-' . time();
+        $fileName = $file->getClientOriginalName();
         $request->lampiran->move(public_path('uploads'), $fileName);
         $validatedData['created_by'] = $userId;
         $validatedData['nomorAgenda'] = $nomorAgenda;
@@ -389,7 +391,8 @@ class Surat extends Controller
         }
         $userId = Auth::id();
         $file = $request->file('lampiran');
-        $fileName = time() . '.' . $file->getClientOriginalName();
+        // $fileName = time() . '.' . $file->getClientOriginalName();
+        $fileName = $file->getClientOriginalName();
         $request->lampiran->move(public_path('uploads'), $fileName);
         $input = $request->except(['_token']);
         $input['lampiran'] = $fileName;
@@ -412,11 +415,18 @@ class Surat extends Controller
 
     public function ambilNomor(Request $request)
     {
+        // Inisialisasi batas 1 bulan
         $start = now()->startOfMonth()->toDateString();
         $end = now()->endOfMonth()->toDateString();
+
+        // Surat keluar
         if ($request->input('jenis') == "biasa") {
-            $suratKeluar = DB::table('suratKeluar')->where('created_at', '>=', $start)->where('created_at', '<=', $end)->max('nomorSurat');
+
+            // Ambil nomor surat terakhir
+            $suratKeluar = DB::table('suratkeluar')->where('created_at', '>=', $start)->where('created_at', '<=', $end)->max('nomorSurat');
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
+
+            // Surat antidatir
         } elseif (($request->input('jenis') == "antidatir") and ($request->input('tanggalPengesahan'))) {
             $suratKeluar = DB::table('suratKeluar')->where('created_at', '>=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'belum')->min('nomorSurat');
             if ($suratKeluar == 0) {
