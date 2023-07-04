@@ -134,7 +134,7 @@ class Surat extends Controller
             'sifatSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:1024',
             'perihal' => 'required',
-            'jumlahLampiran' => 'required',
+            'jumlahLampiran' => 'nullable',
         ]);
         // Validasi input laravel end
 
@@ -164,9 +164,9 @@ class Surat extends Controller
 
         try {
             DB::table('suratmasuk')->insert($validatedData);
-            // dd($validatedData);
             return back()->with('success', 'Data surat masuk berhasil ditambahkan');
         } catch (\Exception $e) {
+            return $e;
             // Validasi nomor surat dengan database
             if (DB::table('suratmasuk')->where('nomorSurat', $validatedData['nomorSurat'])) {
                 return back()->with('failed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
@@ -203,6 +203,7 @@ class Surat extends Controller
     }
     public function editSM(Request $request)
     {
+        // dd($request->nomorSurat);
         $surat = DB::table('suratmasuk')->where('id', $request->input('idSurat'))->first();
         $updatedValue = $request->except(['_token', 'idSurat']);
         if ($request->file('lampiran')) {
@@ -218,14 +219,17 @@ class Surat extends Controller
         $userId = Auth::id();
         $updatedValue['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
         try {
-
             DB::table('suratmasuk')
                 ->where('id', $request->input('idSurat'))  // find your surat by id
                 ->limit(1)  // optional - to ensure only one record is updated.
                 ->update($updatedValue);
             return redirect()->route('suratMasuk')->with('success', 'Data surat masuk berhasil diubah');
         } catch (\Exception $e) {
-            return redirect()->route('suratMasuk')->with('failed', 'Gagal mengubah data surat masuk' . $e);
+            // Validasi nomor surat dengan database
+            if (DB::table('suratmasuk')->where('nomorSurat', $request->nomorSurat)) {
+                return back()->with('editFailed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
+            }
+            // return redirect()->route('suratMasuk')->with('failed', 'Gagal mengubah data surat masuk' . $e);
         }
     }
     public function editSK(Request $request)
@@ -396,7 +400,7 @@ class Surat extends Controller
             'sifatSurat' => 'required',
             'disahkanOleh' => 'required',
             'tanggalPengesahan' => 'required',
-            'jumlahLampiran' => 'required|integer',
+            'jumlahLampiran' => 'nullable',
             'tujuanSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:1024'
         ]);

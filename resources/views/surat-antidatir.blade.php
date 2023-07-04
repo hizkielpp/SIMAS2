@@ -172,10 +172,10 @@
                                         <label for="nomorSurat" class="form-label black fw-normal">Nomor Surat</label>
                                         <div class="input d-flex align-items-center">
                                             <input type="text" readonly class="form-control input__nomor"
-                                                placeholder="..." id="nomorSurat" name="nomorSurat"
-                                                aria-describedby="emailHelp" required />
+                                                id="nomorSurat" name="nomorSurat" aria-describedby="emailHelp"
+                                                required />
                                             <button type="button" class="ms-2" onclick="ambilNomor()">
-                                                Ambil Nomor
+                                                Ambil Nomor <i class="fas fa-search ms-1"></i>
                                             </button>
                                         </div>
                                         <div class="invalid-feedback">
@@ -188,7 +188,7 @@
                                         <select id="kodeUnit" name="kodeUnit" class="form-select"
                                             aria-label="Default select example" required>
                                             <option selected disabled value="">
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($unit as $k => $v)
                                             <option value="{{ $v->kode }}">
@@ -206,7 +206,7 @@
                                         <select id="kodeHal" name="kodeHal" class="form-select"
                                             aria-label="Default select example" required>
                                             <option selected disabled value="">
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($hal as $k => $v)
                                             <option value="{{ $v->kode }}">
@@ -221,22 +221,12 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="tujuanSurat" class="form-label black fw-normal">Tujuan Surat</label>
-                                        <input type="text" class="form-control" placeholder="Masukkan tujuan surat"
-                                            id="tujuanSurat" name="tujuanSurat" aria-describedby="emailHelp" required />
+                                        <input type="text" class="form-control"
+                                            placeholder="Contoh : Fakultas Kedokteran" id="tujuanSurat"
+                                            name="tujuanSurat" aria-describedby="emailHelp" required />
                                         <div class="invalid-feedback">
                                             Mohon masukkan tujuan surat dengan
                                             benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
-                                            Lampiran</label>
-                                        <input type="number" class="form-control" placeholder="Masukkan tujuan surat"
-                                            id="jumlahLampiran" name="jumlahLampiran" aria-describedby="emailHelp"
-                                            min="0" required />
-                                        <div class="invalid-feedback">
-                                            Mohon masukkan jumlah lampiran
-                                            dengan benar.
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -244,7 +234,7 @@
                                         <select id="sifatSurat" name="sifatSurat" class="form-select"
                                             aria-label="Default select example" required>
                                             <option selected disabled value="">
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($sifat as $k => $v)
                                             <option value="{{ $v->kode }}">
@@ -255,6 +245,24 @@
                                         <div class="invalid-feedback">
                                             Mohon masukkan sifat surat dengan
                                             benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
+                                            Oleh</label>
+                                        <select id="disahkanOleh" name="disahkanOleh" class="form-select"
+                                            aria-label="Default select example" required>
+                                            <option selected disabled value="">
+                                                ...
+                                            </option>
+                                            @foreach ($unit as $k => $v)
+                                            <option value="{{ $v->nama }}">
+                                                {{ $v->nama }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan unit dengan benar.
                                         </div>
                                     </div>
                                 </div>
@@ -275,24 +283,6 @@
                                         <div class="invalid-feedback">
                                             Mohon masukkan tanggal disahkan
                                             surat dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
-                                            Oleh</label>
-                                        <select id="disahkanOleh" name="disahkanOleh" class="form-select"
-                                            aria-label="Default select example" required>
-                                            <option selected disabled value="">
-                                                -- Pilih salah satu --
-                                            </option>
-                                            @foreach ($unit as $k => $v)
-                                            <option value="{{ $v->nama }}">
-                                                {{ $v->nama }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Mohon masukkan unit dengan benar.
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -317,6 +307,17 @@
                                         <div class="invalid-feedback">
                                             Mohon masukkan lampiran dengan
                                             benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
+                                            Lampiran</label>
+                                        <input type="number" class="form-control" placeholder="Contoh : 1"
+                                            id="jumlahLampiran" name="jumlahLampiran" aria-describedby="emailHelp"
+                                            min="0" required />
+                                        <div class="invalid-feedback">
+                                            Mohon masukkan jumlah lampiran
+                                            dengan benar.
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -371,7 +372,7 @@
                                         <select class="form-select" aria-label="Default select example" id="kodeUnitE"
                                             name="kodeUnit">
                                             <option selected value="">
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($unit as $k => $v)
                                             <option value="{{ $v->kode }}">
@@ -385,7 +386,7 @@
                                         <select class="form-select" aria-label="Default select example" id="kodeHalE"
                                             name="kodeHal">
                                             <option value="" selected>
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($hal as $k => $v)
                                             <option value="{{ $v->kode }}">
@@ -405,7 +406,7 @@
                                         <select id="sifatSuratE" name="sifatSurat" class="form-select"
                                             aria-label="Default select example">
                                             <option value="" selected>
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($sifat as $k => $v)
                                             <option value="{{ $v->kode }}">
@@ -430,7 +431,7 @@
                                         <select id="disahkanOlehE" name="disahkanOleh" class="form-select"
                                             aria-label="Default select example">
                                             <option value="" selected>
-                                                -- Pilih salah satu --
+                                                ...
                                             </option>
                                             @foreach ($unit as $k => $v)
                                             <option value="{{ $v->nama }}">

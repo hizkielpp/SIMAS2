@@ -27,7 +27,7 @@ return new class extends Migration
             $table->date('tanggalPengajuan');
             $table->string('asalSurat');
             $table->string('tujuanSurat');
-            $table->integer('jumlahLampiran');
+            $table->integer('jumlahLampiran')->nullable();
             $table->string('lampiran');
             $table->longText('perihal')->nullable();
             $table->timestamps();

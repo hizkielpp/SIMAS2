@@ -219,15 +219,6 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
-                                            Lampiran</label>
-                                        <input type="number" class="form-control" placeholder="Masukkan jumlah lampiran"
-                                            id="jumlahLampiranE" name="jumlahLampiran" min="0"
-                                            aria-describedby="emailHelp" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="mb-3">
                                         <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
                                         <select id="disahkanOlehE" name="disahkanOleh" class="form-select"
@@ -240,6 +231,8 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="tanggalPengesahanE" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
@@ -253,10 +246,16 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label black fw-normal">Upload Lampiran</label>
+                                        <label class="form-label black fw-normal">Upload Lampiran Baru</label>
                                         <input type="file" class="form-control" name="lampiran"
-                                            aria-describedby="emailHelp" accept=".pdf" />
+                                            aria-describedby="emailHelp" accept=".pdf" value="" />
                                         <span>Nama file lampiran : </span><span id="lampiranE"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
+                                            Lampiran</label>
+                                        <input type="number" class="form-control" id="jumlahLampiranE"
+                                            name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="perihalE" class="form-label black fw-normal">Perihal</label>
@@ -299,11 +298,10 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="nomorSurat" class="form-label black fw-normal">
-                                            Surat</label>
+                                            Nomor Surat</label>
                                         <div class="input d-flex align-items-center">
-                                            <input type="text" class="form-control readonly" placeholder="Nomor surat"
-                                                id="nomorSurat" aria-describedby="emailHelp" name="nomorSurat"
-                                                required />
+                                            <input type="text" readonly class="form-control readonly" id="nomorSurat"
+                                                aria-describedby="emailHelp" name="nomorSurat" required />
                                             <button type="button" class="ms-2 ambilNomor">
                                                 Ambil Nomor <i class="fas fa-search ms-1"></i>
                                             </button>
@@ -354,16 +352,6 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
-                                            Lampiran</label>
-                                        <input type="number" class="form-control" placeholder="Contoh : 1"
-                                            id="jumlahLampiran" name="jumlahLampiran" min="0"
-                                            aria-describedby="emailHelp" required />
-                                        <div class="invalid-feedback">
-                                            Masukkan jumlah lampiran surat dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="sifatSurat" class="form-label black fw-normal">Sifat</label>
                                         <select class="form-select" id="sifatSurat" name="sifatSurat"
                                             aria-label="Default select example" required>
@@ -376,8 +364,6 @@
                                             Masukkan sifat surat dengan benar.
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
@@ -392,6 +378,8 @@
                                             Masukkan unit dengan benar.
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="tanggalPengesahan" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
@@ -428,7 +416,16 @@
                                             Masukkan lampiran dengan benar.
                                         </div>
                                     </div>
-
+                                    <div class="mb-3">
+                                        <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
+                                            Lampiran</label>
+                                        <input type="number" class="form-control" placeholder="Contoh : 1"
+                                            id="jumlahLampiran" name="jumlahLampiran" min="0"
+                                            aria-describedby="emailHelp" />
+                                        <div class="invalid-feedback">
+                                            Masukkan jumlah lampiran surat dengan benar.
+                                        </div>
+                                    </div>
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1"
                                             class="form-label black fw-normal">Perihal</label>

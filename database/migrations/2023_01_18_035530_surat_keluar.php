@@ -32,7 +32,7 @@ return new class extends Migration
             $table->enum('jenis', ['biasa', 'antidatir']);
             $table->enum('status', ['digunakan', 'belum'])->default('belum');
             $table->string('tujuanSurat');
-            $table->integer('jumlahLampiran');
+            $table->integer('jumlahLampiran')->nullable();
             $table->longText('perihal')->nullable();
             $table->timestamps();
         });

@@ -106,6 +106,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+    @if (session()->has('editFailed'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal mengubah data surat!</strong>
+        <p class="mt-2">{{session('editFailed')}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     {{-- Alert gagal menambahkan surat end --}}
 
     {{-- Keterangan start --}}
@@ -299,7 +306,7 @@
                                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
                                             Lampiran</label>
                                         <input type="number" class="form-control" placeholder="Contoh : 1"
-                                            id="jumlahLampiran" name="jumlahLampiran" min="0" required />
+                                            id="jumlahLampiran" name="jumlahLampiran" min="0" />
                                         <div class="invalid-feedback">
                                             Masukkan jumlah lampiran surat dengan benar.
                                         </div>
@@ -419,8 +426,8 @@
                                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
                                             Lampiran</label>
                                         <input id="jumlahLampiranE" type="number" class="form-control"
-                                            placeholder="Masukkan nomor surat" id="jumlahLampiranE"
-                                            name="jumlahLampiran" min="0" />
+                                            placeholder="Contoh : 1" id="jumlahLampiranE" name="jumlahLampiran"
+                                            min="0" />
                                     </div>
                                 </div>
                             </div>
