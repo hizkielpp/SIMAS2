@@ -241,9 +241,6 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Sweet alert -->
-<script src="sweetalert2.all.min.js"></script>
-
 {{-- Edit akun start --}}
 <script>
     $(".passId").click(function() {

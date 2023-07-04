@@ -6,9 +6,10 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-{{-- Datepicker Jquery : input tanggal start --}}
+{{-- Fungsi rentang tanggal start --}}
 <script>
-    $(function() {
+    $(document).ready(function() {
+        $(function() {
             // Initializing
             $("#inputTanggalStart").datepicker()
             // Ganti tahun
@@ -18,18 +19,9 @@
             if (start) {
                 $("#inputTanggalStart").datepicker("setDate", `${start}`)
                 $("#inputTanggalStart").attr('value', start)
-
             }
-
-
-            errorMsg = ""
         });
-</script>
-
-
-{{-- Datepicker Jquery : input tanggal end --}}
-<script>
-    $(function() {
+        $(function() {
             // Initializing
             $("#inputTanggalEnd").datepicker()
             // Ganti tahun
@@ -40,12 +32,21 @@
                 $("#inputTanggalEnd").datepicker("setDate", `${end}`)
                 $("#inputTanggalEnd").attr('value', end)
             }
-
-
-
-
+        });
         });
 </script>
+@if (isset($_GET['start']) and isset($_GET['end']))
+<script>
+    let start = "{{ $_GET['start'] }}"
+    let end = "{{ $_GET['end'] }}"
+</script>
+@else
+<script>
+    let start = ""
+    let end = ""
+</script>
+@endif
+{{-- Fungsi rentang tanggal start --}}
 
 {{-- Datepicker Jquery : registrasi surat --}}
 <script>
@@ -90,10 +91,6 @@
     function showLampiran(id) {
             $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
         }
-
-        // function showDate(val) {
-        //     console.log(val)
-        // }
 </script>
 
 <!-- Bootstrap data tables -->
@@ -589,9 +586,6 @@
 @section('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Sweet alert -->
-<script src="sweetalert2.all.min.js"></script>
-
 {{-- refresh page --}}
 <script>
     function refreshDatatable() {
@@ -602,10 +596,8 @@
                     dataType: 'json',
                     success: function(data) {
                         // var data = JSON.parse(data);
-                        console.log(data);
                         $('#mytable').DataTable().destroy();
                         data.forEach((value, index) => {
-                            console.log(value.disahkanOleh);
                             htmlNew = ""
                             htmlNew += `<tr>
                 <td class="no">${index+1}</td>
@@ -661,10 +653,7 @@
                 </button>
               </div>
             </td></tr>`
-                            console.log(value)
                         });
-                        console.log(htmlNew);
-                        // $('#mytable').DataTable().draw();
                     }
                 });
             });
@@ -674,7 +663,6 @@
 <!-- Sweet alert : confirm delete -->
 <script>
     function confirmHapus(id) {
-            // console.log(id)
             new Audio("audio/warning-edited.mp3").play();
             Swal.fire({
                 title: "Konfirmasi",
@@ -838,8 +826,6 @@
             var end = $('#inputTanggalEnd').attr('value')
             oke = false
             $('#inputTanggalStart').change(function() {
-                // console.log(start)
-                // console.log(end)
                 start = this.value
                 if (start && end) {
                     window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
@@ -847,8 +833,6 @@
                 }
             })
             $('#inputTanggalEnd').change(function() {
-                // console.log(start)
-                // console.log(end)
                 end = this.value
                 if (start && end) {
                     window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
@@ -862,19 +846,16 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
-                        console.log(data)
                         $('input[name="jenisSurat"]').val('biasa')
                         $("#tujuanSuratE").val(data.tujuanSurat)
                         tanggal = new Date(data.tanggalPengesahan)
                         y = tanggal.getFullYear()
                         m = parseInt(tanggal.getMonth()) + 1
                         d = tanggal.getDate()
-                        console.log(`0${m}/${d}/${y}`)
                         // Ganti tahun
                         $("#datepickerEdit").datepicker(
                             'setDate',
                             `0${m}/${d}/${y}`);
-                        // console.log(data.tanggalPengesahan)
                         $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
                         $('#tujuanSuratE').attr('value', data.tujuanSurat)
                         $('#perihalE').val(data.perihal)
@@ -890,14 +871,6 @@
             });
         });
 </script>
-@if (isset($_GET['start']) and isset($_GET['end']))
-<script>
-    start = "{{ $_GET['start'] }}"
-            end = "{{ $_GET['end'] }}"
-            $('#inputTanggalStart').attr('value', start)
-            $('#inputTanggalEnd').attr('value', end)
-</script>
-@endif
 <!-- Data tables : responsive -->
 <script type="text/javascript" charset="utf8"
     src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>

@@ -8,40 +8,47 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-{{-- Datepicker Jquery : input tanggal start --}}
+{{-- Fungsi rentang tanggal start --}}
 <script>
-    dateNow = "";
-    $(function () {
-        // Initializing
-        $("#inputTanggalStart").datepicker();
-        // Ganti tahun
-        $("#inputTanggalStart").datepicker("option", "changeYear", true);
-        // Ganti format tanggal
-        $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy");
-        if (start) {
-            $("#inputTanggalStart").datepicker("setDate", `${start}`);
-            $("#inputTanggalStart").attr("value", start);
-        }
-
-        errorMsg = "";
-    });
+    $(document).ready(function() {
+        $(function() {
+            // Initializing
+            $("#inputTanggalStart").datepicker()
+            // Ganti tahun
+            $("#inputTanggalStart").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
+            if (start) {
+                $("#inputTanggalStart").datepicker("setDate", `${start}`)
+                $("#inputTanggalStart").attr('value', start)
+            }
+        });
+        $(function() {
+            // Initializing
+            $("#inputTanggalEnd").datepicker()
+            // Ganti tahun
+            $("#inputTanggalEnd").datepicker("option", "changeYear", true);
+            // Ganti format tanggal
+            $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
+            if (end) {
+                $("#inputTanggalEnd").datepicker("setDate", `${end}`)
+                $("#inputTanggalEnd").attr('value', end)
+            }
+        });
+        });
 </script>
-
-{{-- Datepicker Jquery : input tanggal end --}}
+@if (isset($_GET['start']) and isset($_GET['end']))
 <script>
-    $(function () {
-        // Initializing
-        $("#inputTanggalEnd").datepicker();
-        // Ganti tahun
-        $("#inputTanggalEnd").datepicker("option", "changeYear", true);
-        // Ganti format tanggal
-        $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
-        if (end) {
-            $("#inputTanggalEnd").datepicker("setDate", `${end}`);
-            $("#inputTanggalEnd").attr("value", end);
-        }
-    });
+    let start = "{{ $_GET['start'] }}"
+    let end = "{{ $_GET['end'] }}"
 </script>
+@else
+<script>
+    let start = ""
+    let end = ""
+</script>
+@endif
+{{-- Fungsi rentang tanggal start --}}
 
 {{-- Datepicker Jquery : registrasi surat --}}
 <script>
@@ -354,10 +361,9 @@
                     <div class="modal-body">
                         <form id="formEdit" method="POST" enctype="multipart/form-data" action="{{ route('editSK') }}">
                             @csrf
-                            <input type="text" name="jenisSurat" value="antidatir" hidden />
+                            <input type="text" name="jenisSurat" hidden />
                             <div class="row">
                                 <div class="col-lg-6 col-12">
-                                    <input type="text" name="jenisSurat" value="antidatir" hidden />
                                     <input type="text" name="idSurat" hidden />
                                     <div class="mb-3">
                                         <label for="kodeUnitE" class="form-label black fw-normal">Kode Unit
@@ -570,13 +576,6 @@
                     @endforeach
                 </tbody>
             </table>
-            {{-- @if ($errors->any())
-            <script>
-                gagal();
-            </script>
-            {{ implode('', $errors->all('
-            <div>:message</div>
-            ')) }} @endif --}}
         </div>
         {{-- Tabel content end --}}
     </div>
@@ -585,8 +584,6 @@
 @endsection @section('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Sweet alert -->
-<script src="sweetalert2.all.min.js"></script>
 {{-- Refresh page --}}
 <script>
     function refreshDatatable() {
@@ -598,7 +595,6 @@
 <script>
     function confirmHapus(id) {
             // refreshDatatable()
-            console.log(id);
             new Audio("audio/warning-edited.mp3").play();
             Swal.fire({
                 title: "Konfirmasi",
@@ -725,7 +721,6 @@
             });
             new Audio("audio/error-edited.mp3").play();
         } else {
-            console.log(dateNow);
             $.ajax({
                 type: "GET",
                 url:
@@ -755,8 +750,6 @@
             var end = $('#inputTanggalEnd').attr('value')
             oke = false
             $('#inputTanggalStart').change(function() {
-                console.log(start)
-                console.log(end)
                 start = this.value
                 if (start && end) {
                     window.location.href = '{{ route('suratAntidatir') }}' + '?start=' + start + '&end=' +
@@ -765,11 +758,8 @@
             })
             $('#datepicker').change(function() {
                 dateNow = this.value
-                console.log(dateNow)
             })
             $('#inputTanggalEnd').change(function() {
-                console.log(start)
-                console.log(end)
                 end = this.value
                 if (start && end) {
                     window.location.href = '{{ route('suratAntidatir') }}' + '?start=' + start + '&end=' +
@@ -778,14 +768,6 @@
             })
         });
 </script>
-@if (isset($_GET['start']) and isset($_GET['end']))
-<script>
-    start = "{{ $_GET['start'] }}";
-    end = "{{ $_GET['end'] }}";
-    $("#inputTanggalStart").attr("value", start);
-    $("#inputTanggalEnd").attr("value", end);
-</script>
-@endif
 <!-- Data tables -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
@@ -810,30 +792,40 @@
 {{-- Data tables : button export end --}}
 <script>
     $(document).ready(function () {
-        $(".passId").click(function () {
-            let url = "{{ route('getSK', ':id') }}";
-            url = url.replace(":id", $(this).data("id"));
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function (data) {
-                    $('input[name="jenisSurat"]').val("antidatir");
-                    $("#tujuanSuratE").val(data.tujuanSurat);
-                    $("#tanggalPengesahanE").val(data.tanggalPengesahan);
-                    $("#tujuanSuratE").attr("value", data.tujuanSurat);
-                    $("#kodeHalE").val(data.kodeHal);
-                    $("#kodeUnitE").val(data.kodeUnit);
-                    $("#disahkanOlehE").val(data.disahkanOleh);
-                    $("#sifatSuratE").val(data.sifatSurat);
-                    $("#perihalE").val(data.perihal);
-                    $("#jumlahLampiranE").val(data.jumlahLampiran);
-                    $("#lampiranE").html(data.lampiran);
-                },
+        $(".passId").click(function() {
+                let url = "{{ route('getSK', ':id') }}";
+                url = url.replace(':id', $(this).data('id'));
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        $('input[name="jenisSurat"]').val('antidatir')
+                        $("#tujuanSuratE").val(data.tujuanSurat)
+                        tanggal = new Date(data.tanggalPengesahan)
+                        y = tanggal.getFullYear()
+                        m = parseInt(tanggal.getMonth()) + 1
+                        d = tanggal.getDate()
+                        // Ganti tahun
+                        $("#datepickerEdit").datepicker(
+                            'setDate',
+                            `0${m}/${d}/${y}`);
+                        // console.log(data.tanggalPengesahan)
+                        $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
+                        $('#tujuanSuratE').attr('value', data.tujuanSurat)
+                        $('#perihalE').val(data.perihal)
+                        $("#kodeHalE").val(data.kodeHal)
+                        $("#kodeUnitE").val(data.kodeUnit)
+                        $("#disahkanOlehE").val(data.disahkanOleh)
+                        $('#sifatSuratE').val(data.sifatSurat)
+                        $('#jumlahLampiranE').val(data.jumlahLampiran)
+                        $('#lampiranE').html(data.lampiran)
+                    }
+                });
+                $('input[name="idSurat"]').attr('value', $(this).data('id'));
             });
-            $('input[name="idSurat"]').attr("value", $(this).data("id"));
-        });
     });
 </script>
+
 <!-- Initializing data tables -->
 <script>
     var btn = document.getElementById("tes");

@@ -9,15 +9,10 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-@if (isset($_GET['start']) and isset($_GET['end']))
+{{-- Fungsi rentang tanggal start --}}
 <script>
-    start = "{{ $_GET['start'] }}"
-            end = "{{ $_GET['end'] }}"
-</script>
-@endif
-{{-- Datepicker Jquery : input tanggal start --}}
-<script>
-    $(function() {
+    $(document).ready(function() {
+        $(function() {
             // Initializing
             $("#inputTanggalStart").datepicker()
             // Ganti tahun
@@ -29,12 +24,7 @@
                 $("#inputTanggalStart").attr('value', start)
             }
         });
-</script>
-
-
-{{-- Datepicker Jquery : input tanggal end --}}
-<script>
-    $(function() {
+        $(function() {
             // Initializing
             $("#inputTanggalEnd").datepicker()
             // Ganti tahun
@@ -46,20 +36,20 @@
                 $("#inputTanggalEnd").attr('value', end)
             }
         });
+        });
 </script>
-{{-- @if (isset($_GET['start']) and isset($_GET['end']))
+@if (isset($_GET['start']) and isset($_GET['end']))
 <script>
-    start = "{{ $_GET['start'] }}"
-            end = "{{ $_GET['end'] }}"
-            $("#inputTanggalStart").datepicker('setDate', `${start}`)
-            $("#inputTanggalEnd").datepicker('setDate', `${end}`)
-
-
-            // var end = $.datepicker.parseDate('dd-mm-yy', end);
-            // $("#inputTanggalEnd").datepicker('setDate', new Date(end));
+    let start = "{{ $_GET['start'] }}"
+    let end = "{{ $_GET['end'] }}"
 </script>
-@endif --}}
-
+@else
+<script>
+    let start = ""
+    let end = ""
+</script>
+@endif
+{{-- Fungsi rentang tanggal start --}}
 
 {{-- Datepicker Jquery : registrasi surat --}}
 <script>
@@ -591,7 +581,6 @@
 @section('js')
 {{-- Sweet alert start --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="sweetalert2.all.min.js"></script>
 {{-- Sweet alert end --}}
 
 {{-- Function refresh datatables start --}}
@@ -742,8 +731,6 @@
             $('#inputTanggalStart').change(function() {
                 // console.log(end)
                 start = this.value
-                console.log(start)
-                console.log(end)
                 if (start && end) {
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
                 }
@@ -751,8 +738,6 @@
             $('#inputTanggalEnd').change(function() {
                 // console.log(start)
                 end = this.value
-                console.log(start)
-                console.log(end)
                 if (start && end) {
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
                 }
@@ -803,7 +788,6 @@
         }
 
         function showLampiran(id) {
-            console.log(id);
             $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
         }
 
