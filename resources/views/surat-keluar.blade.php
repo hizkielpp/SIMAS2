@@ -476,9 +476,11 @@
                         class="mybtn" />
                     <i class="fa-solid fa-calendar-days position-absolute"></i>
                 </div>
+                @if ($user->role_id != 3)
                 <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar" class="mybtn blue">
                     <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
                 </button>
+                @endif
             </div>
         </div>
         {{-- Tabel header end --}}

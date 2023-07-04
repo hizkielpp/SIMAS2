@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             "email" => "admin@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
-            "nip" => '123',
+            "nip" => '1',
         ]);
         DB::table('users')->insert([
             "role_id" => 2,
@@ -57,7 +57,16 @@ class DatabaseSeeder extends Seeder
             "email" => "operator@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
-            "nip" => '1234',
+            "nip" => '2',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 3,
+            "name" => "Pimpinan",
+            "password" => Hash::make("password"),
+            "email" => "pimpinan@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '3',
         ]);
         // User seeder end
 
@@ -180,95 +189,5 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         // Sifat seeder end
-
-        // Surat masuk seeder start
-        // for ($i = 1; $i <= 10; $i++) {
-        //     DB::table('suratMasuk')->insert([
-        //         "nomorAgenda" => $i,
-        //         "nomorSurat" => $i . "/UN7.F4/2015/X",
-        //         "kodeHal" => "KU",
-        //         "tujuanSurat" => "DEAN",
-        //         "sifatSurat" => "1",
-        //         "tanggalPengajuan" => $dateNow->subDay(),
-        //         "asalSurat" => "KETUA DEPARTEMEN ILMU GIZI",
-        //         "jumlahLampiran" => 2,
-        //         "created_by" => 1,
-        //         "lampiran" => "default-lampiran.pdf",
-        //         "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
-        //         "created_at" => now(),
-        //         "updated_at" => now()
-        //     ]);
-        // }
-        // Surat masuk seeder end
-
-        // Surat keluar seeder start
-        // for ($i = 1; $i <= 10; $i++) {
-        //     DB::table('suratKeluar')->insert([
-        //         "nomorAgenda" => $i,
-        //         "nomorSurat" => $i,
-        //         "kodeUnit" => "UN7.5.4.1",
-        //         "kodeHal" => "KU",
-        //         "sifatSurat" => "1",
-        //         "status" => 'digunakan',
-        //         "tanggalPengesahan" => $dateNow->subDay(),
-        //         "tujuanSurat" => "RSND",
-        //         "disahkanOleh" => "Dekan",
-        //         "lampiran" => "default-lampiran.pdf",
-        //         "jumlahLampiran" => 2,
-        //         "perihal" => "Permohonan penelitian universitas",
-        //         "created_at" => now(),
-        //         "updated_at" => now(),
-        //         "created_by" => 1,
-
-        //     ]);
-        // }
-        // Surat keluar seeder end
-
-        // Surat antidatir seeder start
-        // $max = DB::table('suratKeluar')->max('nomorAgenda');
-        // for ($i = 1; $i <= 20; $i++) {
-        //     if ($i <= 10) {
-        //         DB::table('suratKeluar')->insert([
-        //             "nomorAgenda" => $max + $i,
-        //             "kodeUnit" => "UN7.5.4.1",
-        //             "nomorSurat" => $max + $i,
-        //             "kodeHal" => "KU",
-        //             "tujuanSurat" => "RSND",
-        //             "sifatSurat" => "1",
-        //             "tanggalPengesahan" => now(),
-        //             "created_by" => 1,
-        //             // "asalSurat"=> "KETUA DEPARTEMEN ILMU GIZI",
-        //             "jumlahLampiran" => 2,
-        //             "disahkanOleh" => "Dekan",
-        //             "status" => "digunakan",
-        //             "lampiran" => "oke.jpg",
-        //             "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
-        //             "created_at" => now(),
-        //             'jenis' => 'antidatir',
-        //             "updated_at" => now()
-        //         ]);
-        //     } else {
-        //         DB::table('suratKeluar')->insert([
-        //             "nomorAgenda" => null,
-        //             "kodeUnit" => "UN7.5.4.1",
-        //             "nomorSurat" => $max + $i,
-        //             "kodeHal" => "KU",
-        //             "tujuanSurat" => "RSND",
-        //             "disahkanOleh" => "Dekan",
-        //             "sifatSurat" => "1",
-        //             "tanggalPengesahan" => now(),
-        //             // "asalSurat"=> "KETUA DEPARTEMEN ILMU GIZI",
-        //             "jumlahLampiran" => 2,
-        //             "created_by" => 1,
-        //             "status" => "belum",
-        //             "lampiran" => "oke.jpg",
-        //             "perihal" => "Permohonan Kenaikan Gaji Pegawai Kontrak",
-        //             "created_at" => now(),
-        //             'jenis' => 'antidatir',
-        //             "updated_at" => now()
-        //         ]);
-        //     }
-        // }
-        // Surat antidatir seeder end
     }
 }

@@ -722,6 +722,7 @@ footer {
 /* ================================== */
 #ui-datepicker-div {
     width: auto;
+    z-index: 9999 !important;
     padding: 0.5rem;
 }
 #ui-datepicker-div table tbody tr td a.ui-state-highlight {

@@ -27,11 +27,7 @@
             if (start) {
                 $("#inputTanggalStart").datepicker("setDate", `${start}`)
                 $("#inputTanggalStart").attr('value', start)
-
             }
-
-
-            errorMsg = ""
         });
 </script>
 
@@ -49,10 +45,6 @@
                 $("#inputTanggalEnd").datepicker("setDate", `${end}`)
                 $("#inputTanggalEnd").attr('value', end)
             }
-
-
-
-
         });
 </script>
 {{-- @if (isset($_GET['start']) and isset($_GET['end']))
@@ -477,6 +469,7 @@
         <!-- Modal disposisi surat end -->
 
         {{-- Tabel content start --}}
+        {{-- @dd($suratMasuk) --}}
         <div class="table-responsive">
             <table id="mytable" class="table table-borderless">
                 <thead>

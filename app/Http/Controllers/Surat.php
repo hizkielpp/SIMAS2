@@ -274,23 +274,30 @@ class Surat extends Controller
     public function indexSM(Request $request)
     {
         $user = Auth::user();
+        // dd($user);
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);
             $end = strtotime($_GET['end']);
 
-            if ($user->role == 2) {
-                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
-            } else {
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
                 $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->orderBy('created_at', 'desc')->get();
             }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
+            }
         } else {
-            //jika operator hanya menampilkan data miliknya
-            if ($user->role == 2) {
-                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
-            } else {
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
                 $suratMasuk = DB::table('suratmasuk')->orderBy('created_at', 'desc')->get();
             }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->id)->orderBy('created_at', 'desc')->get();
+            }
         }
+        // dd($suratMasuk);
         $tujuan = DB::table('tujuan')->get();
         $sifat = DB::table('sifat')->get();
         $hal = DB::table('hal')->get();
@@ -317,16 +324,23 @@ class Surat extends Controller
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);
             $end = strtotime($_GET['end']);
-            if ($user->role == 2) {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'asc')->get();
-            } else {
+
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
                 $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->orderBy('tanggalPengesahan', 'asc')->get();
             }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'asc')->get();
+            }
         } else {
-            if ($user->role == 2) {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'asc')->get();
-            } else {
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
                 $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->orderBy('tanggalPengesahan', 'asc')->get();
+            }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'asc')->get();
             }
         }
         $sifat = DB::table('sifat')->get();
@@ -344,16 +358,23 @@ class Surat extends Controller
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);
             $end = strtotime($_GET['end']);
-            if ($user->role == 2) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'desc')->get();
-            } else {
+
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
                 $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->orderBy('tanggalPengesahan', 'desc')->get();
             }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'desc')->get();
+            }
         } else {
-            if ($user->role == 2) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'desc')->get();
-            } else {
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
                 $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->orderBy('tanggalPengesahan', 'desc')->get();
+            }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->orderBy('tanggalPengesahan', 'desc')->get();
             }
         }
 

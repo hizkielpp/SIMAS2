@@ -35,15 +35,44 @@ BEGIN
         SET  x = x + 1;
         SELECT max;
          insert into 
-suratkeluar(`tanggalPengesahan`,`created_at`,`updated_at`,`nomorSurat`,`kodeHal`,`sifatSurat`,`jenis`,`status`,`tujuanSurat`,`jumlahLampiran`) values (now,now,now,max,'x','rahasia','antidatir','belum','x',1);
+suratkeluar(
+    `tanggalPengesahan`,
+    `created_at`,
+    `updated_at`,
+    `nomorSurat`,
+    `kodeHal`,
+    `sifatSurat`,
+    `jenis`,
+    `status`,
+    `tujuanSurat`,
+    `lampiran`,
+    `jumlahLampiran`,
+    `created_by`,
+    `kodeUnit`,
+    `disahkanOleh`
+    ) values (
+        now,
+        now,
+        now,
+        max,
+        'x',
+        'rahasia',
+        'antidatir',
+        'belum',
+        'x',
+        lampiran,
+        1,
+        1,
+        'x',
+        'x'
+    );
 	END LOOP;
     SET FOREIGN_KEY_CHECKS=1;
 END
-
         ");
         DB::statement(("
  
-CREATE EVENT `generateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-01-18 23:30:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
+CREATE EVENT `generateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-07-01 16:00:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
         "));
     }
 
