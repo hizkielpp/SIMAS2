@@ -82,7 +82,7 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
-    {{-- @dd($user) --}}
+    {{-- @dd($suratMasuk) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">SURAT MASUK</h5>
@@ -92,7 +92,7 @@
     {{-- Alert gagal menambahkan surat start --}}
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Registrasi gagal!</strong>
+        <strong id="headerGagal">Aksi gagal!</strong>
         <p class="mt-2">@foreach ($errors->all() as $error)
             {{ $error }}
             @endforeach</p>
@@ -101,7 +101,7 @@
     @endif
     @if (session()->has('failed'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Registrasi gagal!</strong>
+        <strong>Aksi gagal!</strong>
         <p class="mt-2">{{session('failed')}}</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -151,7 +151,7 @@
                     <i class="fa-solid fa-calendar-days position-absolute"></i>
                 </div>
                 @if ($user->role_id != 3)
-                <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk"
+                <button id="btnReg" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk"
                     class="mybtn blue">
                     <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
                 </button>
@@ -408,19 +408,23 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="lampiran" class="form-label black fw-normal">Upload
-                                            Lampiran</label>
+                                            Lampiran Baru</label>
+                                        <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
+                                            <div class="fs-6">
+                                                Nama lampiran sebelumnya : <span class="fw-semibold"
+                                                    id="lampiranE"></span>
+                                            </div>
+                                        </div>
                                         <input type="file" class="form-control" id="lampiran"
                                             aria-describedby="emailHelp" name="lampiran" accept=".pdf" />
-                                        <div class="mt-2"><span>Nama file : </span><span id="lampiranE"></span>
-                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1"
                                             class="form-label black fw-normal">Perihal</label>
                                         <textarea id="perihalE" class="form-control perihal"
                                             id="exampleFormControlTextarea1" rows="1"
-                                            placeholder="Contoh : Permohonan perijinan penelitian"
-                                            name="perihal"></textarea>
+                                            placeholder="Contoh : Permohonan perijinan penelitian" name="perihal"
+                                            style="min-height: unset"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
@@ -530,7 +534,7 @@
                                 @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
-                                    data-id="{{ $v->id }}">
+                                    data-id="{{ $v->id }}" id="btnEdit">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">

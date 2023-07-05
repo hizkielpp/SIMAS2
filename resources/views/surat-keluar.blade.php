@@ -101,6 +101,7 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
+    {{-- @dd($suratKeluar) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">SURAT KELUAR</h5>
@@ -110,7 +111,7 @@
     {{-- Alert gagal menambahkan surat start --}}
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Registrasi gagal!</strong>
+        <strong>Aksi gagal!</strong>
         <p class="mt-2">@foreach ($errors->all() as $error)
             {{ $error }}
             @endforeach</p>
@@ -247,9 +248,14 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label black fw-normal">Upload Lampiran Baru</label>
+                                        <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
+                                            <div class="fs-6">
+                                                Nama lampiran sebelumnya : <span class="fw-semibold"
+                                                    id="lampiranE"></span>
+                                            </div>
+                                        </div>
                                         <input type="file" class="form-control" name="lampiran"
                                             aria-describedby="emailHelp" accept=".pdf" value="" />
-                                        <span>Nama file lampiran : </span><span id="lampiranE"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
@@ -259,8 +265,9 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="perihalE" class="form-label black fw-normal">Perihal</label>
-                                        <textarea class="form-control perihal" id="perihalE" name="perihal" rows="2"
-                                            placeholder="Contoh : Permohonan perijinan penelitian"></textarea>
+                                        <textarea class="form-control perihal" id="perihalE" name="perihal" rows="1"
+                                            placeholder="Contoh : Permohonan perijinan penelitian"
+                                            style="min-height: unset"></textarea>
                                     </div>
                                 </div>
                             </div>

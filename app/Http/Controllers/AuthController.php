@@ -89,24 +89,25 @@ class AuthController extends Controller
     }
     public function customLogin(Request $request)
     {
-        // $request->validate([
-        //     'email' => 'required',
+        // $credentials = $request->validate([
+        //     'email' => 'required|email:dns',
         //     'password' => 'required',
         // ]);
-        $credentials = $request->validate([
-            'email' => 'required|email:dns',
+        $request->validate([
+            'email' => 'required',
             'password' => 'required',
         ]);
-        // $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
-        // $request->only('email', 'password');
-        // $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
-        // if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
+        $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
+        $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
+        $request->only('email', 'password');
+        if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
+            return redirect()->route('dashboard')->with('success', 'Signed in');
+        } else {
+            return back()->with('loginFailed', 'Login gagal!');
+        }
+        // if (Auth::attempt($credentials)) {
         //     return redirect()->route('dashboard')->with('success', 'Signed in');
         // }
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard')->with('success', 'Signed in');
-        }
-        return redirect('login')->with('loginFailed', 'Login gagal!');
     }
     public function dashboard()
     {

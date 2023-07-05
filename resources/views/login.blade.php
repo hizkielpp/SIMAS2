@@ -23,9 +23,8 @@
         <section class="image d-none flex-column justify-content-center align-items-center">
             <img src="img/login-image-3x.png" alt="Gambar Login" />
             <h3 class="fw__bold" style="color: #2F5596">Sistem Manajemen Surat (SIMAS)</h3>
-            <h4 class="fw__normal text-center mt-2" style="color: #2F5596; line-height: 1.">Aplikasi Pengelola Surat
-                Masuk dan Keluar
-                Fakultas Kedokteran
+            <h4 class="fw__normal text-center mt-2" style="color: #2F5596; line-height: 1.">
+                Fakultas Kedokteran Universitas Diponegoro
             </h4>
         </section>
         {{-- Hero end --}}
@@ -71,14 +70,15 @@
                 <form method="POST" action="{{ route('login.custom') }}" class="myform">
                     @csrf
                     <div class="mb-3 mt-4">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" aria-describedby="emailHelp" name="email"
-                            autofocus required />
+                        <label for="email" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="email" placeholder="Masukkan email atau NIP"
+                            aria-describedby="emailHelp" name="email" autofocus required />
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <div class="position-relative icon">
-                            <input type="password" class="form-control" id="password" name="password" required />
+                            <input type="password" class="form-control" id="password" placeholder="Masukkan password"
+                                name="password" required />
                             <i class="fa-solid fa-eye position-absolute" onclick="showPass()" id="passIcon"></i>
                         </div>
                     </div>

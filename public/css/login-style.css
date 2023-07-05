@@ -24,6 +24,10 @@
     border-color: var(--grey);
 }
 
+.login input::placeholder {
+    color: var(--grey);
+}
+
 .login input:focus {
     color: white;
     border-color: white;

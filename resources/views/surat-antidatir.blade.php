@@ -89,6 +89,7 @@
 <link rel="stylesheet" href="css/surat-masuk-style.css" />
 @endsection @section('content')
 <section class="surat__masuk content">
+    {{-- @dd($suratAntidatir) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">SURAT ANTIDATIR</h5>
@@ -98,7 +99,7 @@
     {{-- Alert gagal menambahkan surat start --}}
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Registrasi gagal!</strong>
+        <strong>Aksi gagal!</strong>
         <p class="mt-2">
             @foreach ($errors->all() as $error)
             {{ $error }}
@@ -126,6 +127,23 @@
 
     {{-- Tabel wrapper start --}}
     <div class="card p-4 mt-3">
+        <!-- Modal lampiran surat start -->
+        <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl h-100">
+                <div class="modal-content modal-xl h-100">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="lampiranLabel">Lampiran Surat</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe src="" id="iframeLampiran" frameborder="0" style="width:100%;" class="h-100"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal lampiran surat end -->
+
         {{-- Tabel header start --}}
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
             <h4 class="fw-semibold black">Daftar Surat Antidatir</h4>
@@ -314,7 +332,7 @@
                                             Lampiran</label>
                                         <input type="number" class="form-control" placeholder="Contoh : 1"
                                             id="jumlahLampiran" name="jumlahLampiran" aria-describedby="emailHelp"
-                                            min="0" required />
+                                            min="0" />
                                         <div class="invalid-feedback">
                                             Mohon masukkan jumlah lampiran
                                             dengan benar.
@@ -419,9 +437,8 @@
                                     <div class="mb-3">
                                         <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
                                             Lampiran</label>
-                                        <input type="number" class="form-control" placeholder="Masukkan jumlah lampiran"
-                                            min="0" id="jumlahLampiranE" name="jumlahLampiran"
-                                            aria-describedby="emailHelp" />
+                                        <input type="number" class="form-control" min="0" id="jumlahLampiranE"
+                                            name="jumlahLampiran" aria-describedby="emailHelp" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
@@ -456,14 +473,20 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label black fw-normal">Upload Lampiran</label>
+                                        <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
+                                            <div class="fs-6">
+                                                Nama lampiran sebelumnya : <span class="fw-semibold"
+                                                    id="lampiranE"></span>
+                                            </div>
+                                        </div>
                                         <input type="file" class="form-control" name="lampiran"
                                             aria-describedby="emailHelp" accept=".pdf" />
-                                        <span>Nama file lampiran : </span><span id="lampiranE"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="perihalE" class="form-label black fw-normal">Perihal</label>
-                                        <textarea class="form-control perihal" id="perihalE" name="perihal" rows="3"
-                                            placeholder="Contoh : Permohonan perijinan penelitian"></textarea>
+                                        <textarea class="form-control perihal" id="perihalE" name="perihal" rows="1"
+                                            placeholder="Contoh : Permohonan perijinan penelitian"
+                                            style="min-height: unset"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -544,7 +567,19 @@
                             @endif
                         </td>
                         <td>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                    class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#lampiran"
+                                    onclick="showLampiran('{{ $v->lampiran }}')">
+                                    <i class="fa-solid fa-paperclip"></i>
+                                    <div class="position-absolute mytooltip">
+                                        <div class="text-white px-3 py-2 position-relative">
+                                            Lampiran
+                                        </div>
+                                        <div id="arrow"></div>
+                                    </div>
+                                </button>
                                 @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center me-2 passId"
@@ -584,6 +619,13 @@
 </section>
 @endsection @section('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- Set attribut modal lampiran --}}
+<script>
+    function showLampiran(id) {
+            $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
+        }
+</script>
 
 {{-- Refresh page --}}
 <script>
@@ -749,6 +791,7 @@
     $(document).ready(function() {
             var start = $('#inputTanggalStart').attr('value')
             var end = $('#inputTanggalEnd').attr('value')
+            dateNow = ""
             oke = false
             $('#inputTanggalStart').change(function() {
                 start = this.value
