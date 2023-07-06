@@ -703,6 +703,7 @@ p {
 .desc__export {
     display: inline-block;
 }
+
 /* ================================== */
 /*          Main page end             */
 /* ================================== */
@@ -782,7 +783,15 @@ footer {
 }
 
 @media only screen and (min-width: 1200px) {
+    /* Dashboard admin */
+    .dashboard .keterangan .image-2 {
+        max-width: 100px !important;
+    }
 }
 
-@media only screen and (min-width: 306px) {
+@media only screen and (min-width: 1440px) {
+    /* Dashboard admin */
+    .dashboard .keterangan .image-2 {
+        max-width: 120px !important;
+    }
 }

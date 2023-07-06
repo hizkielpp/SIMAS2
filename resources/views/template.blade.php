@@ -47,7 +47,7 @@
                     <div class="dropdown">
                         <button class="border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {{ $user->email }} <i class="fa-solid fa-angle-down ms-1"></i>
+                            {{ $user->name }} <i class="fa-solid fa-angle-down ms-1"></i>
                         </button>
                         <ul class="dropdown-menu">
                             <li>

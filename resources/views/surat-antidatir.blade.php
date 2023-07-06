@@ -110,21 +110,6 @@
     @endif
     {{-- Alert gagal menambahkan surat end --}}
 
-    <div class="card p-4 mb-md-0 keterangan">
-        <h5 class="fw-semibold black mb-2">Keterangan</h5>
-        <h5 class="fw__normal black__light mb-3">
-            Surat masuk wajib dilakukan registrasi. Registrasi surat dilakukan
-            dengan sistem dalam melakukan kearsipan surat. Operator dapat
-            melakukan registrasi surat masuk dan penerusan ke pimpinan agar
-            dapat menindak lanjuti surat tersebut. Anda dapat mendownload "Tata
-            Naskah Dinas di Lingkungan Universitas Diponegoro" sebagai pedoman
-            dalam membuat nomor surat dengan menekan tombol dibawah ini.
-        </h5>
-        <a href="{{ route('downloadNaskah') }}" class="mybtn blue"><i class="fa-solid fa-download me-1"></i>
-            Download
-        </a>
-    </div>
-
     {{-- Tabel wrapper start --}}
     <div class="card p-4 mt-3">
         <!-- Modal lampiran surat start -->
