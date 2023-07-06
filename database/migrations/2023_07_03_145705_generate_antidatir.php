@@ -71,7 +71,7 @@ suratkeluar(
 END
         ");
         DB::statement(("
-CREATE EVENT `generateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-07-01 11:11:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
+CREATE EVENT `generateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-07-01 10:20:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
         "));
     }
 

@@ -75,10 +75,10 @@ class Surat extends Controller
             'sifatSurat' => 'required',
             'disahkanOleh' => 'required',
             'tanggalPengesahan' => 'required',
-            'jumlahLampiran' => 'integer',
+            'jumlahLampiran' => 'nullable',
             'tujuanSurat' => 'required',
             'lampiran' => 'required|mimes:docx,pdf|max:1024'
-        ]);
+        ], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
 
         // dd($request);
         //ambil nomor agenda
@@ -135,7 +135,7 @@ class Surat extends Controller
             'lampiran' => 'required|mimes:docx,pdf|max:1024',
             'perihal' => 'required',
             'jumlahLampiran' => 'nullable',
-        ]);
+        ], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
         // Validasi input laravel end
 
         // Set nomor agenda start
@@ -166,7 +166,7 @@ class Surat extends Controller
             DB::table('suratmasuk')->insert($validatedData);
             return back()->with('success', 'Data surat masuk berhasil ditambahkan');
         } catch (\Exception $e) {
-            return $e;
+            // return $e;
             // Validasi nomor surat dengan database
             if (DB::table('suratmasuk')->where('nomorSurat', $validatedData['nomorSurat'])) {
                 return back()->with('failed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
@@ -204,7 +204,7 @@ class Surat extends Controller
     public function editSM(Request $request)
     {
         // dd($request);
-        $request->validate(['lampiran' => 'mimes:docx,pdf|max:1024']);
+        $request->validate(['lampiran' => 'mimes:docx,pdf|max:1024'], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
         $surat = DB::table('suratmasuk')->where('id', $request->input('idSurat'))->first();
         $updatedValue = $request->except(['_token', 'idSurat']);
         if ($request->file('lampiran')) {
@@ -237,7 +237,7 @@ class Surat extends Controller
     {
         // dd($request);
         $jenisSurat = $request->input('jenisSurat');
-        $request->validate(['lampiran' => 'mimes:docx,pdf|max:1024']);
+        $request->validate(['lampiran' => 'mimes:docx,pdf|max:1024'], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
         $surat = DB::table('suratkeluar')->where('id', $request->input('idSurat'))->first();
         $updatedValue = $request->except(['_token', 'idSurat', 'jenisSurat']);
         // dd($updatedValue);
@@ -406,7 +406,7 @@ class Surat extends Controller
             'jumlahLampiran' => 'nullable',
             'tujuanSurat' => 'required',
             'lampiran' => 'mimes:docx,pdf|max:1024'
-        ]);
+        ], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
         // dd($request);
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratkeluar')

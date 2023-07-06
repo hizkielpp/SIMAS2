@@ -178,7 +178,7 @@
         <!-- Modal lampiran surat end -->
 
         <!-- Modal registrasi start -->
-        <div class="modal modal__section fade" id="registrasiSuratMasuk" tabindex="-1"
+        <div class="modal modal__section fade" id="registrasiSuratMasuk" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="ex ampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content p-3">
@@ -329,8 +329,8 @@
         <!-- Modal registrasi end -->
 
         <!-- Modal edit start -->
-        <div class="modal modal__section fade" id="editSuratMasuk" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal modal__section fade" id="editSuratMasuk" data-bs-backdrop="static" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content p-3">
                     <div class="modal-header">
