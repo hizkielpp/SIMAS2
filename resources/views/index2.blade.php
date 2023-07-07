@@ -1,7 +1,6 @@
 @extends('template')
 @section('content')
 <section class="content">
-    {{-- @dd($user) --}}
     {{-- Main section start --}}
     <div class="d-flex gap-3 flex-wrap flex-xl-nowrap dashboard">
         <div class="" style="flex: 1 1 70%">

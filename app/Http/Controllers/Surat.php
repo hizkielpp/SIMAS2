@@ -88,7 +88,7 @@ class Surat extends Controller
         } else {
             $nomorAgenda++;
         }
-        $userId = Auth::id();
+        $userId = $request->session()->get('User')->nip;
         $input = $request->except(['_token']);
         $input['created_by'] = $userId;
         $input['nomorAgenda'] = $nomorAgenda;
@@ -118,7 +118,7 @@ class Surat extends Controller
                 return redirect()->route('suratAntidatir')->with('failed', 'Nomor surat telah digunakan, silahkan input ulang');
             }
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return redirect()->route('suratAntidatir')->with('failed', 'gagal menginput data surat antidatir' . $e);
         }
     }
@@ -149,7 +149,8 @@ class Surat extends Controller
 
 
         // Set input start
-        $userId = Auth::id();
+        $userId = $request->session()->get('User')->nip;
+        // dd($userId);
         $file = $request->file('lampiran');
         // $fileName = $file->getClientOriginalName() . '-' . time();
         $fileName = $file->getClientOriginalName();
@@ -217,7 +218,7 @@ class Surat extends Controller
             }
             $updatedValue['lampiran'] = $fileName;
         }
-        $userId = Auth::id();
+        $userId = $request->session()->get('User')->nip;
         $updatedValue['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
         try {
             DB::table('suratmasuk')
@@ -417,7 +418,7 @@ class Surat extends Controller
         } else {
             $nomorAgenda++;
         }
-        $userId = Auth::id();
+        $userId = $request->session()->get('User')->nip;
         $file = $request->file('lampiran');
         // $fileName = time() . '.' . $file->getClientOriginalName();
         $fileName = $file->getClientOriginalName();

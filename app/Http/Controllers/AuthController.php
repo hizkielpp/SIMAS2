@@ -122,11 +122,9 @@ class AuthController extends Controller
             return back()->with('loginFailed', 'Login gagal!');
         }
     }
-    public function dashboard(Request $request)
+    public function dashboard()
     {
-        $user = $request->session()->get('User');
-        // dd($user->role->nama);
-        // dd($user->role_id);
+        $user = session()->get('User');
         if ($user->role_id == 2) {
             $jumlahSM = DB::table('suratmasuk')->where('created_by', $user->id)->count();
             $jumlahSK = DB::table('suratkeluar')->where('jenis', 'biasa')->where('status', 'digunakan')->where('created_by', $user->id)->count();
