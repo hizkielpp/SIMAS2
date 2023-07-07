@@ -21,9 +21,9 @@ class AuthController extends Controller
         ];
         return response()->json($response, 200);
     }
-    public function kelolaAkun()
+    public function kelolaAkun(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->session()->all();
         $role = DB::table('role')->select('kode', 'nama')->get();
         return view('akun')->with(['users' => User::all(), 'role' => $role, 'user' => $user]);
     }
@@ -97,21 +97,34 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
-        $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
-        $request->only('email', 'password');
-        if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
-            return redirect()->route('dashboard')->with('success', 'Signed in');
-        } else {
-            return back()->with('loginFailed', 'Login gagal!');
-        }
+        // $credentials1 = ['email' => $request->input('email'), 'password' => $request->input('password')];
+        // $credentials2 = ['NIP' => $request->input('email'), 'password' => $request->input('password')];
+        // $request->only('email', 'password');
+        // if (Auth::attempt($credentials1) || Auth::attempt($credentials2)) {
+        //     return redirect()->route('dashboard')->with('success', 'Signed in');
+        // } else {
+        //     return back()->with('loginFailed', 'Login gagal!');
+        // }
         // if (Auth::attempt($credentials)) {
         //     return redirect()->route('dashboard')->with('success', 'Signed in');
         // }
+        $credentials = User::where('nip', $request->email)
+            ->orWhere('email', $request->email)
+            ->first();
+        if ($credentials) {
+            if (Hash::check($request->password, $credentials->password)) {
+                session(["User" => $credentials]);
+                return redirect()->route('dashboard')->with('success', 'Signed in');
+            } else {
+                return back()->with('loginFailed', 'Login gagal!');
+            }
+        } else {
+            return back()->with('loginFailed', 'Login gagal!');
+        }
     }
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->session()->get('User');
         // dd($user->role->nama);
         // dd($user->role_id);
         if ($user->role_id == 2) {

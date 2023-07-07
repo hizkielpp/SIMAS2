@@ -23,7 +23,7 @@ class CheckAdmin
         //     abort(403, 'Akses hanya untuk Admin!');
         //     // return redirect()->back()->with('failed', 'Akses hanya untuk admin');
         // }
-        if (auth()->user()->role_id == 1) {
+        if ($request->session()->get('User')->role_id == 1) {
             return $next($request);
         } else {
             abort(403, 'Akses hanya untuk Admin!');

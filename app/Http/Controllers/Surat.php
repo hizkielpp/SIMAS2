@@ -281,7 +281,7 @@ class Surat extends Controller
     public function indexSM(Request $request)
     {
         // dd($request);
-        $user = Auth::user();
+        $user = $request->session()->get('User');
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);
             $end = strtotime($_GET['end']);
@@ -325,7 +325,7 @@ class Surat extends Controller
     }
     public function indexSA(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->session()->get('User');
         $unit = DB::table('unit')->get();
         $tujuan = DB::table('tujuan')->get();
         if (isset($_GET['start']) && isset($_GET['end'])) {
@@ -360,7 +360,7 @@ class Surat extends Controller
     }
     public function indexSK(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->session()->get('User');
         $unit = DB::table('unit')->get();
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);

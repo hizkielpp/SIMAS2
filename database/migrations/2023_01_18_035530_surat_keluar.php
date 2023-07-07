@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('sifatSurat');
             $table->unsignedBigInteger('created_by');
             $table->foreign('kodeHal')->references('kode')->on('hal')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('created_by')->references('nip')->on('users')->onDelete('cascade');
             $table->foreign('sifatSurat')->references('kode')->on('sifat')->onDelete('cascade');
             $table->string('lampiran');
             $table->date('tanggalPengesahan');

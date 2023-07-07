@@ -225,8 +225,8 @@
                                             name="tanggalPengesahan"></duet-date-picker> --}}
                                         <div class="position-relative input__tanggal__form">
                                             <input type="text" id="datepickerEdit" identifier="date" placeholder="..."
-                                                name="tanggalPengesahanE" aria-placeholder="coba"
-                                                onchange="showDate(this.value)" class="form-control" required>
+                                                name="tanggalPengesahanE" aria-placeholder="coba" class="form-control"
+                                                required>
                                             <i class="fa-solid fa-calendar-days position-absolute"></i>
                                         </div>
                                     </div>
