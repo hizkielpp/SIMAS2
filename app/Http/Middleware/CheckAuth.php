@@ -17,8 +17,7 @@ class CheckAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        // dd($request);
-        if ($request->session()->has('User')) {
+        if ($request->session()->has('user')) {
             return $next($request);
         }
         return redirect()->route('login')->with('failed', 'Silahkan login terlebih dahulu');

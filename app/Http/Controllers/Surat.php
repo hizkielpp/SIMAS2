@@ -88,7 +88,7 @@ class Surat extends Controller
         } else {
             $nomorAgenda++;
         }
-        $userId = $request->session()->get('User')->nip;
+        $userId = $request->session()->get('user')->nip;
         $input = $request->except(['_token']);
         $input['created_by'] = $userId;
         $input['nomorAgenda'] = $nomorAgenda;
@@ -149,7 +149,7 @@ class Surat extends Controller
 
 
         // Set input start
-        $userId = $request->session()->get('User')->nip;
+        $userId = $request->session()->get('user')->nip;
         // dd($userId);
         $file = $request->file('lampiran');
         // $fileName = $file->getClientOriginalName() . '-' . time();
@@ -218,7 +218,7 @@ class Surat extends Controller
             }
             $updatedValue['lampiran'] = $fileName;
         }
-        $userId = $request->session()->get('User')->nip;
+        $userId = $request->session()->get('user')->nip;
         $updatedValue['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
         try {
             DB::table('suratmasuk')
@@ -279,10 +279,10 @@ class Surat extends Controller
             }
         }
     }
-    public function indexSM(Request $request)
+    public function indexSM()
     {
         // dd($request);
-        $user = $request->session()->get('User');
+        $user = session()->get('user');
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);
             $end = strtotime($_GET['end']);
@@ -293,7 +293,7 @@ class Surat extends Controller
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->id)->orderBy('nomorSurat', 'desc')->get();
+                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
@@ -302,7 +302,7 @@ class Surat extends Controller
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->id)->orderBy('nomorSurat', 'desc')->get();
+                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->get();
             }
         }
         // dd($suratMasuk);
@@ -324,9 +324,9 @@ class Surat extends Controller
             return view('suratMasuk')->with(['failed' => 'data surat masuk kosong', 'sifat' => $sifat, 'hal' => $hal]);
         }
     }
-    public function indexSA(Request $request)
+    public function indexSA()
     {
-        $user = $request->session()->get('User');
+        $user = session()->get('user');
         $unit = DB::table('unit')->get();
         $tujuan = DB::table('tujuan')->get();
         if (isset($_GET['start']) && isset($_GET['end'])) {
@@ -339,7 +339,7 @@ class Surat extends Controller
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
@@ -348,7 +348,7 @@ class Surat extends Controller
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->id)->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->get();
             }
         }
         $sifat = DB::table('sifat')->get();
@@ -359,9 +359,9 @@ class Surat extends Controller
             return view('surat-antidatir')->with(['failed' => 'data surat keluar kosong', 'sifat' => $sifat, 'hal' => $hal]);
         }
     }
-    public function indexSK(Request $request)
+    public function indexSK()
     {
-        $user = $request->session()->get('User');
+        $user = session()->get('user');
         $unit = DB::table('unit')->get();
         if (isset($_GET['start']) && isset($_GET['end'])) {
             $start = strtotime($_GET['start']);
@@ -373,7 +373,7 @@ class Surat extends Controller
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->id)->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
@@ -382,7 +382,7 @@ class Surat extends Controller
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->id)->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->get();
             }
         }
 
@@ -418,7 +418,7 @@ class Surat extends Controller
         } else {
             $nomorAgenda++;
         }
-        $userId = $request->session()->get('User')->nip;
+        $userId = $request->session()->get('user')->nip;
         $file = $request->file('lampiran');
         // $fileName = time() . '.' . $file->getClientOriginalName();
         $fileName = $file->getClientOriginalName();

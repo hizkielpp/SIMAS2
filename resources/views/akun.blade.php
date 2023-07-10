@@ -145,12 +145,12 @@
                             <div class="d-flex align-items-center">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
-                                    data-id="{{ $pengguna->id }}">
+                                    data-id="{{ $pengguna->nip }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
                                 <button type="button"
                                     class="myicon red d-flex align-items-center justify-content-center"
-                                    onclick="confirmHapus('{{ $pengguna->id }}')">
+                                    onclick="confirmHapus('{{ $pengguna->nip }}')">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
@@ -163,8 +163,8 @@
         {{-- Tabel content end --}}
 
         <!-- Modal edit start -->
-        <div class="modal fade" id="editSuratKeluar" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editSuratKeluar" tabindex="-1" data-bs-backdrop="static"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content p-3">
                     <div class="modal-header">
@@ -183,7 +183,7 @@
                                     <div class="mb-3">
                                         <label for="name" class="form-label black fw-normal">Nama</label>
                                         <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                            id="nameE" name="name" value="{{ $pengguna->nama }}" />
+                                            id="nameE" name="name" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="role" class="form-label black fw-normal">Role</label>

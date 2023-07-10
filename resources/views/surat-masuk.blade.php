@@ -740,6 +740,7 @@
             $(".passId").click(function() {
                 let url = "{{ route('getSM', ':id') }}";
                 url = url.replace(':id', $(this).data('id'));
+                console.log($(this).data('id'));
                 $.ajax({
                     type: 'GET',
                     url: url,
