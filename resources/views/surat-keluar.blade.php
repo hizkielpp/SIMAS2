@@ -504,8 +504,8 @@
                         <td class="no">{{ $loop->iteration }}</td>
                         <td>
                             {{ $v->disahkanOleh }} <br>Nomor :
-                            {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}/{{
-                            convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}
+                            {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{ convertToRomawi(date('m',
+                            strtotime($v->tanggalPengesahan))) }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}
                             <br />
 
                         </td>
@@ -547,6 +547,7 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
                                     data-id="{{ $v->id }}">
@@ -558,6 +559,7 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @endif
                                 {{-- <button type="button"
                                     class="myicon position-relative red d-flex align-items-center justify-content-center"
                                     onclick="confirmHapus('{{ $v->id }}')">

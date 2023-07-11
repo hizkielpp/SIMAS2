@@ -536,6 +536,7 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
+                                @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center me-2 passId"
                                     data-id="{{ $v->id }}">
@@ -547,6 +548,7 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @endif
                                 {{--
                                 <button type="button"
                                     class="myicon position-relative red d-flex align-items-center justify-content-center"

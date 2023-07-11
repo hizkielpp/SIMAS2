@@ -23,7 +23,8 @@
         <section class="image d-none flex-column justify-content-center align-items-center">
             <img src="img/login-image-3x.png" alt="Gambar Login" />
             <h3 class="fw__bold" style="color: #2F5596">Sistem Manajemen Surat (SIMAS)</h3>
-            <h4 class="fw__normal text-center mt-2" style="color: #2F5596">Aplikasi Pengelola Surat Masuk dan Keluar
+            <h4 class="fw__normal text-center mt-2" style="color: #2F5596; line-height: 1.">Aplikasi Pengelola Surat
+                Masuk dan Keluar
                 Fakultas Kedokteran
             </h4>
         </section>

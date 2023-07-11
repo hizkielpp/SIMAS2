@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Session;
 
 
 class AuthController extends Controller
@@ -69,14 +68,10 @@ class AuthController extends Controller
     }
     public function editAkun(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'role' => 'required'
-        ]);
         if ($request->input('password') == null) {
-            $updatedValue = $request->except(['_token', 'idAkun', 'password']);
+            $updatedValue = $request->except(['_token', 'idAkun', 'password', 'passwordConfirmation']);
         } else {
-            $updatedValue = $request->except(['_token', 'idAkun']);
+            $updatedValue = $request->except(['_token', 'idAkun', 'passwordConfirmation']);
         }
         try {
             DB::table('users')

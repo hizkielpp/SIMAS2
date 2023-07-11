@@ -100,6 +100,7 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
+    {{-- @dd($user) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">SURAT MASUK</h5>
@@ -160,10 +161,12 @@
                         class="mybtn" />
                     <i class="fa-solid fa-calendar-days position-absolute"></i>
                 </div>
+                @if ($user->role_id != 3)
                 <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk"
                     class="mybtn blue">
                     <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
                 </button>
+                @endif
             </div>
         </div>
         {{-- Tabel header end --}}
@@ -204,7 +207,7 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="noSurat" class="form-label black fw-normal">Nomor Surat</label>
-                                        <input type="text" class="form-control" placeholder="Contoh : 4/UN7.F4/2015/X"
+                                        <input type="text" class="form-control" placeholder="Contoh : 1/UN7.F4/I/2023"
                                             id="noSurat" name="nomorSurat" aria-describedby="emailHelp" required />
                                         <div class="invalid-feedback">
                                             Masukkan nomor surat dengan benar.
@@ -335,7 +338,6 @@
             </div>
         </div>
         <!-- Modal registrasi end -->
-
 
         <!-- Modal edit start -->
         <div class="modal modal__section fade" id="editSuratMasuk" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -496,9 +498,6 @@
                             {{ $v->asalSurat }} <br> <span class="pt-2 d-inline-block">Nomor :
                                 {{ $v->nomorSurat }}
                             </span>
-                            {{-- <span class="date d-inline-block mt-1">{{ date('d M Y h:i:s',
-                                strtotime($v->created_at)) }}
-                                WIB</span> --}}
                         </td>
                         <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
@@ -538,6 +537,7 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
                                     data-id="{{ $v->id }}">
@@ -549,6 +549,8 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @endif
+                                @if ($user->role_id != 3)
                                 <button type="button"
                                     class="myicon position-relative red d-flex align-items-center justify-content-center"
                                     onclick="confirmHapus('{{ $v->id }}')">
@@ -560,6 +562,8 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @endif
+                                @if ($user->role_id != 3)
                                 <a data-id="{{ $v->id }}" data-bs-toggle="modal" data-bs-target="#disposisi"
                                     class="test myicon position-relative green d-flex align-items-center justify-content-center"
                                     onclick="showDisposisi('{{ $v->id }}')">
@@ -571,6 +575,8 @@
                                         <div id="arrow"></div>
                                     </div>
                                 </a>
+                                @endif
+
                                 <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
                             </div>
                         </td>
@@ -813,10 +819,6 @@
 
             })
             $("#mytable").DataTable({
-                // paging: false,
-                // ordering: false,
-                // searching: false,
-                // responsive: true,
                 columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5, 6]

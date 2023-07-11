@@ -10,36 +10,21 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
-    {{-- @dd($role) --}}
+    {{-- @dd($users) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">KELOLA AKUN</h5>
     </div>
     {{-- Navigation end --}}
 
-    {{-- Alert gagal jika NIP sama start --}}
-    @if (session()->has('nipFailed'))
+    @if (session()->has('failed'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Tambah akun gagal!</strong>
-        <p class="mt-2">{{session('nipFailed')}}</p>
+        <strong>Edit akun gagal!</strong>
+        <p class="mt-2">{{session('failed')}}</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    {{-- Alert gagal jika NIP sama end --}}
 
-    {{-- Alert gagal default start --}}
-    @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Tambah akun gagal!</strong>
-        <p class="mt-2">@foreach ($errors->all() as $error)
-            {{ $error }}
-            @endforeach</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    {{-- Alert gagal default end --}}
-
-    {{-- Alert gagal menambahkan surat end --}}
     <div class="card p-4 mt-3">
         <!-- Modal registrasi start -->
         <div class="modal fade" id="registrasiAkun" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -192,17 +177,17 @@
                         <form id="formEdit" enctype="multipart/form-data" method="POST"
                             action="{{ route('editAkun') }}">
                             @csrf
+                            <input type="text" id="idAkun" name="idAkun" hidden>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="name" class="form-label black fw-normal">Nama</label>
                                         <input type="text" class="form-control" placeholder="Masukkan nama akun"
-                                            id="nameE" name="name" />
+                                            id="nameE" name="name" value="{{ $pengguna->nama }}" />
                                     </div>
                                     <div class="mb-3">
-                                        <input type="text" name="idAkun" hidden>
                                         <label for="role" class="form-label black fw-normal">Role</label>
-                                        <select id="roleE" name="roleE" class="form-select"
+                                        <select id="role_id" name="role_id" class="form-select"
                                             aria-label="Default select example">
                                             <option selected>-- Pilih salah satu --</option>
                                             @foreach ($role as $k => $v)
@@ -211,23 +196,22 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password" class="form-label black fw-normal">Password</label>
+                                        <label for="password" class="form-label black fw-normal">Password Baru</label>
                                         <div class="d-flex">
                                             <input type="password" class="form-control"
-                                                placeholder="Masukkan password akun" id="passwordE" name="password"
+                                                placeholder="Masukkan password baru" id="passwordE" name="password"
                                                 aria-describedby="emailHelp" />
                                             <i class="far fa-eye-slash" id="passIconE" onclick="showPassE()"
                                                 style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password" class="form-label black fw-normal">Password
-                                            Confirmation</label>
+                                        <label for="password" class="form-label black fw-normal">Konfirmasi Password
+                                            Baru</label>
                                         <div class="d-flex">
                                             <input type="password" class="form-control"
-                                                placeholder="Masukkan password confirmation akun"
-                                                id="passwordConfirmation" name="password"
-                                                aria-describedby="emailHelp" />
+                                                placeholder="Masukkan password kembali" id="passwordConfirmation"
+                                                name="passwordConfirmation" aria-describedby="emailHelp" />
                                             <i class="far fa-eye-slash" id="passIconEC" onclick="showPassEC()"
                                                 style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
                                         </div>
@@ -254,10 +238,29 @@
 </section>
 @endsection
 @section('js')
+
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Sweet alert -->
-<script src="sweetalert2.all.min.js"></script>\
+<script src="sweetalert2.all.min.js"></script>
+
+{{-- Edit akun start --}}
+<script>
+    $(".passId").click(function() {
+                let url = "{{ route('getAkun', ':id') }}";
+                url = url.replace(':id', $(this).data('id'));
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        $('#nameE').attr('value', data.name)
+                        $("#role_id").val(data.role_id)
+                    }
+                });
+                $('#idAkun').attr('value', $(this).data('id'));
+            });
+</script>
+{{-- Edit akun end --}}
 
 {{-- Refresh page start --}}
 <script>
@@ -360,7 +363,7 @@
                     if (password != confirmPassword) {
                         Swal.fire({
                             confirmButtonColor: "#2F5596",
-                            text: "password dan konfirmasinya tidak sesuai"
+                            text: "Password dan konfirmasi password tidak sesuai"
                         });
                         new Audio("audio/error-edited.mp3").play();
                     } else {
@@ -500,6 +503,7 @@
             })
         }
 </script>
+
 @if ($message = Session::get('success'))
 <script>
     berhasil("{{ Session::get('success') }}")
