@@ -279,6 +279,33 @@ class Surat extends Controller
             }
         }
     }
+    public function uploadDokumen(Request $req)
+    {
+        $validatedData = $req->validate([
+            'dokumen' => 'required',
+            'lampiran' => 'required|mimes:docx,pdf|max:1024',
+            'jumlahLampiran' => 'nullable',
+        ], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
+
+        // Set input start
+        $file = $req->file('lampiran');
+        $fileName = $file->getClientOriginalName() . '-' . time();
+        $fileName = $file->getClientOriginalName();
+        $req->lampiran->move(public_path('uploads'), $fileName);
+        $validatedData['lampiran'] = $fileName;
+        // Set input end
+
+        try {
+            DB::table('suratkeluar')->where('id', $req->dokumen)->update(['lampiran' => $fileName]);
+            return back()->with('success', 'Upload arsip berhasil');
+        } catch (\Exception $e) {
+            return $e;
+            // Validasi nomor surat dengan database
+            if (DB::table('suratmasuk')->where('nomorSurat', $validatedData['nomorSurat'])) {
+                return back()->with('failed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
+            }
+        }
+    }
     public function indexSM()
     {
         // dd($request);
@@ -404,10 +431,10 @@ class Surat extends Controller
             'sifatSurat' => 'required',
             'disahkanOleh' => 'required',
             'tanggalPengesahan' => 'required',
-            'jumlahLampiran' => 'nullable',
+            // 'jumlahLampiran' => 'nullable',
             'tujuanSurat' => 'required',
-            'lampiran' => 'mimes:docx,pdf|max:1024'
-        ], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
+            // 'lampiran' => 'mimes:docx,pdf|max:1024'
+        ]);
         // dd($request);
         //ambil nomor agenda
         $nomorAgenda = DB::table('suratkeluar')
@@ -419,12 +446,12 @@ class Surat extends Controller
             $nomorAgenda++;
         }
         $userId = $request->session()->get('user')->nip;
-        $file = $request->file('lampiran');
+        // $file = $request->file('lampiran');
         // $fileName = time() . '.' . $file->getClientOriginalName();
-        $fileName = $file->getClientOriginalName();
-        $request->lampiran->move(public_path('uploads'), $fileName);
+        // $fileName = $file->getClientOriginalName();
+        // $request->lampiran->move(public_path('uploads'), $fileName);
         $input = $request->except(['_token']);
-        $input['lampiran'] = $fileName;
+        // $input['lampiran'] = $fileName;
         $input['created_by'] = $userId;
         $input['nomorAgenda'] = $nomorAgenda;
         $input['jenis'] = 'biasa';

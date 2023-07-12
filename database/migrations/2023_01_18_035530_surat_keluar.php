@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('kodeHal')->references('kode')->on('hal')->onDelete('cascade');
             $table->foreign('created_by')->references('nip')->on('users')->onDelete('cascade');
             $table->foreign('sifatSurat')->references('kode')->on('sifat')->onDelete('cascade');
-            $table->string('lampiran');
+            $table->string('lampiran')->nullable();
             $table->date('tanggalPengesahan');
             // $table->string('asalSurat');
             $table->string('kodeUnit');

@@ -286,6 +286,22 @@
                             method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
+                                <div class="alert alert-primary gap-1 d-flex align-items-start" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" style="width: 20px"
+                                        viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                        <path
+                                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                    </svg>
+                                    <div>
+                                        <span class="fw-semibold">Perhatian!</span>
+                                        <h5 class="mt-1 fw-normal" style="line-height: 1.5">
+                                            Setelah registrasi nomor
+                                            surat berhasil, mohon untuk mengupload
+                                            dokumen surat melalui tombol upload arsip.
+                                        </h5>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="nomorSurat" class="form-label black fw-normal">
@@ -355,6 +371,8 @@
                                             Masukkan sifat surat dengan benar.
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
@@ -369,8 +387,6 @@
                                             Masukkan unit dengan benar.
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="tanggalPengesahan" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
@@ -384,7 +400,7 @@
                                             Masukkan tanggal pengesahan surat dengan benar.
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="lampiran" class="form-label black fw-normal">Upload
                                             Lampiran</label>
                                         <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
@@ -406,8 +422,8 @@
                                         <div class="invalid-feedback">
                                             Masukkan lampiran dengan benar.
                                         </div>
-                                    </div>
-                                    <div class="mb-3">
+                                    </div> --}}
+                                    {{-- <div class="mb-3">
                                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
                                             Lampiran</label>
                                         <input type="number" class="form-control" placeholder="Contoh : 1"
@@ -416,11 +432,11 @@
                                         <div class="invalid-feedback">
                                             Masukkan jumlah lampiran surat dengan benar.
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1"
                                             class="form-label black fw-normal">Perihal</label>
-                                        <textarea name="perihal" class="form-control" style="height: 8.3rem"
+                                        <textarea name="perihal" class="form-control" style="min-height: 13.9rem"
                                             id="exampleFormControlTextarea1" rows="8"
                                             placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
                                         <div class="invalid-feedback">
@@ -445,6 +461,70 @@
             </div>
         </div>
         <!-- Modal registrasi end -->
+
+        <!-- Modal upload dokumen start -->
+        <div class="modal modal__section fade" id="uploadDokumen" data-bs-backdrop="static" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                            Upload Arsip Surat
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formUploadDokumen" class="needs-validation" novalidate
+                            action="{{ route('uploadDokumen') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" id="suratKeluar" name="dokumen">
+                            <div class="alert alert-primary gap-1 d-flex align-items-start" role="alert">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" style="width: 20px"
+                                    viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </svg>
+                                <div>
+                                    <span class="fw-semibold">Perhatian!</span>
+                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5">
+                                        Dokumen surat dalam bentuk pdf dan ukuran file tidak lebih dari 1MB.
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lampiran" class="form-label black fw-normal">Upload
+                                    Arsip</label>
+                                <input type="file" class="form-control" id="lampiran" name="lampiran"
+                                    aria-describedby="emailHelp" accept=".pdf" required />
+                                <div class="invalid-feedback">
+                                    Masukkan lampiran dengan benar.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
+                                    Dokumen Arsip</label>
+                                <input type="number" class="form-control" placeholder="Contoh : 1" id="jumlahLampiran"
+                                    name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
+                                <div class="invalid-feedback">
+                                    Masukkan jumlah lampiran surat dengan benar.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" id="confirmRegistrasi" onclick="confirmUpload()" form="formRegistrasi"
+                            class="mybtn blue">
+                            Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal upload dokumen end -->
 
         {{-- Tabel header start --}}
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
@@ -529,14 +609,29 @@
                                     <i class="fa-solid fa-paperclip"></i>
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">
-                                            Lampiran
+                                            Lihat Arsip
                                         </div>
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @if ($v->lampiran == null)
+                                <button type="button"
+                                    class="myicon position-relative grey bg-secondary d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#uploadDokumen"
+                                    onclick="uploadDokumen('{{ $v->id }}')" id="btnUpload">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <div class="position-absolute mytooltip">
+                                        <div class="text-white px-3 py-2 position-relative">
+                                            Upload Arsip
+                                        </div>
+                                        <div id="arrow"></div>
+                                    </div>
+                                </button>
+                                @endif
                                 @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
+                                    {{ $v->lampiran == null ? 'data-lampiran="null"' : '' }}
                                     data-id="{{ $v->id }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     <div class="position-absolute mytooltip">
@@ -573,6 +668,16 @@
 @endsection
 @section('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- Fungsi upload dokumen start --}}
+<script>
+    function uploadDokumen(id){
+        let idSurat = document.getElementById('suratKeluar')
+        idSurat.value = id
+        console.log(idSurat);
+    }
+</script>
+{{-- Fungsi upload dokumen end --}}
 
 {{-- refresh page --}}
 <script>
@@ -762,6 +867,31 @@
         }
 </script>
 
+{{-- Sweet alert : confirm upload dokumen start --}}
+<script>
+    function confirmUpload() {
+        Swal.fire({
+        title: "Konfirmasi",
+                    text: "Pastikan data yang anda masukkan benar!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#2F5596",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Tambah",
+                    cancelButtonText: "Batal",
+                    reverseButtons: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('formUploadDokumen').submit();
+                        console.log(document.getElementById('formUploadDokumen'));
+                    } else {
+                        new Audio("audio/cancel-edited.mp3").play();
+                    }
+                });
+    }
+</script>
+{{-- Sweet alert : confirm upload dokumen send --}}
+
 <!-- Sweet alert : confirm edit -->
 <script>
     function confirmEdit() {
@@ -830,6 +960,12 @@
             $(".passId").click(function() {
                 let url = "{{ route('getSK', ':id') }}";
                 url = url.replace(':id', $(this).data('id'));
+                if(typeof $(this).data('lampiran') === 'undefined') {
+                    $('input[name=lampiran]').show()
+                }else{
+                    $('input[name=lampiran]').hide()
+                    
+                }
                 $.ajax({
                     type: 'GET',
                     url: url,

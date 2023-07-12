@@ -43,6 +43,7 @@ Route::middleware('checkAuth')->group(function () {
     Route::get('/suratKeluar', [Surat::class, 'indexSK'])->name('suratKeluar');
     Route::post('/inputSK', [Surat::class, 'inputSK'])->name('inputSK');
     Route::post('/editSK', [Surat::class, 'editSK'])->name('editSK');
+    Route::post('/uploadDokumen', [Surat::class, 'uploadDokumen'])->name('uploadDokumen');
 
 
     Route::middleware('checkAdmin')->group(function () {
