@@ -60,6 +60,14 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="bagian" class="form-label black fw-normal">Bagian</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan bagian pengguna"
+                                            id="bagian" name="bagian" required />
+                                        <div class="invalid-feedback">
+                                            Isian bagian wajib diisi.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="email" class="form-label black fw-normal">Email</label>
                                         <input type="text" class="form-control" placeholder="Masukkan email pengguna"
                                             id="email" name="email" required />
@@ -94,7 +102,6 @@
                                             Isian password wajib diisi.
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </form>
@@ -130,6 +137,7 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
+                        <th>Bagian</th>
                         <th>Email</th>
                         <th>Role</th>
                         <th>Aksi</th>
@@ -139,6 +147,7 @@
                     @foreach ($users as $pengguna)
                     <tr>
                         <td>{{ $pengguna->name }}</td>
+                        <td>{{ $pengguna->bagian }}</td>
                         <td>{{ $pengguna->email }}</td>
                         <td>{{ $pengguna->roleTabel->nama }}</td>
                         <td>
@@ -184,6 +193,11 @@
                                         <label for="name" class="form-label black fw-normal">Nama</label>
                                         <input type="text" class="form-control" placeholder="Masukkan nama akun"
                                             id="nameE" name="name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="bagian" class="form-label black fw-normal">Bagian</label>
+                                        <input type="text" class="form-control" placeholder="Masukkan nama bagian"
+                                            id="bagianE" name="bagian" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="role" class="form-label black fw-normal">Role</label>
@@ -251,6 +265,7 @@
                     url: url,
                     success: function(data) {
                         $('#nameE').attr('value', data.name)
+                        $("#bagianE").val(data.bagian)
                         $("#role_id").val(data.role_id)
                     }
                 });
@@ -338,7 +353,6 @@
 </script>
 <!-- Sweet alert : confirm add end -->
 
-
 <!-- Sweet alert : confirm edit start -->
 <script>
     function confirmEdit() {
@@ -375,7 +389,6 @@
         }
 </script>
 <!-- Sweet alert : confirm edit end -->
-
 
 <!-- Show/hide password start -->
 <script>

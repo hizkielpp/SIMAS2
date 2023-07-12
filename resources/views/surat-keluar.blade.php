@@ -230,23 +230,28 @@
                                             <i class="fa-solid fa-calendar-days position-absolute"></i>
                                         </div>
                                     </div>
+
                                     <div class="mb-3">
-                                        <label class="form-label black fw-normal">Upload Lampiran Baru</label>
-                                        <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
+                                        <label class="form-label black fw-normal" id="labelUpload">Upload Arsip Surat
+                                            Baru</label>
+                                        {{-- <div class="alert alert-primary gap-1 d-flex align-items-center"
+                                            role="alert">
                                             <div class="fs-6">
                                                 Nama lampiran sebelumnya : <span class="fw-semibold"
                                                     id="lampiranE"></span>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <input type="file" class="form-control" name="lampiran"
                                             aria-describedby="emailHelp" accept=".pdf" value="" />
                                     </div>
                                     <div class="mb-3">
-                                        <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
+                                        <label for="jumlahLampiranE" class="form-label black fw-normal"
+                                            id="labelJumlah">Jumlah
                                             Lampiran</label>
                                         <input type="number" class="form-control" id="jumlahLampiranE"
                                             name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
                                     </div>
+
                                     <div class="mb-3">
                                         <label for="perihalE" class="form-label black fw-normal">Perihal</label>
                                         <textarea class="form-control perihal" id="perihalE" name="perihal" rows="1"
@@ -286,10 +291,11 @@
                             method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                                <div class="alert alert-primary gap-1 d-flex align-items-start" role="alert">
+                                <div class="alert alert-warning gap-1 d-flex align-items-start" role="alert">
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" style="width: 20px"
-                                        viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                        class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+                                        style="width: 20px; color: #664d03" viewBox="0 0 16 16" role="img"
+                                        aria-label="Warning:">
                                         <path
                                             d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                                     </svg>
@@ -298,7 +304,7 @@
                                         <h5 class="mt-1 fw-normal" style="line-height: 1.5">
                                             Setelah registrasi nomor
                                             surat berhasil, mohon untuk mengupload
-                                            dokumen surat melalui tombol upload arsip.
+                                            arsip surat melalui tombol upload arsip.
                                         </h5>
                                     </div>
                                 </div>
@@ -498,7 +504,7 @@
                                 <input type="file" class="form-control" id="lampiran" name="lampiran"
                                     aria-describedby="emailHelp" accept=".pdf" required />
                                 <div class="invalid-feedback">
-                                    Masukkan lampiran dengan benar.
+                                    Isian upload arsip wajib diisi.
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -506,9 +512,6 @@
                                     Dokumen Arsip</label>
                                 <input type="number" class="form-control" placeholder="Contoh : 1" id="jumlahLampiran"
                                     name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
-                                <div class="invalid-feedback">
-                                    Masukkan jumlah lampiran surat dengan benar.
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -516,8 +519,7 @@
                         <button type="button" class="mybtn light" data-bs-dismiss="modal">
                             Batal
                         </button>
-                        <button type="submit" id="confirmRegistrasi" onclick="confirmUpload()" form="formRegistrasi"
-                            class="mybtn blue">
+                        <button type="submit" form="formUploadDokumen" class="mybtn blue">
                             Tambah
                         </button>
                     </div>
@@ -573,8 +575,6 @@
                             {{ $v->disahkanOleh }} <br>Nomor :
                             {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{ convertToRomawi(date('m',
                             strtotime($v->tanggalPengesahan))) }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}
-                            <br />
-
                         </td>
                         <td>{{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
@@ -602,6 +602,21 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
+                                @if ($v->lampiran == null)
+                                <button type="button"
+                                    class="myicon position-relative yellow d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#uploadDokumen"
+                                    onclick="uploadDokumen('{{ $v->id }}')" id="btnUpload">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <div class="position-absolute mytooltip">
+                                        <div class="text-white px-3 py-2 position-relative">
+                                            Upload Arsip
+                                        </div>
+                                        <div id="arrow"></div>
+                                    </div>
+                                </button>
+                                @endif
+                                @if ($v->lampiran !== null)
                                 <button type="button"
                                     class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
                                     data-bs-toggle="modal" data-bs-target="#lampiran"
@@ -610,19 +625,6 @@
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">
                                             Lihat Arsip
-                                        </div>
-                                        <div id="arrow"></div>
-                                    </div>
-                                </button>
-                                @if ($v->lampiran == null)
-                                <button type="button"
-                                    class="myicon position-relative grey bg-secondary d-flex align-items-center justify-content-center"
-                                    data-bs-toggle="modal" data-bs-target="#uploadDokumen"
-                                    onclick="uploadDokumen('{{ $v->id }}')" id="btnUpload">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <div class="position-absolute mytooltip">
-                                        <div class="text-white px-3 py-2 position-relative">
-                                            Upload Arsip
                                         </div>
                                         <div id="arrow"></div>
                                     </div>
@@ -962,8 +964,14 @@
                 url = url.replace(':id', $(this).data('id'));
                 if(typeof $(this).data('lampiran') === 'undefined') {
                     $('input[name=lampiran]').show()
+                    $('input[name=jumlahLampiran]').show()
+                    $('#labelUpload').show()
+                    $('#labelJumlah').show()
                 }else{
+                    $('#labelUpload').hide()
+                    $('#labelJumlah').hide()
                     $('input[name=lampiran]').hide()
+                    $('input[name=jumlahLampiran]').hide()
                     
                 }
                 $.ajax({

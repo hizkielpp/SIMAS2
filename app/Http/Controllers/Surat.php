@@ -272,6 +272,7 @@ class Surat extends Controller
                 return redirect()->route('suratAntidatir')->with('success', 'Data surat antidatir berhasil diubah');
             }
         } catch (\Exception $e) {
+            return $e;
             if ($jenisSurat == "biasa") {
                 return redirect()->route('suratKeluar')->with('failed', 'Gagal mengubah data surat keluar' . $e);
             } else if ($jenisSurat == 'antidatir') {

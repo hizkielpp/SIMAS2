@@ -43,27 +43,30 @@ class DatabaseSeeder extends Seeder
         // User seeder start
         DB::table('users')->insert([
             "role_id" => 1,
-            "name" => "Admin",
+            "name" => "Pak Mul",
+            "bagian" => "Dekanat",
             "password" => Hash::make("password"),
-            "email" => "admin@gmail.com",
+            "email" => "pakmul@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
             "nip" => '1',
         ]);
         DB::table('users')->insert([
             "role_id" => 2,
-            "name" => "Operator",
+            "name" => "Anton Wibowo",
+            "bagian" => "KUI",
             "password" => Hash::make("password"),
-            "email" => "operator@gmail.com",
+            "email" => "antonwibowo@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
             "nip" => '2',
         ]);
         DB::table('users')->insert([
             "role_id" => 3,
-            "name" => "Pimpinan",
+            "name" => "Bu Agnes",
+            "bagian" => "Dekanat",
             "password" => Hash::make("password"),
-            "email" => "pimpinan@gmail.com",
+            "email" => "buagnes@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
             "nip" => '3',

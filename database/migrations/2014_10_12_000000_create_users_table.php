@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('role_id');
             $table->foreign('role_id')->references('id')->on('role');
             $table->string('name');
+            $table->string('bagian');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

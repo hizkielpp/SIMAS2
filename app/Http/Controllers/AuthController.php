@@ -33,6 +33,7 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'nip' => 'required',
+            'bagian' => 'required',
             'email' => 'required',
             'role_id' => 'required',
             'password' => 'required'
@@ -80,6 +81,7 @@ class AuthController extends Controller
                 ->update($updatedValue);
             return redirect()->route('kelolaAkun')->with('success', 'Berhasil mengubah data akun');
         } catch (\Exception $e) {
+            return $e;
             return redirect()->route('kelolaAkun')->with('failed', 'Gagal mengubah data akun');
         }
     }

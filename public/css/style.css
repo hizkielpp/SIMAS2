@@ -118,6 +118,15 @@ p {
     background-color: #254b8c;
     transition: 0.2s;
 }
+.mybtn.yellow {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffe69c;
+}
+.mybtn.yellow:hover {
+    background-color: #eadbab;
+    transition: 0.2s;
+}
 .mybtn.blue__light {
     background-color: var(--light);
     color: var(--blue);
@@ -216,20 +225,31 @@ p {
     display: flex;
     align-items: center;
 }
+.myicon.yellow {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffe69c;
+}
 /* Icon end */
 
 /* Tooltip start */
 .mytooltip {
-    bottom: 110%;
+    bottom: 120%;
     background-color: var(--black);
     font-size: 14px;
     border-radius: 0.25rem;
     visibility: hidden;
     opacity: 0;
+    width: max-content;
 }
 .myicon:hover .mytooltip {
     visibility: visible;
     opacity: 1;
+}
+.alert-warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffe69c;
 }
 /* Tooltip end */
 
@@ -532,7 +552,7 @@ p {
 
 #editSuratMasuk .perihal,
 #editSuratKeluar .perihal {
-    min-height: 6.8rem;
+    min-height: 8.3rem !important;
 }
 
 #registrasiSuratKeluar .perihal {
