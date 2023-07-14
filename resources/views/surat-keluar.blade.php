@@ -5,10 +5,16 @@
 <!-- Datepicker Jquery -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
+<style>
+    iframe {
+        width: 100%;
+        /* for responsiveness */
+    }
+</style>
 {{-- Fungsi rentang tanggal start --}}
 <script>
     $(document).ready(function() {
+
         $(function() {
             // Initializing
             $("#inputTanggalStart").datepicker()
@@ -203,10 +209,10 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="unitPengesahanKiri">
                                         <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
-                                        <select id="disahkanOlehE" name="disahkanOleh" class="form-select"
+                                        <select id="disahkanOlehE1" class="form-select"
                                             aria-label="Default select example">
                                             <option value="" selected>
                                                 -- Pilih salah satu --
@@ -218,6 +224,19 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
+                                    <div class="mb-3" id="unitPengesahanKanan">
+                                        <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
+                                            Oleh</label>
+                                        <select id="disahkanOlehE2" class="form-select"
+                                            aria-label="Default select example">
+                                            <option value="" selected>
+                                                -- Pilih salah satu --
+                                            </option>
+                                            @foreach ($unit as $k => $v)
+                                            <option value="{{ $v->nama }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="mb-3">
                                         <label for="tanggalPengesahanE" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
@@ -246,8 +265,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="jumlahLampiranE" class="form-label black fw-normal"
-                                            id="labelJumlah">Jumlah
-                                            Lampiran</label>
+                                            id="labelJumlah">Jumlah Halaman Dokumen
+                                            Arsip</label>
                                         <input type="number" class="form-control" id="jumlahLampiranE"
                                             name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
                                     </div>
@@ -304,7 +323,7 @@
                                         <h5 class="mt-1 fw-normal" style="line-height: 1.5">
                                             Setelah registrasi nomor
                                             surat berhasil, mohon untuk mengupload
-                                            arsip surat melalui tombol upload arsip.
+                                            arsip surat melalui tombol "Upload Arsip".
                                         </h5>
                                     </div>
                                 </div>
@@ -508,7 +527,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
+                                <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah Halaman
                                     Dokumen Arsip</label>
                                 <input type="number" class="form-control" placeholder="Contoh : 1" id="jumlahLampiran"
                                     name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
@@ -633,7 +652,7 @@
                                 @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
-                                    {{ $v->lampiran == null ? 'data-lampiran="null"' : '' }}
+                                    onclick="editData('{{ $v->id }}','{{ $v->lampiran == null ? 'null' : 'ada' }}')"
                                     data-id="{{ $v->id }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     <div class="position-absolute mytooltip">
@@ -941,37 +960,28 @@
         });
 </script>
 <script>
-    $(document).ready(function() {
-            var start = $('#inputTanggalStart').attr('value')
-            var end = $('#inputTanggalEnd').attr('value')
-            oke = false
-            $('#inputTanggalStart').change(function() {
-                start = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-            $('#inputTanggalEnd').change(function() {
-                end = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-            $(".passId").click(function() {
+    function editData(id,lampiran){
                 let url = "{{ route('getSK', ':id') }}";
-                url = url.replace(':id', $(this).data('id'));
-                if(typeof $(this).data('lampiran') === 'undefined') {
-                    $('input[name=lampiran]').show()
-                    $('input[name=jumlahLampiran]').show()
-                    $('#labelUpload').show()
-                    $('#labelJumlah').show()
-                }else{
+                url = url.replace(':id', id);
+                // Kondisi sudah ada lampiran
+                if(lampiran === 'null') {
+                    $('#formEdit input[name=lampiran]').show()
+                    $('#formEdit input[name=jumlahLampiran]').show()
+                    $('#formEdit #labelUpload').show()
+                    $('#formEdit #labelJumlah').show()
+                    $('#formEdit #unitPengesahanKanan').hide()
+                    $('#formEdit #unitPengesahanKiri').show()
+                    $('#formEdit #unitPengesahanKiri select').attr('name', "disahkanOleh")
+                }
+                // Kondisi belum ada lampiran
+                else{
+                    $('#formEdit #unitPengesahanKiri').hide()
+                    $('#formEdit #unitPengesahanKanan').show()
+                    $('#formEdit #unitPengesahanKanan select').attr('name', "disahkanOleh")
                     $('#labelUpload').hide()
                     $('#labelJumlah').hide()
-                    $('input[name=lampiran]').hide()
-                    $('input[name=jumlahLampiran]').hide()
+                    $('#formEdit input[name=lampiran]').hide()
+                    $('#formEdit input[name=jumlahLampiran]').hide()
                     
                 }
                 $.ajax({
@@ -993,13 +1003,84 @@
                         $('#perihalE').val(data.perihal)
                         $("#kodeHalE").val(data.kodeHal)
                         $("#kodeUnitE").val(data.kodeUnit)
-                        $("#disahkanOlehE").val(data.disahkanOleh)
+                        $("#disahkanOlehE1").val(data.disahkanOleh)
+                        $("#disahkanOlehE2").val(data.disahkanOleh)
                         $('#sifatSuratE').val(data.sifatSurat)
                         $('#jumlahLampiranE').val(data.jumlahLampiran)
                         $('#lampiranE').html(data.lampiran)
                     }
                 });
-                $('input[name="idSurat"]').attr('value', $(this).data('id'));
+                $('input[name="idSurat"]').attr('value', id);
+            }
+    $(document).ready(function() {
+            var start = $('#inputTanggalStart').attr('value')
+            var end = $('#inputTanggalEnd').attr('value')
+            oke = false
+            $('#inputTanggalStart').change(function() {
+                start = this.value
+                if (start && end) {
+                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
+                        end;
+                }
+            })
+            $('#inputTanggalEnd').change(function() {
+                end = this.value
+                if (start && end) {
+                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
+                        end;
+                }
+            })
+            $(".passId").click(function() {
+                // let url = "{{ route('getSK', ':id') }}";
+                // url = url.replace(':id', $(this).data('id'));
+                // // Kondisi sudah ada lampiran
+                // if(typeof $(this).data('lampiran') === 'undefined') {
+                //     $('#formEdit input[name=lampiran]').show()
+                //     $('#formEdit input[name=jumlahLampiran]').show()
+                //     $('#formEdit #labelUpload').show()
+                //     $('#formEdit #labelJumlah').show()
+                //     $('#formEdit #unitPengesahanKanan').hide()
+                //     $('#formEdit #unitPengesahanKiri').show()
+                //     $('#formEdit #unitPengesahanKiri select').attr('name', "disahkanOleh")
+                // }
+                // // Kondisi belum ada lampiran
+                // else{
+                //     $('#formEdit #unitPengesahanKiri').hide()
+                //     $('#formEdit #unitPengesahanKanan').show()
+                //     $('#formEdit #unitPengesahanKanan select').attr('name', "disahkanOleh")
+                //     $('#labelUpload').hide()
+                //     $('#labelJumlah').hide()
+                //     $('#formEdit input[name=lampiran]').hide()
+                //     $('#formEdit input[name=jumlahLampiran]').hide()
+                    
+                // }
+                // $.ajax({
+                //     type: 'GET',
+                //     url: url,
+                //     success: function(data) {
+                //         $('input[name="jenisSurat"]').val('biasa')
+                //         $("#tujuanSuratE").val(data.tujuanSurat)
+                //         tanggal = new Date(data.tanggalPengesahan)
+                //         y = tanggal.getFullYear()
+                //         m = parseInt(tanggal.getMonth()) + 1
+                //         d = tanggal.getDate()
+                //         // Ganti tahun
+                //         $("#datepickerEdit").datepicker(
+                //             'setDate',
+                //             `0${m}/${d}/${y}`);
+                //         $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
+                //         $('#tujuanSuratE').attr('value', data.tujuanSurat)
+                //         $('#perihalE').val(data.perihal)
+                //         $("#kodeHalE").val(data.kodeHal)
+                //         $("#kodeUnitE").val(data.kodeUnit)
+                //         $("#disahkanOlehE1").val(data.disahkanOleh)
+                //         $("#disahkanOlehE2").val(data.disahkanOleh)
+                //         $('#sifatSuratE').val(data.sifatSurat)
+                //         $('#jumlahLampiranE').val(data.jumlahLampiran)
+                //         $('#lampiranE').html(data.lampiran)
+                //     }
+                // });
+                // $('input[name="idSurat"]').attr('value', $(this).data('id'));
             });
         });
 </script>

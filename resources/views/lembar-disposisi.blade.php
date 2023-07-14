@@ -38,7 +38,8 @@
                             <h4>:</h4>
                         </div>
                         <div class="disposisi__info-body ms-2">
-                            <h4>{{ date('d ', strtotime($surat->created_at)) }}{{ convertToBulan(date('F', strtotime($surat->created_at))) }}{{ date(' Y ', strtotime($surat->created_at)) }}
+                            <h4>{{ date('d ', strtotime($surat->created_at)) }}{{ convertToBulan(date('F',
+                                strtotime($surat->created_at))) }}{{ date(' Y ', strtotime($surat->created_at)) }}
                             </h4>
                         </div>
                     </div>
@@ -48,7 +49,9 @@
                             <h4>:</h4>
                         </div>
                         <div class="disposisi__info-body ms-2">
-                            <h4>{{ date('d ', strtotime($surat->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($surat->tanggalPengajuan))) }}{{ date(' Y ', strtotime($surat->tanggalPengajuan)) }}
+                            <h4>{{ date('d ', strtotime($surat->tanggalPengajuan)) }}{{ convertToBulan(date('F',
+                                strtotime($surat->tanggalPengajuan))) }}{{ date(' Y ',
+                                strtotime($surat->tanggalPengajuan)) }}
                             </h4>
                         </div>
                     </div>
@@ -107,9 +110,15 @@
                         <h4>Lampiran</h4>
                         <h4>:</h4>
                     </div>
+                    @if ($surat->jumlahLampiran)
                     <div class="disposisi__info-body ms-2">
                         <h4>{{ $surat->jumlahLampiran }} Lembar</h4>
                     </div>
+                    @else
+                    <div class="disposisi__info-body ms-2">
+                        <h4>-</h4>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="row mt-2">
@@ -313,7 +322,6 @@
         {{-- Button cetak end --}}
 
     </div>
-
 
     {{-- Modal iframe start start --}}
     <div class="modal modal__section fade" id="registrasiSuratMasuk" tabindex="-1" aria-labelledby="ex ampleModalLabel"

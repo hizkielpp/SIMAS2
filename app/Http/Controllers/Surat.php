@@ -11,12 +11,6 @@ use PDF;
 
 class Surat extends Controller
 {
-    public function messages(): array
-    {
-        return [
-            'lampiran.max' => 'File terlalu gede bos',
-        ];
-    }
     public function refreshDatatable(Request $request)
     {
         if (isset($_GET['jenis'])) {
@@ -47,6 +41,10 @@ class Surat extends Controller
         } else {
             return response('Request tidak valid', 400)->header('Content-Type', 'text/plain');
         }
+    }
+    public function lampiran(Request $request)
+    {
+        return view('lampiran');
     }
     public function getSM(Request $request)
     {
