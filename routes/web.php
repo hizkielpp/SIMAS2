@@ -54,7 +54,6 @@ Route::middleware('checkAuth')->group(function () {
         Route::post('/deleteAkun', [AuthController::class, 'deleteAkun'])->name('deleteAkun');
     });
 
-
     Route::get('/suratAntidatir', [Surat::class, 'indexSA'])->name('suratAntidatir');
     Route::post('/inputSA', [Surat::class, 'inputSA'])->name('inputSA');
 

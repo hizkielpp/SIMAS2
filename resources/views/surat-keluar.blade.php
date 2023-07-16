@@ -93,17 +93,18 @@
 </script>
 
 {{-- Set attribut modal lampiran --}}
-<script>
+{{-- <script>
     function showLampiran(id) {
             $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
         }
-</script>
+</script> --}}
 
 <!-- Bootstrap data tables -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="css/surat-masuk-style.css" />
+
 @endsection
 @section('content')
 <section class="surat__masuk content">
@@ -137,7 +138,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <iframe src="" id="iframeLampiran" frameborder="0" style="width:100%;" class="h-100"></iframe>
+                        <div id="example1"></div>
+                        {{-- <iframe src="" id="iframeLampiran" frameborder="0" style="width:100%;"
+                            class="h-100"></iframe> --}}
                     </div>
                 </div>
             </div>
@@ -639,7 +642,7 @@
                                 <button type="button"
                                     class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
                                     data-bs-toggle="modal" data-bs-target="#lampiran"
-                                    onclick="showLampiran('{{ $v->lampiran }}')">
+                                    onclick="lihatLampiran('{{ $v->lampiran }}')">
                                     <i class="fa-solid fa-paperclip"></i>
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">
@@ -688,7 +691,20 @@
 </section>
 @endsection
 @section('js')
+{{-- Sweet alert cdn start --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- Sweet alert cdn end --}}
+
+{{-- Fungsi lihat lampiran start --}}
+<script>
+    function lihatLampiran(id) {
+        var options = {
+            fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
+        };
+        PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+    }
+</script>
+{{-- Fungsi lihat lampiran end --}}
 
 {{-- Fungsi upload dokumen start --}}
 <script>
@@ -959,6 +975,8 @@
             });
         });
 </script>
+
+{{-- Fungsi edit data start --}}
 <script>
     function editData(id,lampiran){
                 let url = "{{ route('getSK', ':id') }}";
@@ -1084,6 +1102,8 @@
             });
         });
 </script>
+{{-- Fungsi edit data end --}}
+
 <!-- Data tables : responsive -->
 <script type="text/javascript" charset="utf8"
     src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>

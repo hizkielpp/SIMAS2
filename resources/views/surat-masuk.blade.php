@@ -82,7 +82,6 @@
 @endsection
 @section('content')
 <section class="surat__masuk content">
-    {{-- @dd($suratMasuk) --}}
     {{-- Navigation start --}}
     <div class="navigation__content mb-4">
         <h5 class="fw__semi black">SURAT MASUK</h5>
@@ -96,20 +95,6 @@
         <p class="mt-2">@foreach ($errors->all() as $error)
             {{ $error }}
             @endforeach</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if (session()->has('failed'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Aksi gagal!</strong>
-        <p class="mt-2">{{session('failed')}}</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    @if (session()->has('editFailed'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Gagal mengubah data surat!</strong>
-        <p class="mt-2">{{session('editFailed')}}</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -143,8 +128,8 @@
         {{-- Tabel header end --}}
 
         <!-- Modal lampiran surat start -->
-        <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
-            aria-hidden="true">
+        <div class="modal modal__section fade" data-bs-backdrop="static" id="lampiran" tabindex="-1"
+            aria-labelledby="lampiranLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl h-100">
                 <div class="modal-content modal-xl h-100">
                     <div class="modal-header">
@@ -152,7 +137,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <iframe src="" id="iframeLampiran" frameborder="0" style="width:100%;" class="h-100"></iframe>
+                        <div id="example1"></div>
                     </div>
                 </div>
             </div>
@@ -160,8 +145,8 @@
         <!-- Modal lampiran surat end -->
 
         <!-- Modal registrasi start -->
-        <div class="modal modal__section fade" id="registrasiSuratMasuk" data-bs-backdrop="static" tabindex="-1"
-            aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+        <div class="modal modal__section fade" data-bs-backdrop="static" id="registrasiSuratMasuk"
+            data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content p-3">
                     <div class="modal-header">
@@ -431,8 +416,8 @@
         <!-- Modal edit end -->
 
         <!-- Modal disposisi surat start -->
-        <div class="modal modal__section fade" id="disposisi" tabindex="-1" aria-labelledby="ex ampleModalLabel"
-            aria-hidden="true">
+        <div class="modal modal__section fade" data-bs-backdrop="static" id="disposisi" tabindex="-1"
+            aria-labelledby="ex ampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl h-100">
                 <div class="modal-content p-3 h-100">
                     <div class="modal-header">
@@ -450,7 +435,6 @@
         <!-- Modal disposisi surat end -->
 
         {{-- Tabel content start --}}
-        {{-- @dd($suratMasuk) --}}
         <div class="table-responsive">
             <table id="mytable" class="table table-borderless">
                 <thead>
@@ -461,6 +445,7 @@
                         <th>Perihal</th>
                         <th>Penerima</th>
                         <th>Sifat</th>
+                        <th>Ditambahkan Oleh</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -497,12 +482,13 @@
                             </div>
                             @endif
                         </td>
+                        <td>{{ $v->created_by }}</td>
                         <td>
                             <div class="d-flex align-items-center gap-2 flex-wrap">
                                 <button type="button"
                                     class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
                                     data-bs-toggle="modal" data-bs-target="#lampiran"
-                                    onclick="showLampiran('{{ $v->lampiran }}')">
+                                    onclick="lihatLampiran('{{ $v->lampiran }}')">
                                     <i class="fa-solid fa-paperclip"></i>
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">
@@ -513,8 +499,8 @@
                                 </button>
                                 @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
-                                    class="myicon position-relative blue d-flex align-items-center justify-content-center passId"
-                                    data-id="{{ $v->id }}" id="btnEdit">
+                                    class="myicon position-relative blue d-flex align-items-center justify-content-center"
+                                    id="btnEdit" onclick="editData('{{ $v->id }}')" data-id="{{ $v->id }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">
@@ -573,6 +559,17 @@
 {{-- Sweet alert start --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{-- Sweet alert end --}}
+
+{{-- Fungsi lihat lampiran start --}}
+<script>
+    function lihatLampiran(id) {
+        var options = {
+            fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
+        };
+        PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+    }
+</script>
+{{-- Fungsi lihat lampiran end --}}
 
 {{-- Function refresh datatables start --}}
 <script>
@@ -683,7 +680,6 @@
 </div>
 @endif
 
-
 <!-- Sweet alert : confirm edit start -->
 <script>
     function confirmEdit() {
@@ -713,6 +709,31 @@
 </script>
 <!-- Sweet alert : confirm edit end -->
 
+{{-- Fungsi edit start --}}
+<script>
+    function editData(id){
+        let url = "{{ route('getSM', ':id') }}";
+            url = url.replace(':id', id);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    $('#nomorSuratE').attr('value', data.nomorSurat)
+                    $("#tujuanSuratE").val(data.tujuanSurat)
+                    $('#tanggalPengajuanE').val(new Date(data.tanggalPengajuan)
+                            .toLocaleDateString('en-GB'))
+                    $('#asalSuratE').attr('value', data.asalSurat)
+                    $("#kodeHalE").val(data.kodeHal)
+                    $('#sifatSuratE').val(data.sifatSurat)
+                    $('#perihalE').val(data.perihal)
+                    $('#jumlahLampiranE').val(data.jumlahLampiran)
+                    $('#lampiranE').html(data.lampiran)
+                }
+            });
+        $('#idSurat').attr('value', id);
+    }
+</script>
+{{-- Fungsi edit end --}}
 <script>
     $(document).ready(function() {
             var start = $('#inputTanggalStart').attr('value')
@@ -733,32 +754,6 @@
                     window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
                 }
             })
-
-            // Edit surat start
-            $(".passId").click(function() {
-                let url = "{{ route('getSM', ':id') }}";
-                url = url.replace(':id', $(this).data('id'));
-                console.log($(this).data('id'));
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(data) {
-                        $('#nomorSuratE').attr('value', data.nomorSurat)
-                        $("#tujuanSuratE").val(data.tujuanSurat)
-                        $('#tanggalPengajuanE').val(new Date(data.tanggalPengajuan)
-                            .toLocaleDateString('en-GB'))
-                        $('#asalSuratE').attr('value', data.asalSurat)
-                        $("#kodeHalE").val(data.kodeHal)
-                        $('#sifatSuratE').val(data.sifatSurat)
-                        $('#perihalE').val(data.perihal)
-                        $('#jumlahLampiranE').val(data.jumlahLampiran)
-                        $('#lampiranE').html(data.lampiran)
-                    }
-                });
-                $('#idSurat').attr('value', $(this).data('id'));
-                // alert($(this).data('id'));
-            });
-            // Edit surat end
         });
 </script>
 

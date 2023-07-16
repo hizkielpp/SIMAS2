@@ -21,6 +21,14 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/beranda-style.css" />
+
+    {{-- PDF Object styling start --}}
+    <style>
+        .pdfobject-container {
+            height: 100%;
+        }
+    </style>
+    {{-- PDF Object styling end --}}
     @yield('css')
 </head>
 
@@ -157,5 +165,8 @@
     <script src="js/script.js"></script>
     @yield('js')
 </body>
+
+{{-- PDF Object --}}
+<script src="{{ asset('js/pdfobject.min.js') }}"></script>
 
 </html>
