@@ -26,6 +26,7 @@ BEGIN
     SET now = DATE(NOW());
     SELECT IFNULL(MAX(nomorSurat),0) into max FROM suratkeluar;
     
+    IF DAYNAME(now) <> 'Saturday' AND DAYNAME(now) <> 'Sunday' THEN
     SET FOREIGN_KEY_CHECKS=0; 
 	loop_label:  LOOP
 		IF  x > 20 THEN 
@@ -68,11 +69,13 @@ suratkeluar(
     );
 	END LOOP;
     SET FOREIGN_KEY_CHECKS=1;
+    END IF;
 END
         ");
         DB::statement(("
-CREATE EVENT `generateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-07-01 10:20:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
+CREATE EVENT `generateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-07-01 23:59:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
         "));
+        DB::statement("SET GLOBAL event_scheduler = ON;");
     }
 
     /**

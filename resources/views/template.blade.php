@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ $user->roleTabel->nama }} | @yield('title')</title>
-    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 
@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="css/beranda-style.css" />
     @yield('css')
 </head>
-
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
@@ -47,7 +46,8 @@
                     <div class="dropdown">
                         <button class="border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {{ $user->name }} <i class="fa-solid fa-angle-down ms-1"></i>
+                            {{ $user->name }}
+                            <i class="fa-solid fa-angle-down ms-1"></i>
                         </button>
                         <ul class="dropdown-menu">
                             <li>
@@ -63,7 +63,6 @@
 
         {{-- Sidebar container start --}}
         <aside id="sidebar" class="main-sidebar sidebar-dark-primary">
-
             {{-- Sidebar brand start --}}
             <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center border-0">
                 <div class="d-flex justify-content-center align-items-center abjad me-2">
@@ -121,12 +120,10 @@
                             </a>
                         </li>
                         @endif
-
                     </ul>
                 </nav>
             </div>
             {{-- Sidebar content end --}}
-
         </aside>
         {{-- Sidebar container end --}}
 
