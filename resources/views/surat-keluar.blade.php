@@ -212,21 +212,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3" id="unitPengesahanKiri">
-                                        <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
-                                            Oleh</label>
-                                        <select id="disahkanOlehE1" class="form-select"
-                                            aria-label="Default select example">
-                                            <option value="" selected>
-                                                -- Pilih salah satu --
-                                            </option>
-                                            @foreach ($unit as $k => $v)
-                                            <option value="{{ $v->nama }}">{{ $v->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
                                     <div class="mb-3" id="unitPengesahanKanan">
                                         <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
@@ -240,6 +225,22 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="mb-3" id="unitPengesahanKiri">
+                                        <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
+                                            Oleh</label>
+                                        <select id="disahkanOlehE1" class="form-select"
+                                            aria-label="Default select example">
+                                            <option value="" selected>
+                                                -- Pilih salah satu --
+                                            </option>
+                                            @foreach ($unit as $k => $v)
+                                            <option value="{{ $v->nama }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="mb-3">
                                         <label for="tanggalPengesahanE" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
@@ -585,6 +586,9 @@
                         <th>Perihal</th>
                         <th>Penerima</th>
                         <th>Sifat</th>
+                        @if ($user->role_id !== 2)
+                        <th>Ditambahkan Oleh</th>
+                        @endif
                         <th>Aksi</th>
                     </tr>
 
@@ -622,6 +626,9 @@
                             </div>
                             @endif
                         </td>
+                        @if ($user->role_id !== 2)
+                        <td>{{ $v->name }}</td>
+                        @endif
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 @if ($v->lampiran == null)
@@ -838,41 +845,6 @@
             // valid = true
             // inputs = document.querySelectorAll('.my__validation input, .my__validation select, .my__validation textarea')
             invalidFeedback = document.querySelectorAll('.invalid-feedback')
-            // Array.from(inputs).forEach(input => {
-            //     if (input.value == "") {
-            //         Array.from(invalidFeedback).forEach(feedback => {
-            //             feedback.style.display = "block"
-            //         })
-            //         input.style.borderColor = "#dc3545"
-            //         valid = false
-            //     } else {
-            //         Array.from(invalidFeedback).forEach(feedback => {
-            //             feedback.style.display = "none"
-            //         })
-            //         input.style.borderColor = "#b4bec0"
-            //         valid = true
-            //     }
-            // })
-
-            // Swal.fire({
-            //     title: "Konfirmasi",
-            //     text: "Pastikan data yang anda masukkan benar!",
-            //     icon: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#2F5596",
-            //     cancelButtonColor: "#d33",
-            //     confirmButtonText: "Tambah",
-            //     cancelButtonText: "Batal",
-            //     reverseButtons: true,
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         document.getElementById('formRegistrasi').submit();
-            //         $("#registrasiSuratKeluar").modal("hide");
-            //     } else {
-            //         new Audio("audio/cancel-edited.mp3").play();
-            //         $("#registrasiSuratKeluar").modal("hide");
-            //     }
-            // });
             nomorSurat = $('input[name="nomorSurat"]').attr('value')
             var url = '{{ route('cekTersedia', ':id') }}';
             url = url.replace(':id', $('input[name="nomorSurat"]').attr('value'));
@@ -983,10 +955,10 @@
                 url = url.replace(':id', id);
                 // Kondisi sudah ada lampiran
                 if(lampiran === 'null') {
-                    $('#formEdit input[name=lampiran]').show()
-                    $('#formEdit input[name=jumlahLampiran]').show()
-                    $('#formEdit #labelUpload').show()
-                    $('#formEdit #labelJumlah').show()
+                    $('#labelUpload').hide()
+                    $('#labelJumlah').hide()
+                    $('#formEdit input[name=lampiran]').hide()
+                    $('#formEdit input[name=jumlahLampiran]').hide()
                     $('#formEdit #unitPengesahanKanan').hide()
                     $('#formEdit #unitPengesahanKiri').show()
                     $('#formEdit #unitPengesahanKiri select').attr('name', "disahkanOleh")
@@ -996,10 +968,10 @@
                     $('#formEdit #unitPengesahanKiri').hide()
                     $('#formEdit #unitPengesahanKanan').show()
                     $('#formEdit #unitPengesahanKanan select').attr('name', "disahkanOleh")
-                    $('#labelUpload').hide()
-                    $('#labelJumlah').hide()
-                    $('#formEdit input[name=lampiran]').hide()
-                    $('#formEdit input[name=jumlahLampiran]').hide()
+                    $('#formEdit input[name=lampiran]').show()
+                    $('#formEdit input[name=jumlahLampiran]').show()
+                    $('#formEdit #labelUpload').show()
+                    $('#formEdit #labelJumlah').show()
                     
                 }
                 $.ajax({
@@ -1048,58 +1020,6 @@
                         end;
                 }
             })
-            $(".passId").click(function() {
-                // let url = "{{ route('getSK', ':id') }}";
-                // url = url.replace(':id', $(this).data('id'));
-                // // Kondisi sudah ada lampiran
-                // if(typeof $(this).data('lampiran') === 'undefined') {
-                //     $('#formEdit input[name=lampiran]').show()
-                //     $('#formEdit input[name=jumlahLampiran]').show()
-                //     $('#formEdit #labelUpload').show()
-                //     $('#formEdit #labelJumlah').show()
-                //     $('#formEdit #unitPengesahanKanan').hide()
-                //     $('#formEdit #unitPengesahanKiri').show()
-                //     $('#formEdit #unitPengesahanKiri select').attr('name', "disahkanOleh")
-                // }
-                // // Kondisi belum ada lampiran
-                // else{
-                //     $('#formEdit #unitPengesahanKiri').hide()
-                //     $('#formEdit #unitPengesahanKanan').show()
-                //     $('#formEdit #unitPengesahanKanan select').attr('name', "disahkanOleh")
-                //     $('#labelUpload').hide()
-                //     $('#labelJumlah').hide()
-                //     $('#formEdit input[name=lampiran]').hide()
-                //     $('#formEdit input[name=jumlahLampiran]').hide()
-                    
-                // }
-                // $.ajax({
-                //     type: 'GET',
-                //     url: url,
-                //     success: function(data) {
-                //         $('input[name="jenisSurat"]').val('biasa')
-                //         $("#tujuanSuratE").val(data.tujuanSurat)
-                //         tanggal = new Date(data.tanggalPengesahan)
-                //         y = tanggal.getFullYear()
-                //         m = parseInt(tanggal.getMonth()) + 1
-                //         d = tanggal.getDate()
-                //         // Ganti tahun
-                //         $("#datepickerEdit").datepicker(
-                //             'setDate',
-                //             `0${m}/${d}/${y}`);
-                //         $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
-                //         $('#tujuanSuratE').attr('value', data.tujuanSurat)
-                //         $('#perihalE').val(data.perihal)
-                //         $("#kodeHalE").val(data.kodeHal)
-                //         $("#kodeUnitE").val(data.kodeUnit)
-                //         $("#disahkanOlehE1").val(data.disahkanOleh)
-                //         $("#disahkanOlehE2").val(data.disahkanOleh)
-                //         $('#sifatSuratE').val(data.sifatSurat)
-                //         $('#jumlahLampiranE').val(data.jumlahLampiran)
-                //         $('#lampiranE').html(data.lampiran)
-                //     }
-                // });
-                // $('input[name="idSurat"]').attr('value', $(this).data('id'));
-            });
         });
 </script>
 {{-- Fungsi edit data end --}}

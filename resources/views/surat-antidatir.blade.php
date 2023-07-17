@@ -122,7 +122,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <iframe src="" id="iframeLampiran" frameborder="0" style="width:100%;" class="h-100"></iframe>
+                        <div id="example1"></div>
                     </div>
                 </div>
             </div>
@@ -170,6 +170,23 @@
                             method="POST" action="{{ route('inputSA') }}">
                             @csrf
                             <div class="row">
+                                <div class="alert alert-warning gap-1 d-flex align-items-start" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+                                        style="width: 20px; color: #664d03" viewBox="0 0 16 16" role="img"
+                                        aria-label="Warning:">
+                                        <path
+                                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                    </svg>
+                                    <div>
+                                        <span class="fw-semibold">Perhatian!</span>
+                                        <h5 class="mt-1 fw-normal" style="line-height: 1.5">
+                                            Setelah registrasi nomor
+                                            surat berhasil, mohon untuk mengupload
+                                            arsip surat melalui tombol "Upload Arsip".
+                                        </h5>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="nomorSurat" class="form-label black fw-normal">Nomor Surat</label>
@@ -250,6 +267,8 @@
                                             benar.
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
@@ -268,15 +287,9 @@
                                             Mohon masukkan unit dengan benar.
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="tanggalPengesahan" class="form-label black fw-normal">Tanggal
                                             Disahkan</label>
-                                        {{--
-                                        <duet-date-picker id="date" name="tanggalPengesahan" identifier="date">
-                                        </duet-date-picker>
-                                        --}}
                                         <div class="position-relative input__tanggal__form">
                                             <input type="text" id="datepicker" identifier="date" placeholder="..."
                                                 name="tanggalPengesahan" aria-placeholder="coba" class="form-control"
@@ -288,7 +301,7 @@
                                             surat dengan benar.
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="lampiran" class="form-label black fw-normal">Upload Lampiran</label>
                                         <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -322,11 +335,11 @@
                                             Mohon masukkan jumlah lampiran
                                             dengan benar.
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1"
                                             class="form-label black fw-normal">Perihal</label>
-                                        <textarea name="perihal" class="form-control" style="height: 8.3rem"
+                                        <textarea name="perihal" class="form-control" style="height: 13.9rem"
                                             id="exampleFormControlTextarea1" rows="8"
                                             placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
                                         <div class="invalid-feedback">
@@ -418,7 +431,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="mb-3">
                                         <label for="jumlahLampiranE" class="form-label black fw-normal">Jumlah
                                             Lampiran</label>
@@ -490,6 +502,66 @@
         </div>
         <!-- Modal edit end -->
 
+        <!-- Modal upload dokumen start -->
+        <div class="modal modal__section fade" id="uploadDokumen" data-bs-backdrop="static" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                            Upload Arsip Surat
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formUploadDokumen" class="needs-validation" novalidate
+                            action="{{ route('uploadDokumen') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" id="suratKeluar" name="dokumen">
+                            <div class="alert alert-primary gap-1 d-flex align-items-start" role="alert">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" style="width: 20px"
+                                    viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </svg>
+                                <div>
+                                    <span class="fw-semibold">Perhatian!</span>
+                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5">
+                                        Dokumen surat dalam bentuk pdf dan ukuran file tidak lebih dari 1MB.
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lampiran" class="form-label black fw-normal">Upload
+                                    Arsip</label>
+                                <input type="file" class="form-control" id="lampiran" name="lampiran"
+                                    aria-describedby="emailHelp" accept=".pdf" required />
+                                <div class="invalid-feedback">
+                                    Isian upload arsip wajib diisi.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah Halaman
+                                    Dokumen Arsip</label>
+                                <input type="number" class="form-control" placeholder="Contoh : 1" id="jumlahLampiran"
+                                    name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" form="formUploadDokumen" class="mybtn blue">
+                            Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal upload dokumen end -->
+
         {{-- Tabel content start --}}
         <div class="table-responsive surat__antidatir">
             <table id="mytable" class="table table-borderless">
@@ -501,6 +573,9 @@
                         <th>Perihal</th>
                         <th>Penerima</th>
                         <th>Sifat</th>
+                        @if ($user->role_id !== 2)
+                        <th>Ditambahkan Oleh</th>
+                        @endif
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -551,23 +626,43 @@
                             </div>
                             @endif
                         </td>
+                        @if ($user->role_id !== 2)
+                        <td>{{ $v->name }}</td>
+                        @endif
                         <td>
                             <div class="d-flex align-items-center gap-2">
+                                @if ($v->lampiran == null)
                                 <button type="button"
-                                    class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
-                                    data-bs-toggle="modal" data-bs-target="#lampiran"
-                                    onclick="showLampiran('{{ $v->lampiran }}')">
-                                    <i class="fa-solid fa-paperclip"></i>
+                                    class="myicon position-relative yellow d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#uploadDokumen"
+                                    onclick="uploadDokumen('{{ $v->id }}')" id="btnUpload">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
                                     <div class="position-absolute mytooltip">
                                         <div class="text-white px-3 py-2 position-relative">
-                                            Lampiran
+                                            Upload Arsip
                                         </div>
                                         <div id="arrow"></div>
                                     </div>
                                 </button>
+                                @endif
+                                @if ($v->lampiran !== null)
+                                <button type="button"
+                                    class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#lampiran"
+                                    onclick="lihatLampiran('{{ $v->lampiran }}')">
+                                    <i class="fa-solid fa-paperclip"></i>
+                                    <div class="position-absolute mytooltip">
+                                        <div class="text-white px-3 py-2 position-relative">
+                                            Lihat Arsip
+                                        </div>
+                                        <div id="arrow"></div>
+                                    </div>
+                                </button>
+                                @endif
                                 @if ($user->role_id != 3)
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center me-2 passId"
+                                    onclick="editData('{{ $v->id }}','{{ $v->lampiran == null ? 'null' : 'ada' }}')"
                                     data-id="{{ $v->id }}">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     <div class="position-absolute mytooltip">
@@ -605,12 +700,102 @@
 @endsection @section('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- Set attribut modal lampiran --}}
+{{-- Fungsi lihat lampiran start --}}
 <script>
-    function showLampiran(id) {
-            $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
-        }
+    function lihatLampiran(id) {
+        var options = {
+            fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
+        };
+        PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+    }
 </script>
+{{-- Fungsi lihat lampiran end --}}
+
+{{-- Fungsi upload dokumen start --}}
+<script>
+    function uploadDokumen(id){
+        let idSurat = document.getElementById('suratKeluar')
+        idSurat.value = id
+        console.log(idSurat);
+    }
+</script>
+{{-- Fungsi upload dokumen end --}}
+
+{{-- Fungsi edit data start --}}
+<script>
+    function editData(id,lampiran){
+                let url = "{{ route('getSK', ':id') }}";
+                url = url.replace(':id', id);
+                // Kondisi sudah ada lampiran
+                if(lampiran === 'null') {
+                    $('#labelUpload').hide()
+                    $('#labelJumlah').hide()
+                    $('#formEdit input[name=lampiran]').hide()
+                    $('#formEdit input[name=jumlahLampiran]').hide()
+                    $('#formEdit #unitPengesahanKanan').hide()
+                    $('#formEdit #unitPengesahanKiri').show()
+                    $('#formEdit #unitPengesahanKiri select').attr('name', "disahkanOleh")
+                }
+                // Kondisi belum ada lampiran
+                else{
+                    $('#formEdit #unitPengesahanKiri').hide()
+                    $('#formEdit #unitPengesahanKanan').show()
+                    $('#formEdit #unitPengesahanKanan select').attr('name', "disahkanOleh")
+                    $('#formEdit input[name=lampiran]').show()
+                    $('#formEdit input[name=jumlahLampiran]').show()
+                    $('#formEdit #labelUpload').show()
+                    $('#formEdit #labelJumlah').show()
+                    
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        $('input[name="jenisSurat"]').val('biasa')
+                        $("#tujuanSuratE").val(data.tujuanSurat)
+                        tanggal = new Date(data.tanggalPengesahan)
+                        y = tanggal.getFullYear()
+                        m = parseInt(tanggal.getMonth()) + 1
+                        d = tanggal.getDate()
+                        // Ganti tahun
+                        $("#datepickerEdit").datepicker(
+                            'setDate',
+                            `0${m}/${d}/${y}`);
+                        $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
+                        $('#tujuanSuratE').attr('value', data.tujuanSurat)
+                        $('#perihalE').val(data.perihal)
+                        $("#kodeHalE").val(data.kodeHal)
+                        $("#kodeUnitE").val(data.kodeUnit)
+                        $("#disahkanOlehE1").val(data.disahkanOleh)
+                        $("#disahkanOlehE2").val(data.disahkanOleh)
+                        $('#sifatSuratE').val(data.sifatSurat)
+                        $('#jumlahLampiranE').val(data.jumlahLampiran)
+                        $('#lampiranE').html(data.lampiran)
+                    }
+                });
+                $('input[name="idSurat"]').attr('value', id);
+            }
+    $(document).ready(function() {
+            var start = $('#inputTanggalStart').attr('value')
+            var end = $('#inputTanggalEnd').attr('value')
+            oke = false
+            $('#inputTanggalStart').change(function() {
+                start = this.value
+                if (start && end) {
+                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
+                        end;
+                }
+            })
+            $('#inputTanggalEnd').change(function() {
+                end = this.value
+                if (start && end) {
+                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
+                        end;
+                }
+            })
+        });
+</script>
+{{-- Fungsi edit data end --}}
 
 {{-- Refresh page --}}
 <script>

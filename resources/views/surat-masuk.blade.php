@@ -445,7 +445,9 @@
                         <th>Perihal</th>
                         <th>Penerima</th>
                         <th>Sifat</th>
+                        @if ($user->role_id !== 2)
                         <th>Ditambahkan Oleh</th>
+                        @endif
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -482,7 +484,9 @@
                             </div>
                             @endif
                         </td>
-                        <td>{{ $v->created_by }}</td>
+                        @if ($user->role_id !== 2)
+                        <td>{{ $v->name }}</td>
+                        @endif
                         <td>
                             <div class="d-flex align-items-center gap-2 flex-wrap">
                                 <button type="button"
