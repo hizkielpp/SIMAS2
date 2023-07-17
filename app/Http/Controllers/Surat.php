@@ -174,7 +174,7 @@ class Surat extends Controller
     // Fungsi get spesific surat masuk start
     public function getSM(Request $request)
     {
-        $suratMasuk = DB::table('suratmasuk')->where('id', $request->id)->first();
+        $suratMasuk = DB::table('suratmasuk')->where('id', $request->id)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name')->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat masuk end
@@ -355,7 +355,7 @@ class Surat extends Controller
     // Fungsi get spesific surat keluar start
     public function getSK(Request $request)
     {
-        $suratMasuk = DB::table('suratkeluar')->where('id', $request->id)->first();
+        $suratMasuk = DB::table('suratkeluar')->where('id', $request->id)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat keluar end
