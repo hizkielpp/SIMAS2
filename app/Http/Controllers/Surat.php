@@ -26,20 +26,20 @@ class Surat extends Controller
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->nip)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->nip)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratMasuk = DB::table('suratmasuk')->orderBy('nomorSurat', 'desc')->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name')->get();
+                $suratMasuk = DB::table('suratmasuk')->orderBy('nomorSurat', 'desc')->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name')->get();
+                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->get();
             }
         }
         $tujuan = DB::table('tujuan')->get();
@@ -174,7 +174,7 @@ class Surat extends Controller
     // Fungsi get spesific surat masuk start
     public function getSM(Request $request)
     {
-        $suratMasuk = DB::table('suratmasuk')->where('id', $request->id)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name')->first();
+        $suratMasuk = DB::table('suratmasuk')->where('id', $request->id)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat masuk end
@@ -213,20 +213,20 @@ class Surat extends Controller
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
         }
 
@@ -355,7 +355,7 @@ class Surat extends Controller
     // Fungsi get spesific surat keluar start
     public function getSK(Request $request)
     {
-        $suratMasuk = DB::table('suratkeluar')->where('id', $request->id)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->first();
+        $suratMasuk = DB::table('suratkeluar')->where('id', $request->id)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat keluar end
@@ -407,20 +407,20 @@ class Surat extends Controller
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
             }
         }
         $sifat = DB::table('sifat')->get();

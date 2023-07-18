@@ -44,7 +44,6 @@ Route::middleware('checkAuth')->group(function () {
     Route::post('/editSK', [Surat::class, 'editSK'])->name('editSK');
     Route::post('/uploadDokumen', [Surat::class, 'uploadDokumen'])->name('uploadDokumen');
 
-
     Route::middleware('checkAdmin')->group(function () {
         // Kelola Akun
         Route::get('/kelolaAkun', [AuthController::class, 'kelolaAkun'])->name('kelolaAkun');

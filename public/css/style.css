@@ -230,6 +230,11 @@ p {
     color: #664d03;
     border-color: #ffe69c;
 }
+.alert-primary svg,
+.alert-warning svg {
+    font-size: 16px;
+    margin-top: 0.25rem;
+}
 /* Icon end */
 
 /* Tooltip start */
