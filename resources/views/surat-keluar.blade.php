@@ -149,16 +149,17 @@
         </div>
         <!-- Modal lampiran surat end -->
 
-        <!-- Modal edit start -->
+        <!-- Modal detail & edit start -->
         <div class="modal modal__section fade" id="editSuratKeluar" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content p-3">
                     <div class="modal-header">
                         <h4 class="modal-title fw-semibold black" id="modalTitle">
-                            Form Edit Surat Keluar
+                            Detail Surat Masuk
                         </h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" onclick="batalHandling()" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="formEdit" method="POST" enctype="multipart/form-data" action="{{ route('editSK') }}">
@@ -166,7 +167,7 @@
                             <div class="alert alert-primary gap-2 d-flex align-items-start" role="alert">
                                 <i class="fa-solid fa-circle-info" class="icon__info"></i>
                                 <div>
-                                    <span class="fw-semibold">Keterangan</span>
+                                    <span class="fw-semibold">Catatan</span>
                                     <h5 class="mt-1 fw-normal" style="line-height: 1.5">
                                         Surat ini dibuat oleh : <span id="created_by"></span> (<span
                                             id="bagian"></span>)
@@ -178,11 +179,24 @@
                                 <div class="col-lg-6 col-12">
                                     <input type="text" name="jenisSurat" value="biasa" hidden>
                                     <input type="text" name="idSurat" hidden>
+                                    <div class="mb-3" id="unitPengesahanKanan">
+                                        <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
+                                            Oleh</label>
+                                        <select id="disahkanOlehE2" class="form-select"
+                                            aria-label="Default select example" disabled>
+                                            <option value="" selected>
+                                                -- Pilih salah satu --
+                                            </option>
+                                            @foreach ($unit as $k => $v)
+                                            <option value="{{ $v->nama }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="mb-3">
                                         <label for="kodeUnitE" class="form-label black fw-normal">Kode Unit
                                             Surat</label>
                                         <select class="form-select" aria-label="Default select example" id="kodeUnitE"
-                                            name="kodeUnit">
+                                            name="kodeUnit" disabled>
                                             <option selected value="">
                                                 -- Pilih salah satu --
                                             </option>
@@ -196,7 +210,7 @@
                                     <div class="mb-3">
                                         <label for="kodeHalE" class="form-label black fw-normal">Kode Hal</label>
                                         <select class="form-select" aria-label="Default select example" id="kodeHalE"
-                                            name="kodeHal">
+                                            name="kodeHal" disabled>
                                             <option value="" selected>
                                                 -- Pilih salah satu --
                                             </option>
@@ -208,15 +222,28 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="tanggalPengesahanE" class="form-label black fw-normal">Tanggal
+                                            Disahkan</label>
+                                        <div class="position-relative input__tanggal__form">
+                                            <input type="text" id="datepickerEdit" identifier="date" placeholder="..."
+                                                name="tanggalPengesahanE" aria-placeholder="coba" class="form-control"
+                                                required disabled>
+                                            <i class="fa-solid fa-calendar-days position-absolute"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="tujuanSuratE" class="form-label black fw-normal">Tujuan
                                             Surat</label>
                                         <input type="text" class="form-control" placeholder="Masukkan nomor surat"
-                                            id="tujuanSuratE" name="tujuanSurat" aria-describedby="emailHelp" />
+                                            id="tujuanSuratE" name="tujuanSurat" aria-describedby="emailHelp"
+                                            disabled />
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="sifatSuratE" class="form-label black fw-normal">Sifat</label>
                                         <select id="sifatSuratE" name="sifatSurat" class="form-select"
-                                            aria-label="Default select example">
+                                            aria-label="Default select example" disabled>
                                             <option value="" selected>
                                                 -- Pilih salah satu --
                                             </option>
@@ -225,26 +252,11 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3" id="unitPengesahanKanan">
-                                        <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
-                                            Oleh</label>
-                                        <select id="disahkanOlehE2" class="form-select"
-                                            aria-label="Default select example">
-                                            <option value="" selected>
-                                                -- Pilih salah satu --
-                                            </option>
-                                            @foreach ($unit as $k => $v)
-                                            <option value="{{ $v->nama }}">{{ $v->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
                                     <div class="mb-3" id="unitPengesahanKiri">
                                         <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
                                         <select id="disahkanOlehE1" class="form-select"
-                                            aria-label="Default select example">
+                                            aria-label="Default select example" disabled>
                                             <option value="" selected>
                                                 -- Pilih salah satu --
                                             </option>
@@ -253,20 +265,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-
-                                    <div class="mb-3">
-                                        <label for="tanggalPengesahanE" class="form-label black fw-normal">Tanggal
-                                            Disahkan</label>
-                                        {{-- <duet-date-picker id="tanggalPengesahanE" identifier="date"
-                                            name="tanggalPengesahan"></duet-date-picker> --}}
-                                        <div class="position-relative input__tanggal__form">
-                                            <input type="text" id="datepickerEdit" identifier="date" placeholder="..."
-                                                name="tanggalPengesahanE" aria-placeholder="coba" class="form-control"
-                                                required>
-                                            <i class="fa-solid fa-calendar-days position-absolute"></i>
-                                        </div>
-                                    </div>
-
                                     <div class="mb-3">
                                         <label class="form-label black fw-normal" id="labelUpload">Upload Arsip Surat
                                             Baru</label>
@@ -278,21 +276,21 @@
                                             </div>
                                         </div> --}}
                                         <input type="file" class="form-control" name="lampiran"
-                                            aria-describedby="emailHelp" accept=".pdf" value="" />
+                                            aria-describedby="emailHelp" accept=".pdf" value="" disabled />
                                     </div>
                                     <div class="mb-3">
                                         <label for="jumlahLampiranE" class="form-label black fw-normal"
                                             id="labelJumlah">Jumlah Halaman Dokumen
                                             Arsip</label>
                                         <input type="number" class="form-control" id="jumlahLampiranE"
-                                            name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
+                                            name="jumlahLampiran" min="0" aria-describedby="emailHelp" disabled />
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="perihalE" class="form-label black fw-normal">Perihal</label>
                                         <textarea class="form-control perihal" id="perihalE" name="perihal" rows="1"
                                             placeholder="Contoh : Permohonan perijinan penelitian"
-                                            style="min-height: unset"></textarea>
+                                            style="min-height: unset" disabled></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -319,7 +317,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal edit end -->
+        <!-- Modal detail & edit end -->
 
         <!-- Modal registrasi start -->
         <div class="modal modal__section fade" id="registrasiSuratKeluar" data-bs-backdrop="static" tabindex="-1"
@@ -524,13 +522,8 @@
                             action="{{ route('uploadDokumen') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" id="suratKeluar" name="dokumen">
-                            <div class="alert alert-primary gap-1 d-flex align-items-start" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" style="width: 20px"
-                                    viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                                    <path
-                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                </svg>
+                            <div class="alert alert-warning gap-2 d-flex align-items-start" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
                                 <div>
                                     <span class="fw-semibold">Perhatian!</span>
                                     <h5 class="mt-1 fw-normal" style="line-height: 1.5">
@@ -598,10 +591,9 @@
                 <thead>
                     <tr>
                         <th class="no">#</th>
-                        <th>Asal Surat / No. Surat</th>
-                        <th>Tanggal Pengajuan</th>
-                        <th>Perihal</th>
-                        <th>Penerima</th>
+                        <th>Disahkan Oleh / No. Surat</th>
+                        <th>Tanggal Disahkan</th>
+                        <th>Tujuan Surat</th>
                         <th>Sifat</th>
                         <th>Aksi</th>
                     </tr>
@@ -612,14 +604,16 @@
                     <tr>
                         <td class="no">{{ $loop->iteration }}</td>
                         <td>
-                            {{ $v->disahkanOleh }} <br>Nomor :
-                            {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{ convertToRomawi(date('m',
-                            strtotime($v->tanggalPengesahan))) }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}
+                            {{ $v->disahkanOleh }} <br>
+                            <div class="pt-2">
+                                Nomor :
+                                {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{ convertToRomawi(date('m',
+                                strtotime($v->tanggalPengesahan))) }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}
+                            </div>
                         </td>
                         <td>{{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
                         </td>
-                        <td>{{ $v->perihal }}</td>
                         <td>{{ $v->tujuanSurat }}</td>
                         <td>
                             @if ($v->sifatSurat == 1)
@@ -648,7 +642,7 @@
                                     style="width: fit-content">
                                     <i class="fa-solid fa-file-lines me-2"></i>Detail
                                 </button>
-                                @if ($v->lampiran == null)
+                                @if ($v->lampiran == null && $user->role_id != 3)
                                 <button type="button"
                                     class="myicon position-relative yellow d-flex align-items-center justify-content-center"
                                     data-bs-toggle="modal" data-bs-target="#uploadDokumen"
@@ -977,7 +971,7 @@
         });
 </script>
 
-{{-- Fungsi edit data start --}}
+{{-- Fungsi detail surat start --}}
 <script>
     function detailSurat(id, lampiran) {
             let url = "{{ route('getSK', ':id') }}";
@@ -1014,10 +1008,10 @@
                     m = parseInt(tanggal.getMonth()) + 1
                     d = tanggal.getDate()
                     // Ganti tahun
-                    $("#datepickerEdit").datepicker(
-                        'setDate',
-                        `0${m}/${d}/${y}`);
-                    $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
+                    // $("#datepickerEdit").datepicker(
+                    //     'setDate',
+                    //     `0${d}/${m}/${y}`);
+                    $('#datepickerEdit').val(`${d}-${m}-${y}`)
                     $('#tujuanSuratE').attr('value', data.tujuanSurat)
                     $('#perihalE').val(data.perihal)
                     $("#kodeHalE").val(data.kodeHal)
@@ -1054,7 +1048,7 @@
             })
         });
 </script>
-{{-- Fungsi edit data end --}}
+{{-- Fungsi detail surat end --}}
 
 <!-- Data tables : responsive -->
 <script type="text/javascript" charset="utf8"
@@ -1082,7 +1076,7 @@
             $("#mytable").DataTable({
                 columnDefs: [{
                     orderable: false,
-                    targets: [0, 1, 2, 3, 4, 5, 6]
+                    targets: [0, 1, 2, 3, 4, 5]
                 }],
                 responsive: {
                     details: {

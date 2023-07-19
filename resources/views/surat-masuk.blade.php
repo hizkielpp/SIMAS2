@@ -164,24 +164,20 @@
                             <div class="row">
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
+                                        <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
+                                        <input type="text" class="form-control" id="asalSurat" name="asalSurat"
+                                            placeholder="Contoh : Ketua Departemen Kedokteran"
+                                            aria-describedby="emailHelp" required />
+                                        <div class="invalid-feedback">
+                                            Masukkan asal surat dengan benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="noSurat" class="form-label black fw-normal">Nomor Surat</label>
                                         <input type="text" class="form-control" placeholder="Contoh : 1/UN7.F4/I/2023"
                                             id="noSurat" name="nomorSurat" aria-describedby="emailHelp" required />
                                         <div class="invalid-feedback">
                                             Masukkan nomor surat dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="penerima" class="form-label black fw-normal">Penerima</label>
-                                        <select class="form-select" required aria-label="Default select example"
-                                            name="tujuanSurat">
-                                            <option selected disabled value="">...</option>
-                                            @foreach ($tujuan as $k => $v)
-                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Masukkan penerima surat dengan benar.
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -198,12 +194,29 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
-                                        <input type="text" class="form-control" id="asalSurat" name="asalSurat"
-                                            placeholder="Contoh : Ketua Departemen Kedokteran"
-                                            aria-describedby="emailHelp" required />
+                                        <label for="penerima" class="form-label black fw-normal">Penerima</label>
+                                        <select class="form-select" required aria-label="Default select example"
+                                            name="tujuanSurat">
+                                            <option selected disabled value="">...</option>
+                                            @foreach ($tujuan as $k => $v)
+                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
                                         <div class="invalid-feedback">
-                                            Masukkan asal surat dengan benar.
+                                            Masukkan penerima surat dengan benar.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="penerima" class="form-label black fw-normal">Sifat</label>
+                                        <select class="form-select" aria-label="Default select example" required
+                                            name="sifatSurat">
+                                            <option selected disabled value="">...</option>
+                                            @foreach ($sifat as $k => $v)
+                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Masukkan sifat surat dengan benar.
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -219,19 +232,6 @@
                                         </select>
                                         <div class="invalid-feedback">
                                             Masukkan kode hal surat dengan benar.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="penerima" class="form-label black fw-normal">Sifat</label>
-                                        <select class="form-select" aria-label="Default select example" required
-                                            name="sifatSurat">
-                                            <option selected disabled value="">...</option>
-                                            @foreach ($sifat as $k => $v)
-                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Masukkan sifat surat dengan benar.
                                         </div>
                                     </div>
                                 </div>
@@ -289,7 +289,7 @@
         </div>
         <!-- Modal registrasi end -->
 
-        <!-- Modal edit start -->
+        <!-- Modal detail & edit start -->
         <div class="modal modal__section fade" id="editSuratMasuk" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -298,7 +298,8 @@
                         <h4 class="modal-title fw-semibold black" id="modalTitle">
                             Detail Surat Masuk
                         </h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" onclick="batalHandling()" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="formEdit" enctype="multipart/form-data" method="POST" action="{{ route('editSM') }}">
@@ -307,7 +308,7 @@
                             <div class="alert alert-primary gap-2 d-flex align-items-start" role="alert">
                                 <i class="fa-solid fa-circle-info" class="icon__info"></i>
                                 <div>
-                                    <span class="fw-semibold">Keterangan</span>
+                                    <span class="fw-semibold">Catatan</span>
                                     <h5 class="mt-1 fw-normal" style="line-height: 1.5">
                                         Surat ini dibuat oleh : <span id="created_by"></span> (<span
                                             id="bagian"></span>)
@@ -318,11 +319,26 @@
                             <div class="row">
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
+                                        <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
+                                        <input type="text" disabled class="form-control" id="asalSuratE"
+                                            name="asalSurat" placeholder="Contoh : Ketua Departemen Kedokteran"
+                                            aria-describedby="emailHelp" />
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="nomorSuratE" class="form-label black fw-normal">Nomor
                                             Surat</label>
                                         <input disabled type="text" class="form-control"
                                             placeholder="Masukkan nomor surat" id="nomorSuratE" name="nomorSurat"
                                             aria-describedby="emailHelp" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="date" class="form-label black fw-normal">Tanggal
+                                            Surat</label>
+                                        <div class="position-relative input__tanggal__form">
+                                            <input identifier="date" disabled class="form-control"
+                                                name="tanggalPengajuan" id="tanggalPengajuanE" value="2020-06-16">
+                                            <i class="fa-solid fa-calendar-days position-absolute"></i>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="penerima" class="form-label black fw-normal">Penerima</label>
@@ -339,20 +355,19 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="date" class="form-label black fw-normal">Tanggal
-                                            Surat</label>
-                                        <div class="position-relative input__tanggal__form">
-                                            <input identifier="date" disabled class="form-control"
-                                                name="tanggalPengajuan" id="tanggalPengajuanE" value="2020-06-16">
-                                            <i class="fa-solid fa-calendar-days position-absolute"></i>
-                                        </div>
+                                        <label for="penerima" class="form-label black fw-normal">Sifat</label>
+                                        <select class="form-select" disabled id="sifatSuratE"
+                                            aria-label="Default select example" name="sifatSurat">
+                                            <option selected>
+                                                ...
+                                            </option>
+                                            @foreach ($sifat as $k => $v)
+                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
-                                        <input type="text" disabled class="form-control" id="asalSuratE"
-                                            name="asalSurat" placeholder="Contoh : Ketua Departemen Kedokteran"
-                                            aria-describedby="emailHelp" />
-                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
                                         <select class="form-select" disabled aria-label="Default select example"
@@ -362,20 +377,6 @@
                                             <option value="{{ $v->kode }}">{{ $v->nama }}
                                                 ({{ $v->kode }})
                                             </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="penerima" class="form-label black fw-normal">Sifat</label>
-                                        <select class="form-select" disabled id="sifatSuratE"
-                                            aria-label="Default select example" name="sifatSurat">
-                                            <option selected>
-                                                ...
-                                            </option>
-                                            @foreach ($sifat as $k => $v)
-                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -393,18 +394,18 @@
                                             aria-describedby="emailHelp" name="lampiran" accept=".pdf" />
                                     </div>
                                     <div class="mb-3">
+                                        <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
+                                            Lampiran</label>
+                                        <input id="jumlahLampiranE" disabled type="number" class="form-control"
+                                            id="jumlahLampiranE" name="jumlahLampiran" min="0" />
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="exampleFormControlTextarea1"
                                             class="form-label black fw-normal">Perihal</label>
                                         <textarea id="perihalE" disabled class="form-control perihal"
                                             id="exampleFormControlTextarea1" rows="1"
                                             placeholder="Contoh : Permohonan perijinan penelitian" name="perihal"
                                             style="min-height: unset"></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
-                                            Lampiran</label>
-                                        <input id="jumlahLampiranE" disabled type="number" class="form-control"
-                                            id="jumlahLampiranE" name="jumlahLampiran" min="0" />
                                     </div>
                                 </div>
                             </div>
@@ -431,7 +432,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal edit end -->
+        <!-- Modal detail & edit end -->
 
         <!-- Modal disposisi surat start -->
         <div class="modal modal__section fade" data-bs-backdrop="static" id="disposisi" tabindex="-1"
@@ -727,8 +728,13 @@
                 success: function(data) {
                     $('#nomorSuratE').attr('value', data.nomorSurat)
                     $("#tujuanSuratE").val(data.tujuanSurat)
-                    $('#tanggalPengajuanE').val(new Date(data.tanggalPengajuan)
-                        .toLocaleDateString('en-GB'))
+                    tanggal = new Date(data.tanggalPengajuan)
+                    y = tanggal.getFullYear()
+                    m = parseInt(tanggal.getMonth()) + 1
+                    d = tanggal.getDate()
+                    // $('#tanggalPengajuanE').val(new Date(data.tanggalPengajuan)
+                    //     .toLocaleDateString('en-GB'))
+                    $('#tanggalPengajuanE').val(`${d}-${m}-${y}`)
                     $('#asalSuratE').attr('value', data.asalSurat)
                     $("#kodeHalE").val(data.kodeHal)
                     $('#sifatSuratE').val(data.sifatSurat)

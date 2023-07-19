@@ -46,7 +46,7 @@
                                     <div class="mb-3">
                                         <label for="name" class="form-label black fw-normal">Nama</label>
                                         <input type="text" class="form-control" placeholder="Masukkan nama pengguna"
-                                            id="name" name="name" />
+                                            id="name" name="name" required />
                                         <div class="invalid-feedback">
                                             Isian nama wajib diisi.
                                         </div>
@@ -136,6 +136,7 @@
             <table id="mytable" class="table table-borderless">
                 <thead>
                     <tr>
+                        <th class="no">No</th>
                         <th>Nama</th>
                         <th>Bagian</th>
                         <th>Email</th>
@@ -146,6 +147,7 @@
                 <tbody>
                     @foreach ($users as $pengguna)
                     <tr>
+                        <td class="no">{{ $loop->iteration }}</td>
                         <td>{{ $pengguna->name }}</td>
                         <td>{{ $pengguna->bagian }}</td>
                         <td>{{ $pengguna->email }}</td>
@@ -200,6 +202,11 @@
                                             id="bagianE" name="bagian" />
                                     </div>
                                     <div class="mb-3">
+                                        <label for="bagian" class="form-label black fw-normal">Email</label>
+                                        <input type="text" id="emailE" class="form-control"
+                                            placeholder="Masukkan nama bagian" name="email" />
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="role" class="form-label black fw-normal">Role</label>
                                         <select id="role_id" name="role_id" class="form-select"
                                             aria-label="Default select example">
@@ -211,23 +218,25 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label black fw-normal">Password Baru</label>
-                                        <div class="d-flex">
+                                        <div class="position-relative">
                                             <input type="password" class="form-control"
                                                 placeholder="Masukkan password baru" id="passwordE" name="password"
                                                 aria-describedby="emailHelp" />
-                                            <i class="far fa-eye-slash" id="passIconE" onclick="showPassE()"
-                                                style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
+                                            <i class="far fa-eye-slash position-absolute" id="passIconE"
+                                                onclick="showPassE()"
+                                                style="cursor: pointer; right: 2%; top: 50%; transform: translateY(-50%)"></i>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label black fw-normal">Konfirmasi Password
                                             Baru</label>
-                                        <div class="d-flex">
+                                        <div class="position-relative">
                                             <input type="password" class="form-control"
                                                 placeholder="Masukkan password kembali" id="passwordConfirmation"
                                                 name="passwordConfirmation" aria-describedby="emailHelp" />
-                                            <i class="far fa-eye-slash" id="passIconEC" onclick="showPassEC()"
-                                                style="margin-left: -30px;margin-top:8px; cursor: pointer;"></i>
+                                            <i class="far fa-eye-slash position-absolute" id="passIconEC"
+                                                onclick="showPassEC()"
+                                                style="cursor: pointer; right: 2%; top: 50%; transform: translateY(-50%)"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -266,6 +275,7 @@
                     success: function(data) {
                         $('#nameE').attr('value', data.name)
                         $("#bagianE").val(data.bagian)
+                        $("#emailE").val(data.email)
                         $("#role_id").val(data.role_id)
                     }
                 });
