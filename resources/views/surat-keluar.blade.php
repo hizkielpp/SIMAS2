@@ -164,17 +164,6 @@
                     <div class="modal-body">
                         <form id="formEdit" method="POST" enctype="multipart/form-data" action="{{ route('editSK') }}">
                             @csrf
-                            <div class="alert alert-primary gap-2 d-flex align-items-start" role="alert">
-                                <i class="fa-solid fa-circle-info" class="icon__info"></i>
-                                <div>
-                                    <span class="fw-semibold">Catatan</span>
-                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5">
-                                        Surat ini dibuat oleh : <span id="created_by"></span> (<span
-                                            id="bagian"></span>)
-                                        pada <span id="created_at"></span>
-                                    </h5>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-lg-6 col-12">
                                     <input type="text" name="jenisSurat" value="biasa" hidden>
@@ -292,6 +281,16 @@
                                             placeholder="Contoh : Permohonan perijinan penelitian"
                                             style="min-height: unset" disabled></textarea>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="alert border rounded-2 py-3 gap-2 d-flex align-items-start mt-3" role="alert">
+                                <i class="fa-solid fa-circle-info" class="icon__info"></i>
+                                <div>
+                                    <span class="fw-semibold" style="font-size: 14px">Catatan</span>
+                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
+                                        Surat ini dibuat oleh <span id="created_by"></span> (<span id="bagian"></span>)
+                                        pada <span id="created_at"></span>
+                                    </h5>
                                 </div>
                             </div>
                         </form>
@@ -594,8 +593,8 @@
                         <th>Disahkan Oleh / No. Surat</th>
                         <th>Tanggal Disahkan</th>
                         <th>Tujuan Surat</th>
-                        <th>Sifat</th>
-                        <th>Aksi</th>
+                        <th class="text-center">Sifat</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
 
                 </thead>
@@ -635,7 +634,7 @@
                             @endif
                         </td>
                         <td>
-                            <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center justify-content-center gap-2">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center"
                                     id="btnEdit" onclick="detailSurat('{{ $v->id }}')" data-id="{{ $v->id }}"
@@ -715,7 +714,7 @@
         btnEdit.classList.add('d-flex', 'gap-2')
     }
     function batalHandling() {
-        let input = document.querySelectorAll('select, input, textarea')
+        let input = document.querySelectorAll('#formEdit select, #formEdit input, #formEdit textarea')
         
         title.innerText = "Detail Surat Masuk"
         btnDetail.style.display = 'block'
@@ -1007,10 +1006,17 @@
                     y = tanggal.getFullYear()
                     m = parseInt(tanggal.getMonth()) + 1
                     d = tanggal.getDate()
-                    // Ganti tahun
-                    // $("#datepickerEdit").datepicker(
-                    //     'setDate',
-                    //     `0${d}/${m}/${y}`);
+
+                    // Tanggal keterangan created at start
+                    const month = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+                    const weekday = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+                    tanggalDibuat = new Date(data.created_at)
+                    yd = tanggalDibuat.getFullYear()
+                    md = month[tanggalDibuat.getMonth()]
+                    dd = tanggalDibuat.getDay()
+                    dname = weekday[tanggalDibuat.getDay()]
+                    // Tanggal keterangan created at end
+
                     $('#datepickerEdit').val(`${d}-${m}-${y}`)
                     $('#tujuanSuratE').attr('value', data.tujuanSurat)
                     $('#perihalE').val(data.perihal)
@@ -1022,7 +1028,7 @@
                     $('#jumlahLampiranE').val(data.jumlahLampiran)
                     $('#lampiranE').html(data.lampiran)
                     $('#created_by').text(data.name)
-                    $('#created_at').text(data.created_at)
+                    $('#created_at').text(`${dname}, ${dd} ${md} ${yd}.`)
                     $('#bagian').text(data.bagian)
                 }
             });

@@ -121,7 +121,7 @@
                     @endif
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row">
                 <div class="col-3">
                     <div class="d-flex align-items-center">
                         <div class="checkbox"></div>
@@ -151,7 +151,7 @@
         {{-- Informasi end --}}
 
         {{-- Tabel start --}}
-        <table class="table table-bordered mt-3">
+        <table class="table table-bordered mt-1">
             <thead>
                 <tr>
                     <th scope="col">Tgl</th>
@@ -306,12 +306,29 @@
                     <td></td>
                     <td></td>
                 </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
         {{-- Tabel end --}}
 
         {{-- Tanda tangan start --}}
-        <h5 class="text-center">Keterangan: Mohon diisi oleh pimpinan sesuai dengan sifat surat</h5>
+        <h5 class="text-center" style="font-size: 14px">Keterangan: Mohon diisi oleh pimpinan sesuai dengan sifat surat
+        </h5>
         {{-- Tanda tangan end --}}
 
         {{-- Button cetak start --}}

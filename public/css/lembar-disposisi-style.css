@@ -3,14 +3,14 @@ body {
 }
 
 .disposisi__header h1 {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.75rem;
     margin-bottom: 1rem;
 }
 
 .disposisi__info h4 {
     line-height: 1.75rem;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .disposisi__info-title {
@@ -70,9 +70,9 @@ table tbody tr td:nth-child(3) {
 table thead tr th,
 table tbody tr th,
 table tbody tr td {
-    height: 28px;
+    height: 24px !important;
     font-size: 14px;
-    /* padding: 0.25rem !important; */
+    padding: 0.4rem !important;
 }
 
 .disposisi button {

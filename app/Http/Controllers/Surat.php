@@ -26,20 +26,42 @@ class Surat extends Controller
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratMasuk = DB::table('suratmasuk')
+                    ->where('tanggalPengajuan', '>=', date('Y-m-d', $start))
+                    ->where('tanggalPengajuan', '<=', date('Y-m-d', $end))
+                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->orderBy('nomorSurat', 'desc')->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratMasuk = DB::table('suratmasuk')->where('tanggalPengajuan', '>=', date('Y-m-d', $start))->where('tanggalPengajuan', '<=', date('Y-m-d', $end))->where('created_by', $user->nip)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratMasuk = DB::table('suratmasuk')
+                    ->where('tanggalPengajuan', '>=', date('Y-m-d', $start))
+                    ->where('tanggalPengajuan', '<=', date('Y-m-d', $end))
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->orderBy('nomorSurat', 'desc')->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratMasuk = DB::table('suratmasuk')->orderBy('nomorSurat', 'desc')->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->get();
+                $suratMasuk = DB::table('suratmasuk')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratMasuk = DB::table('suratmasuk')->where('created_by', $user->nip)->orderBy('nomorSurat', 'desc')->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->get();
+                $suratMasuk = DB::table('suratmasuk')
+                    ->where('created_by', $user->nip)
+                    ->orderBy('nomorSurat', 'desc')
+                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->get();
             }
         }
         $tujuan = DB::table('tujuan')->get();
@@ -174,7 +196,9 @@ class Surat extends Controller
     // Fungsi get spesific surat masuk start
     public function getSM(Request $request)
     {
-        $suratMasuk = DB::table('suratmasuk')->where('id', $request->id)->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->first();
+        $suratMasuk = DB::table('suratmasuk')
+            ->where('id', $request->id)
+            ->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat masuk end

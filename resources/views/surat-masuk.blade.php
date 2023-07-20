@@ -305,17 +305,6 @@
                         <form id="formEdit" enctype="multipart/form-data" method="POST" action="{{ route('editSM') }}">
                             @csrf
                             <input type="text" id="idSurat" name="idSurat" hidden>
-                            <div class="alert alert-primary gap-2 d-flex align-items-start" role="alert">
-                                <i class="fa-solid fa-circle-info" class="icon__info"></i>
-                                <div>
-                                    <span class="fw-semibold">Catatan</span>
-                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5">
-                                        Surat ini dibuat oleh : <span id="created_by"></span> (<span
-                                            id="bagian"></span>)
-                                        pada <span id="created_at"></span>
-                                    </h5>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
@@ -409,6 +398,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="alert border rounded-2 py-3 gap-2 d-flex align-items-start mt-3" role="alert">
+                                <i class="fa-solid fa-circle-info" class="icon__info"></i>
+                                <div>
+                                    <span class="fw-semibold" style="font-size: 14px">Catatan</span>
+                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
+                                        Surat ini dibuat oleh <span id="created_by"></span> (<span id="bagian"></span>)
+                                        pada <span id="created_at"></span>
+                                    </h5>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     @if ($user->role_id != 3)
@@ -462,8 +461,8 @@
                         <th>Asal Surat / No. Surat</th>
                         <th>Tanggal Surat</th>
                         <th>Penerima</th>
-                        <th>Sifat</th>
-                        <th>Aksi</th>
+                        <th class="text-center">Sifat</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -478,7 +477,7 @@
                         <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
                         </td>
-                        <td>{{ $v->tujuanSurat }}</td>
+                        <td>{{ $v->namaTujuan }}</td>
                         <td>
                             @if ($v->sifatSurat == 1)
                             <div class="sifat biasa d-flex justify-content-center align-items-center">
@@ -498,8 +497,8 @@
                             </div>
                             @endif
                         </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center"
                                     id="btnEdit" onclick="detailSurat('{{ $v->id }}')" data-id="{{ $v->id }}"
@@ -732,8 +731,17 @@
                     y = tanggal.getFullYear()
                     m = parseInt(tanggal.getMonth()) + 1
                     d = tanggal.getDate()
-                    // $('#tanggalPengajuanE').val(new Date(data.tanggalPengajuan)
-                    //     .toLocaleDateString('en-GB'))
+
+                    // Tanggal keterangan created at start
+                    const month = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+                    const weekday = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+                    tanggalDibuat = new Date(data.created_at)
+                    yd = tanggalDibuat.getFullYear()
+                    md = month[tanggalDibuat.getMonth()]
+                    dd = tanggalDibuat.getDay()
+                    dname = weekday[tanggalDibuat.getDay()]
+                    // Tanggal keterangan created at end
+
                     $('#tanggalPengajuanE').val(`${d}-${m}-${y}`)
                     $('#asalSuratE').attr('value', data.asalSurat)
                     $("#kodeHalE").val(data.kodeHal)
@@ -742,8 +750,9 @@
                     $('#jumlahLampiranE').val(data.jumlahLampiran)
                     $('#lampiranE').html(data.lampiran)
                     $('#created_by').text(data.name)
-                    $('#created_at').text(data.created_at)
+                    $('#created_at').text(`${dname}, ${dd} ${md} ${yd}.`)
                     $('#bagian').text(data.bagian)
+                    console.log(data.created_at);
                 }
             });
             $('#idSurat').attr('value', id);
@@ -767,7 +776,7 @@
         btnEdit.classList.add('d-flex', 'gap-2')
     }
     function batalHandling() {
-        let input = document.querySelectorAll('select, input, textarea')
+        let input = document.querySelectorAll('#formEdit select, #formEdit input, #formEdit textarea')
         
         title.innerText = "Detail Surat Masuk"
         btnDetail.style.display = 'block'
