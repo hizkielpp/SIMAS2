@@ -480,19 +480,19 @@
                         <td>{{ $v->namaTujuan }}</td>
                         <td>
                             @if ($v->sifatSurat == 1)
-                            <div class="sifat biasa d-flex justify-content-center align-items-center">
+                            <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
                                 <h5>Biasa</h5>
                             </div>
                             @elseif ($v->sifatSurat == 2)
-                            <div class="sifat penting d-flex justify-content-center align-items-center">
+                            <div class="sifat penting d-flex justify-content-center align-items-center mx-auto">
                                 <h5>Penting</h5>
                             </div>
                             @elseif ($v->sifatSurat == 3)
-                            <div class="sifat segera d-flex justify-content-center align-items-center">
+                            <div class="sifat segera d-flex justify-content-center align-items-center mx-auto">
                                 <h5>Segera</h5>
                             </div>
                             @elseif ($v->sifatSurat == 4)
-                            <div class="sifat rahasia d-flex justify-content-center align-items-center">
+                            <div class="sifat rahasia d-flex justify-content-center align-items-center mx-auto">
                                 <h5>Rahasia</h5>
                             </div>
                             @endif
