@@ -206,9 +206,15 @@
                                                 ...
                                             </option>
                                             @foreach ($unit as $k => $v)
+                                            @if (old('kodeUnit') == $v->kode)
+                                            <option value="{{ $v->kode }}" selected>
+                                                {{ $v->nama }} ({{ $v->kode }})
+                                            </option>
+                                            @else
                                             <option value="{{ $v->kode }}">
                                                 {{ $v->nama }} ({{ $v->kode }})
                                             </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -224,9 +230,15 @@
                                                 ...
                                             </option>
                                             @foreach ($hal as $k => $v)
+                                            @if (old('kodeHal') == $v->kode)
+                                            <option value="{{ $v->kode }}" selected>
+                                                {{ $v->nama }} ({{ $v->kode }})
+                                            </option>
+                                            @else
                                             <option value="{{ $v->kode }}">
                                                 {{ $v->nama }} ({{ $v->kode }})
                                             </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -239,7 +251,8 @@
                                             Surat</label>
                                         <input type="text" class="form-control"
                                             placeholder="Contoh : Fakultas Kedokteran" id="tujuanSurat"
-                                            name="tujuanSurat" aria-describedby="emailHelp" required />
+                                            name="tujuanSurat" aria-describedby="emailHelp"
+                                            value="{{ old('tujuanSurat') }}" required />
                                         <div class="invalid-feedback">
                                             Mohon masukkan tujuan surat dengan
                                             benar.
@@ -253,9 +266,15 @@
                                                 ...
                                             </option>
                                             @foreach ($sifat as $k => $v)
+                                            @if (old('sifatSurat') == $v->kode)
+                                            <option value="{{ $v->kode }}" selected>
+                                                {{ $v->nama }}
+                                            </option>
+                                            @else
                                             <option value="{{ $v->kode }}">
                                                 {{ $v->nama }}
                                             </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -274,9 +293,15 @@
                                                 ...
                                             </option>
                                             @foreach ($unit as $k => $v)
+                                            @if (old('disahkanOleh') == $v->nama)
+                                            <option value="{{ $v->nama }}" selected>
+                                                {{ $v->nama }}
+                                            </option>
+                                            @else
                                             <option value="{{ $v->nama }}">
                                                 {{ $v->nama }}
                                             </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -337,7 +362,8 @@
                                             class="form-label black fw-normal">Perihal</label>
                                         <textarea name="perihal" class="form-control" style="height: 13.9rem"
                                             id="exampleFormControlTextarea1" rows="8"
-                                            placeholder="Contoh : Permohonan perijinan penelitian" required></textarea>
+                                            placeholder="Contoh : Permohonan perijinan penelitian"
+                                            required>{{ old('perihal') }}</textarea>
                                         <div class="invalid-feedback">
                                             Mohon masukkan perihal surat dengan
                                             benar.
