@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
         // Role seeder start
 
         // User seeder start
+        // Admin start
         DB::table('users')->insert([
             "role_id" => 1,
             "name" => "Pak Mul",
@@ -49,18 +50,11 @@ class DatabaseSeeder extends Seeder
             "email" => "pakmul@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
-            "nip" => '1',
+            "nip" => '111',
         ]);
-        DB::table('users')->insert([
-            "role_id" => 2,
-            "name" => "Anton Wibowo",
-            "bagian" => "KUI",
-            "password" => Hash::make("password"),
-            "email" => "antonwibowo@gmail.com",
-            "created_at" => now(),
-            "updated_at" => now(),
-            "nip" => '2',
-        ]);
+        // Admin end
+
+        // Pimpinan start
         DB::table('users')->insert([
             "role_id" => 3,
             "name" => "Bu Agnes",
@@ -69,8 +63,172 @@ class DatabaseSeeder extends Seeder
             "email" => "buagnes@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
+            "nip" => '222',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 3,
+            "name" => "Bu Lulut",
+            "bagian" => "Dekanat",
+            "password" => Hash::make("password"),
+            "email" => "bululut@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '333',
+        ]);
+        // Pimpinan end
+
+        // Operator start
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 1",
+            "bagian" => "Bagian 1",
+            "password" => Hash::make("password"),
+            "email" => "tendik1@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '1',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 2",
+            "bagian" => "Bagian 2",
+            "password" => Hash::make("password"),
+            "email" => "tendik2@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '2',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 3",
+            "bagian" => "Bagian 3",
+            "password" => Hash::make("password"),
+            "email" => "tendik3@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
             "nip" => '3',
         ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 4",
+            "bagian" => "Bagian 4",
+            "password" => Hash::make("password"),
+            "email" => "tendik4@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '4',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 5",
+            "bagian" => "Bagian 5",
+            "password" => Hash::make("password"),
+            "email" => "tendik5@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '5',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 6",
+            "bagian" => "Bagian 6",
+            "password" => Hash::make("password"),
+            "email" => "tendik6@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '6',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 7",
+            "bagian" => "Bagian 7",
+            "password" => Hash::make("password"),
+            "email" => "tendik7@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '7',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 8",
+            "bagian" => "Bagian 8",
+            "password" => Hash::make("password"),
+            "email" => "tendik8@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '8',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 9",
+            "bagian" => "Bagian 9",
+            "password" => Hash::make("password"),
+            "email" => "tendik9@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '9',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 10",
+            "bagian" => "Bagian 10",
+            "password" => Hash::make("password"),
+            "email" => "tendik10@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '10',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 11",
+            "bagian" => "Bagian 11",
+            "password" => Hash::make("password"),
+            "email" => "tendik11@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '11',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 12",
+            "bagian" => "Bagian 12",
+            "password" => Hash::make("password"),
+            "email" => "tendik12@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '12',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 13",
+            "bagian" => "Bagian 13",
+            "password" => Hash::make("password"),
+            "email" => "tendik13@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '13',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 14",
+            "bagian" => "Bagian 14",
+            "password" => Hash::make("password"),
+            "email" => "tendik14@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '14',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 2,
+            "name" => "Tendik 15",
+            "bagian" => "Bagian 15",
+            "password" => Hash::make("password"),
+            "email" => "tendik15@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '15',
+        ]);
+        // Operator end
         // User seeder end
 
         // Unit seeder start
