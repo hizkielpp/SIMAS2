@@ -259,7 +259,7 @@
                                             <i class="fa-solid fa-triangle-exclamation"></i>
                                             <div>
                                                 Format file .pdf dan ukuran file
-                                                maksimal 1
+                                                maksimal 2
                                                 MB.
                                             </div>
                                         </div>
@@ -478,7 +478,7 @@
                         <th>Asal Surat / No. Surat</th>
                         <th>Tanggal Surat</th>
                         <th>Penerima</th>
-                        <th class="text-center">Sifat</th>
+                        <th class="text-center">Perihal</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -496,7 +496,7 @@
                         </td>
                         <td>{{ $v->namaTujuan }}</td>
                         <td>
-                            @if ($v->sifatSurat == 1)
+                            {{-- @if ($v->sifatSurat == 1)
                             <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
                                 <h5>Biasa</h5>
                             </div>
@@ -512,10 +512,11 @@
                             <div class="sifat rahasia d-flex justify-content-center align-items-center mx-auto">
                                 <h5>Rahasia</h5>
                             </div>
-                            @endif
+                            @endif --}}
+                            {{ $v->perihal }}
                         </td>
                         <td class="text-center">
-                            <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                            <div class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
                                     class="myicon position-relative blue d-flex align-items-center justify-content-center"
                                     id="btnEdit" onclick="detailSurat('{{ $v->id }}')" data-id="{{ $v->id }}"

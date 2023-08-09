@@ -94,12 +94,12 @@ class Surat extends Controller
             'asalSurat' => 'required',
             'kodeHal' => 'required',
             'sifatSurat' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:1024',
+            'lampiran' => 'required|mimes:docx,pdf|max:2048',
             'perihal' => 'required',
             'jumlahLampiran' => 'nullable',
         ], [
             'nomorSurat.unique' => 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.',
-            'lampiran.max' => 'Ukuran maksimal upload file 1 MB'
+            'lampiran.max' => 'Ukuran maksimal upload file 2 MB'
         ]);
         // Validasi input laravel end
 
@@ -138,9 +138,9 @@ class Surat extends Controller
     public function editSM(Request $request)
     {
         $request->validate([
-            'lampiran' => 'mimes:docx,pdf|max:1024'
+            'lampiran' => 'mimes:docx,pdf|max:2048'
         ], [
-            'lampiran.max' => 'Ukuran maksimal upload file 1 MB'
+            'lampiran.max' => 'Ukuran maksimal upload file 2 MB'
         ]);
         $surat = DB::table('suratmasuk')->where('id', $request->input('idSurat'))->first();
         $updatedValue = $request->except(['_token', 'idSurat']);
