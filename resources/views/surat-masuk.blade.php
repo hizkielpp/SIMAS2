@@ -167,7 +167,7 @@
                                         <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
                                         <input type="text" class="form-control" id="asalSurat" name="asalSurat"
                                             placeholder="Contoh : Ketua Departemen Kedokteran"
-                                            aria-describedby="emailHelp" required />
+                                            aria-describedby="emailHelp" value="{{ old('asalSurat') }}" required />
                                         <div class="invalid-feedback">
                                             Masukkan asal surat dengan benar.
                                         </div>
@@ -186,7 +186,7 @@
                                         <div class="position-relative input__tanggal__form">
                                             <input type="text" id="datepicker" identifier="date" placeholder="..."
                                                 name="tanggalPengajuan" aria-placeholder="coba" class="form-control"
-                                                required>
+                                                value="{{ old('tanggalPengajuan') }}" required>
                                             <i class="fa-solid fa-calendar-days position-absolute"></i>
                                         </div>
                                         <div class="invalid-feedback">
@@ -199,7 +199,13 @@
                                             name="tujuanSurat">
                                             <option selected disabled value="">...</option>
                                             @foreach ($tujuan as $k => $v)
-                                            <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @if (old('tujuanSurat') == $v->kode)
+                                            <option value="{{ $v->kode }}" selected>{{ $v->nama }}
+                                            </option>
+                                            @else
+                                            <option value="{{ $v->kode }}">{{ $v->nama }}
+                                            </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -212,7 +218,11 @@
                                             name="sifatSurat">
                                             <option selected disabled value="">...</option>
                                             @foreach ($sifat as $k => $v)
+                                            @if (old('sifatSurat') == $v->kode)
+                                            <option value="{{ $v->kode }}" selected>{{ $v->nama }}</option>
+                                            @else
                                             <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -225,9 +235,15 @@
                                             id="kodeHal" name="kodeHal">
                                             <option selected disabled value="">...</option>
                                             @foreach ($hal as $k => $v)
+                                            @if (old('kodeHal') == $v->kode)
+                                            <option value="{{ $v->kode }}" selected>{{ $v->nama }}
+                                                ({{ $v->kode }})
+                                            </option>
+                                            @else
                                             <option value="{{ $v->kode }}">{{ $v->nama }}
                                                 ({{ $v->kode }})
                                             </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
@@ -257,7 +273,8 @@
                                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
                                             Lampiran</label>
                                         <input type="number" class="form-control" placeholder="Contoh : 1"
-                                            id="jumlahLampiran" name="jumlahLampiran" min="0" />
+                                            id="jumlahLampiran" name="jumlahLampiran"
+                                            value="{{ old('jumlahLampiran') }}" min="0" />
                                         <div class="invalid-feedback">
                                             Masukkan jumlah lampiran surat dengan benar.
                                         </div>
@@ -267,7 +284,7 @@
                                             class="form-label black fw-normal">Perihal</label>
                                         <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4"
                                             placeholder="Contoh : Permohonan perijinan penelitian" name="perihal"
-                                            required></textarea>
+                                            required>{{ old('perihal') }}</textarea>
                                         <div class="invalid-feedback">
                                             Masukkan perihal surat dengan benar.
                                         </div>
