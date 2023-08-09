@@ -236,13 +236,13 @@ class DatabaseSeeder extends Seeder
             ["UN7.F4", "Dekan"],
             ["UN7.F4.1", "Wakil Dekan Akademik & Kemahasiswaan"],
             ["UN7.F4.2", "Wakil Dekan Sumber Daya"],
-            ["UN7.F4.3", "Ketua Senat"],
-            ["UN7.F4.3.1", "Sekretaris Senat"],
+            // ["UN7.F4.3", "Ketua Senat"],
+            // ["UN7.F4.3.1", "Sekretaris Senat"],
             ["UN7.F4.4", "Manager Tata Usaha"],
             ["UN7.F4.4.1", "Supervisor Akademik & Kemahasiswaan"],
             ["UN7.F4.4.2", "Supervisor Sumber Daya"],
-            ["UN7.F4.5", "Ketua Departemen"],
-            ["UN7.F4.6", "Ketua Program Studi"]
+            // ["UN7.F4.5", "Ketua Departemen"],
+            // ["UN7.F4.6", "Ketua Program Studi"]
         ];
         foreach ($unit as $k => $v) {
             DB::table('unit')->insert([

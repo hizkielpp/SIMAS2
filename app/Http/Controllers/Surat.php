@@ -315,7 +315,7 @@ class Surat extends Controller
     {
         // dd($request);
         $jenisSurat = $request->input('jenisSurat');
-        $request->validate(['lampiran' => 'mimes:docx,pdf|max:1024'], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
+        $request->validate(['lampiran' => 'mimes:docx,pdf|max:2048'], ['lampiran.max' => 'Ukuran maksimal upload file 2 MB']);
         $surat = DB::table('suratkeluar')->where('id', $request->input('idSurat'))->first();
         $updatedValue = $request->except(['_token', 'idSurat', 'jenisSurat']);
         // dd($updatedValue);
@@ -389,9 +389,9 @@ class Surat extends Controller
     {
         $validatedData = $req->validate([
             'dokumen' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:1024',
+            'lampiran' => 'required|mimes:docx,pdf|max:2048',
             'jumlahLampiran' => 'nullable',
-        ], ['lampiran.max' => 'Ukuran maksimal upload file 1 MB']);
+        ], ['lampiran.max' => 'Ukuran maksimal upload file 2 MB']);
 
         // Set input start
         $file = $req->file('lampiran');

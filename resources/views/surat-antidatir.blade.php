@@ -550,8 +550,18 @@
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                                 <div>
                                     <span class="fw-semibold">Perhatian!</span>
-                                    <h5 class="mt-1 fw-normal" style="line-height: 1.5">
-                                        Dokumen surat dalam bentuk pdf dan ukuran file tidak lebih dari 1MB.
+                                    <h5 class="mt-1 fw-normal d-flex" style="line-height: 1.5">
+                                        <span class="d-inline-block me-1 text-center" style="min-width: 20px">1.</span>
+                                        Pastikan arsip surat telah
+                                        sesuai
+                                        dengan ketentuan dan telah mendapat paraf dari pimpinan.
+                                    </h5>
+                                    <h5 class="mt-1 fw-normal d-flex" style="line-height: 1.5">
+                                        <span class="d-inline-block me-1 text-center" style="min-width: 20px">2.</span>
+                                        Arsip
+                                        surat diupload dalam
+                                        bentuk
+                                        pdf dan ukuran file tidak lebih dari 2 MB.
                                     </h5>
                                 </div>
                             </div>
@@ -593,8 +603,8 @@
                         <th class="no">#</th>
                         <th>Disahkan Oleh / No. Surat</th>
                         <th>Tanggal Disahkan</th>
-                        <th>Tujuan Surat</th>
-                        <th class="text-center">Sifat</th>
+                        <th>Perihal</th>
+                        {{-- <th class="text-center">Sifat</th> --}}
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -603,20 +613,21 @@
                     <tr>
                         <td class="no">{{ $k + 1 }}</td>
                         <td>
-                            {{ $v->tujuanSurat }} <br />
+                            {{ $v->disahkanOleh }} <br />
                             <div class="pt-2">
                                 Nomor :
-                                {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ date('Y', strtotime($v->tanggalPengesahan))
-                                }}/{{
-                                convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}
+                                {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{
+                                convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}/{{ date('Y',
+                                strtotime($v->tanggalPengesahan))
+                                }}
                             </div>
                         </td>
                         <td>
                             {{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F',
                             strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
                         </td>
-                        <td>{{ $v->tujuanSurat }}</td>
-                        <td>
+                        <td>{{ $v->perihal }}</td>
+                        {{-- <td>
                             @if ($v->sifatSurat == 1)
                             <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
                                 <h5 class="fw__semi">Biasa</h5>
@@ -634,7 +645,7 @@
                                 <h5 class="fw__semi">Rahasia</h5>
                             </div>
                             @endif
-                        </td>
+                        </td> --}}
                         <td>
                             <div class="d-flex align-items-center justify-content-center gap-2">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
@@ -1069,7 +1080,7 @@
                 },
                 columnDefs: [{
                     orderable: false,
-                    targets: [0, 1, 2, 3, 4, 5],
+                    targets: [0, 1, 2, 3, 4],
                 }, ],
                 // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
                 // dom: '<"table-responsive"tpf>',

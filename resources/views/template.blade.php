@@ -99,12 +99,14 @@
                                 <p class="fw-normal">Dashboard</p>
                             </a>
                         </li>
+                        @if ($user->role_id !== 2)
                         <li class="nav-item mb-2">
                             <a href="{{ route('suratMasuk') }}" class="nav-link @yield('sm')">
                                 <i class="fa-solid fa-envelope me-2"></i>
                                 <p class="fw-normal">Surat Masuk</p>
                             </a>
                         </li>
+                        @endif
                         <li class="nav-item mb-2">
                             <a href="{{ route('suratKeluar') }}" class="nav-link @yield('sk')">
                                 <i class="fa-solid fa-envelope me-2"></i>
