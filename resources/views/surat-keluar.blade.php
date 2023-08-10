@@ -549,16 +549,19 @@
                                     <span class="fw-semibold">Perhatian!</span>
                                     <h5 class="mt-1 fw-normal d-flex" style="line-height: 1.5">
                                         <span class="d-inline-block me-1 text-center" style="min-width: 20px">1.</span>
-                                        Pastikan arsip surat telah
-                                        sesuai
-                                        dengan ketentuan dan telah mendapat paraf dari pimpinan.
+                                        Pastikan arsip surat sudah
+                                        terdapat nomor surat, tanda tangan, dan tidak di stempel.
                                     </h5>
                                     <h5 class="mt-1 fw-normal d-flex" style="line-height: 1.5">
                                         <span class="d-inline-block me-1 text-center" style="min-width: 20px">2.</span>
                                         Arsip
                                         surat diupload dalam
                                         bentuk
-                                        pdf dan ukuran file tidak lebih dari 2 MB.
+                                        pdf.
+                                    </h5>
+                                    <h5 class="mt-1 fw-normal d-flex" style="line-height: 1.5">
+                                        <span class="d-inline-block me-1 text-center" style="min-width: 20px">3.</span>
+                                        Ukuran file tidak lebih dari 2 MB.
                                     </h5>
                                 </div>
                             </div>
@@ -572,9 +575,9 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah Halaman
-                                    Dokumen Arsip</label>
-                                <input type="number" class="form-control" placeholder="Contoh : 1" id="jumlahLampiran"
+                                <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah Lampiran</label>
+                                <input type="number" class="form-control"
+                                    placeholder="*Kosongkan jika tidak terdapat lampiran" id="jumlahLampiran"
                                     name="jumlahLampiran" min="0" aria-describedby="emailHelp" />
                             </div>
                         </form>
