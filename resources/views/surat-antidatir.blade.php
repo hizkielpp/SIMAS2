@@ -393,7 +393,7 @@
                 <div class="modal-content p-3">
                     <div class="modal-header">
                         <h4 class="modal-title fw-semibold black" id="modalTitle">
-                            Detail Surat Masuk
+                            Detail Surat Antidatir
                         </h4>
                         <button type="button" onclick="batalHandling()" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
@@ -769,7 +769,7 @@
         const btnBatal = document.getElementById('#btnBatal')
         let input = document.querySelectorAll('[disabled]')
         
-        title.innerText = "Form Edit Surat Masuk"
+        title.innerText = "Form Edit Surat Antidatir"
         input.forEach(item=>item.removeAttribute('disabled'))
         btnDetail.style.display = 'none'
         btnEdit.classList.add('d-flex', 'gap-2')
