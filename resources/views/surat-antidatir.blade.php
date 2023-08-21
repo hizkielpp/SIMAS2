@@ -408,8 +408,7 @@
                                     <div class="mb-3" id="unitPengesahanKanan">
                                         <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
-                                        <select id="disahkanOlehE2" class="form-select"
-                                            aria-label="Default select example" disabled>
+                                        <select id="disahkanOlehE2" class="form-select" aria-label="edited" disabled>
                                             <option value="" selected>
                                                 -- Pilih salah satu --
                                             </option>
@@ -421,8 +420,8 @@
                                     <div class="mb-3">
                                         <label for="kodeUnitE" class="form-label black fw-normal">Kode Unit
                                             Surat</label>
-                                        <select class="form-select" aria-label="Default select example" id="kodeUnitE"
-                                            name="kodeUnit" disabled>
+                                        <select class="form-select" aria-label="edited" id="kodeUnitE" name="kodeUnit"
+                                            disabled>
                                             <option selected value="">
                                                 ...
                                             </option>
@@ -435,8 +434,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="kodeHalE" class="form-label black fw-normal">Kode Hal</label>
-                                        <select class="form-select" aria-label="Default select example" id="kodeHalE"
-                                            name="kodeHal" disabled>
+                                        <select class="form-select" aria-label="edited" id="kodeHalE" name="kodeHal"
+                                            disabled>
                                             <option value="" selected>
                                                 ...
                                             </option>
@@ -461,15 +460,15 @@
                                         <label for="tujuanSuratE" class="form-label black fw-normal">Tujuan
                                             Surat</label>
                                         <input type="text" class="form-control" placeholder="Masukkan nomor surat"
-                                            id="tujuanSuratE" name="tujuanSurat" aria-describedby="emailHelp"
-                                            disabled />
+                                            id="tujuanSuratE" name="tujuanSurat" aria-label="edited"
+                                            aria-describedby="emailHelp" disabled />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="mb-3">
                                         <label for="sifatSuratE" class="form-label black fw-normal">Sifat</label>
                                         <select id="sifatSuratE" name="sifatSurat" class="form-select"
-                                            aria-label="Default select example" disabled>
+                                            aria-label="edited" disabled>
                                             <option value="" selected>
                                                 ...
                                             </option>
@@ -483,8 +482,7 @@
                                     <div class="mb-3" id="unitPengesahanKiri">
                                         <label for="disahkanOlehE" class="form-label black fw-normal">Disahkan
                                             Oleh</label>
-                                        <select id="disahkanOlehE1" class="form-select"
-                                            aria-label="Default select example" disabled>
+                                        <select id="disahkanOlehE1" class="form-select" aria-label="edited" disabled>
                                             <option value="" selected>
                                                 -- Pilih salah satu --
                                             </option>
@@ -504,20 +502,22 @@
                                             </div>
                                         </div> --}}
                                         <input type="file" class="form-control" name="lampiran"
-                                            aria-describedby="emailHelp" accept=".pdf" value="" disabled />
+                                            aria-describedby="emailHelp" aria-label="edited" accept=".pdf" value=""
+                                            disabled />
                                     </div>
                                     <div class="mb-3">
                                         <label for="jumlahLampiranE" class="form-label black fw-normal"
                                             id="labelJumlah">Jumlah Halaman Dokumen
                                             Arsip</label>
                                         <input type="number" class="form-control" id="jumlahLampiranE"
-                                            name="jumlahLampiran" min="0" aria-describedby="emailHelp" disabled />
+                                            name="jumlahLampiran" min="0" aria-label="edited"
+                                            aria-describedby="emailHelp" disabled />
                                     </div>
                                     <div class="mb-3">
                                         <label for="perihalE" class="form-label black fw-normal">Perihal</label>
                                         <textarea class="form-control perihal" id="perihalE" name="perihal" rows="1"
                                             placeholder="Contoh : Permohonan perijinan penelitian"
-                                            style="min-height: unset" disabled></textarea>
+                                            style="min-height: unset" aria-label="edited" disabled></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -767,7 +767,7 @@
     
     function editData() {
         const btnBatal = document.getElementById('#btnBatal')
-        let input = document.querySelectorAll('[disabled]')
+        let input = document.querySelectorAll('[aria-label=edited]')
         
         title.innerText = "Form Edit Surat Antidatir"
         input.forEach(item=>item.removeAttribute('disabled'))
