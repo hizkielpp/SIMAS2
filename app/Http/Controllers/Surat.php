@@ -166,11 +166,11 @@ class Surat extends Controller
                 ->update($updatedValue);
             return redirect()->route('suratMasuk')->with('success', 'Data surat masuk berhasil diubah');
         } catch (\Exception $e) {
-            // return $e;
-            // Validasi nomor surat dengan database
-            if (DB::table('suratmasuk')->where('nomorSurat', $request->nomorSurat)) {
+            if (DB::table('suratmasuk')->where('nomorSurat', $request->input('nomorSurat'))) {
                 return back()->with('editFailed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
             }
+            return $e;
+            // Validasi nomor surat dengan database
             // return redirect()->route('suratMasuk')->with('failed', 'Gagal mengubah data surat masuk' . $e);
         }
     }

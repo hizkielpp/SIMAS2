@@ -102,11 +102,23 @@
     @endif
     {{-- Alert gagal menambahkan surat end --}}
 
+    {{-- Alert edit surat sama dengan database start --}}
+    @if (session()->has('editFailed'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong id="headerGagal">Aksi gagal!</strong>
+        <p class="mt-2">
+            {{ session('editFailed') }}
+        </p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    {{-- Alert edit surat sama dengan database end --}}
+
     {{-- Tabel wrapper start --}}
     <div class="card p-4 mt-3">
         {{-- Tabel header start --}}
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-            <h4 class="fw-semibold black">Daftar Surat Keluar</h4>
+            <h4 class="fw-semibold black">Daftar Surat Masuk</h4>
             <div class="d-flex align-items-center gap-3 flex-wrap">
                 <p class="">Rentang Tanggal :</p>
                 <div class="input__tanggal position-relative">
