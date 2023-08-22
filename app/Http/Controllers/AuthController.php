@@ -32,11 +32,13 @@ class AuthController extends Controller
         // Validasi input
         $validatedData = $request->validate([
             'name' => 'required',
-            'nip' => 'required',
+            'nip' => 'required|unique:users,nip',
             'bagian' => 'required',
             'email' => 'required',
             'role_id' => 'required',
             'password' => 'required'
+        ], [
+            'nip.unique' => 'NIP telah digunakan. Silahkan gunakan NIP lain.',
         ]);
         $validatedData = $request->except('_token');
 

@@ -17,6 +17,20 @@
     </div>
     {{-- Navigation end --}}
 
+    {{-- Alert gagal menambahkan akun start --}}
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong id="headerGagal">Aksi gagal!</strong>
+        <p class="mt-2">
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    {{-- Alert gagal menambahkan akun end --}}
+
     @if (session()->has('failed'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Edit akun gagal!</strong>
