@@ -188,6 +188,8 @@
                         <div class="modal-body">
                             <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation" novalidate
                                 method="POST" action="{{ route('inputSA') }}">
+                                {{-- <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation"
+                                onsubmit="kirimin(event)"> --}}
                                 @csrf
                                 <div class="row">
                                     <div class="alert alert-warning gap-2 d-flex align-items-start" role="alert">
@@ -343,6 +345,8 @@
                                                 surat dengan benar.
                                             </div>
                                         </div>
+                                        <input id="tglPengesahan" hidden type="text" name="tanggalPengesahan"
+                                            disabled>
                                         {{-- <div class="mb-3">
                                         <label for="lampiran" class="form-label black fw-normal">Upload Lampiran</label>
                                         <div class="alert alert-primary gap-1 d-flex align-items-center" role="alert">
@@ -760,17 +764,12 @@
     @endsection @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- Fungsi prevent mengubah tanggal disahkan start --}}
     <script>
-        let nomorSurat = document.getElementById('nomorSurat').value
-        let tanggal = document.getElementById('datepicker')
-        console.log(nomorSurat);
-        if (nomorSurat !== "") {
-            tanggal.disabled;
-            console.log('tes');
+        const kirimin = (e) => {
+            e.preventDefault();
+            console.log($('#datepicker').val());
         }
     </script>
-    {{-- Fungsi prevent mengubah tanggal disahkan end --}}
 
     {{-- Fungsi lihat lampiran start --}}
     <script>
@@ -1033,7 +1032,6 @@
 
     <script>
         function ambilNomor() {
-            // let nomorSurat = document.getElementById('nomorSurat')
             if (dateNow == "") {
                 Swal.fire({
                     confirmButtonColor: "#2F5596",
@@ -1058,6 +1056,9 @@
                         },
                         200: function(xhr) {
                             $("#nomorSurat").attr("value", xhr);
+                            $("#datepicker").prop("disabled", true);
+                            $("#tglPengesahan").prop("disabled", false);
+                            $("#tglPengesahan").val($("#datepicker").val());
                         },
                     },
                 });

@@ -367,8 +367,8 @@
                                                 Nomor Surat</label>
                                             <div class="input d-flex align-items-center">
                                                 <input type="text" readonly class="form-control readonly"
-                                                    id="nomorSurat" aria-describedby="emailHelp" name="nomorSurat"
-                                                    required />
+                                                    id="nomorSurat" aria-describedby="emailHelp" aria-label="edited"
+                                                    name="nomorSurat" required />
                                                 <button type="button" class="ms-2 ambilNomor">
                                                     Ambil Nomor <i class="fas fa-search ms-1"></i>
                                                 </button>
@@ -381,8 +381,8 @@
                                             <label for="kodeUnit" class="form-label black fw-normal">Kode Unit
                                                 Surat</label>
                                             <select id="kodeUnit" required name="kodeUnit" class="form-select"
-                                                aria-label="Default select example">
-                                                <option value="" selected disabled value="">...</option>
+                                                aria-label="edited">
+                                                <option selected disabled value="">...</option>
                                                 @foreach ($unit as $k => $v)
                                                     @if (old('kodeUnit') == $v->kode)
                                                         <option value="{{ $v->kode }}" selected>{{ $v->nama }}
@@ -401,9 +401,9 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                                            <select class="form-select" required id="kodeHal"
-                                                aria-label="Default select example" name="kodeHal">
-                                                <option value="" selected disabled value="">...</option>
+                                            <select class="form-select" required id="kodeHal" aria-label="edited"
+                                                name="kodeHal">
+                                                <option selected disabled value="">...</option>
                                                 @foreach ($hal as $k => $v)
                                                     @if (old('kodeHal') == $v->kode)
                                                         <option value="{{ $v->kode }}" selected>{{ $v->nama }}
@@ -425,7 +425,7 @@
                                                 Surat</label>
                                             <input type="text" required class="form-control"
                                                 placeholder="Contoh : Fakultas Kedokteran" id="tujuanSurat"
-                                                name="tujuanSurat" aria-describedby="emailHelp"
+                                                name="tujuanSurat" aria-describedby="emailHelp" aria-label="edited"
                                                 value="{{ old('tujuanSurat') }}" />
                                             <div class="invalid-feedback">
                                                 Masukkan tujuan surat dengan benar.
@@ -434,7 +434,7 @@
                                         <div class="mb-3">
                                             <label for="sifatSurat" class="form-label black fw-normal">Sifat</label>
                                             <select class="form-select" id="sifatSurat" name="sifatSurat"
-                                                aria-label="Default select example" required>
+                                                aria-label="edited" required>
                                                 <option value="" selected disabled value="">...</option>
                                                 @foreach ($sifat as $k => $v)
                                                     @if (old('sifatSurat') == $v->kode)
@@ -454,8 +454,8 @@
                                         <div class="mb-3">
                                             <label for="disahkanOleh" class="form-label black fw-normal">Disahkan
                                                 Oleh</label>
-                                            <select class="form-select" aria-label="Default select example"
-                                                id="disahkanOleh" name="disahkanOleh" required>
+                                            <select class="form-select" aria-label="edited" id="disahkanOleh"
+                                                name="disahkanOleh" required>
                                                 <option selected disabled value="">...</option>
                                                 @foreach ($unit as $k => $v)
                                                     @if (old('disahkanOleh') == $v->nama)
@@ -476,7 +476,7 @@
                                             <div class="position-relative input__tanggal__form">
                                                 <input type="text" readonly value="{{ date('Y-m-d', time()) }}"
                                                     identifier="date" placeholder="..." name="tanggalPengesahan"
-                                                    aria-placeholder="coba" class="form-control" required>
+                                                    class="form-control" required>
                                                 <i class="fa-solid fa-calendar-days position-absolute"></i>
                                             </div>
                                             <div class="invalid-feedback">
@@ -520,7 +520,7 @@
                                             <label for="exampleFormControlTextarea1"
                                                 class="form-label black fw-normal">Perihal</label>
                                             <textarea name="perihal" class="form-control" style="min-height: 13.9rem" id="exampleFormControlTextarea1"
-                                                rows="8" placeholder="Contoh : Permohonan perijinan penelitian" required>{{ old('perihal') }}</textarea>
+                                                rows="8" aria-label="edited" placeholder="Contoh : Permohonan perijinan penelitian" required>{{ old('perihal') }}</textarea>
                                             <div class="invalid-feedback">
                                                 Masukkan perihal surat dengan benar.
                                             </div>
