@@ -61,6 +61,13 @@
 
             // Setter
             $("#datepicker").datepicker("option", "changeYear", true);
+
+            // Periksa apakah ada nilai lama (old value) dari server
+            var oldDate = "{{ old('tanggalPengesahan') }}";
+            if (oldDate) {
+                // Tetapkan nilai Datepicker dari old value
+                $("#datepicker").datepicker("setDate", oldDate);
+            }
         });
     </script>
 
@@ -327,7 +334,8 @@
                                             <div class="position-relative input__tanggal__form">
                                                 <input type="text" id="datepicker" identifier="date"
                                                     placeholder="..." name="tanggalPengesahan" aria-placeholder="coba"
-                                                    class="form-control" required />
+                                                    class="form-control" value="{{ old('tanggalPengesahan') }}"
+                                                    required />
                                                 <i class="fa-solid fa-calendar-days position-absolute"></i>
                                             </div>
                                             <div class="invalid-feedback">
@@ -1032,7 +1040,7 @@
                     text: "Silahkan isi tanggal disahkan terlebih dahulu!",
                     icon: "warning",
                 });
-                new Audio("audio/error-sedited.mp3").play();
+                new Audio("audio/error-edited.mp3").play();
             } else {
                 $.ajax({
                     type: "GET",
