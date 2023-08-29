@@ -330,6 +330,12 @@
             <div class="modal modal__section fade" id="editSuratMasuk" data-bs-backdrop="static" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
+                    {{-- Loader start --}}
+                    {{-- <div id="myloader" class="w-100 h-100 position-absolute justify-content-center align-items-center"
+                        style="z-index: 9999; backdrop-filter: blur(10px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem">
+                        <div class="lds-dual-ring"></div>
+                    </div> --}}
+                    {{-- Loader end --}}
                     <div class="modal-content p-3">
                         <div class="modal-header">
                             <h4 class="modal-title fw-semibold black" id="modalTitle">
@@ -758,6 +764,8 @@
     </script>
     <!-- Sweet alert : confirm edit end -->
 
+    <script></script>
+
     {{-- Fungsi detail surat start --}}
     <script>
         function detailSurat(id) {
@@ -767,6 +775,8 @@
                 type: 'GET',
                 url: url,
                 success: function(data) {
+                    previous = data.kodeHal
+                    // let input = document.getElementById('asalSuratE');
                     $('#nomorSuratE').attr('value', data.nomorSurat)
                     $("#tujuanSuratE").val(data.tujuanSurat)
                     tanggal = new Date(data.tanggalPengajuan)
@@ -796,7 +806,6 @@
                     $('#created_by').text(data.name)
                     $('#created_at').text(`${dname}, ${dd} ${md} ${yd}.`)
                     $('#bagian').text(data.bagian)
-                    // console.log(tanggalDibuat.getDate());
                 }
             });
             $('#idSurat').attr('value', id);
