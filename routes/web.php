@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Surat;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,3 +69,5 @@ Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login
 
 // Halaman logout
 Route::get('logout', [AuthController::class, 'signOut'])->name('logout');
+
+URL::forceScheme('https');
