@@ -864,7 +864,7 @@
                     tanggalDibuat = new Date(data.created_at)
                     yd = tanggalDibuat.getFullYear()
                     md = month[tanggalDibuat.getMonth()]
-                    dd = tanggalDibuat.getDay()
+                    dd = tanggalDibuat.getDate()
                     dname = weekday[tanggalDibuat.getDay()]
                     // Tanggal keterangan created at end
 

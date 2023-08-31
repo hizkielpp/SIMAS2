@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use PDF;
 use Illuminate\Support\Facades\Log;
 
-
 class Surat extends Controller
 {
     /* ---------------------------------------------- */
@@ -30,8 +29,10 @@ class Surat extends Controller
                     ->where('tanggalPengajuan', '>=', date('Y-m-d', $start))
                     ->where('tanggalPengajuan', '<=', date('Y-m-d', $end))
                     ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-                    ->orderBy('nomorSurat', 'desc')->get();
+                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
@@ -40,8 +41,10 @@ class Surat extends Controller
                     ->where('tanggalPengajuan', '<=', date('Y-m-d', $end))
                     ->where('created_by', $user->nip)
                     ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-                    ->orderBy('nomorSurat', 'desc')->get();
+                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
@@ -68,15 +71,13 @@ class Surat extends Controller
         $sifat = DB::table('sifat')->get();
         $hal = DB::table('hal')->get();
         if ($suratMasuk) {
-            return view('surat-masuk')->with(
-                [
-                    'user' => $user,
-                    'suratMasuk' => $suratMasuk,
-                    'sifat' => $sifat,
-                    'hal' => $hal,
-                    'tujuan' => $tujuan
-                ]
-            );
+            return view('surat-masuk')->with([
+                'user' => $user,
+                'suratMasuk' => $suratMasuk,
+                'sifat' => $sifat,
+                'hal' => $hal,
+                'tujuan' => $tujuan,
+            ]);
         } else {
             return view('suratMasuk')->with(['failed' => 'data surat masuk kosong', 'sifat' => $sifat, 'hal' => $hal]);
         }
@@ -87,20 +88,23 @@ class Surat extends Controller
     public function inputSM(Request $request)
     {
         // Validasi input laravel start
-        $validatedData = $request->validate([
-            'nomorSurat' => 'required|unique:suratmasuk,nomorSurat',
-            'tujuanSurat' => 'required',
-            'tanggalPengajuan' => 'required',
-            'asalSurat' => 'required',
-            'kodeHal' => 'required',
-            'sifatSurat' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:2048',
-            'perihal' => 'required',
-            'jumlahLampiran' => 'nullable',
-        ], [
-            'nomorSurat.unique' => 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.',
-            'lampiran.max' => 'Ukuran maksimal upload file 2 MB'
-        ]);
+        $validatedData = $request->validate(
+            [
+                'nomorSurat' => 'required|unique:suratmasuk,nomorSurat',
+                'tujuanSurat' => 'required',
+                'tanggalPengajuan' => 'required',
+                'asalSurat' => 'required',
+                'kodeHal' => 'required',
+                'sifatSurat' => 'required',
+                'lampiran' => 'required|mimes:docx,pdf|max:2048',
+                'perihal' => 'required',
+                'jumlahLampiran' => 'nullable',
+            ],
+            [
+                'nomorSurat.unique' => 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.',
+                'lampiran.max' => 'Ukuran maksimal upload file 2 MB',
+            ],
+        );
         // Validasi input laravel end
 
         // Set nomor agenda start
@@ -137,18 +141,23 @@ class Surat extends Controller
     // Fungsi edit surat masuk start
     public function editSM(Request $request)
     {
-        $request->validate([
-            'lampiran' => 'mimes:docx,pdf|max:2048'
-        ], [
-            'lampiran.max' => 'Ukuran maksimal upload file 2 MB'
-        ]);
-        $surat = DB::table('suratmasuk')->where('id', $request->input('idSurat'))->first();
+        $request->validate(
+            [
+                'lampiran' => 'mimes:docx,pdf|max:2048',
+            ],
+            [
+                'lampiran.max' => 'Ukuran maksimal upload file 2 MB',
+            ],
+        );
+        $surat = DB::table('suratmasuk')
+            ->where('id', $request->input('idSurat'))
+            ->first();
         $updatedValue = $request->except(['_token', 'idSurat']);
         if ($request->file('lampiran')) {
             $file = $request->file('lampiran');
             $fileName = $file->getClientOriginalName();
             $request->lampiran->move(public_path('uploads'), $fileName);
-            $filePath = public_path('uploads') . "\\" . $surat->lampiran;
+            $filePath = public_path('uploads') . '\\' . $surat->lampiran;
             // $folder = 'uploads';
             // $fileBefore = $surat->lampiran;
             // $filePath = public_path($folder . '/' . $fileBefore);
@@ -161,10 +170,12 @@ class Surat extends Controller
         $updatedValue['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
         try {
             DB::table('suratmasuk')
-                ->where('id', $request->input('idSurat'))  // find your surat by id
-                ->limit(1)  // optional - to ensure only one record is updated.
+                ->where('id', $request->input('idSurat')) // find your surat by id
+                ->limit(1) // optional - to ensure only one record is updated.
                 ->update($updatedValue);
-            return redirect()->route('suratMasuk')->with('success', 'Data surat masuk berhasil diubah');
+            return redirect()
+                ->route('suratMasuk')
+                ->with('success', 'Data surat masuk berhasil diubah');
         } catch (\Exception $e) {
             if (DB::table('suratmasuk')->where('nomorSurat', $request->input('nomorSurat'))) {
                 return back()->with('editFailed', 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.');
@@ -179,9 +190,13 @@ class Surat extends Controller
     // Fungsi menghapus surat masuk start
     public function deleteSM(Request $request)
     {
-        $surat = DB::table('suratmasuk')->where('id', $request->input('idSurat'))->first();
-        $filePath = public_path('uploads') . "\\" . $surat->lampiran;
-        $deleted = DB::table('suratmasuk')->where('id', $request->input('idSurat'))->delete();
+        $surat = DB::table('suratmasuk')
+            ->where('id', $request->input('idSurat'))
+            ->first();
+        $filePath = public_path('uploads') . '\\' . $surat->lampiran;
+        $deleted = DB::table('suratmasuk')
+            ->where('id', $request->input('idSurat'))
+            ->delete();
         if ($deleted == 0) {
             return response('Data gagal dihapus', 406);
         } else {
@@ -198,7 +213,9 @@ class Surat extends Controller
     {
         $suratMasuk = DB::table('suratmasuk')
             ->where('id', $request->id)
-            ->join('users', 'suratmasuk.created_by', '=', 'users.nip')->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')->first();
+            ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+            ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')
+            ->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat masuk end
@@ -207,12 +224,17 @@ class Surat extends Controller
     public function disposisi(Request $request)
     {
         if (isset($_GET['id'])) {
-            $surat = DB::table('suratmasuk')->join('hal', 'hal.kode', '=', 'suratmasuk.kodeHal')->where('suratmasuk.id', $_GET['id'])->first();
+            $surat = DB::table('suratmasuk')
+                ->join('hal', 'hal.kode', '=', 'suratmasuk.kodeHal')
+                ->where('suratmasuk.id', $_GET['id'])
+                ->first();
             // dd($surat);
             if ($surat) {
                 return view('lembar-disposisi')->with('surat', $surat);
             } else {
-                return redirect()->route('suratMasuk')->with('failed', 'gagal menampilkan lembar disposisi surat masuk');
+                return redirect()
+                    ->route('suratMasuk')
+                    ->with('failed', 'gagal menampilkan lembar disposisi surat masuk');
             }
         } else {
             return response('Request tidak valid', 400)->header('Content-Type', 'text/plain');
@@ -237,20 +259,46 @@ class Surat extends Controller
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
+                    ->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
+                    ->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratKeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratKeluar = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
         }
 
@@ -301,17 +349,27 @@ class Surat extends Controller
         $input['tanggalPengesahan'] = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
 
         try {
-            $target = DB::table('suratkeluar')->where('nomorSurat', $input['nomorSurat'])->where('created_at', '>=', date('Y-m-01', strtotime($input['tanggalPengesahan'])))->where('created_at', '<=', date('Y-m-t', strtotime($input['tanggalPengesahan'])))->first();
+            $target = DB::table('suratkeluar')
+                ->where('nomorSurat', $input['nomorSurat'])
+                ->where('created_at', '>=', date('Y-m-01', strtotime($input['tanggalPengesahan'])))
+                ->where('created_at', '<=', date('Y-m-t', strtotime($input['tanggalPengesahan'])))
+                ->first();
             if ($target) {
                 // return redirect()->route('suratKeluar')->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
-                return back()->withInput()->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
+                return back()
+                    ->withInput()
+                    ->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
             } else {
                 DB::table('suratkeluar')->insert($input);
-                return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
+                return redirect()
+                    ->route('suratKeluar')
+                    ->with('success', 'Data surat keluar berhasil ditambahkan');
             }
         } catch (\Exception $e) {
             return $e;
-            return redirect()->route('suratKeluar')->with('failed', 'Gagal menambahkan data surat keluar' . $e);
+            return redirect()
+                ->route('suratKeluar')
+                ->with('failed', 'Gagal menambahkan data surat keluar' . $e);
         }
     }
     // Fungsi menambah surat keluar end
@@ -322,14 +380,16 @@ class Surat extends Controller
         // dd($request);
         $jenisSurat = $request->input('jenisSurat');
         $request->validate(['lampiran' => 'mimes:docx,pdf|max:2048'], ['lampiran.max' => 'Ukuran maksimal upload file 2 MB']);
-        $surat = DB::table('suratkeluar')->where('id', $request->input('idSurat'))->first();
+        $surat = DB::table('suratkeluar')
+            ->where('id', $request->input('idSurat'))
+            ->first();
         $updatedValue = $request->except(['_token', 'idSurat', 'jenisSurat']);
         // dd($updatedValue);
         if ($request->file('lampiran')) {
             $file = $request->file('lampiran');
             $fileName = $file->getClientOriginalName();
             $request->lampiran->move(public_path('uploads'), $fileName);
-            $filePath = public_path('uploads') . "\\" . $surat->lampiran;
+            $filePath = public_path('uploads') . '\\' . $surat->lampiran;
             if (File::exists($filePath)) {
                 File::delete($filePath);
             }
@@ -346,20 +406,28 @@ class Surat extends Controller
         $updatedValue['updated_at'] = now();
         try {
             DB::table('suratkeluar')
-                ->where('id', $request->input('idSurat'))  // find your surat by id
-                ->limit(1)  // optional - to ensure only one record is updated.
+                ->where('id', $request->input('idSurat')) // find your surat by id
+                ->limit(1) // optional - to ensure only one record is updated.
                 ->update($updatedValue);
-            if ($jenisSurat == "biasa") {
-                return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil diubah');
-            } else if ($jenisSurat == 'antidatir') {
-                return redirect()->route('suratAntidatir')->with('success', 'Data surat antidatir berhasil diubah');
+            if ($jenisSurat == 'biasa') {
+                return redirect()
+                    ->route('suratKeluar')
+                    ->with('success', 'Data surat keluar berhasil diubah');
+            } elseif ($jenisSurat == 'antidatir') {
+                return redirect()
+                    ->route('suratAntidatir')
+                    ->with('success', 'Data surat antidatir berhasil diubah');
             }
         } catch (\Exception $e) {
             return $e;
-            if ($jenisSurat == "biasa") {
-                return redirect()->route('suratKeluar')->with('failed', 'Gagal mengubah data surat keluar' . $e);
-            } else if ($jenisSurat == 'antidatir') {
-                return redirect()->route('suratAntidatir')->with('failed', 'Gagal mengubah data surat antidatir' . $e);
+            if ($jenisSurat == 'biasa') {
+                return redirect()
+                    ->route('suratKeluar')
+                    ->with('failed', 'Gagal mengubah data surat keluar' . $e);
+            } elseif ($jenisSurat == 'antidatir') {
+                return redirect()
+                    ->route('suratAntidatir')
+                    ->with('failed', 'Gagal mengubah data surat antidatir' . $e);
             }
         }
     }
@@ -368,9 +436,13 @@ class Surat extends Controller
     // Fungsi menghapus surat keluar start
     public function deleteSK(Request $request)
     {
-        $surat = DB::table('suratkeluar')->where('id', $request->input('idSurat'))->first();
-        $filePath = public_path('uploads') . "\\" . $surat->lampiran;
-        $deleted = DB::table('suratkeluar')->where('id', $request->input('idSurat'))->delete();
+        $surat = DB::table('suratkeluar')
+            ->where('id', $request->input('idSurat'))
+            ->first();
+        $filePath = public_path('uploads') . '\\' . $surat->lampiran;
+        $deleted = DB::table('suratkeluar')
+            ->where('id', $request->input('idSurat'))
+            ->delete();
         if ($deleted == 0) {
             return response('Data gagal dihapus', 406);
         } else {
@@ -385,7 +457,11 @@ class Surat extends Controller
     // Fungsi get spesific surat keluar start
     public function getSK(Request $request)
     {
-        $suratMasuk = DB::table('suratkeluar')->where('id', $request->id)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->first();
+        $suratMasuk = DB::table('suratkeluar')
+            ->where('id', $request->id)
+            ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+            ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+            ->first();
         return response()->json($suratMasuk);
     }
     // Fungsi get spesific surat keluar end
@@ -393,11 +469,14 @@ class Surat extends Controller
     // Fungsi upload dokumen start
     public function uploadDokumen(Request $req)
     {
-        $validatedData = $req->validate([
-            'dokumen' => 'required',
-            'lampiran' => 'required|mimes:docx,pdf|max:2048',
-            'jumlahLampiran' => 'nullable',
-        ], ['lampiran.max' => 'Ukuran maksimal upload file 2 MB']);
+        $validatedData = $req->validate(
+            [
+                'dokumen' => 'required',
+                'lampiran' => 'required|mimes:docx,pdf|max:2048',
+                'jumlahLampiran' => 'nullable',
+            ],
+            ['lampiran.max' => 'Ukuran maksimal upload file 2 MB'],
+        );
 
         // Set input start
         $file = $req->file('lampiran');
@@ -407,7 +486,9 @@ class Surat extends Controller
         // Set input end
 
         try {
-            DB::table('suratkeluar')->where('id', $req->dokumen)->update(['lampiran' => $fileName]);
+            DB::table('suratkeluar')
+                ->where('id', $req->dokumen)
+                ->update(['lampiran' => $fileName]);
             return back()->with('success', 'Upload arsip berhasil');
         } catch (\Exception $e) {
             return $e;
@@ -437,20 +518,50 @@ class Surat extends Controller
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')
+                    ->where('created_at', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
+                    ->where('created_at', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
+                    ->where('jenis', 'antidatir')
+                    ->where('status', 'digunakan')
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratAntidatir = DB::table('suratkeluar')->where('created_at', '>=', date('Y-m-d', $start) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', $end) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')
+                    ->where('created_at', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
+                    ->where('created_at', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
+                    ->where('jenis', 'antidatir')
+                    ->where('status', 'digunakan')
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
         } else {
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')
+                    ->where('jenis', 'antidatir')
+                    ->where('status', 'digunakan')
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
             else {
-                $suratAntidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->where('created_by', $user->nip)->join('users', 'suratkeluar.created_by', '=', 'users.nip')->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')->orderBy('nomorSurat', 'desc')->get();
+                $suratAntidatir = DB::table('suratkeluar')
+                    ->where('jenis', 'antidatir')
+                    ->where('status', 'digunakan')
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc')
+                    ->get();
             }
         }
         $sifat = DB::table('sifat')->get();
@@ -494,21 +605,32 @@ class Surat extends Controller
         $input['tanggalPengesahan'] = date('Y-m-d', strtotime($input['tanggalPengesahan']));
         $time = strtotime($input['tanggalPengesahan']);
         try {
-            $target = DB::table('suratkeluar')->where('nomorSurat', $input['nomorSurat'])->where('created_at', '>=', date('Y-m-01', strtotime($input['tanggalPengesahan'])))->where('created_at', '<=', date('Y-m-t', strtotime($input['tanggalPengesahan'])))->where('status', 'belum')->first();
+            $target = DB::table('suratkeluar')
+                ->where('nomorSurat', $input['nomorSurat'])
+                ->where('created_at', '>=', date('Y-m-01', strtotime($input['tanggalPengesahan'])))
+                ->where('created_at', '<=', date('Y-m-t', strtotime($input['tanggalPengesahan'])))
+                ->where('status', 'belum')
+                ->first();
             if ($target) {
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
                 DB::table('suratkeluar')
-                    ->where('id', $target->id)  // find your surat by nomor surat
-                    ->limit(1)  // optional - to ensure only one record is updated.
+                    ->where('id', $target->id) // find your surat by nomor surat
+                    ->limit(1) // optional - to ensure only one record is updated.
                     ->update($input);
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-                return redirect()->route('suratAntidatir')->with('success', 'Data surat antidatir berhasil ditambahkan');
+                return redirect()
+                    ->route('suratAntidatir')
+                    ->with('success', 'Data surat antidatir berhasil ditambahkan');
             } else {
-                return back()->withInput()->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
+                return back()
+                    ->withInput()
+                    ->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
             }
         } catch (\Exception $e) {
             // dd($e);
-            return redirect()->route('suratAntidatir')->with('failed', 'gagal menginput data surat antidatir' . $e);
+            return redirect()
+                ->route('suratAntidatir')
+                ->with('failed', 'gagal menginput data surat antidatir' . $e);
         }
     }
     // Fungsi menambahkan surat antidatir end
@@ -527,10 +649,15 @@ class Surat extends Controller
                 $suratmasuk = DB::table('suratmasuk')->get();
                 return response()->json($suratmasuk);
             } elseif ($_GET['jenis'] == 'suratkeluar') {
-                $suratkeluar = DB::table('suratkeluar')->where('jenis', 'biasa')->get();
+                $suratkeluar = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->get();
                 return response()->json($suratkeluar);
             } elseif ($_GET['jenis'] == 'suratantidatir') {
-                $suratantidatir = DB::table('suratkeluar')->where('jenis', 'antidatir')->where('status', 'digunakan')->get();
+                $suratantidatir = DB::table('suratkeluar')
+                    ->where('jenis', 'antidatir')
+                    ->where('status', 'digunakan')
+                    ->get();
                 return response()->json($suratantidatir);
             }
         } else {
@@ -542,9 +669,9 @@ class Surat extends Controller
     // Fungsi download tata naskah start
     public function downloadNaskah()
     {
-        $filePath = public_path("Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf");
+        $filePath = public_path('Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf');
         $headers = ['Content-Type: application/pdf'];
-        $fileName = "Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf";
+        $fileName = 'Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf';
         return response()->download($filePath, $fileName, $headers);
     }
     // Fungsi download tata naskah end
@@ -553,19 +680,30 @@ class Surat extends Controller
     public function ambilNomor(Request $request)
     {
         // Inisialisasi batas 1 bulan
-        $start = now()->startOfMonth()->toDateString();
-        $end = now()->endOfMonth()->toDateString();
+        $start = now()
+            ->startOfMonth()
+            ->toDateString();
+        $end = now()
+            ->endOfMonth()
+            ->toDateString();
 
         // Surat keluar
-        if ($request->input('jenis') == "biasa") {
-
+        if ($request->input('jenis') == 'biasa') {
             // Ambil nomor surat terakhir
-            $suratKeluar = DB::table('suratkeluar')->where('created_at', '>=', $start)->where('created_at', '<=', $end)->max('nomorSurat');
+            $suratKeluar = DB::table('suratkeluar')
+                ->where('created_at', '>=', $start)
+                ->where('created_at', '<=', $end)
+                ->max('nomorSurat');
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
 
             // Surat antidatir
-        } elseif (($request->input('jenis') == "antidatir") and ($request->input('tanggalPengesahan'))) {
-            $suratKeluar = DB::table('suratKeluar')->where('created_at', '>=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . " 00:00:00.0")->where('created_at', '<=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . " 23:59:59.9")->where('jenis', 'antidatir')->where('status', 'belum')->min('nomorSurat');
+        } elseif ($request->input('jenis') == 'antidatir' and $request->input('tanggalPengesahan')) {
+            $suratKeluar = DB::table('suratkeluar')
+                ->where('created_at', '>=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . ' 00:00:00.0')
+                ->where('created_at', '<=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . ' 23:59:59.9')
+                ->where('jenis', 'antidatir')
+                ->where('status', 'belum')
+                ->min('nomorSurat');
             if ($suratKeluar == 0) {
                 return response('Nomor antidatir tidak tersedia', 404)->header('Content-Type', 'text/plain');
             } else {
@@ -584,10 +722,15 @@ class Surat extends Controller
     {
         if (isset($_GET['sumber'])) {
             if ($request->input('sumber') == 'keluar') {
-                if ($request->input('jenis') == "biasa") {
-                    $surat = DB::table('suratkeluar')->where('nomorSurat', '=', $request->id)->first();
-                } else if ($request->input('jenis') == "antidatir") {
-                    $surat = DB::table('suratkeluar')->where('nomorSurat', '=', $request->id)->where('status', 'digunakan')->first();
+                if ($request->input('jenis') == 'biasa') {
+                    $surat = DB::table('suratkeluar')
+                        ->where('nomorSurat', '=', $request->id)
+                        ->first();
+                } elseif ($request->input('jenis') == 'antidatir') {
+                    $surat = DB::table('suratkeluar')
+                        ->where('nomorSurat', '=', $request->id)
+                        ->where('status', 'digunakan')
+                        ->first();
                 }
             }
             if ($surat) {
