@@ -129,6 +129,18 @@
     @endif
     {{-- Alert gagal menambahkan surat end --}}
 
+    {{-- Alert nomor surat sudah digunakan start --}}
+    @if (session()->has('registrasiFailed'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong id="headerGagal">Aksi gagal!</strong>
+        <p class="mt-2">
+            {{ session('registrasiFailed') }}
+        </p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    {{-- Alert nomor surat sudah digunakan end --}}
+
     <div class="card p-4 mt-3 surat__keluar">
         <!-- Modal lampiran surat start -->
         <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
@@ -1185,14 +1197,14 @@
 </script>
 </div>
 @endif
-@if ($message = Session::get('failed'))
+{{-- @if ($message = Session::get('failed'))
 <script>
     if ("{{ Session::get('failed') }}") {
                 gagal("{{ Session::get('failed') }}")
             }
 </script>
 </div>
-@endif
+@endif --}}
 
 {{-- Bootstrap form validation start --}}
 <script>

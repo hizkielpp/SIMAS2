@@ -301,8 +301,13 @@ class Surat extends Controller
         $input['tanggalPengesahan'] = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
 
         try {
-            DB::table('suratkeluar')->insert($input);
-            return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
+            $target = DB::table('suratkeluar')->where('nomorSurat', $input['nomorSurat'])->where('created_at', '>=', date('Y-m-01', strtotime($input['tanggalPengesahan'])))->where('created_at', '<=', date('Y-m-t', strtotime($input['tanggalPengesahan'])))->first();
+            if($target){
+                return redirect()->route('suratKeluar')->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
+            } else {
+                DB::table('suratkeluar')->insert($input);
+                return redirect()->route('suratKeluar')->with('success', 'Data surat keluar berhasil ditambahkan');
+            }
         } catch (\Exception $e) {
             return $e;
             return redirect()->route('suratKeluar')->with('failed', 'Gagal menambahkan data surat keluar' . $e);
@@ -498,7 +503,7 @@ class Surat extends Controller
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
                 return redirect()->route('suratAntidatir')->with('success', 'Data surat antidatir berhasil ditambahkan');
             } else {
-                return redirect()->route('suratAntidatir')->with('failed', 'Nomor surat telah digunakan, silahkan input ulang');
+                return redirect()->route('suratAntidatir')->with('registrasiFailed', 'Nomor surat telah digunakan. Silahkan ambil nomor surat lain.');
             }
         } catch (\Exception $e) {
             // dd($e);

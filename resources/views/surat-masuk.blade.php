@@ -61,6 +61,12 @@
             $("#datepicker").datepicker("option", "changeYear", true);
             // Ganti format tanggal
             $("#datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+            // Periksa apakah ada nilai lama (old value) dari server
+            let oldDate = "{{ old('tanggalPengajuan') }}";
+            if (oldDate) {
+                // Tetapkan nilai Datepicker dari old value
+                $("#datepicker").datepicker("setDate", oldDate);
+            }
         });
 </script>
 
