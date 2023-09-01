@@ -70,4 +70,7 @@ Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login
 // Halaman logout
 Route::get('logout', [AuthController::class, 'signOut'])->name('logout');
 
-URL::forceScheme('https');
+if (config('app.env') === 'production') {
+    // Lakukan sesuatu di mode pengembangan
+    URL::forceScheme('https');
+}

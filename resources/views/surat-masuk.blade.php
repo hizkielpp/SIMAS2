@@ -331,10 +331,10 @@
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     {{-- Loader start --}}
-                    {{-- <div id="myloader" class="w-100 h-100 position-absolute justify-content-center align-items-center"
-                        style="z-index: 9999; backdrop-filter: blur(10px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem">
+                    <div id="myloader" class="w-100 h-100 position-absolute justify-content-center align-items-center"
+                        style="z-index: 9999; backdrop-filter: blur(4px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem">
                         <div class="lds-dual-ring"></div>
-                    </div> --}}
+                    </div>
                     {{-- Loader end --}}
                     <div class="modal-content p-3">
                         <div class="modal-header">
@@ -764,19 +764,19 @@
     </script>
     <!-- Sweet alert : confirm edit end -->
 
-    <script></script>
-
     {{-- Fungsi detail surat start --}}
     <script>
         function detailSurat(id) {
+            let loader = document.getElementById('myloader')
+            loader.classList.remove('d-none')
+
             let url = "{{ route('getSM', ':id') }}";
             url = url.replace(':id', id);
             $.ajax({
                 type: 'GET',
                 url: url,
                 success: function(data) {
-                    previous = data.kodeHal
-                    // let input = document.getElementById('asalSuratE');
+                    loader.classList.add('d-none')
                     $('#nomorSuratE').attr('value', data.nomorSurat)
                     $("#tujuanSuratE").val(data.tujuanSurat)
                     tanggal = new Date(data.tanggalPengajuan)
@@ -806,6 +806,8 @@
                     $('#created_by').text(data.name)
                     $('#created_at').text(`${dname}, ${dd} ${md} ${yd}.`)
                     $('#bagian').text(data.bagian)
+
+
                 }
             });
             $('#idSurat').attr('value', id);

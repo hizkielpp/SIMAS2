@@ -165,6 +165,12 @@
             <div class="modal modal__section fade" id="editSuratKeluar" data-bs-backdrop="static" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
+                    {{-- Loader start --}}
+                    <div id="myloader" class="w-100 h-100 position-absolute justify-content-center align-items-center"
+                        style="z-index: 9999; backdrop-filter: blur(4px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem">
+                        <div class="lds-dual-ring"></div>
+                    </div>
+                    {{-- Loader end --}}
                     <div class="modal-content p-3">
                         <div class="modal-header">
                             <h4 class="modal-title fw-semibold black" id="modalTitle">
@@ -1029,6 +1035,9 @@
     {{-- Fungsi detail surat start --}}
     <script>
         function detailSurat(id, lampiran) {
+            let loader = document.getElementById('myloader')
+            loader.classList.remove('d-none')
+
             let url = "{{ route('getSK', ':id') }}";
             url = url.replace(':id', id);
             // Kondisi sudah ada lampiran
@@ -1056,6 +1065,8 @@
                 type: 'GET',
                 url: url,
                 success: function(data) {
+                    loader.classList.add('d-none')
+
                     $('input[name="jenisSurat"]').val('biasa')
                     $("#tujuanSuratE").val(data.tujuanSurat)
                     tanggal = new Date(data.tanggalPengesahan)
