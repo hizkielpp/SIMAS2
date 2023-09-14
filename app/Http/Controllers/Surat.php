@@ -120,7 +120,7 @@ class Surat extends Controller
         $userId = $request->session()->get('user')->nip;
         $file = $request->file('lampiran');
         $fileName = $file->getClientOriginalName();
-        $request->lampiran->move(public_path('uploads'), $fileName);
+        $request->lampiran->move('public/uploads', $fileName);
         $validatedData['created_by'] = $userId;
         $validatedData['nomorAgenda'] = $nomorAgenda;
         $validatedData['tanggalPengajuan'] = date('Y-m-d', strtotime($request->input('tanggalPengajuan')));
@@ -155,9 +155,10 @@ class Surat extends Controller
         $updatedValue = $request->except(['_token', 'idSurat']);
         if ($request->file('lampiran')) {
             $file = $request->file('lampiran');
-            $fileName = $file->getClientOriginalName();
-            $request->lampiran->move(public_path('uploads'), $fileName);
-            $filePath = public_path('uploads') . '\\' . $surat->lampiran;
+            $timestamp = now()->timestamp;
+            $fileName = $timestamp . '-' . $file->getClientOriginalName();
+            $request->lampiran->move('public/uploads', $fileName);
+            $filePath = 'public/uploads' . '/' . $surat->lampiran;
             // $folder = 'uploads';
             // $fileBefore = $surat->lampiran;
             // $filePath = public_path($folder . '/' . $fileBefore);
@@ -193,7 +194,7 @@ class Surat extends Controller
         $surat = DB::table('suratmasuk')
             ->where('id', $request->input('idSurat'))
             ->first();
-        $filePath = public_path('uploads') . '\\' . $surat->lampiran;
+        $filePath = 'public/uploads' . '/' . $surat->lampiran;
         $deleted = DB::table('suratmasuk')
             ->where('id', $request->input('idSurat'))
             ->delete();
@@ -387,9 +388,10 @@ class Surat extends Controller
         // dd($updatedValue);
         if ($request->file('lampiran')) {
             $file = $request->file('lampiran');
-            $fileName = $file->getClientOriginalName();
-            $request->lampiran->move(public_path('uploads'), $fileName);
-            $filePath = public_path('uploads') . '\\' . $surat->lampiran;
+            $timestamp = now()->timestamp;
+            $fileName = $timestamp . '-' . $file->getClientOriginalName();
+            $request->lampiran->move('public/uploads', $fileName);
+            $filePath = 'public/uploads' . '/' . $surat->lampiran;
             if (File::exists($filePath)) {
                 File::delete($filePath);
             }
@@ -439,7 +441,7 @@ class Surat extends Controller
         $surat = DB::table('suratkeluar')
             ->where('id', $request->input('idSurat'))
             ->first();
-        $filePath = public_path('uploads') . '\\' . $surat->lampiran;
+        $filePath = 'public/uploads' . '/' . $surat->lampiran;
         $deleted = DB::table('suratkeluar')
             ->where('id', $request->input('idSurat'))
             ->delete();
@@ -481,7 +483,7 @@ class Surat extends Controller
         // Set input start
         $file = $req->file('lampiran');
         $fileName = $file->getClientOriginalName();
-        $req->lampiran->move(public_path('uploads'), $fileName);
+        $req->lampiran->move('public/uploads', $fileName);
         $validatedData['lampiran'] = $fileName;
         // Set input end
 
@@ -669,7 +671,7 @@ class Surat extends Controller
     // Fungsi download tata naskah start
     public function downloadNaskah()
     {
-        $filePath = public_path('Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf');
+        $filePath = 'public/Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf';
         $headers = ['Content-Type: application/pdf'];
         $fileName = 'Salinan Peraturan Rektor Nomor 5 tahun 2022 tentang TND.pdf';
         return response()->download($filePath, $fileName, $headers);

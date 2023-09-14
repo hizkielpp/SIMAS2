@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/surat-masuk-style.css" />
+    <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
 @endsection
 @section('content')
     <section class="surat__masuk content">
@@ -171,7 +171,7 @@
                                     <div class="d-flex align-items-center">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
                                             class="myicon blue d-flex align-items-center justify-content-center me-2 passId"
-                                            data-id="{{ $pengguna->nip }}">
+                                            data-id="{{ $pengguna->nip }}" onclick="editAkun('{{ $pengguna->nip }}')">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </button>
                                         <button type="button"
@@ -288,12 +288,12 @@
 
     {{-- Edit akun start --}}
     <script>
-        $(".passId").click(function() {
+        function editAkun(id) {
             let loader = document.getElementById('myloader')
             loader.classList.remove('d-none')
 
             let url = "{{ route('getAkun', ':id') }}";
-            url = url.replace(':id', $(this).data('id'));
+            url = url.replace(':id', id);
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -305,8 +305,8 @@
                     $("#role_id").val(data.role_id)
                 }
             });
-            $('#idAkun').attr('value', $(this).data('id'));
-        });
+            $('#idAkun').attr('value', id);
+        }
     </script>
     {{-- Edit akun end --}}
 

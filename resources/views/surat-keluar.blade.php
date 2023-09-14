@@ -103,7 +103,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/surat-masuk-style.css" />
+    <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
 
 @endsection
 @section('content')
@@ -792,7 +792,12 @@
             var options = {
                 fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
             };
-            PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+            let env = "{{ config('app.env') }}"
+            if (env === "development") {
+                PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+            } else {
+                PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
+            }
         }
     </script>
     {{-- Fungsi lihat lampiran end --}}
@@ -802,7 +807,6 @@
         function uploadDokumen(id) {
             let idSurat = document.getElementById('suratKeluar')
             idSurat.value = id
-            console.log(idSurat);
         }
     </script>
     {{-- Fungsi upload dokumen end --}}

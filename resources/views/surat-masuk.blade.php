@@ -84,7 +84,7 @@
     </script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/surat-masuk-style.css" />
+    <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
 @endsection
 @section('content')
     <section class="surat__masuk content">
@@ -621,7 +621,7 @@
             var options = {
                 fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
             };
-            PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+            PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
         }
     </script>
     {{-- Fungsi lihat lampiran end --}}

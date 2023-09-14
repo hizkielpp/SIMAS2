@@ -7,20 +7,20 @@
     <title>{{ $user->roleTabel->nama }} | @yield('title')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}" />
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
 
     <!-- Fontawesome Icons -->
-    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" />
 
     <!-- Template : theme style -->
-    <link rel="stylesheet" href="css/adminlte.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}" />
 
     <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/beranda-style.css" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/beranda-style.css') }}" />
 
     {{-- PDF Object styling start --}}
     <style>
@@ -36,7 +36,8 @@
     <div class="wrapper">
         {{-- Preloader start --}}
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="img/logo-undip.png" alt="Loading Animation" height="100" width="100" />
+            <img class="animation__wobble" src="{{ asset('img/logo-undip.png') }}" alt="Loading Animation"
+                height="100" width="100" />
         </div>
         {{-- Preloader end --}}
 
@@ -78,9 +79,7 @@
                 </div>
                 <div class="name brand-text text-white">
                     <h6 class="fw-semibold mb-1">SIMAS</h6>
-                    <h6 id="brandText" class="fw__normal">
-                        Sistem Manajemen Surat
-                    </h6>
+                    <h6 id="brandText" class="fw__normal">Sistem Manajemen Surat</h6>
                 </div>
             </a>
             {{-- Sidebar brand end --}}
@@ -90,9 +89,7 @@
                 <nav class="mt-5">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <li class="nav-item nav-link mb-2 text-secondary pb-0" style="font-size: 14px">
-                            MENU
-                        </li>
+                        <li class="nav-item nav-link mb-2 text-secondary pb-0" style="font-size: 14px">MENU</li>
                         <li class="nav-item mb-2">
                             <a href="{{ route('dashboard') }}" class="nav-link @yield('db')">
                                 <i class="fa-solid fa-house me-2"></i>
@@ -100,12 +97,12 @@
                             </a>
                         </li>
                         @if ($user->role_id !== 2)
-                        <li class="nav-item mb-2">
-                            <a href="{{ route('suratMasuk') }}" class="nav-link @yield('sm')">
-                                <i class="fa-solid fa-envelope me-2"></i>
-                                <p class="fw-normal">Surat Masuk</p>
-                            </a>
-                        </li>
+                            <li class="nav-item mb-2">
+                                <a href="{{ route('suratMasuk') }}" class="nav-link @yield('sm')">
+                                    <i class="fa-solid fa-envelope me-2"></i>
+                                    <p class="fw-normal">Surat Masuk</p>
+                                </a>
+                            </li>
                         @endif
                         <li class="nav-item mb-2">
                             <a href="{{ route('suratKeluar') }}" class="nav-link @yield('sk')">
@@ -120,15 +117,14 @@
                             </a>
                         </li>
                         @if ($user->role_id == 1)
-                        <li class="nav-item nav-link mb-2 text-secondary pt-4 pb-0" style="font-size: 14px">
-                            ADMINISTRATOR
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
-                                <i class="fa-solid fa-user-gear me-2"></i>
-                                <p class="fw-normal">Kelola Akun</p>
-                            </a>
-                        </li>
+                            <li class="nav-item nav-link mb-2 text-secondary pt-4 pb-0" style="font-size: 14px">
+                                ADMINISTRATOR</li>
+                            <li class="nav-item mb-2">
+                                <a href="{{ route('kelolaAkun') }}" class="nav-link @yield('ka')">
+                                    <i class="fa-solid fa-user-gear me-2"></i>
+                                    <p class="fw-normal">Kelola Akun</p>
+                                </a>
+                            </li>
                         @endif
                     </ul>
                 </nav>
@@ -138,33 +134,29 @@
         {{-- Sidebar container end --}}
 
         {{-- Main section start --}}
-        <div id="mainPage" class="content-wrapper border-0">
-            @yield('content')
-        </div>
+        <div id="mainPage" class="content-wrapper border-0">@yield('content')</div>
         {{-- Main section end --}}
 
         {{-- Footer start --}}
         <footer class="main-footer px-4 py-3">
             Copyright &copy; 2023. <b> Digital Innovation & Media.</b>
             All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 1.0
-            </div>
+            <div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0</div>
         </footer>
         {{-- Footer end --}}
     </div>
 
     <!-- Template : AdminLTE App -->
-    <script src="js/adminlte.js"></script>
+    <script src="{{ asset('js/adminlte.js') }}"></script>
 
     <!-- Bootstrap JS -->
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Fontawesome Icons -->
-    <script src="js/all.min.js"></script>
+    <script src="{{ asset('js/all.min.js') }}"></script>
 
     <!-- Custom JS -->
-    <script src="js/script.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     @yield('js')
 </body>
 

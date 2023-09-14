@@ -94,8 +94,10 @@
     </script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/surat-masuk-style.css" />
-    @endsection @section('content')
+    <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
+
+@endsection
+@section('content')
     <section class="surat__masuk content">
         {{-- @dd($suratAntidatir) --}}
         {{-- Navigation start --}}
@@ -783,7 +785,12 @@
             var options = {
                 fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
             };
-            PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+            let env = "{{ config('app.env') }}"
+            if (env === "development") {
+                PDFObject.embed(`{{ asset('uploads/${id}') }}`, "#example1", options);
+            } else {
+                PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
+            }
         }
     </script>
     {{-- Fungsi lihat lampiran end --}}
@@ -793,7 +800,6 @@
         function uploadDokumen(id) {
             let idSurat = document.getElementById('suratKeluar')
             idSurat.value = id
-            console.log(idSurat);
         }
     </script>
     {{-- Fungsi upload dokumen end --}}
