@@ -16,9 +16,9 @@
                     </h5>
                 </div>
                 {{-- Info pengguna end --}}
-                {{-- @dd($user->role_id) --}}
                 {{-- Jumlah surat start --}}
                 <div class="row g-3">
+                    {{-- Admin dan pimpinan start --}}
                     @if ($user->role_id !== 2)
                         <div class="col-sm-6 col-xl-4 col-12">
                             <div class="card surat justify-content-center py-2 px-4">
@@ -35,69 +35,89 @@
                                 </div>
                             </div>
                         </div>
-                        @endif @if ($user->role_id !== 2)
-                            <div class="col-sm-6 col-xl-4 col-12">
-                                <div class="card surat justify-content-center py-2 px-4">
-                                    <div class="d-flex flex-wrap gap-3 align-items-center keluar">
-                                        <div class="icon d-flex justify-content-center align-items-center">
-                                            <i class="fa-solid fa-envelope"></i>
-                                        </div>
-                                        <div class="text">
-                                            <h5 class="black__light fw__normal mb-2">
-                                                Surat Keluar
-                                            </h5>
-                                            <h4 class="black fw__ebold">{{ $jumlahSK }}</h4>
-                                        </div>
+                    @endif
+                    {{-- Admin dan pimpinan end --}}
+
+                    {{-- Admin dan pimpinan start --}}
+                    @if ($user->role_id !== 2)
+                        <div class="col-sm-6 col-xl-4 col-12">
+                            <div class="card position-relative surat justify-content-center py-2 px-4">
+                                <div class="d-flex flex-wrap gap-3 align-items-center keluar">
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h5 class="black__light fw__normal mb-2">
+                                            Surat Keluar
+                                        </h5>
+                                        <h4 class="black fw__ebold">{{ $jumlahSK }}
+                                        </h4>
                                     </div>
                                 </div>
+                                <span class="fw-normal ms-2 position-absolute"
+                                    style="font-size: 16px">(+{{ $SKToday }})
+                                </span>
                             </div>
-                            <div class="col-sm-6 col-xl-4 col-12">
-                                <div class="card surat justify-content-center py-2 px-4">
-                                    <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
-                                        <div class="icon d-flex justify-content-center align-items-center">
-                                            <i class="fa-solid fa-envelope"></i>
-                                        </div>
-                                        <div class="text">
-                                            <h5 class="black__light fw__normal mb-2">
-                                                Surat Antidatir
-                                            </h5>
-                                            <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
-                                        </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-4 col-12">
+                            <div class="card position-relative surat justify-content-center py-2 px-4">
+                                <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h5 class="black__light fw__normal mb-2">
+                                            Surat Antidatir
+                                        </h5>
+                                        <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
+                                <span class="fw-normal ms-2 position-absolute"
+                                    style="font-size: 16px">(+{{ $SAToday }})
+                                </span>
                             </div>
-                        @else
-                            <div class="col-sm-6 col-12">
-                                <div class="card surat justify-content-center py-2 px-4">
-                                    <div class="d-flex flex-wrap gap-3 align-items-center keluar">
-                                        <div class="icon d-flex justify-content-center align-items-center">
-                                            <i class="fa-solid fa-envelope"></i>
-                                        </div>
-                                        <div class="text">
-                                            <h5 class="black__light fw__normal mb-2">
-                                                Surat Keluar
-                                            </h5>
-                                            <h4 class="black fw__ebold">{{ $jumlahSK }}</h4>
-                                        </div>
+                        </div>
+                    @else
+                        {{-- Admin dan pimpinan end --}}
+
+                        {{-- Operator start --}}
+                        <div class="col-sm-6 col-12">
+                            <div class="card position-relative surat justify-content-center py-2 px-4">
+                                <div class="d-flex flex-wrap gap-3 align-items-center keluar">
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h5 class="black__light fw__normal mb-2">
+                                            Surat Keluar
+                                        </h5>
+                                        <h4 class="black fw__ebold">{{ $jumlahSK }}</h4>
                                     </div>
                                 </div>
+                                <span class="fw-normal ms-2 position-absolute"
+                                    style="font-size: 16px">(+{{ $SKToday }})</span>
                             </div>
-                            <div class="col-sm-6 col-12">
-                                <div class="card surat justify-content-center py-2 px-4">
-                                    <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
-                                        <div class="icon d-flex justify-content-center align-items-center">
-                                            <i class="fa-solid fa-envelope"></i>
-                                        </div>
-                                        <div class="text">
-                                            <h5 class="black__light fw__normal mb-2">
-                                                Surat Antidatir
-                                            </h5>
-                                            <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
-                                        </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="card position-relative surat justify-content-center py-2 px-4">
+                                <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div class="text">
+                                        <h5 class="black__light fw__normal mb-2">
+                                            Surat Antidatir
+                                        </h5>
+                                        <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
+                                <span class="fw-normal ms-2 position-absolute"
+                                    style="font-size: 16px">(+{{ $SAToday }})
+                                </span>
                             </div>
-                        @endif
+                        </div>
+                        {{-- Operator end --}}
+                    @endif
                 </div>
                 {{-- Jumlah surat end --}}
             </div>

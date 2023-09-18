@@ -656,6 +656,15 @@
                             <th>Disahkan Oleh / No. Surat</th>
                             <th>Tanggal Disahkan</th>
                             <th>Perihal</th>
+
+                            {{-- Hidden kolom untuk Excel start --}}
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Nomor</th>
+                            <th>Perihal</th>
+                            <th>Dibuat</th>
+                            {{-- Hidden kolom untuk Excel end --}}
+
                             {{-- <th class="text-center">Sifat</th> --}}
                             <th class="text-center">Aksi</th>
                         </tr>
@@ -675,25 +684,17 @@
                                 <td>{{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
                                 </td>
                                 <td>{{ $v->perihal }}</td>
-                                {{-- <td>
-                            @if ($v->sifatSurat == 1)
-                            <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Biasa</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 2)
-                            <div class="sifat penting d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Penting</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 3)
-                            <div class="sifat segera d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Segera</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 4)
-                            <div class="sifat rahasia d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Rahasia</h5>
-                            </div>
-                            @endif
-                        </td> --}}
+
+                                {{-- Hidden kolom untuk Excel start --}}
+                                <td class="no">{{ $loop->iteration }}</td>
+                                <td>{{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
+                                </td>
+                                <td>{{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{ convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}
+                                </td>
+                                <td>{{ $v->perihal }}</td>
+                                <td>{{ $v->name }} ({{ $v->bagian }})</td>
+                                {{-- Hidden kolom untuk Excel end --}}
+
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center gap-2">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
@@ -1156,6 +1157,9 @@
                 columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4]
+                }, {
+                    targets: [4, 5, 6, 7, 8],
+                    visible: false
                 }],
                 responsive: {
                     details: {
@@ -1164,7 +1168,98 @@
                         target: "",
                     },
                 },
-                dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                buttons: [{
+                    text: 'Export Excel',
+                    className: 'mybtn green',
+                    action: function exportExcel() {
+                        let table = $('#mytable').DataTable();
+                        let dataTableHeaders = ["Tangal Disahkan", "Nomor Surat", "Perihal",
+                            "Dibuat Oleh"
+                        ];
+                        let allData = table.rows().data().toArray();
+                        let data = [];
+
+                        // Tambahkan header ke data
+                        data.push(dataTableHeaders);
+
+                        // Data sesuai datatables
+                        // table.rows().data().toArray().map(function(rowData) {
+                        //     let cleanedDataArray = rowData.map(function(item) {
+                        //         let tempElement = document.createElement('div');
+                        //         tempElement.innerHTML = item;
+                        //         return tempElement.textContent || tempElement.innerText;
+                        //     });
+                        //     cleanedDataArray.splice(-1)
+                        //     let removeLastData = cleanedDataArray.map(function(item) {
+                        //         return item.replace(/\s+/g, ' ').trim();
+                        //     })
+                        //     data.push(removeLastData)
+                        // });
+
+                        // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
+                        for (let i = 0; i < allData.length; i++) {
+                            let subarray = allData[i];
+                            let subarrayTerpilih = subarray.slice(5,
+                                9
+                            );
+                            data.push(subarrayTerpilih);
+                        }
+
+                        // Fungsi orderby ascending
+                        data.sort(function(a, b) {
+                            // Ubah tanggal menjadi objek Date
+                            var dateA = new Date(a[0]);
+                            var dateB = new Date(b[0]);
+
+                            // Bandingkan tanggal
+                            return dateA - dateB;
+                        });
+
+                        // Buat file Excel kosong menggunakan SheetJS
+                        let workbook = XLSX.utils.book_new();
+
+                        // Buat worksheet dalam file Excel
+                        let worksheet = XLSX.utils.aoa_to_sheet(data);
+
+                        // Sisipkan worksheet ke dalam file Excel
+                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+                        // Dapatkan tanggal hari ini
+                        let today = new Date();
+                        let dd = String(today.getDate()).padStart(2, '0');
+                        let mm = String(today.getMonth() + 1).padStart(2,
+                            '0'); // Januari dimulai dari 0
+                        let yyyy = today.getFullYear();
+
+                        // Dapatkan hari ini
+                        let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                            'Sabtu'
+                        ];
+                        let day = days[today
+                            .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                        // Dapatkan nama bulan
+                        var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                            'Juli', 'Agustus', 'September', 'Oktober',
+                            'November', 'Desember'
+                        ];
+                        var month = months[today
+                            .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                        // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                        let formattedDate = dd + ' ' + month + ' ' + yyyy;
+
+                        // Nama file Excel dengan tanggal hari ini
+                        let fileName =
+                            'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                            '- ' + day + ', ' +
+                            formattedDate + '.xlsx';
+
+                        // Ekspor file Excel
+                        XLSX.writeFile(workbook, fileName);
+                    }
+                }],
                 destroy: true,
                 order: false,
                 language: {
@@ -1216,7 +1311,6 @@
         <script>
             berhasil("{{ Session::get('success') }}")
         </script>
-        </div>
     @endif
     {{-- @if ($message = Session::get('failed'))
 <script>

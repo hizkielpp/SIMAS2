@@ -364,7 +364,7 @@ class Surat extends Controller
                 DB::table('suratkeluar')->insert($input);
                 return redirect()
                     ->route('suratKeluar')
-                    ->with('success', 'Data surat keluar berhasil ditambahkan');
+                    ->with('success', 'Data surat keluar berhasil ditambahkan.');
             }
         } catch (\Exception $e) {
             return $e;
@@ -693,16 +693,15 @@ class Surat extends Controller
         if ($request->input('jenis') == 'biasa') {
             // Ambil nomor surat terakhir
             $suratKeluar = DB::table('suratkeluar')
-                ->where('created_at', '>=', $start)
-                ->where('created_at', '<=', $end)
+                ->where('tanggalPengesahan', '>=', $start)
+                ->where('tanggalPengesahan', '<=', $end)
                 ->max('nomorSurat');
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
 
             // Surat antidatir
         } elseif ($request->input('jenis') == 'antidatir' and $request->input('tanggalPengesahan')) {
             $suratKeluar = DB::table('suratkeluar')
-                ->where('created_at', '>=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . ' 00:00:00.0')
-                ->where('created_at', '<=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))) . ' 23:59:59.9')
+                ->where('tanggalPengesahan', '=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))))
                 ->where('jenis', 'antidatir')
                 ->where('status', 'belum')
                 ->min('nomorSurat');

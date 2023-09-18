@@ -159,6 +159,16 @@ p {
     background-color: var(--light);
     transition: 0.3s;
 }
+.mybtn.green {
+    height: 40px;
+    padding: 0.5rem 1.25rem;
+    background-color: #34c38f;
+    color: white;
+    border-color: rgb(63, 166, 151, 0.4);
+}
+.mybtn.green:hover {
+    background-color: #189869;
+}
 .btn__blue {
     background-color: white;
 }

@@ -18,6 +18,9 @@
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 
+    <!-- Versi terbaru dari xlsx.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/beranda-style.css') }}" />

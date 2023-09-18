@@ -17,6 +17,12 @@
     border-radius: 50%;
 }
 
+.dashboard span {
+    color: #34c38f;
+    bottom: 1.9rem;
+    right: 2rem;
+}
+
 .dashboard .keluar .icon svg {
     color: #2f5596;
 }
