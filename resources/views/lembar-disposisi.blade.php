@@ -12,8 +12,8 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
     <!-- Custom css -->
-    <link rel="stylesheet" href="css/lembar-disposisi-style.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="{{ asset('css/lembar-disposisi-style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 </head>
 
 <body>
@@ -38,8 +38,7 @@
                             <h4>:</h4>
                         </div>
                         <div class="disposisi__info-body ms-2">
-                            <h4>{{ date('d ', strtotime($surat->created_at)) }}{{ convertToBulan(date('F',
-                                strtotime($surat->created_at))) }}{{ date(' Y ', strtotime($surat->created_at)) }}
+                            <h4>{{ date('d ', strtotime($surat->created_at)) }}{{ convertToBulan(date('F', strtotime($surat->created_at))) }}{{ date(' Y ', strtotime($surat->created_at)) }}
                             </h4>
                         </div>
                     </div>
@@ -49,9 +48,7 @@
                             <h4>:</h4>
                         </div>
                         <div class="disposisi__info-body ms-2">
-                            <h4>{{ date('d ', strtotime($surat->tanggalPengajuan)) }}{{ convertToBulan(date('F',
-                                strtotime($surat->tanggalPengajuan))) }}{{ date(' Y ',
-                                strtotime($surat->tanggalPengajuan)) }}
+                            <h4>{{ date('d ', strtotime($surat->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($surat->tanggalPengajuan))) }}{{ date(' Y ', strtotime($surat->tanggalPengajuan)) }}
                             </h4>
                         </div>
                     </div>
@@ -111,13 +108,13 @@
                         <h4>:</h4>
                     </div>
                     @if ($surat->jumlahLampiran)
-                    <div class="disposisi__info-body ms-2">
-                        <h4>{{ $surat->jumlahLampiran }} Lembar</h4>
-                    </div>
+                        <div class="disposisi__info-body ms-2">
+                            <h4>{{ $surat->jumlahLampiran }} Lembar</h4>
+                        </div>
                     @else
-                    <div class="disposisi__info-body ms-2">
-                        <h4>-</h4>
-                    </div>
+                        <div class="disposisi__info-body ms-2">
+                            <h4>-</h4>
+                        </div>
                     @endif
                 </div>
             </div>

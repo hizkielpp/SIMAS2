@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-xl-4 col-12">
-                            <div class="card position-relative surat justify-content-center py-2 px-4">
+                            <div class="card surat justify-content-center py-2 px-4">
                                 <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
                                     <div class="icon d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-envelope"></i>
@@ -72,9 +72,6 @@
                                         <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
-                                <span class="fw-normal ms-2 position-absolute"
-                                    style="font-size: 16px">(+{{ $SAToday }})
-                                </span>
                             </div>
                         </div>
                     @else
@@ -99,7 +96,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-12">
-                            <div class="card position-relative surat justify-content-center py-2 px-4">
+                            <div class="card surat justify-content-center py-2 px-4">
                                 <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
                                     <div class="icon d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-envelope"></i>
@@ -111,9 +108,6 @@
                                         <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
-                                <span class="fw-normal ms-2 position-absolute"
-                                    style="font-size: 16px">(+{{ $SAToday }})
-                                </span>
                             </div>
                         </div>
                         {{-- Operator end --}}
