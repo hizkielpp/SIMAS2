@@ -1170,18 +1170,15 @@
                 },
                 dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 buttons: [{
-                    text: 'Export Excel',
+                    text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
                     className: 'mybtn green',
                     action: function exportExcel() {
                         let table = $('#mytable').DataTable();
-                        let dataTableHeaders = ["Tangal Disahkan", "Nomor Surat", "Perihal",
+                        let dataTableHeaders = ["Tanggal Disahkan", "Nomor Surat", "Perihal",
                             "Dibuat Oleh"
                         ];
                         let allData = table.rows().data().toArray();
                         let data = [];
-
-                        // Tambahkan header ke data
-                        data.push(dataTableHeaders);
 
                         // Data sesuai datatables
                         // table.rows().data().toArray().map(function(rowData) {
@@ -1209,32 +1206,29 @@
                         // Fungsi orderby ascending
                         data.sort(function(a, b) {
                             // Ubah tanggal menjadi objek Date
-                            var dateA = new Date(a[0]);
-                            var dateB = new Date(b[0]);
+                            let dateA = new Date(a[0]);
+                            let dateB = new Date(b[0]);
 
                             // Bandingkan tanggal
                             return dateA - dateB;
                         });
 
                         data.sort(function(a, b) {
-                            var nomorA = a[1].split('/')[
+                            let nomorA = a[1].split('/')[
                                 0]; // Mengambil nomor kedua dari string nomor A
-                            var nomorB = b[1].split('/')[
+                            let nomorB = b[1].split('/')[
                                 0]; // Mengambil nomor kedua dari string nomor B
-
-                            console.log(nomorA);
-                            console.log(nomorB);
                             return nomorA.localeCompare(nomorB);
-
                         });
 
-                        console.log(data);
+                        // Tambahkan header ke data
+                        let excelData = [dataTableHeaders].concat(data)
 
                         // Buat file Excel kosong menggunakan SheetJS
                         let workbook = XLSX.utils.book_new();
 
                         // Buat worksheet dalam file Excel
-                        let worksheet = XLSX.utils.aoa_to_sheet(data);
+                        let worksheet = XLSX.utils.aoa_to_sheet(excelData);
 
                         // Sisipkan worksheet ke dalam file Excel
                         XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');

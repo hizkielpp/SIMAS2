@@ -166,6 +166,10 @@ p {
     color: white;
     border-color: rgb(63, 166, 151, 0.4);
 }
+.mybtn.green svg {
+    margin-right: 0.25rem;
+    font-size: 16px;
+}
 .mybtn.green:hover {
     background-color: #189869;
 }
