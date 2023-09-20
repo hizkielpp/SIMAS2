@@ -108,7 +108,22 @@
 @endsection
 @section('content')
     <section class="surat__masuk content">
-        {{-- @dd($suratKeluar) --}}
+        @php
+            $semuaSudahArsip = true; // Inisialisasi dengan true
+            
+            foreach ($suratKeluar as $item) {
+                if (!$item->lampiran) {
+                    // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
+                    $semuaSudahArsip = false;
+                    break; // Keluar dari loop karena tidak perlu memeriksa lagi
+                }
+            }
+        @endphp
+        @if ($semuaSudahArsip)
+            <h1>lengkap</h1>
+        @else
+            <h1>belum</h1>
+        @endif
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
             <h5 class="fw__semi black">SURAT KELUAR</h5>
@@ -623,7 +638,7 @@
             <!-- Modal upload dokumen end -->
 
             {{-- Tabel header start --}}
-            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3" id="xx">
                 <h4 class="fw-semibold black">Daftar Surat Keluar</h4>
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <p class="">Rentang Tanggal :</p>
@@ -753,6 +768,8 @@
             {{-- Tabel content end --}}
 
         </div>
+        <audio id="myAudio" src="audio/warning-edited.mp3" autoplay preload="auto"></audio>
+
     </section>
 @endsection
 @section('js')
@@ -1361,6 +1378,29 @@
         });
     </script>
     {{-- Readonly ambil nomor end --}}
+
+    {{-- Sweetalert untuk melengkapi arsip surat start --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('myAudio');
+
+            function alertArsip() {
+                Swal.fire({
+                    confirmButtonColor: "#2F5596",
+                    icon: 'warning',
+                    title: `Perhatian`,
+                    text: `Silahkan lengkapi semua arsip surat terlebih dahulu untuk dapat kembali mengambil nomor surat.`,
+                })
+            }
+            alertArsip()
+            // Menambahkan event listener untuk mendeteksi ketika audio selesai diputar
+            audio.addEventListener('ended', () => {
+                // Menghentikan audio
+                audio.pause();
+            });
+        })
+    </script>
+    {{-- Sweetalert untuk melengkapi arsip surat end --}}
 
 @endsection
 @section('sk', 'active')

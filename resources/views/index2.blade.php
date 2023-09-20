@@ -1,5 +1,21 @@
 @extends('template') @section('content')
     <section class="content">
+        {{-- Alert warning start --}}
+        <div class="alert alert-warning gap-2 d-flex align-items-start mb-4" role="alert"
+            style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+                <span class="fw-semibold">Perhatian!</span>
+                <h5 class="mt-1 fw-normal" style="line-height: 1.7">
+                    Anda belum mengupload sebanyak <b>5</b> file arsip lebih dari 3 hari pada surat yang telah dibuat. <br>
+                    Mohon
+                    untuk
+                    mengupload arsip surat tersebut untuk dapat kembali mengambil nomor surat keluar. Terima kasih.
+                </h5>
+            </div>
+        </div>
+        {{-- Alert warning end --}}
+
         {{-- Main section start --}}
         <div class="d-flex gap-3 flex-wrap flex-xl-nowrap dashboard">
             <div class="" style="flex: 1 1 70%">
@@ -140,6 +156,7 @@
             {{-- Keterangan start --}}
         </div>
         {{-- Main section end --}}
+
     </section>
     @endsection @section('js')
     {{-- Sweet alert start --}}
