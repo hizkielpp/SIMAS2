@@ -1168,7 +1168,7 @@
                         target: "",
                     },
                 },
-                dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 buttons: [{
                     text: 'Export Excel',
                     className: 'mybtn green',
