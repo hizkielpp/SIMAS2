@@ -1168,7 +1168,7 @@
                         target: "",
                     },
                 },
-                dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                 buttons: [{
                     text: 'Export Excel',
                     className: 'mybtn green',
@@ -1215,6 +1215,20 @@
                             // Bandingkan tanggal
                             return dateA - dateB;
                         });
+
+                        data.sort(function(a, b) {
+                            var nomorA = a[1].split('/')[
+                                0]; // Mengambil nomor kedua dari string nomor A
+                            var nomorB = b[1].split('/')[
+                                0]; // Mengambil nomor kedua dari string nomor B
+
+                            console.log(nomorA);
+                            console.log(nomorB);
+                            return nomorA.localeCompare(nomorB);
+
+                        });
+
+                        console.log(data);
 
                         // Buat file Excel kosong menggunakan SheetJS
                         let workbook = XLSX.utils.book_new();
