@@ -108,6 +108,7 @@
 @endsection
 @section('content')
     <section class="surat__masuk content">
+        {{-- Cek apakah semua surat telah memiliki arsip start --}}
         @php
             $semuaSudahArsip = true; // Inisialisasi dengan true
             
@@ -119,11 +120,8 @@
                 }
             }
         @endphp
-        @if ($semuaSudahArsip)
-            <h1>lengkap</h1>
-        @else
-            <h1>belum</h1>
-        @endif
+        {{-- Cek apakah semua surat telah memiliki arsip end --}}
+
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
             <h5 class="fw__semi black">SURAT KELUAR</h5>
@@ -653,10 +651,16 @@
                         <i class="fa-solid fa-calendar-days position-absolute"></i>
                     </div>
                     @if ($user->role_id != 3)
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
-                            class="mybtn blue">
-                            <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
-                        </button>
+                        @if ($semuaSudahArsip)
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
+                                class="mybtn blue">
+                                <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                            </button>
+                        @else
+                            <button type="button" onclick="reminderArsip()" class="mybtn blue">
+                                <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                            </button>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -768,7 +772,6 @@
             {{-- Tabel content end --}}
 
         </div>
-        <audio id="myAudio" src="audio/warning-edited.mp3" autoplay preload="auto"></audio>
 
     </section>
 @endsection
@@ -1381,24 +1384,15 @@
 
     {{-- Sweetalert untuk melengkapi arsip surat start --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const audio = document.getElementById('myAudio');
-
-            function alertArsip() {
-                Swal.fire({
-                    confirmButtonColor: "#2F5596",
-                    icon: 'warning',
-                    title: `Perhatian`,
-                    text: `Silahkan lengkapi semua arsip surat terlebih dahulu untuk dapat kembali mengambil nomor surat.`,
-                })
-            }
-            alertArsip()
-            // Menambahkan event listener untuk mendeteksi ketika audio selesai diputar
-            audio.addEventListener('ended', () => {
-                // Menghentikan audio
-                audio.pause();
-            });
-        })
+        function reminderArsip() {
+            Swal.fire({
+                confirmButtonColor: "#2F5596",
+                icon: 'warning',
+                title: `Perhatian`,
+                text: `Silahkan lengkapi arsip surat terlebih dahulu untuk dapat kembali mengambil nomor surat.`,
+            })
+            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+        }
     </script>
     {{-- Sweetalert untuk melengkapi arsip surat end --}}
 

@@ -1,5 +1,19 @@
 @extends('template') @section('content')
     <section class="content">
+        {{-- Cek apakah semua surat telah memiliki arsip start --}}
+        {{-- @php
+            $semuaSudahArsip = true; // Inisialisasi dengan true
+            
+            foreach ($suratKeluar as $item) {
+                if (!$item->lampiran) {
+                    // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
+                    $semuaSudahArsip = false;
+                    break; // Keluar dari loop karena tidak perlu memeriksa lagi
+                }
+            }
+        @endphp --}}
+        {{-- Cek apakah semua surat telah memiliki arsip end --}}
+
         {{-- Alert warning start --}}
         <div class="alert alert-warning gap-2 d-flex align-items-start mb-4" role="alert"
             style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
@@ -7,7 +21,7 @@
             <div>
                 <span class="fw-semibold">Perhatian!</span>
                 <h5 class="mt-1 fw-normal" style="line-height: 1.7">
-                    Anda belum mengupload sebanyak <b>5</b> file arsip lebih dari 3 hari pada surat yang telah dibuat. <br>
+                    Anda belum mengupload file arsip pada surat yang telah dibuat. <br>
                     Mohon
                     untuk
                     mengupload arsip surat tersebut untuk dapat kembali mengambil nomor surat keluar. Terima kasih.
@@ -76,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-xl-4 col-12">
-                            <div class="card surat justify-content-center py-2 px-4">
+                            <div class="card position-relative surat justify-content-center py-2 px-4">
                                 <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
                                     <div class="icon d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-envelope"></i>
@@ -88,6 +102,9 @@
                                         <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
+                                <span class="fw-normal ms-2 position-absolute"
+                                    style="font-size: 16px">(+{{ $SAToday }})
+                                </span>
                             </div>
                         </div>
                     @else
@@ -112,7 +129,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-12">
-                            <div class="card surat justify-content-center py-2 px-4">
+                            <div class="card position-relative surat justify-content-center py-2 px-4">
                                 <div class="d-flex flex-wrap gap-3 align-items-center antidatir">
                                     <div class="icon d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-envelope"></i>
@@ -124,6 +141,9 @@
                                         <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
+                                <span class="fw-normal ms-2 position-absolute"
+                                    style="font-size: 16px">(+{{ $SAToday }})
+                                </span>
                             </div>
                         </div>
                         {{-- Operator end --}}

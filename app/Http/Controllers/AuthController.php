@@ -153,8 +153,17 @@ class AuthController extends Controller
     {
         $today = Carbon::today();
         $now = Carbon::now();
-        $formattedDate = $now->format('Y-m-d 00:00:00');
+        $formattedDate = $now->format('Y-m-d');
         $user = session()->get('user');
+        $suratAntidatir = DB::table('suratkeluar')
+            ->where('jenis', 'antidatir')
+            ->where('status', 'digunakan')
+            ->get();
+        foreach ($suratAntidatir as $item) {
+            $tanggal = Carbon::parse($item->updated_at);
+            $tanggalDiformat = $tanggal->format('Y-m-d');
+            $item->updated_at = $tanggalDiformat;
+        }
         if ($user->role_id == 2) {
             $jumlahSM = DB::table('suratmasuk')
                 ->where('created_by', $user->nip)
@@ -175,11 +184,9 @@ class AuthController extends Controller
                 ->where('status', 'digunakan')
                 ->where('created_by', $user->nip)
                 ->count();
-            $jumlahSAToday = DB::table('suratkeluar')
-                ->where('jenis', 'antidatir')
-                ->where('status', 'digunakan')
+            $jumlahSAToday = $suratAntidatir
                 ->where('created_by', $user->nip)
-                ->where('created_at', $formattedDate)
+                ->where('updated_at', $formattedDate)
                 ->count();
         } else {
             $jumlahSM = DB::table('suratmasuk')->count();
@@ -196,10 +203,8 @@ class AuthController extends Controller
                 ->where('jenis', 'antidatir')
                 ->where('status', 'digunakan')
                 ->count();
-            $jumlahSAToday = DB::table('suratkeluar')
-                ->where('jenis', 'antidatir')
-                ->where('status', 'digunakan')
-                ->where('created_at', $formattedDate)
+            $jumlahSAToday = $suratAntidatir
+                ->where('updated_at', $formattedDate)
                 ->count();
         }
         return view('index2')->with([
