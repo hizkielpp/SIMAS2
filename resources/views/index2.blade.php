@@ -1,23 +1,6 @@
 @extends('template') @section('content')
     <section class="content">
         {{-- Cek apakah semua surat telah memiliki arsip start --}}
-        {{-- @php
-            $semuaSudahArsip = true; // Inisialisasi dengan true
-            
-            foreach ($suratKeluar as $item) {
-                if (!$item->lampiran) {
-                    // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
-                    $semuaSudahArsip = false;
-                    break; // Keluar dari loop karena tidak perlu memeriksa lagi
-                }
-            }
-        @endphp --}}
-        {{-- Cek apakah semua surat telah memiliki arsip end --}}
-        {{-- @dd($suratKeluar) --}}
-
-        {{-- Alert warning start --}}
-
-        {{-- Cek apakah semua surat telah memiliki arsip start --}}
         @php
             $semuaSudahArsip = true; // Inisialisasi dengan true
             $jumlah = 0;
@@ -30,24 +13,6 @@
             }
         @endphp
         {{-- Cek apakah semua surat telah memiliki arsip end --}}
-
-        @if (!$semuaSudahArsip)
-            <div class="alert alert-warning gap-2 d-flex align-items-start mb-4" role="alert"
-                style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <div>
-                    <span class="fw-semibold">Perhatian!</span>
-                    <h5 class="mt-1 fw-normal" style="line-height: 1.7">
-                        Anda belum mengupload sebanyak <b>{{ $jumlah }}</b> arsip pada surat yang telah
-                        dibuat. <br>
-                        Mohon
-                        untuk
-                        mengupload arsip surat tersebut untuk dapat kembali mengambil nomor surat keluar. Terima kasih.
-                    </h5>
-                </div>
-            </div>
-        @endif
-        {{-- Alert warning end --}}
 
         {{-- Main section start --}}
         <div class="d-flex gap-3 flex-wrap flex-xl-nowrap dashboard">
@@ -195,6 +160,25 @@
             {{-- Keterangan start --}}
         </div>
         {{-- Main section end --}}
+
+        {{-- Alert warning start --}}
+        @if (!$semuaSudahArsip)
+            <div class="alert alert-warning gap-2 d-flex align-items-start mt-4" role="alert"
+                style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <span class="fw-semibold">Perhatian!</span>
+                    <h5 class="mt-1 fw-normal" style="line-height: 1.7">
+                        Anda belum mengupload sebanyak <b>{{ $jumlah }}</b> arsip pada surat yang telah
+                        dibuat. <br>
+                        Mohon
+                        untuk
+                        mengupload arsip surat tersebut untuk dapat kembali mengambil nomor surat keluar. Terima kasih.
+                    </h5>
+                </div>
+            </div>
+        @endif
+        {{-- Alert warning end --}}
 
     </section>
     @endsection @section('js')
