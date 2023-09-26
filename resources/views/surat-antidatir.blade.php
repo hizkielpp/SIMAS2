@@ -100,6 +100,19 @@
 @section('content')
     <section class="surat__masuk content">
         {{-- @dd($suratAntidatir) --}}
+        {{-- Cek apakah semua surat telah memiliki arsip start --}}
+        @php
+            $semuaSudahArsip = true; // Inisialisasi dengan true
+            $jumlah = 0;
+            foreach ($suratAntidatir as $item) {
+                if ($item->sifatSurat != 4 && !$item->lampiran) {
+                    // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
+                    $semuaSudahArsip = false;
+                    $jumlah++;
+                }
+            }
+        @endphp
+        {{-- Cek apakah semua surat telah memiliki arsip end --}}
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
             <h5 class="fw__semi black">SURAT ANTIDATIR</h5>
@@ -167,10 +180,16 @@
                         <i class="fa-solid fa-calendar-days position-absolute"></i>
                     </div>
                     @if ($user->role_id != 3)
-                        <button id="tes" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
-                            class="mybtn blue">
-                            <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
-                        </button>
+                        @if ($semuaSudahArsip)
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
+                                class="mybtn blue">
+                                <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                            </button>
+                        @else
+                            <button type="button" onclick="reminderArsip()" class="mybtn blue">
+                                <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                            </button>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -1259,5 +1278,19 @@
         })();
     </script>
     {{-- Bootstrap form validation end --}}
+
+    {{-- Sweetalert untuk melengkapi arsip surat start --}}
+    <script>
+        function reminderArsip() {
+            Swal.fire({
+                confirmButtonColor: "#2F5596",
+                icon: 'warning',
+                title: `Perhatian`,
+                text: `Silahkan upload arsip pada surat yang telah Anda buat terlebih dahulu untuk dapat kembali mengambil nomor surat. Terima kasih!`,
+            })
+            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+        }
+    </script>
+    {{-- Sweetalert untuk melengkapi arsip surat end --}}
 
     @endsection @section('sa', 'active') @section('title', 'Surat Antidatir')

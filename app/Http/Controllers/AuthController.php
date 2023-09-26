@@ -164,6 +164,15 @@ class AuthController extends Controller
             $tanggalDiformat = $tanggal->format('Y-m-d');
             $item->updated_at = $tanggalDiformat;
         }
+        $suratKeluar = DB::table('suratkeluar')
+            // ->where('jenis', 'biasa')
+            ->where('created_by', $user->nip)
+            ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+            ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+            ->orderBy('nomorSurat', 'desc')
+            ->get();
+
+        // Mengambil data surat keluar untuk pengecekan jumlah surat yang belum memiliki lampiran start
         if ($user->role_id == 2) {
             $jumlahSM = DB::table('suratmasuk')
                 ->where('created_by', $user->nip)
@@ -215,6 +224,7 @@ class AuthController extends Controller
             'SAToday' => $jumlahSAToday,
             'date' => now(),
             'user' => $user,
+            'suratKeluar' => $suratKeluar,
         ]);
     }
     public function signOut()

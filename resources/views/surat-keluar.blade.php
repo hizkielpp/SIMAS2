@@ -108,15 +108,16 @@
 @endsection
 @section('content')
     <section class="surat__masuk content">
+        {{-- @dd($suratKeluar) --}}
         {{-- Cek apakah semua surat telah memiliki arsip start --}}
         @php
             $semuaSudahArsip = true; // Inisialisasi dengan true
-            
+            $jumlah = 0;
             foreach ($suratKeluar as $item) {
-                if (!$item->lampiran) {
+                if ($item->sifatSurat != 4 && !$item->lampiran) {
                     // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
                     $semuaSudahArsip = false;
-                    break; // Keluar dari loop karena tidak perlu memeriksa lagi
+                    $jumlah++;
                 }
             }
         @endphp
@@ -1171,148 +1172,293 @@
     {{-- Data tables : button export end --}}
 
     <!-- Initializing data tables -->
-    <script>
-        $(document).ready(function() {
-            $("#mytable").DataTable({
-                columnDefs: [{
-                    orderable: false,
-                    targets: [0, 1, 2, 3, 4]
-                }, {
-                    targets: [4, 5, 6, 7, 8],
-                    visible: false
-                }, {
-                    "width": "25%",
-                    "targets": 1,
-                }, {
-                    "width": "15%",
-                    "targets": 2,
-                }],
-                responsive: {
-                    details: {
-                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
-                        type: "none",
-                        target: "",
+    @if ($user->role_id != 1)
+        <script>
+            $(document).ready(function() {
+                $("#mytable").DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        targets: [0, 1, 2, 3, 4]
+                    }, {
+                        targets: [4, 5, 6, 7, 8],
+                        visible: false
+                    }, {
+                        "width": "25%",
+                        "targets": 1,
+                    }, {
+                        "width": "15%",
+                        "targets": 2,
+                    }],
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                            type: "none",
+                            target: "",
+                        },
                     },
-                },
-                dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
-                buttons: [{
-                    text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
-                    className: 'mybtn green',
-                    action: function exportExcel() {
-                        let table = $('#mytable').DataTable();
-                        let dataTableHeaders = ["Tanggal Disahkan", "Nomor Surat", "Perihal",
-                            "Dibuat Oleh"
-                        ];
-                        let allData = table.rows().data().toArray();
-                        let data = [];
+                    dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                    buttons: [{
+                        text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
+                        className: 'mybtn green',
+                        action: function exportExcel() {
+                            let table = $('#mytable').DataTable();
+                            let dataTableHeaders = ["Tanggal Disahkan", "Nomor Surat", "Perihal",
+                                "Dibuat Oleh"
+                            ];
+                            let allData = table.rows().data().toArray();
+                            let data = [];
 
-                        // Data sesuai datatables
-                        // table.rows().data().toArray().map(function(rowData) {
-                        //     let cleanedDataArray = rowData.map(function(item) {
-                        //         let tempElement = document.createElement('div');
-                        //         tempElement.innerHTML = item;
-                        //         return tempElement.textContent || tempElement.innerText;
-                        //     });
-                        //     cleanedDataArray.splice(-1)
-                        //     let removeLastData = cleanedDataArray.map(function(item) {
-                        //         return item.replace(/\s+/g, ' ').trim();
-                        //     })
-                        //     data.push(removeLastData)
-                        // });
+                            // Data sesuai datatables
+                            // table.rows().data().toArray().map(function(rowData) {
+                            //     let cleanedDataArray = rowData.map(function(item) {
+                            //         let tempElement = document.createElement('div');
+                            //         tempElement.innerHTML = item;
+                            //         return tempElement.textContent || tempElement.innerText;
+                            //     });
+                            //     cleanedDataArray.splice(-1)
+                            //     let removeLastData = cleanedDataArray.map(function(item) {
+                            //         return item.replace(/\s+/g, ' ').trim();
+                            //     })
+                            //     data.push(removeLastData)
+                            // });
 
-                        // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
-                        for (let i = 0; i < allData.length; i++) {
-                            let subarray = allData[i];
-                            let subarrayTerpilih = subarray.slice(5,
-                                9
-                            );
-                            data.push(subarrayTerpilih);
+                            // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
+                            for (let i = 0; i < allData.length; i++) {
+                                let subarray = allData[i];
+                                let subarrayTerpilih = subarray.slice(5,
+                                    9
+                                );
+                                data.push(subarrayTerpilih);
+                            }
+
+                            // Fungsi pemisahan nomor dari string
+                            function extractNumber(str) {
+                                var match = str.match(/\d+/); // Mengambil semua angka dari string
+                                return match ? parseInt(match[0], 10) :
+                                    0; // Mengubah hasilnya ke integer, default 0 jika tidak ada nomor
+                            }
+
+                            // Mengurutkan data berdasarkan nomor di indeks ke-1
+                            data.sort(function(a, b) {
+                                var numA = extractNumber(a[1]);
+                                var numB = extractNumber(b[1]);
+                                return numA - numB; // Mengurutkan secara ascending
+                            });
+
+                            // Tambahkan header ke data
+                            let excelData = [dataTableHeaders].concat(data)
+
+                            // Buat file Excel kosong menggunakan SheetJS
+                            let workbook = XLSX.utils.book_new();
+
+                            // Buat worksheet dalam file Excel
+                            let worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+                            // Sisipkan worksheet ke dalam file Excel
+                            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+                            // Dapatkan tanggal hari ini
+                            let today = new Date();
+                            let dd = String(today.getDate()).padStart(2, '0');
+                            let mm = String(today.getMonth() + 1).padStart(2,
+                                '0'); // Januari dimulai dari 0
+                            let yyyy = today.getFullYear();
+
+                            // Dapatkan hari ini
+                            let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                                'Sabtu'
+                            ];
+                            let day = days[today
+                                .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                            // Dapatkan nama bulan
+                            var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                'Juli', 'Agustus', 'September', 'Oktober',
+                                'November', 'Desember'
+                            ];
+                            var month = months[today
+                                .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                            // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                            let formattedDate = dd + ' ' + month + ' ' + yyyy;
+
+                            // Nama file Excel dengan tanggal hari ini
+                            let fileName =
+                                'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                                '- ' + day + ', ' +
+                                formattedDate + '.xlsx';
+
+                            // Ekspor file Excel
+                            XLSX.writeFile(workbook, fileName);
                         }
-
-                        // Fungsi pemisahan nomor dari string
-                        function extractNumber(str) {
-                            var match = str.match(/\d+/); // Mengambil semua angka dari string
-                            return match ? parseInt(match[0], 10) :
-                                0; // Mengubah hasilnya ke integer, default 0 jika tidak ada nomor
-                        }
-
-                        // Mengurutkan data berdasarkan nomor di indeks ke-1
-                        data.sort(function(a, b) {
-                            var numA = extractNumber(a[1]);
-                            var numB = extractNumber(b[1]);
-                            return numA - numB; // Mengurutkan secara ascending
-                        });
-
-                        // Tambahkan header ke data
-                        let excelData = [dataTableHeaders].concat(data)
-
-                        // Buat file Excel kosong menggunakan SheetJS
-                        let workbook = XLSX.utils.book_new();
-
-                        // Buat worksheet dalam file Excel
-                        let worksheet = XLSX.utils.aoa_to_sheet(excelData);
-
-                        // Sisipkan worksheet ke dalam file Excel
-                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-
-                        // Dapatkan tanggal hari ini
-                        let today = new Date();
-                        let dd = String(today.getDate()).padStart(2, '0');
-                        let mm = String(today.getMonth() + 1).padStart(2,
-                            '0'); // Januari dimulai dari 0
-                        let yyyy = today.getFullYear();
-
-                        // Dapatkan hari ini
-                        let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
-                            'Sabtu'
-                        ];
-                        let day = days[today
-                            .getDay()]; // Mendapatkan nama hari berdasarkan indeks
-
-                        // Dapatkan nama bulan
-                        var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                            'Juli', 'Agustus', 'September', 'Oktober',
-                            'November', 'Desember'
-                        ];
-                        var month = months[today
-                            .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
-
-                        // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
-                        let formattedDate = dd + ' ' + month + ' ' + yyyy;
-
-                        // Nama file Excel dengan tanggal hari ini
-                        let fileName =
-                            'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
-                            '- ' + day + ', ' +
-                            formattedDate + '.xlsx';
-
-                        // Ekspor file Excel
-                        XLSX.writeFile(workbook, fileName);
-                    }
-                }],
-                destroy: true,
-                order: false,
-                language: {
-                    lengthMenu: "Tampilkan _MENU_",
-                    zeroRecords: "Surat keluar tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
-                    info: "Menampilkan _PAGE_ dari _PAGES_",
-                    infoEmpty: "Baris tidak tersedia",
-                    infoFiltered: "(filtered from _MAX_ total records)",
-                    search: "Cari :",
-                },
-                oLanguage: {
-                    oPaginate: {
-                        sNext: '<span class="pagination-fa"><i class="fa-solid fa-angle-right"></i></span>',
-                        sPrevious: '<span class="pagination-fa"><i class="fa-solid fa-angle-left"></i></span>',
+                    }],
+                    destroy: true,
+                    order: false,
+                    language: {
+                        lengthMenu: "Tampilkan _MENU_",
+                        zeroRecords: "Surat keluar tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
+                        info: "Menampilkan _PAGE_ dari _PAGES_",
+                        infoEmpty: "Baris tidak tersedia",
+                        infoFiltered: "(filtered from _MAX_ total records)",
+                        search: "Cari :",
                     },
-                },
-                lengthMenu: [
-                    [10, 20, -1],
-                    [10, 20, "Semua"],
-                ],
+                    oLanguage: {
+                        oPaginate: {
+                            sNext: '<span class="pagination-fa"><i class="fa-solid fa-angle-right"></i></span>',
+                            sPrevious: '<span class="pagination-fa"><i class="fa-solid fa-angle-left"></i></span>',
+                        },
+                    },
+                    lengthMenu: [
+                        [10, 20, -1],
+                        [10, 20, "Semua"],
+                    ],
+                });
             });
-        });
-    </script>
+        </script>
+    @else
+        <script>
+            $(document).ready(function() {
+                $("#mytable").DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        targets: [0, 1, 2, 3, 4]
+                    }, {
+                        targets: [4, 5, 6, 7, 8],
+                        visible: false
+                    }, {
+                        "width": "25%",
+                        "targets": 1,
+                    }, {
+                        "width": "15%",
+                        "targets": 2,
+                    }],
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                            type: "none",
+                            target: "",
+                        },
+                    },
+                    dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                    buttons: [{
+                        text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
+                        className: 'mybtn green',
+                        action: function exportExcel() {
+                            let table = $('#mytable').DataTable();
+                            let dataTableHeaders = ["Tanggal Disahkan", "Nomor Surat", "Perihal",
+                                "Dibuat Oleh"
+                            ];
+                            let allData = table.rows().data().toArray();
+                            let data = [];
+
+                            // Data sesuai datatables
+                            // table.rows().data().toArray().map(function(rowData) {
+                            //     let cleanedDataArray = rowData.map(function(item) {
+                            //         let tempElement = document.createElement('div');
+                            //         tempElement.innerHTML = item;
+                            //         return tempElement.textContent || tempElement.innerText;
+                            //     });
+                            //     cleanedDataArray.splice(-1)
+                            //     let removeLastData = cleanedDataArray.map(function(item) {
+                            //         return item.replace(/\s+/g, ' ').trim();
+                            //     })
+                            //     data.push(removeLastData)
+                            // });
+
+                            // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
+                            for (let i = 0; i < allData.length; i++) {
+                                let subarray = allData[i];
+                                let subarrayTerpilih = subarray.slice(5,
+                                    9
+                                );
+                                data.push(subarrayTerpilih);
+                            }
+
+                            // Fungsi pemisahan nomor dari string
+                            function extractNumber(str) {
+                                var match = str.match(/\d+/); // Mengambil semua angka dari string
+                                return match ? parseInt(match[0], 10) :
+                                    0; // Mengubah hasilnya ke integer, default 0 jika tidak ada nomor
+                            }
+
+                            // Mengurutkan data berdasarkan nomor di indeks ke-1
+                            data.sort(function(a, b) {
+                                var numA = extractNumber(a[1]);
+                                var numB = extractNumber(b[1]);
+                                return numA - numB; // Mengurutkan secara ascending
+                            });
+
+                            // Tambahkan header ke data
+                            let excelData = [dataTableHeaders].concat(data)
+
+                            // Buat file Excel kosong menggunakan SheetJS
+                            let workbook = XLSX.utils.book_new();
+
+                            // Buat worksheet dalam file Excel
+                            let worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+                            // Sisipkan worksheet ke dalam file Excel
+                            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+                            // Dapatkan tanggal hari ini
+                            let today = new Date();
+                            let dd = String(today.getDate()).padStart(2, '0');
+                            let mm = String(today.getMonth() + 1).padStart(2,
+                                '0'); // Januari dimulai dari 0
+                            let yyyy = today.getFullYear();
+
+                            // Dapatkan hari ini
+                            let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                                'Sabtu'
+                            ];
+                            let day = days[today
+                                .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                            // Dapatkan nama bulan
+                            var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                'Juli', 'Agustus', 'September', 'Oktober',
+                                'November', 'Desember'
+                            ];
+                            var month = months[today
+                                .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                            // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                            let formattedDate = dd + ' ' + month + ' ' + yyyy;
+
+                            // Nama file Excel dengan tanggal hari ini
+                            let fileName =
+                                'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                                '- ' + day + ', ' +
+                                formattedDate + '.xlsx';
+
+                            // Ekspor file Excel
+                            XLSX.writeFile(workbook, fileName);
+                        }
+                    }],
+                    destroy: true,
+                    order: false,
+                    language: {
+                        lengthMenu: "Tampilkan _MENU_",
+                        zeroRecords: "Surat keluar tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
+                        info: "Menampilkan _PAGE_ dari _PAGES_",
+                        infoEmpty: "Baris tidak tersedia",
+                        infoFiltered: "(filtered from _MAX_ total records)",
+                        search: "Cari :",
+                    },
+                    oLanguage: {
+                        oPaginate: {
+                            sNext: '<span class="pagination-fa"><i class="fa-solid fa-angle-right"></i></span>',
+                            sPrevious: '<span class="pagination-fa"><i class="fa-solid fa-angle-left"></i></span>',
+                        },
+                    },
+                    lengthMenu: [
+                        [10, 20, -1],
+                        [10, 20, "Semua"],
+                    ],
+                });
+            });
+        </script>
+    @endif
 
     <script>
         function berhasil(txt) {
@@ -1391,7 +1537,7 @@
                 confirmButtonColor: "#2F5596",
                 icon: 'warning',
                 title: `Perhatian`,
-                text: `Anda belum mengupload arsip pada surat yang telah dibuat. Silahkan lengkapi arsip surat terlebih dahulu untuk dapat kembali mengambil nomor surat. Terima kasih!`,
+                text: `Silahkan upload arsip pada surat yang telah Anda buat terlebih dahulu untuk dapat kembali mengambil nomor surat. Terima kasih!`,
             })
             new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
         }

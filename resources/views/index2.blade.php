@@ -13,21 +13,40 @@
             }
         @endphp --}}
         {{-- Cek apakah semua surat telah memiliki arsip end --}}
+        {{-- @dd($suratKeluar) --}}
 
         {{-- Alert warning start --}}
-        <div class="alert alert-warning gap-2 d-flex align-items-start mb-4" role="alert"
-            style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <div>
-                <span class="fw-semibold">Perhatian!</span>
-                <h5 class="mt-1 fw-normal" style="line-height: 1.7">
-                    Anda belum mengupload file arsip pada surat yang telah dibuat. <br>
-                    Mohon
-                    untuk
-                    mengupload arsip surat tersebut untuk dapat kembali mengambil nomor surat keluar. Terima kasih.
-                </h5>
+
+        {{-- Cek apakah semua surat telah memiliki arsip start --}}
+        @php
+            $semuaSudahArsip = true; // Inisialisasi dengan true
+            $jumlah = 0;
+            foreach ($suratKeluar as $item) {
+                if ($item->sifatSurat != 4 && !$item->lampiran && $item->status == 'digunakan') {
+                    // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
+                    $semuaSudahArsip = false;
+                    $jumlah++;
+                }
+            }
+        @endphp
+        {{-- Cek apakah semua surat telah memiliki arsip end --}}
+
+        @if (!$semuaSudahArsip)
+            <div class="alert alert-warning gap-2 d-flex align-items-start mb-4" role="alert"
+                style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <span class="fw-semibold">Perhatian!</span>
+                    <h5 class="mt-1 fw-normal" style="line-height: 1.7">
+                        Anda belum mengupload sebanyak <b>{{ $jumlah }}</b> arsip pada surat yang telah
+                        dibuat. <br>
+                        Mohon
+                        untuk
+                        mengupload arsip surat tersebut untuk dapat kembali mengambil nomor surat keluar. Terima kasih.
+                    </h5>
+                </div>
             </div>
-        </div>
+        @endif
         {{-- Alert warning end --}}
 
         {{-- Main section start --}}
