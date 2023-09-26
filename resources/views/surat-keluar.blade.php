@@ -1180,6 +1180,12 @@
                 }, {
                     targets: [4, 5, 6, 7, 8],
                     visible: false
+                }, {
+                    "width": "25%",
+                    "targets": 1,
+                }, {
+                    "width": "15%",
+                    "targets": 2,
                 }],
                 responsive: {
                     details: {
@@ -1223,22 +1229,18 @@
                             data.push(subarrayTerpilih);
                         }
 
-                        // Fungsi orderby ascending
-                        data.sort(function(a, b) {
-                            // Ubah tanggal menjadi objek Date
-                            let dateA = new Date(a[0]);
-                            let dateB = new Date(b[0]);
+                        // Fungsi pemisahan nomor dari string
+                        function extractNumber(str) {
+                            var match = str.match(/\d+/); // Mengambil semua angka dari string
+                            return match ? parseInt(match[0], 10) :
+                                0; // Mengubah hasilnya ke integer, default 0 jika tidak ada nomor
+                        }
 
-                            // Bandingkan tanggal
-                            return dateA - dateB;
-                        });
-
+                        // Mengurutkan data berdasarkan nomor di indeks ke-1
                         data.sort(function(a, b) {
-                            let nomorA = a[1].split('/')[
-                                0]; // Mengambil nomor kedua dari string nomor A
-                            let nomorB = b[1].split('/')[
-                                0]; // Mengambil nomor kedua dari string nomor B
-                            return nomorA.localeCompare(nomorB);
+                            var numA = extractNumber(a[1]);
+                            var numB = extractNumber(b[1]);
+                            return numA - numB; // Mengurutkan secara ascending
                         });
 
                         // Tambahkan header ke data
@@ -1389,7 +1391,7 @@
                 confirmButtonColor: "#2F5596",
                 icon: 'warning',
                 title: `Perhatian`,
-                text: `Silahkan lengkapi arsip surat terlebih dahulu untuk dapat kembali mengambil nomor surat.`,
+                text: `Anda belum mengupload arsip pada surat yang telah dibuat. Silahkan lengkapi arsip surat terlebih dahulu untuk dapat kembali mengambil nomor surat. Terima kasih!`,
             })
             new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
         }
