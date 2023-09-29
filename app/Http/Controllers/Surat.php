@@ -68,6 +68,7 @@ class Surat extends Controller
                     ->get();
             }
         }
+        $users = DB::table('users')->get();
         $tujuan = DB::table('tujuan')->get();
         $sifat = DB::table('sifat')->get();
         $hal = DB::table('hal')->get();
@@ -244,7 +245,7 @@ class Surat extends Controller
     }
     // Fungsi cetak lembar disposisi start
 
-    // Fungsi disposisi start
+    // Fungsi tampil halaman disposisi start
     public function indexDisposisi()
     {
         $user = session()->get('user');
@@ -266,7 +267,24 @@ class Surat extends Controller
             'suratMasuk' => $suratMasuk
         ]);
     }
-    // Fungsi disposisi end
+    // Fungsi tampil halaman disposisi end
+
+    // Fungsi teruskan surat start
+    public function teruskanSurat(Request $req)
+    {
+        $validatedData = $req->validate([
+            'pengirim_disposisi' => 'required'
+        ]);
+        try {
+            DB::table('disposisi')->insert([
+                'pengirim_disposisi' => $validatedData
+            ]);
+            return back()->with('success', 'Surat berhasil diteruskan!');
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+    // Fungsi teruskan surat end
     /* ---------------------------------------------- */
     /*                 Surat masuk end                */
     /* ---------------------------------------------- */

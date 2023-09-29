@@ -39,6 +39,7 @@ Route::middleware('checkAuth')->group(function () {
 
     // Disposisi surat
     Route::get('/disposisi-surat', [Surat::class, 'indexDisposisi'])->name('indexDisposisi');
+    Route::post('/input-penerima', [Surat::class, 'teruskanSurat'])->name('teruskanSurat');
 
     // Surat Keluar dan Antidatir
     Route::get('/getSK/{id}', [Surat::class, 'getSK'])->name('getSK');

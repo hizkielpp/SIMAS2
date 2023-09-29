@@ -17,14 +17,15 @@ return new class extends Migration
         //
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
-            $table->string('surat_id');
-            $table->foreign('surat_id')->references('nomorSurat')->on('suratmasuk');
-            $table->string('tujuan_disposisi');
-            $table->foreign('created_by');
-            $table->string('tindak_lanjut');
-            $table->string('catatan');
+            $table->string('surat_masuk_id');
+            $table->foreign('surat_masuk_id')->references('nomorSurat')->on('suratmasuk');
+            $table->string('pengirim_disposisi');
+            // $table->foreign('pengirim_disposisi')->references('teruskan_ke')->on('suratmasuk');
+            $table->string('penerima_disposisi');
             $table->string('status');
-            $table->string('tanggal_disposisi');
+            $table->string('catatan_disposisi');
+            $table->dateTime('tanggal_disposisi');
+            $table->string('tindak_lanjut');
             $table->timestamps();
         });
     }

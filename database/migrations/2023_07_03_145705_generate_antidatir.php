@@ -75,7 +75,7 @@ suratkeluar(
 END");
 
         DB::statement(("
-CREATE EVENT `eventGenerateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-09-01 23:59:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
+CREATE EVENT `scheduleGenerateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-09-01 23:59:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL generateAntidatir()
         "));
         DB::statement("SET GLOBAL event_scheduler=ON;");
     }
@@ -87,8 +87,9 @@ CREATE EVENT `eventGenerateAntidatir` ON SCHEDULE EVERY 1 DAY STARTS '2023-09-01
      */
     public function down()
     {
-        DB::statement("DROP PROCEDURE generateAntidatir;");
+        // DB::statement("DROP PROCEDURE generateAntidatir;");
+        DB::statement("DROP PROCEDURE IF EXISTS `generateAntidatir`");
         // DB::statement('DROP PROCEDURE IF EXISTS generateAntidatir');
-        DB::statement("DROP EVENT eventGenerateAntidatir;");
+        DB::statement("DROP EVENT scheduleGenerateAntidatir;");
     }
 };

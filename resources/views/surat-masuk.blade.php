@@ -503,6 +503,57 @@
             </div>
             <!-- Modal disposisi surat end -->
 
+            <!-- Modal teruskan surat start -->
+            <div class="modal modal__section fade" data-bs-backdrop="static" id="teruskanSurat"
+                data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content p-3">
+                        <div class="modal-header">
+                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                                Teruskan Surat Ke
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form id="teruskanSurat" class="needs-validation" novalidate method="POST"
+                            action="{{ route('teruskanSurat') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="pengirim_disposisi" class="form-label black fw-normal">Pilih</label>
+                                        <select class="form-select" aria-label="Default select example" required
+                                            name="pengirim_disposisi">
+                                            <option selected disabled value="">...</option>
+                                            @foreach ($users as $k => $v)
+                                                @if (old('pengirim_disposisi') == $v->kode)
+                                                    <option value="{{ $v->kode }}" selected>{{ $v->nama }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Masukkan tujuan penerima surat dengan benar.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                                    Batal
+                                </button>
+                                <button type="submit" class="mybtn blue" type="submit">
+                                    Teruskan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal teruskan surat end -->
+
             {{-- Tabel content start --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-borderless">
@@ -594,8 +645,7 @@
                                                     <div id="arrow"></div>
                                                 </div>
                                             </a> --}}
-                                            {{-- <a data-id="{{ $v->id }}" data-bs-toggle="modal"
-                                                data-bs-target="#disposisi"
+                                            <a data-bs-toggle="modal" data-bs-target="#teruskanSurat"
                                                 class="test myicon position-relative green d-flex align-items-center justify-content-center">
                                                 <i class="fa-solid fa-file-export"></i>
                                                 <div class="position-absolute mytooltip">
@@ -604,26 +654,7 @@
                                                     </div>
                                                     <div id="arrow"></div>
                                                 </div>
-                                            </a> --}}
-                                            <div class="dropdown">
-                                                <button class="myicon position-relative green dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa-solid fa-file-export"></i>
-                                                    <div class="position-absolute mytooltip"
-                                                        style="left: 50%; transform: translateX(-50%)">
-                                                        <div class="text-white px-3 py-2 position-relative">
-                                                            Teruskan
-                                                        </div>
-                                                        <div id="arrow"></div>
-                                                    </div>
-                                                </button>
-                                                <ul class="dropdown-menu" style="padding: unset !important">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            </a>
                                         @endif
 
                                         <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
