@@ -67,13 +67,23 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             "role_id" => 3,
-            "name" => "Bu Lulut",
+            "name" => "Dekan",
             "bagian" => "Dekanat",
             "password" => Hash::make("password"),
-            "email" => "bululut@gmail.com",
+            "email" => "dekan@gmail.com",
             "created_at" => now(),
             "updated_at" => now(),
             "nip" => '333',
+        ]);
+        DB::table('users')->insert([
+            "role_id" => 3,
+            "name" => "Wakil Dekan Akademik dan Kemahasiswaan",
+            "bagian" => "Dekanat",
+            "password" => Hash::make("password"),
+            "email" => "wakildekan@gmail.com",
+            "created_at" => now(),
+            "updated_at" => now(),
+            "nip" => '444',
         ]);
         // Pimpinan end
 

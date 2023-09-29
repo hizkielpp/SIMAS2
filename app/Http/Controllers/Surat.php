@@ -68,7 +68,9 @@ class Surat extends Controller
                     ->get();
             }
         }
-        $users = DB::table('users')->get();
+        $userDisposisi = DB::table('users')
+            ->where('role_id', 3)
+            ->get();
         $tujuan = DB::table('tujuan')->get();
         $sifat = DB::table('sifat')->get();
         $hal = DB::table('hal')->get();
@@ -79,6 +81,7 @@ class Surat extends Controller
                 'sifat' => $sifat,
                 'hal' => $hal,
                 'tujuan' => $tujuan,
+                'userDisposisi' => $userDisposisi,
             ]);
         } else {
             return view('suratMasuk')->with(['failed' => 'data surat masuk kosong', 'sifat' => $sifat, 'hal' => $hal]);
@@ -275,8 +278,11 @@ class Surat extends Controller
         $validatedData = $req->validate([
             'pengirim_disposisi' => 'required'
         ]);
+        $surat = DB::table('suratmasuk')
+            ->where('id', $req->input('idSurat'))
+            ->first();
         try {
-            DB::table('disposisi')->insert([
+            DB::table('disposisi')->updateOrInsert([
                 'pengirim_disposisi' => $validatedData
             ]);
             return back()->with('success', 'Surat berhasil diteruskan!');

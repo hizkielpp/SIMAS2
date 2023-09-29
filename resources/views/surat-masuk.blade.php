@@ -503,57 +503,6 @@
             </div>
             <!-- Modal disposisi surat end -->
 
-            <!-- Modal teruskan surat start -->
-            <div class="modal modal__section fade" data-bs-backdrop="static" id="teruskanSurat"
-                data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                Teruskan Surat Ke
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form id="teruskanSurat" class="needs-validation" novalidate method="POST"
-                            action="{{ route('teruskanSurat') }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="mb-3">
-                                        <label for="pengirim_disposisi" class="form-label black fw-normal">Pilih</label>
-                                        <select class="form-select" aria-label="Default select example" required
-                                            name="pengirim_disposisi">
-                                            <option selected disabled value="">...</option>
-                                            @foreach ($users as $k => $v)
-                                                @if (old('pengirim_disposisi') == $v->kode)
-                                                    <option value="{{ $v->kode }}" selected>{{ $v->nama }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Masukkan tujuan penerima surat dengan benar.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="mybtn light" data-bs-dismiss="modal">
-                                    Batal
-                                </button>
-                                <button type="submit" class="mybtn blue" type="submit">
-                                    Teruskan
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal teruskan surat end -->
-
             {{-- Tabel content start --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-borderless">
@@ -564,11 +513,68 @@
                             <th>Tanggal Surat</th>
                             <th>Tujuan Penerima</th>
                             <th>Perihal</th>
+                            <th>Status</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($suratMasuk as $k => $v)
+                            <!-- Modal teruskan surat start -->
+                            <div class="modal modal__section fade" data-bs-backdrop="static"
+                                id="teruskanSurat{{ $v->nomorSurat }}" data-bs-backdrop="static" tabindex="-1"
+                                aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content p-3">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                                                Teruskan Surat Ke
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form id="teruskanSurat" class="needs-validation" novalidate method="POST"
+                                            action="{{ route('teruskanSurat') }}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="nomorSurat" id="nomorSurat"
+                                                value="{{ $v->nomorSurat }}">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="pengirim_disposisi"
+                                                            class="form-label black fw-normal">Pilih</label>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            required name="pengirim_disposisi">
+                                                            <option selected disabled value="">...</option>
+                                                            @foreach ($userDisposisi as $item)
+                                                                {{-- @if (old('pengirim_disposisi') == $v->kode)
+                                                <option value="{{ $v->kode }}" selected>{{ $v->nama }}
+                                                </option>
+                                            @else --}}
+                                                                <option value="{{ $item->name }}">{{ $item->name }}
+                                                                </option>
+                                                                {{-- @endif --}}
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Masukkan tujuan penerima surat dengan benar.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                                                    Batal
+                                                </button>
+                                                <button type="submit" class="mybtn blue" type="submit">
+                                                    Teruskan
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal teruskan surat end -->
+
                             <tr>
                                 <td class="no">{{ $k + 1 }}</td>
                                 <td>
@@ -599,6 +605,7 @@
                             @endif --}}
                                     {{ $v->perihal }}
                                 </td>
+                                <td>{{ $v->status }}</td>
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
@@ -645,7 +652,7 @@
                                                     <div id="arrow"></div>
                                                 </div>
                                             </a> --}}
-                                            <a data-bs-toggle="modal" data-bs-target="#teruskanSurat"
+                                            <a data-bs-toggle="modal" data-bs-target="#teruskanSurat{{ $v->nomorSurat }}"
                                                 class="test myicon position-relative green d-flex align-items-center justify-content-center">
                                                 <i class="fa-solid fa-file-export"></i>
                                                 <div class="position-absolute mytooltip">

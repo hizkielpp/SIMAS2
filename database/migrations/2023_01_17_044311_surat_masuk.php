@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('lampiran');
             $table->longText('perihal')->nullable();
             $table->string('status')->default('Belum Diproses');
+            $table->string('teruskan_ke')->nullable();
             $table->timestamps();
         });
     }
