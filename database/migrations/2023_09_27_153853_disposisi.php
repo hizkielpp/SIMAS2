@@ -14,10 +14,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('role', function (Blueprint $table) {
+        //
+        Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
-            $table->string('nama')->unique();
+            $table->string('surat_id');
+            $table->foreign('surat_id')->references('nomorSurat')->on('suratmasuk');
+            $table->string('tujuan_disposisi');
+            $table->foreign('created_by');
+            $table->string('tindak_lanjut');
+            $table->string('catatan');
+            $table->string('status');
+            $table->string('tanggal_disposisi');
             $table->timestamps();
         });
     }
@@ -30,7 +37,8 @@ return new class extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('disposisi');
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        //
     }
 };

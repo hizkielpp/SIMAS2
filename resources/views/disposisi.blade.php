@@ -90,23 +90,9 @@
     <section class="surat__masuk content">
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
-            <h5 class="fw__semi black">SURAT MASUK</h5>
+            <h5 class="fw__semi black">DISPOSISI SURAT MASUK</h5>
         </div>
         {{-- Navigation end --}}
-
-        {{-- Alert gagal menambahkan surat start --}}
-        @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong id="headerGagal">Aksi gagal!</strong>
-                <p class="mt-2">
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}
-                    @endforeach
-                </p>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        {{-- Alert gagal menambahkan surat end --}}
 
         {{-- Alert edit surat sama dengan database start --}}
         @if (session()->has('editFailed'))
@@ -124,7 +110,7 @@
         <div class="card p-4 mt-3">
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-                <h4 class="fw-semibold black">Daftar Surat Masuk</h4>
+                <h4 class="fw-semibold black">Disposisi Surat Masuk</h4>
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <p class="">Rentang Tanggal :</p>
                     <div class="input__tanggal position-relative">
@@ -163,172 +149,6 @@
                 </div>
             </div>
             <!-- Modal lampiran surat end -->
-
-            <!-- Modal registrasi start -->
-            <div class="modal modal__section fade" data-bs-backdrop="static" id="registrasiSuratMasuk"
-                data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                Form Registrasi Surat Masuk
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formRegistrasi" class="needs-validation" novalidate method="POST"
-                                action="{{ route('inputSM') }}" enctype="multipart/form-data">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
-                                            <input type="text" class="form-control" id="asalSurat" name="asalSurat"
-                                                placeholder="Contoh : Ketua Departemen Kedokteran"
-                                                aria-describedby="emailHelp" value="{{ old('asalSurat') }}" required />
-                                            <div class="invalid-feedback">
-                                                Masukkan asal surat dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="noSurat" class="form-label black fw-normal">Nomor Surat</label>
-                                            <input type="text" class="form-control"
-                                                placeholder="Contoh : 1/UN7.F4/I/2023" id="noSurat" name="nomorSurat"
-                                                aria-describedby="emailHelp" required />
-                                            <div class="invalid-feedback">
-                                                Masukkan nomor surat dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="date" class="form-label black fw-normal">Tanggal
-                                                Surat</label>
-                                            <div class="position-relative input__tanggal__form">
-                                                <input type="text" id="datepicker" identifier="date"
-                                                    placeholder="..." name="tanggalPengajuan" aria-placeholder="coba"
-                                                    class="form-control" value="{{ old('tanggalPengajuan') }}" required>
-                                                <i class="fa-solid fa-calendar-days position-absolute"></i>
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Masukkan tanggal pengajuan dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Tujuan
-                                                Penerima</label>
-                                            {{-- <select class="form-select" required aria-label="Default select example"
-                                                name="tujuanSurat">
-                                                <option selected disabled value="">...</option>
-                                                @foreach ($tujuan as $k => $v)
-                                                    @if (old('tujuanSurat') == $v->kode)
-                                                        <option value="{{ $v->kode }}" selected>{{ $v->nama }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $v->kode }}">{{ $v->nama }}
-                                                        </option>
-                                                    @endif
-                                                @endforeach
-                                            </select> --}}
-                                            <input type="text" class="form-control"
-                                                placeholder="Contoh : Manager Tata Usaha" name="tujuanSurat"
-                                                aria-describedby="emailHelp" required />
-                                            <div class="invalid-feedback">
-                                                Masukkan penerima surat dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Sifat</label>
-                                            <select class="form-select" aria-label="Default select example" required
-                                                name="sifatSurat">
-                                                <option selected disabled value="">...</option>
-                                                @foreach ($sifat as $k => $v)
-                                                    @if (old('sifatSurat') == $v->kode)
-                                                        <option value="{{ $v->kode }}" selected>{{ $v->nama }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Masukkan sifat surat dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                                            <select class="form-select" required aria-label="Default select example"
-                                                id="kodeHal" name="kodeHal">
-                                                <option selected disabled value="">...</option>
-                                                @foreach ($hal as $k => $v)
-                                                    @if (old('kodeHal') == $v->kode)
-                                                        <option value="{{ $v->kode }}" selected>{{ $v->nama }}
-                                                            ({{ $v->kode }})
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $v->kode }}">{{ $v->nama }}
-                                                            ({{ $v->kode }})
-                                                        </option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Masukkan kode hal surat dengan benar.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="lampiran" class="form-label black fw-normal">Upload
-                                                Arsip Surat</label>
-                                            <div class="alert alert-warning gap-2 d-flex align-items-start"
-                                                role="alert">
-                                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                                <div>
-                                                    Format file .pdf dan ukuran file
-                                                    maksimal 2
-                                                    MB.
-                                                </div>
-                                            </div>
-                                            <input type="file" class="form-control" id="lampiran" name="lampiran"
-                                                aria-describedby="emailHelp" accept=".pdf" required />
-                                            <div class="invalid-feedback">
-                                                Mohon upload lampiran dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
-                                                Lampiran</label>
-                                            <input type="number" class="form-control" placeholder="Contoh : 1"
-                                                id="jumlahLampiran" name="jumlahLampiran"
-                                                value="{{ old('jumlahLampiran') }}" min="0" />
-                                            <div class="invalid-feedback">
-                                                Masukkan jumlah lampiran surat dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleFormControlTextarea1"
-                                                class="form-label black fw-normal">Perihal</label>
-                                            <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4"
-                                                placeholder="Contoh : Permohonan perijinan penelitian" name="perihal" required>{{ old('perihal') }}</textarea>
-                                            <div class="invalid-feedback">
-                                                Masukkan perihal surat dengan benar.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="mybtn light" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-                            <button type="submit" class="mybtn blue" type="submit" form="formRegistrasi">
-                                Tambah
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal registrasi end -->
 
             <!-- Modal detail & edit start -->
             <div class="modal modal__section fade" id="editSuratMasuk" data-bs-backdrop="static" tabindex="-1"
@@ -482,27 +302,6 @@
             </div>
             <!-- Modal detail & edit end -->
 
-            <!-- Modal disposisi surat start -->
-            <div class="modal modal__section fade" data-bs-backdrop="static" id="disposisi" tabindex="-1"
-                aria-labelledby="ex ampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl h-100">
-                    <div class="modal-content p-3 h-100">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                Disposisi Surat
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <iframe src="" id="iframeDisposisi" frameborder="0" style="width:100%;"
-                                class="h-100"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal disposisi surat end -->
-
             {{-- Tabel content start --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-borderless">
@@ -511,8 +310,8 @@
                             <th class="no">#</th>
                             <th>Asal Surat / No. Surat</th>
                             <th>Tanggal Surat</th>
-                            <th>Tujuan Penerima</th>
-                            <th>Perihal</th>
+                            <th>Penerima</th>
+                            <th class="text-center">Perihal</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -527,7 +326,7 @@
                                 </td>
                                 <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
                                 </td>
-                                <td>{{ $v->tujuanSurat }}</td>
+                                <td>{{ $v->namaTujuan }}</td>
                                 <td>
                                     {{-- @if ($v->sifatSurat == 1)
                             <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
@@ -568,7 +367,7 @@
                                                 <div id="arrow"></div>
                                             </div>
                                         </button>
-                                        {{-- @if ($user->role_id != 3)
+                                        @if ($user->role_id != 3)
                                             <button type="button"
                                                 class="myicon position-relative red d-flex align-items-center justify-content-center"
                                                 onclick="confirmHapus('{{ $v->id }}')">
@@ -580,9 +379,9 @@
                                                     <div id="arrow"></div>
                                                 </div>
                                             </button>
-                                        @endif --}}
+                                        @endif
                                         @if ($user->role_id != 3)
-                                            {{-- <a data-id="{{ $v->id }}" data-bs-toggle="modal"
+                                            <a data-id="{{ $v->id }}" data-bs-toggle="modal"
                                                 data-bs-target="#disposisi"
                                                 class="test myicon position-relative green d-flex align-items-center justify-content-center"
                                                 onclick="showDisposisi('{{ $v->id }}')">
@@ -593,37 +392,7 @@
                                                     </div>
                                                     <div id="arrow"></div>
                                                 </div>
-                                            </a> --}}
-                                            {{-- <a data-id="{{ $v->id }}" data-bs-toggle="modal"
-                                                data-bs-target="#disposisi"
-                                                class="test myicon position-relative green d-flex align-items-center justify-content-center">
-                                                <i class="fa-solid fa-file-export"></i>
-                                                <div class="position-absolute mytooltip">
-                                                    <div class="text-white px-3 py-2 position-relative">
-                                                        Teruskan
-                                                    </div>
-                                                    <div id="arrow"></div>
-                                                </div>
-                                            </a> --}}
-                                            <div class="dropdown">
-                                                <button class="myicon position-relative green dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa-solid fa-file-export"></i>
-                                                    <div class="position-absolute mytooltip"
-                                                        style="left: 50%; transform: translateX(-50%)">
-                                                        <div class="text-white px-3 py-2 position-relative">
-                                                            Teruskan
-                                                        </div>
-                                                        <div id="arrow"></div>
-                                                    </div>
-                                                </button>
-                                                <ul class="dropdown-menu" style="padding: unset !important">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            </a>
                                         @endif
 
                                         <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
@@ -642,8 +411,8 @@
 
     </section>
 @endsection
-@section('sm', 'active')
-@section('title', 'Surat Masuk')
+@section('disposisi', 'active')
+@section('title', 'Disposisi Surat')
 @section('js')
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -667,100 +436,6 @@
         }
     </script>
     {{-- Function refresh datatables end --}}
-
-    <!-- Sweet alert : confirm delete start -->
-    <script>
-        function confirmHapus(id) {
-            new Audio("audio/warning-edited.mp3").play();
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Yakin ingin menghapus file?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, hapus!",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var token = $("meta[name='csrf-token']").attr("content");
-                    $.ajax({
-                        type: 'POST',
-                        url: "{{ route('deleteSM') }}",
-                        data: {
-                            "idSurat": id,
-                            "_token": token,
-                        },
-                        success: function(data) {
-                            Swal.fire("Berhasil!", data, "success");
-                            new Audio("audio/success-edited.mp3").play();
-                            refreshDatatable();
-                        },
-                        error: function(error) {
-                            Swal.fire("Gagal!", `${error.responseText}`, "error");
-                            new Audio("audio/error-edited.mp3").play();
-                        },
-
-                    });
-                    // Swal.fire("Berhasil!", "File anda berhasil dihapus.", "success");
-                    // new Audio("audio/success-edited.mp3").play();
-                } else {
-                    new Audio("audio/cancel-edited.mp3").play();
-                }
-            });
-        }
-    </script>
-    <!-- Sweet alert : confirm delete end -->
-
-    <!-- Sweet alert : confirm add start -->
-    <script>
-        function confirmAdd() {
-            new Audio("audio/warning-edited.mp3").play();
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Pastikan data yang anda masukkan benar!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Tambah",
-                cancelButtonText: "Batal",
-                reverseButtons: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // new Audio("audio/success-edited.mp3").play();
-                    // Swal.fire("Berhasil!", "Data berhasil ditambahkan.", "success");
-                    // $("#registrasiSuratMasuk").modal("hide");
-                    document.getElementById("formRegistrasi").submit();
-                } else {
-                    new Audio("audio/cancel-edited.mp3").play();
-                    // $("#registrasiSuratMasuk").modal("hide");
-                }
-            });
-
-        }
-
-        function berhasil(txt) {
-            new Audio("audio/success-edited.mp3").play();
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'success',
-                title: `Berhasil`,
-                text: `${txt}`,
-            })
-        }
-
-        function gagal() {
-            new Audio("audio/cancel-edited.mp3").play();
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Data gagal ditambahkan!',
-            })
-        }
-    </script>
-    <!-- Sweet alert : confirm add end -->
 
     @if ($message = Session::get('success'))
         <script>
@@ -928,18 +603,6 @@
                 columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5]
-                }, {
-                    targets: [1],
-                    width: "20%"
-                }, {
-                    targets: [2],
-                    width: "15%"
-                }, {
-                    targets: [3],
-                    width: "15%"
-                }, {
-                    targets: [4],
-                    width: "30%"
                 }],
                 responsive: {
                     details: {

@@ -52,8 +52,9 @@ class Surat extends Controller
                 $suratMasuk = DB::table('suratmasuk')
                     ->orderBy('nomorSurat', 'desc')
                     ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    // ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+                    // ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian')
                     ->get();
             }
             // Kondisi untuk operator hanya dapat melihat suratnya sendiri
@@ -221,7 +222,7 @@ class Surat extends Controller
     }
     // Fungsi get spesific surat masuk end
 
-    // Fungsi disposisi start
+    // Fungsi cetak lembar disposisi start
     public function disposisi(Request $request)
     {
         if (isset($_GET['id'])) {
@@ -241,7 +242,31 @@ class Surat extends Controller
             return response('Request tidak valid', 400)->header('Content-Type', 'text/plain');
         }
     }
+    // Fungsi cetak lembar disposisi start
+
     // Fungsi disposisi start
+    public function indexDisposisi()
+    {
+        $user = session()->get('user');
+        $tujuan = DB::table('tujuan')->get();
+        $sifat = DB::table('sifat')->get();
+        $hal = DB::table('hal')->get();
+        $suratMasuk = DB::table('suratmasuk')
+            ->orderBy('nomorSurat', 'desc')
+            ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+            ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+            ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+            ->get();
+
+        return view('disposisi')->with([
+            'user' => $user,
+            'tujuan' => $tujuan,
+            'sifat' => $sifat,
+            'hal' => $hal,
+            'suratMasuk' => $suratMasuk
+        ]);
+    }
+    // Fungsi disposisi end
     /* ---------------------------------------------- */
     /*                 Surat masuk end                */
     /* ---------------------------------------------- */

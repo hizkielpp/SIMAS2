@@ -106,6 +106,12 @@
                                     <p class="fw-normal">Surat Masuk</p>
                                 </a>
                             </li>
+                            <li class="nav-item mb-2">
+                                <a href="{{ route('indexDisposisi') }}" class="nav-link @yield('disposisi')">
+                                    <i class="fa-solid fa-envelope me-2"></i>
+                                    <p class="fw-normal">Disposisi Surat</p>
+                                </a>
+                            </li>
                         @endif
                         <li class="nav-item mb-2">
                             <a href="{{ route('suratKeluar') }}" class="nav-link @yield('sk')">
