@@ -276,15 +276,13 @@ class Surat extends Controller
     public function teruskanSurat(Request $req)
     {
         $validatedData = $req->validate([
-            'pengirim_disposisi' => 'required'
+            'pengirim_disposisi' => 'required',
         ]);
-        $surat = DB::table('suratmasuk')
-            ->where('id', $req->input('idSurat'))
-            ->first();
         try {
-            DB::table('disposisi')->updateOrInsert([
-                'pengirim_disposisi' => $validatedData
-            ]);
+            DB::table('suratmasuk')
+                ->where('nomorSurat', $req->input('surat_masuk_id')) // find your surat by id
+                ->limit(1) // optional - to ensure only one record is updated.
+                ->update(['teruskan_ke' => $validatedData]);
             return back()->with('success', 'Surat berhasil diteruskan!');
         } catch (\Exception $e) {
             return $e;

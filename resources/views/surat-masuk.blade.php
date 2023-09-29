@@ -535,7 +535,7 @@
                                         <form id="teruskanSurat" class="needs-validation" novalidate method="POST"
                                             action="{{ route('teruskanSurat') }}" enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" name="nomorSurat" id="nomorSurat"
+                                            <input type="hidden" name="surat_masuk_id" id="surat_masuk_id"
                                                 value="{{ $v->nomorSurat }}">
                                             <div class="modal-body">
                                                 <div class="row">
