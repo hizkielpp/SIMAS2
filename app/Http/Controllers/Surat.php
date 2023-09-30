@@ -257,9 +257,10 @@ class Surat extends Controller
         $hal = DB::table('hal')->get();
         $suratMasuk = DB::table('suratmasuk')
             ->orderBy('nomorSurat', 'desc')
-            ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-            ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-            ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+            // ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
+            // ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
+            // ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
+            ->where('teruskan_ke', $user->name)
             ->get();
 
         return view('disposisi')->with([
@@ -282,7 +283,7 @@ class Surat extends Controller
             DB::table('suratmasuk')
                 ->where('nomorSurat', $req->input('surat_masuk_id')) // find your surat by id
                 ->limit(1) // optional - to ensure only one record is updated.
-                ->update(['teruskan_ke' => $validatedData]);
+                ->update(['teruskan_ke' => $validatedData['pengirim_disposisi']]);
             return back()->with('success', 'Surat berhasil diteruskan!');
         } catch (\Exception $e) {
             return $e;

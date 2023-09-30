@@ -302,6 +302,8 @@
             </div>
             <!-- Modal detail & edit end -->
 
+            {{-- @dd($suratMasuk) --}}
+
             {{-- Tabel content start --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-borderless">
@@ -310,8 +312,9 @@
                             <th class="no">#</th>
                             <th>Asal Surat / No. Surat</th>
                             <th>Tanggal Surat</th>
-                            <th>Penerima</th>
-                            <th class="text-center">Perihal</th>
+                            <th>Tujuan Penerima</th>
+                            <th>Perihal</th>
+                            <th>Status</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -326,7 +329,7 @@
                                 </td>
                                 <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
                                 </td>
-                                <td>{{ $v->namaTujuan }}</td>
+                                <td>{{ $v->tujuanSurat }}</td>
                                 <td>
                                     {{-- @if ($v->sifatSurat == 1)
                             <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
@@ -347,6 +350,8 @@
                             @endif --}}
                                     {{ $v->perihal }}
                                 </td>
+                                <td>{{ $v->status }}</td>
+
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
