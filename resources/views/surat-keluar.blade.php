@@ -114,7 +114,7 @@
             $semuaSudahArsip = true; // Inisialisasi dengan true
             $jumlah = 0;
             foreach ($suratKeluar as $item) {
-                if ($item->sifatSurat != 4 && !$item->lampiran) {
+                if ($item->sifatSurat != 4 && !$item->lampiran && $item->status == 'digunakan' && $item->created_by == $user->nip) {
                     // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
                     $semuaSudahArsip = false;
                     $jumlah++;
