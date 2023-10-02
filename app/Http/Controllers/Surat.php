@@ -288,6 +288,7 @@ class Surat extends Controller
                     ->where('jenis', 'biasa')
                     ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
                     ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('tanggalPengesahan', 'desc')
                     ->orderBy('nomorSurat', 'desc')
                     ->get();
             }
@@ -298,6 +299,7 @@ class Surat extends Controller
                     ->where('created_by', $user->nip)
                     ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
                     ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('tanggalPengesahan', 'desc')
                     ->orderBy('nomorSurat', 'desc')
                     ->get();
             }
@@ -551,6 +553,7 @@ class Surat extends Controller
                     ->where('status', 'digunakan')
                     ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
                     ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('tanggalPengesahan', 'desc')
                     ->orderBy('nomorSurat', 'desc')
                     ->get();
             }
@@ -562,6 +565,7 @@ class Surat extends Controller
                     ->where('created_by', $user->nip)
                     ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
                     ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('tanggalPengesahan', 'desc')
                     ->orderBy('nomorSurat', 'desc')
                     ->get();
             }
