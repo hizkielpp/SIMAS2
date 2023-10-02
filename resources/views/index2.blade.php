@@ -86,9 +86,9 @@
                                         <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
-                                <span class="fw-normal ms-2 position-absolute"
+                                {{-- <span class="fw-normal ms-2 position-absolute"
                                     style="font-size: 16px">(+{{ $SAToday }})
-                                </span>
+                                </span> --}}
                             </div>
                         </div>
                     @else
@@ -125,9 +125,9 @@
                                         <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
                                     </div>
                                 </div>
-                                <span class="fw-normal ms-2 position-absolute"
+                                {{-- <span class="fw-normal ms-2 position-absolute"
                                     style="font-size: 16px">(+{{ $SAToday }})
-                                </span>
+                                </span> --}}
                             </div>
                         </div>
                         {{-- Operator end --}}
