@@ -336,5 +336,93 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         // Sifat seeder end
+
+        // Surat keluar seeder start
+        $startNomorSurat = 1; // Nomor surat awal
+        $jumlahSurat = 20; // Jumlah surat yang ingin Anda buat
+
+        for ($i = 0; $i < $jumlahSurat; $i++) {
+            // Generate nomor surat dengan menggabungkan nomor awal dengan indeks loop
+            $nomorSurat = $startNomorSurat + $i;
+
+            if ($i % 2 === 0) {
+                # code...
+                DB::table('suratkeluar')->insert([
+                    'nomorSurat' => $nomorSurat, // Ganti sesuai format kode surat yang Anda inginkan
+                    'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
+                    'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
+                    'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
+                    'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
+                    'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
+                    'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
+                    'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
+                    'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
+                    'tujuanSurat' => 'aaa', // Ganti dengan pembuat surat yang sesuai
+                    'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+                ]);
+            } else {
+                DB::table('suratkeluar')->insert([
+                    'nomorSurat' => $nomorSurat, // Ganti sesuai format kode surat yang Anda inginkan
+                    'kodeHal' => 'PP', // Ganti dengan pembuat surat yang sesuai
+                    'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
+                    'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
+                    'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
+                    'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
+                    'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
+                    'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
+                    'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
+                    'tujuanSurat' => 'bbb', // Ganti dengan pembuat surat yang sesuai
+                    'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+                ]);
+            }
+        }
+
+        // DB::table('suratkeluar')->insert([
+        //     'nomorSurat' => 1, // Ganti sesuai format kode surat yang Anda inginkan
+        //     'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
+        //     'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
+        //     'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
+        //     'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
+        //     'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
+        //     'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
+        //     'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
+        //     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
+        //     'tujuanSurat' => 'aaa', // Ganti dengan pembuat surat yang sesuai
+        //     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+        //     'created_at' => now(), // Ganti dengan pembuat surat yang sesuai
+        //     'updated_at' => now(), // Ganti dengan pembuat surat yang sesuai
+        // ]);
+        // DB::table('suratkeluar')->insert([
+        //     'nomorSurat' => 2, // Ganti sesuai format kode surat yang Anda inginkan
+        //     'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
+        //     'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
+        //     'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
+        //     'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
+        //     'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
+        //     'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
+        //     'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
+        //     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
+        //     'tujuanSurat' => 'bbb', // Ganti dengan pembuat surat yang sesuai
+        //     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+        //     'created_at' => now(), // Ganti dengan pembuat surat yang sesuai
+        //     'updated_at' => now(), // Ganti dengan pembuat surat yang sesuai
+        // ]);
+        // DB::table('suratkeluar')->insert([
+        //     'nomorSurat' => 3, // Ganti sesuai format kode surat yang Anda inginkan
+        //     'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
+        //     'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
+        //     'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
+        //     'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
+        //     'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
+        //     'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
+        //     'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
+        //     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
+        //     'tujuanSurat' => 'ccc', // Ganti dengan pembuat surat yang sesuai
+        //     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+        //     'created_at' => now(), // Ganti dengan pembuat surat yang sesuai
+        //     'updated_at' => now(), // Ganti dengan pembuat surat yang sesuai
+        // ]);
+
+        // Surat keluar seeder end
     }
 }

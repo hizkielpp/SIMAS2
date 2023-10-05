@@ -43,6 +43,7 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::post('/inputSK', [Surat::class, 'inputSK'])->name('inputSK');
     Route::post('/editSK', [Surat::class, 'editSK'])->name('editSK');
     Route::post('/uploadDokumen', [Surat::class, 'uploadDokumen'])->name('uploadDokumen');
+    Route::get('/getSuratKeluar', [Surat::class, 'getSuratKeluar'])->name('getSuratKeluar');
 
     Route::middleware('checkAdmin')->group(function () {
         // Kelola Akun

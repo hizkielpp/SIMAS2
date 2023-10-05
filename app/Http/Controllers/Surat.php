@@ -249,6 +249,101 @@ class Surat extends Controller
     /* ---------------------------------------------- */
     /*               Surat keluar start               */
     /* ---------------------------------------------- */
+    // Fungsi server side datatables start
+    public function getSuratKeluar(Request $request)
+    {
+        $perPage = $request->input('length');
+        $page = $request->input('start') / $perPage + 1;
+
+        $user = session()->get('user');
+
+        // $query = DB::table('suratkeluar')
+        //     ->where('jenis', 'biasa')
+        //     ->where('created_by', $user->nip)
+        //     ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+        //     ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+        //     ->orderBy('tanggalPengesahan', 'desc')
+        //     ->orderBy('nomorSurat', 'desc');
+
+        // Ambil data surat keluar start
+        if (isset($_GET['start']) && isset($_GET['end'])) {
+            $start = strtotime($_GET['start']);
+            $end = strtotime($_GET['end']);
+
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
+                $query = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
+                    ->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc');
+            }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $query = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
+                    ->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('nomorSurat', 'desc');
+            }
+        } else {
+            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
+            if ($user->role_id == 1 || $user->role_id == 3) {
+                $query = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('tanggalPengesahan', 'desc')
+                    ->orderBy('nomorSurat', 'desc');
+            }
+            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
+            else {
+                $query = DB::table('suratkeluar')
+                    ->where('jenis', 'biasa')
+                    ->where('created_by', $user->nip)
+                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
+                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
+                    ->orderBy('tanggalPengesahan', 'desc')
+                    ->orderBy('nomorSurat', 'desc');
+            }
+        }
+        // Ambil data surat keluar end
+
+        // Terapkan pencarian jika ada
+        $searchValue = $request->input('search.value');
+        if (!empty($searchValue)) {
+            $query->where(function ($query) use ($searchValue) {
+                $query->where('nomorSurat', 'like', '%' . $searchValue . '%')
+                    ->orWhere('kodeHal', 'like', '%' . $searchValue . '%')
+                    ->orWhere('sifatSurat', 'like', '%' . $searchValue . '%')
+                    ->orWhere('created_by', 'like', '%' . $searchValue . '%')
+                    ->orWhere('tanggalPengesahan', 'like', '%' . $searchValue . '%')
+                    ->orWhere('kodeUnit', 'like', '%' . $searchValue . '%')
+                    ->orWhere('disahkanOleh', 'like', '%' . $searchValue . '%')
+                    ->orWhere('tujuanSurat', 'like', '%' . $searchValue . '%')
+                    ->orWhere('perihal', 'like', '%' . $searchValue . '%');
+                // Tambahkan kolom-kolom lain sesuai kebutuhan
+            });
+        }
+
+        $filteredData = $query->count();
+        $query->skip(($page - 1) * $perPage)->take($perPage);
+        $suratKeluar = $query->get();
+        $totalData = DB::table('suratkeluar')->count(); // Total jumlah data keseluruhan
+        // return $suratKeluar;
+        return response()->json([
+            'data' => $suratKeluar,
+            'recordsTotal' => $totalData,
+            'recordsFiltered' => $filteredData,
+        ]);
+    }
+    // Fungsi server side datatables end
+
     // Fungsi menampilkan halaman surat keluar start
     public function indexSK()
     {
