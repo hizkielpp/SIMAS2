@@ -15,7 +15,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('checkAuth')->group(function () {
+Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/downloadNaskah', [Surat::class, 'downloadNaskah'])->name('downloadNaskah');
@@ -62,7 +62,9 @@ Route::middleware('checkAuth')->group(function () {
 Route::post('/login2', [AuthController::class, 'login'])->name('login2');
 
 // Halaman login
-Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::middleware('hariKerja')->group(function () {
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
+});
 
 // Fungsi login
 Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login.custom');

@@ -692,6 +692,20 @@ class Surat extends Controller
         $end = now()
             ->endOfMonth()
             ->toDateString();
+        $today = Carbon::now();
+        $month = $today->month;
+
+        // Input tanggal pengesahan start
+        $tanggalPengesahan = Carbon::create($request->input('tanggalPengesahan'));
+        $tanggalPengesahanFormated = $tanggalPengesahan->format('d-m-Y');
+        $bulanTanggalPengesahan = $tanggalPengesahan->month;
+        $tanggalTerakhir = $tanggalPengesahan->endOfMonth();
+        while ($tanggalTerakhir->dayOfWeek === 0 || $tanggalTerakhir->dayOfWeek === 6) {
+            $tanggalTerakhir->subDay(); // Mengurangi satu hari
+        }
+        $tanggalTerakhirFormated = $tanggalTerakhir->format('d-m-Y');
+
+        $user = session()->get('user');
 
         // Surat keluar
         if ($request->input('jenis') == 'biasa') {
@@ -703,14 +717,49 @@ class Surat extends Controller
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
 
             // Surat antidatir
-        } elseif ($request->input('jenis') == 'antidatir' and $request->input('tanggalPengesahan')) {
+        } elseif ($request->input('jenis') == 'antidatir' and $tanggalPengesahan) {
             $suratKeluar = DB::table('suratkeluar')
                 ->where('tanggalPengesahan', '=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))))
                 ->where('jenis', 'antidatir')
                 ->where('status', 'belum')
                 ->min('nomorSurat');
             if ($suratKeluar == 0) {
-                return response('Nomor antidatir tidak tersedia', 404)->header('Content-Type', 'text/plain');
+                if (($tanggalTerakhirFormated == $tanggalPengesahanFormated) and ($bulanTanggalPengesahan < $month)) {
+                    try {
+                        $suratKeluar = DB::table('suratkeluar')
+                            ->where('tanggalPengesahan', '>=', date("Y-m-01", strtotime($request->input('tanggalPengesahan'))))
+                            ->where('tanggalPengesahan', '<=', date("Y-m-31", strtotime($request->input('tanggalPengesahan'))))
+                            ->max('nomorSurat');
+                        $datebiasa = date('Y-m-d', strtotime($request->input('tanggalPengesahan')));
+                        $datetime = date('Y-m-d H:i:s', strtotime($request->input('tanggalPengesahan')));
+                        DB::table('suratkeluar')->insert([
+                            'tanggalPengesahan' => $datebiasa,
+                            'created_at' => $datetime,
+                            'updated_at' => $datetime,
+                            'nomorSurat' => $suratKeluar + 1,
+                            'kodeHal' => 'AK',
+                            'sifatSurat' => 4,
+                            'jenis' => 'antidatir',
+                            'status' => 'belum',
+                            'tujuanSurat' => 'x',
+                            'lampiran' => null,
+                            'jumlahLampiran' => 1,
+                            'created_by' => $user->nip,
+                            'kodeUnit' => 'x',
+                            'disahkanOleh' => 'x'
+                        ]);
+                        $suratKeluar = DB::table('suratkeluar')
+                            ->where('tanggalPengesahan', '=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))))
+                            ->where('jenis', 'antidatir')
+                            ->where('status', 'belum')
+                            ->min('nomorSurat');
+                        return response($suratKeluar, 200)->header('Content-Type', 'text/plain');
+                    } catch (\Exception $e) {
+                        return response($e, 404)->header('Content-Type', 'text/plain');
+                    }
+                } else {
+                    return response('Nomor antidatir tidak tersedia', 404)->header('Content-Type', 'text/plain');
+                }
             } else {
                 return response($suratKeluar, 200)->header('Content-Type', 'text/plain');
             }
