@@ -106,6 +106,8 @@
                                     <p class="fw-normal">Surat Masuk</p>
                                 </a>
                             </li>
+                        @endif
+                        @if ($user->role_id !== 1)
                             <li class="nav-item mb-2">
                                 <a href="{{ route('indexDisposisi') }}" class="nav-link @yield('disposisi')">
                                     <i class="fa-solid fa-envelope me-2"></i>

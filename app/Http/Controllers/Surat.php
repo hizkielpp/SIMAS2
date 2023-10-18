@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disposisi;
+use App\Models\tindak_lanjut;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use PHPMailer\PHPMailer;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Support\Facades\Log;
+use PHPMailer\PHPMailer\PHPMailer as PHPMailerPHPMailer;
 
 class Surat extends Controller
 {
@@ -74,6 +78,7 @@ class Surat extends Controller
         $tujuan = DB::table('tujuan')->get();
         $sifat = DB::table('sifat')->get();
         $hal = DB::table('hal')->get();
+        $tindakLanjut = tindak_lanjut::get();
         if ($suratMasuk) {
             return view('surat-masuk')->with([
                 'user' => $user,
@@ -82,6 +87,8 @@ class Surat extends Controller
                 'hal' => $hal,
                 'tujuan' => $tujuan,
                 'userDisposisi' => $userDisposisi,
+                'tindakLanjut' => $tindakLanjut,
+
             ]);
         } else {
             return view('suratMasuk')->with(['failed' => 'data surat masuk kosong', 'sifat' => $sifat, 'hal' => $hal]);
@@ -252,23 +259,23 @@ class Surat extends Controller
     public function indexDisposisi()
     {
         $user = session()->get('user');
-        $tujuan = DB::table('tujuan')->get();
-        $sifat = DB::table('sifat')->get();
-        $hal = DB::table('hal')->get();
-        $suratMasuk = DB::table('suratmasuk')
-            ->orderBy('nomorSurat', 'desc')
-            // ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-            // ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-            // ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-            ->where('teruskan_ke', $user->name)
+        $disposisi = Disposisi::where('penerima_disposisi', $user->nip)
+            ->join('suratMasuk', 'suratMasuk.id', '=', 'disposisi.surat_masuk_id')
+            ->join('users', 'users.nip', '=', 'disposisi.penerima_disposisi')
+            ->select(DB::raw('suratMasuk.nomorSurat, suratMasuk.lampiran, suratMasuk.asalSurat, disposisi.created_at, users.name, disposisi.surat_masuk_id, suratMasuk.perihal, suratMasuk.status,(SELECT GROUP_CONCAT(CONCAT(users.name,",",disposisi.created_at,",",disposisi.catatan_disposisi) SEPARATOR "|") FROM disposisi INNER JOIN users ON users.nip = disposisi.penerima_disposisi WHERE disposisi.surat_masuk_id = suratMasuk.id GROUP BY disposisi.surat_masuk_id) as trace'))
             ->get();
-
+        $exception = [];
+        array_push($exception, $user->nip);
+        $userDisposisi = DB::table('users')
+            ->whereNotIn('nip', $exception)
+            ->where('level', '<=', $user->level)
+            ->get();
+        $tindakLanjut = tindak_lanjut::get();
         return view('disposisi')->with([
             'user' => $user,
-            'tujuan' => $tujuan,
-            'sifat' => $sifat,
-            'hal' => $hal,
-            'suratMasuk' => $suratMasuk
+            'disposisi' => $disposisi,
+            'userDisposisi' => $userDisposisi,
+            'tindakLanjut' => $tindakLanjut
         ]);
     }
     // Fungsi tampil halaman disposisi end
@@ -277,16 +284,52 @@ class Surat extends Controller
     public function teruskanSurat(Request $req)
     {
         $validatedData = $req->validate([
+            'penerima_disposisi' => 'required',
+            'surat_masuk_id' => 'required',
+            'tindakan' => 'required',
             'pengirim_disposisi' => 'required',
+            'catatan_disposisi' => 'required'
         ]);
-        try {
-            DB::table('suratmasuk')
-                ->where('nomorSurat', $req->input('surat_masuk_id')) // find your surat by id
-                ->limit(1) // optional - to ensure only one record is updated.
-                ->update(['teruskan_ke' => $validatedData['pengirim_disposisi']]);
-            return back()->with('success', 'Surat berhasil diteruskan!');
-        } catch (\Exception $e) {
-            return $e;
+        $user = session()->get('user');
+        $disposisi = Disposisi::where('penerima_disposisi', $validatedData['penerima_disposisi'])
+            ->where('surat_masuk_id', $validatedData['surat_masuk_id'])
+            ->first();
+        if ($disposisi) {
+            return back()->with('failed', 'Gagal tujuan sudah diteruskan');
+        } else {
+            try {
+                $disposisi = new Disposisi();
+                if ($user->role_id == 1) {
+                    DB::table('suratMasuk')
+                        ->where('id', $validatedData['surat_masuk_id'])
+                        ->update(['status' => 'Diteruskan']);
+                } else {
+                    DB::table('suratMasuk')
+                        ->where('id', $validatedData['surat_masuk_id'])
+                        ->update(['status' => 'Diproses']);
+                }
+                $disposisi->penerima_disposisi = $validatedData['penerima_disposisi'];
+                $disposisi->pengirim_disposisi = $validatedData['pengirim_disposisi'];
+                $disposisi->surat_masuk_id = $validatedData['surat_masuk_id'];
+                $disposisi->catatan_disposisi = $validatedData['catatan_disposisi'];
+                $disposisi->tindak_lanjut = $validatedData['tindakan'];
+                $mail = new PHPMailerPHPMailer();
+                $mail->setFrom("freedomm.00001@gmail.com", 'Hizkiel', 0);
+                $mail->addAddress('freedomm.00001@gmail.com');
+                $mail->isHTML(true);
+                $mail->Subject = "Subject Text";
+                $mail->Body = "<i>Mail body in HTML</i>";
+                $mail->AltBody = "This is the plain text version of the email content";
+                if (!$mail->send()) {
+                    return "Mailer Error: " . $mail->ErrorInfo;
+                } else {
+                    return "Message has been sent successfully";
+                }
+                $disposisi->save();
+                return back()->with('success', 'Surat berhasil diteruskan!');
+            } catch (\Exception $e) {
+                return $e;
+            }
         }
     }
     // Fungsi teruskan surat end

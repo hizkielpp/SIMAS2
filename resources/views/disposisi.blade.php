@@ -123,12 +123,6 @@
                             class="mybtn" />
                         <i class="fa-solid fa-calendar-days position-absolute"></i>
                     </div>
-                    @if ($user->role_id != 3)
-                        <button id="btnReg" type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratMasuk"
-                            class="mybtn blue">
-                            <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
-                        </button>
-                    @endif
                 </div>
             </div>
             {{-- Tabel header end --}}
@@ -150,158 +144,6 @@
             </div>
             <!-- Modal lampiran surat end -->
 
-            <!-- Modal detail & edit start -->
-            <div class="modal modal__section fade" id="editSuratMasuk" data-bs-backdrop="static" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    {{-- Loader start --}}
-                    <div id="myloader" class="w-100 h-100 position-absolute justify-content-center align-items-center"
-                        style="z-index: 9999; backdrop-filter: blur(4px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem">
-                        <div class="lds-dual-ring"></div>
-                    </div>
-                    {{-- Loader end --}}
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="modalTitle">
-                                Detail Surat Masuk
-                            </h4>
-                            <button type="button" onclick="batalHandling()" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formEdit" enctype="multipart/form-data" method="POST"
-                                action="{{ route('editSM') }}">
-                                @csrf
-                                <input type="text" id="idSurat" name="idSurat" hidden>
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
-                                            <input type="text" disabled class="form-control" id="asalSuratE"
-                                                name="asalSurat" placeholder="Contoh : Ketua Departemen Kedokteran"
-                                                aria-describedby="emailHelp" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="nomorSuratE" class="form-label black fw-normal">Nomor
-                                                Surat</label>
-                                            <input disabled type="text" class="form-control"
-                                                placeholder="Masukkan nomor surat" id="nomorSuratE" name="nomorSurat"
-                                                aria-describedby="emailHelp" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="date" class="form-label black fw-normal">Tanggal
-                                                Surat</label>
-                                            <div class="position-relative input__tanggal__form">
-                                                <input identifier="date" disabled class="form-control"
-                                                    name="tanggalPengajuan" id="tanggalPengajuanE" value="2020-06-16">
-                                                <i class="fa-solid fa-calendar-days position-absolute"></i>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Penerima</label>
-                                            <select class="form-select" disabled aria-label="Default select example"
-                                                name="tujuanSurat" id="tujuanSuratE">
-                                                <option selected>
-                                                    ...
-                                                </option>
-                                                @foreach ($tujuan as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}
-                                                        ({{ $v->kode }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Sifat</label>
-                                            <select class="form-select" disabled id="sifatSuratE"
-                                                aria-label="Default select example" name="sifatSurat">
-                                                <option selected>
-                                                    ...
-                                                </option>
-                                                @foreach ($sifat as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                                            <select class="form-select" disabled aria-label="Default select example"
-                                                id="kodeHalE" name="kodeHal">
-                                                <option selected>...</option>
-                                                @foreach ($hal as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}
-                                                        ({{ $v->kode }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="lampiran" class="form-label black fw-normal">Upload
-                                                Arsip Surat Baru</label>
-                                            {{-- <div class="alert alert-primary gap-1 d-flex align-items-center"
-                                            role="alert">
-                                            <div class="fs-6">
-                                                Nama lampiran sebelumnya : <span class="fw-semibold"
-                                                    id="lampiranE"></span>
-                                            </div>
-                                        </div> --}}
-                                            <input type="file" disabled class="form-control" id="lampiran"
-                                                aria-describedby="emailHelp" name="lampiran" accept=".pdf" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
-                                                Lampiran</label>
-                                            <input id="jumlahLampiranE" disabled type="number" class="form-control"
-                                                id="jumlahLampiranE" name="jumlahLampiran" min="0" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleFormControlTextarea1"
-                                                class="form-label black fw-normal">Perihal</label>
-                                            <textarea id="perihalE" disabled class="form-control perihal" id="exampleFormControlTextarea1" rows="1"
-                                                placeholder="Contoh : Permohonan perijinan penelitian" name="perihal" style="min-height: unset"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="alert border rounded-2 py-3 gap-2 d-flex align-items-start mt-3"
-                                    role="alert">
-                                    <i class="fa-solid fa-circle-info" class="icon__info"></i>
-                                    <div>
-                                        <span class="fw-semibold" style="font-size: 14px">Catatan</span>
-                                        <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
-                                            Surat ini ditambahkan oleh <span id="created_by"></span> (<span
-                                                id="bagian"></span>)
-                                            pada <span id="created_at"></span>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        @if ($user->role_id != 3)
-                            <div class="modal-footer">
-                                <div id="footer__edit" style="display: none">
-                                    <button type="button" onclick="batalHandling()" id="btnBatal" class="mybtn light"
-                                        data-bs-dismiss="modal">
-                                        Batal
-                                    </button>
-                                    <button type="button" class="mybtn blue" onclick="confirmEdit()">
-                                        Simpan
-                                    </button>
-                                </div>
-                                <div id="footer__detail">
-                                    <button type="button" onclick="editData()" class="mybtn blue"
-                                        onclick="confirmEdit()">
-                                        Edit
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <!-- Modal detail & edit end -->
-
             {{-- @dd($suratMasuk) --}}
 
             {{-- Tabel content start --}}
@@ -319,47 +161,166 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($suratMasuk as $k => $v)
+                        @foreach ($disposisi as $k => $v)
+                            <!-- Modal teruskan surat start -->
+                            <div class="modal modal__section fade" data-bs-backdrop="static"
+                                id="teruskanSurat{{ $v->id }}" data-bs-backdrop="static" tabindex="-1"
+                                aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content p-3">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                                                Teruskan Surat Ke
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form id="form{{ $v->id }}" class="needs-validation" novalidate
+                                            method="POST" action="{{ route('teruskanSurat') }}"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="surat_masuk_id" value="{{ $v->surat_masuk_id }}">
+                                            <input type="hidden" name="pengirim_disposisi" value="{{ $user->nip }}">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="penerima_disposisi"
+                                                            class="form-label black fw-normal">Pilih Penerima</label>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            required name="penerima_disposisi">
+                                                            <option selected disabled value="">...</option>
+                                                            @foreach ($userDisposisi as $item)
+                                                                <option value="{{ $item->nip }}">{{ $item->name }}
+                                                                </option>
+                                                                {{-- @endif --}}
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Masukkan tujuan penerima surat dengan benar.
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="tindakan" class="form-label black fw-normal">Pilih
+                                                            Tindakan</label>
+                                                        <select class="form-select" id="tindakan"
+                                                            aria-label="Default select example" required name="tindakan">
+                                                            <option selected disabled value="">...</option>
+                                                            @foreach ($tindakLanjut as $item)
+                                                                <option value="{{ $item->nama_tindak_lanjut }}">
+                                                                    {{ $item->nama_tindak_lanjut }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Masukkan tujuan penerima surat dengan benar.
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlTextarea1"
+                                                            class="form-label black fw-normal">Catatan Disposisi</label>
+                                                        <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4" placeholder=""
+                                                            name="catatan_disposisi" required></textarea>
+                                                        <div class="invalid-feedback">
+                                                            Catatan Disposisi
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                                                    Batal
+                                                </button>
+                                                <button type="submit" form="form{{ $v->id }}" class="mybtn blue"
+                                                    type="submit">
+                                                    Teruskan
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal teruskan surat end -->
+                            <!-- Modal detail disposisi start -->
+                            <div class="modal modal__section fade" data-bs-backdrop="static"
+                                id="detailDisposisi{{ $v->id }}" data-bs-backdrop="static" tabindex="-1"
+                                aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content p-3">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                                                Detail Disposisi
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @php
+                                                $tracking = explode('|', $v->trace);
+                                                foreach ($tracking as $i => $tr) {
+                                                    $ct = count($tracking);
+                                                    $item = explode(',', $tr);
+                                                    echo '<div class="text-center bg-green mb-1 mx-auto w-75 rounded">
+                                                        ' .
+                                                        $item[0] .
+                                                        '
+                                                        <br>
+                                                        ' .
+                                                        date('r', strtotime($item[1])) .
+                                                        '
+                                                        <br>
+                                                        ' .
+                                                        $item[2] .
+                                                        '</div>';
+                                                    if ($ct >= 2) {
+                                                        if ($i + 1 != $ct) {
+                                                            echo '<i class="w-100 text-center fa-solid fa-down-long"></i>';
+                                                        }
+                                                    }
+                                                }
+                                            @endphp
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal detail disposisi end -->
+                            <script>
+                                console.log(@json($v))
+                            </script>
                             <tr>
-                                <td class="no">{{ $k + 1 }}</td>
+                                <td>{{ $k + 1 }}</td>
                                 <td>
                                     {{ $v->asalSurat }} <br> <span class="pt-2 d-inline-block">Nomor :
                                         {{ $v->nomorSurat }}
                                     </span>
                                 </td>
-                                <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
-                                </td>
-                                <td>{{ $v->tujuanSurat }}</td>
-                                <td>
-                                    {{-- @if ($v->sifatSurat == 1)
-                            <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Biasa</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 2)
-                            <div class="sifat penting d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Penting</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 3)
-                            <div class="sifat segera d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Segera</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 4)
-                            <div class="sifat rahasia d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Rahasia</h5>
-                            </div>
-                            @endif --}}
-                                    {{ $v->perihal }}
-                                </td>
+                                <td>{{ date('Y-m-d', strtotime($v->created_at)) }}</td>
+                                <td>{{ $v->name }}</td>
+                                <td>{{ $v->perihal }}</td>
                                 <td>{{ $v->status }}</td>
-
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
-                                            class="myicon position-relative blue d-flex align-items-center justify-content-center"
-                                            id="btnEdit" onclick="detailSurat('{{ $v->id }}')"
-                                            data-id="{{ $v->id }}" style="width: fit-content">
-                                            <i class="fa-solid fa-file-lines me-2"></i>Detail
-                                        </button>
+                                        <a data-bs-toggle="modal" data-bs-target="#teruskanSurat{{ $v->id }}"
+                                            class="test myicon position-relative green d-flex align-items-center justify-content-center">
+                                            <i class="fa-solid fa-file-export"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Teruskan
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#detailDisposisi{{ $v->id }}"
+                                            class="test myicon position-relative blue d-flex align-items-center justify-content-center">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                            <div class="position-absolute mytooltip">
+                                                <div class="text-white px-3 py-2 position-relative">
+                                                    Detail
+                                                </div>
+                                                <div id="arrow"></div>
+                                            </div>
+                                        </a>
                                         <button type="button"
                                             class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
                                             data-bs-toggle="modal" data-bs-target="#lampiran"
@@ -372,38 +333,8 @@
                                                 <div id="arrow"></div>
                                             </div>
                                         </button>
-                                        @if ($user->role_id != 3)
-                                            <button type="button"
-                                                class="myicon position-relative red d-flex align-items-center justify-content-center"
-                                                onclick="confirmHapus('{{ $v->id }}')">
-                                                <i class="fa-solid fa-trash"></i>
-                                                <div class="position-absolute mytooltip">
-                                                    <div class="text-white px-3 py-2 position-relative">
-                                                        Hapus
-                                                    </div>
-                                                    <div id="arrow"></div>
-                                                </div>
-                                            </button>
-                                        @endif
-                                        @if ($user->role_id != 3)
-                                            <a data-id="{{ $v->id }}" data-bs-toggle="modal"
-                                                data-bs-target="#disposisi"
-                                                class="test myicon position-relative green d-flex align-items-center justify-content-center"
-                                                onclick="showDisposisi('{{ $v->id }}')">
-                                                <i class="fa-solid fa-file-export"></i>
-                                                <div class="position-absolute mytooltip">
-                                                    <div class="text-white px-3 py-2 position-relative">
-                                                        Disposisi
-                                                    </div>
-                                                    <div id="arrow"></div>
-                                                </div>
-                                            </a>
-                                        @endif
-
-                                        <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
                                     </div>
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>
@@ -441,12 +372,14 @@
         }
     </script>
     {{-- Function refresh datatables end --}}
-
     @if ($message = Session::get('success'))
         <script>
             berhasil("{{ Session::get('success') }}")
         </script>
-        </div>
+    @elseif($message = Session::get('failed'))
+        <script>
+            gagal("{{ Session::get('failed') }}")
+        </script>
     @endif
 
     <!-- Sweet alert : confirm edit start -->
@@ -689,7 +622,7 @@
 
     @if ($message = Session::get('success'))
         <script>
-            // berhasil("{{ Session::get('success') }}")
+            berhasil("{{ Session::get('success') }}")
         </script>
     @endif
 

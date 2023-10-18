@@ -521,7 +521,7 @@
                         @foreach ($suratMasuk as $k => $v)
                             <!-- Modal teruskan surat start -->
                             <div class="modal modal__section fade" data-bs-backdrop="static"
-                                id="teruskanSurat{{ $v->nomorSurat }}" data-bs-backdrop="static" tabindex="-1"
+                                id="teruskanSurat{{ $v->id }}" data-bs-backdrop="static" tabindex="-1"
                                 aria-labelledby="ex ampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content p-3">
@@ -535,22 +535,18 @@
                                         <form id="teruskanSurat" class="needs-validation" novalidate method="POST"
                                             action="{{ route('teruskanSurat') }}" enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" name="surat_masuk_id" id="surat_masuk_id"
-                                                value="{{ $v->nomorSurat }}">
+                                            <input type="hidden" name="surat_masuk_id" value="{{ $v->id }}">
+                                            <input type="hidden" name="pengirim_disposisi" value="{{ $user->nip }}">
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="mb-3">
-                                                        <label for="pengirim_disposisi"
-                                                            class="form-label black fw-normal">Pilih</label>
+                                                        <label for="penerima_disposisi"
+                                                            class="form-label black fw-normal">Pilih Tujuan</label>
                                                         <select class="form-select" aria-label="Default select example"
-                                                            required name="pengirim_disposisi">
+                                                            required name="penerima_disposisi">
                                                             <option selected disabled value="">...</option>
                                                             @foreach ($userDisposisi as $item)
-                                                                {{-- @if (old('pengirim_disposisi') == $v->kode)
-                                                <option value="{{ $v->kode }}" selected>{{ $v->nama }}
-                                                </option>
-                                            @else --}}
-                                                                <option value="{{ $item->name }}">{{ $item->name }}
+                                                                <option value="{{ $item->nip }}">{{ $item->name }}
                                                                 </option>
                                                                 {{-- @endif --}}
                                                             @endforeach
@@ -559,17 +555,44 @@
                                                             Masukkan tujuan penerima surat dengan benar.
                                                         </div>
                                                     </div>
+                                                    <div class="mb-3">
+                                                        <label for="tindakan" class="form-label black fw-normal">Pilih
+                                                            Tindakan</label>
+                                                        <select class="form-select" id="tindakan"
+                                                            aria-label="Default select example" required name="tindakan">
+                                                            <option selected disabled value="">...</option>
+                                                            @foreach ($tindakLanjut as $item)
+                                                                <option value="{{ $item->nama_tindak_lanjut }}">
+                                                                    {{ $item->nama_tindak_lanjut }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Masukkan tujuan penerima surat dengan benar.
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlTextarea1"
+                                                            class="form-label black fw-normal">Catatan Disposisi</label>
+                                                        <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4" placeholder=""
+                                                            name="catatan_disposisi" required></textarea>
+                                                        <div class="invalid-feedback">
+                                                            Catatan Disposisi
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="mybtn light" data-bs-dismiss="modal">
                                                     Batal
                                                 </button>
-                                                <button type="submit" class="mybtn blue" type="submit">
+                                                <button type="submit" form="teruskanSurat" class="mybtn blue"
+                                                    type="submit">
                                                     Teruskan
                                                 </button>
                                             </div>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
@@ -652,7 +675,7 @@
                                                     <div id="arrow"></div>
                                                 </div>
                                             </a> --}}
-                                            <a data-bs-toggle="modal" data-bs-target="#teruskanSurat{{ $v->nomorSurat }}"
+                                            <a data-bs-toggle="modal" data-bs-target="#teruskanSurat{{ $v->id }}"
                                                 class="test myicon position-relative green d-flex align-items-center justify-content-center">
                                                 <i class="fa-solid fa-file-export"></i>
                                                 <div class="position-absolute mytooltip">
@@ -788,13 +811,13 @@
             })
         }
 
-        function gagal() {
+        function gagal(txt) {
             new Audio("audio/cancel-edited.mp3").play();
             Swal.fire({
                 confirmButtonColor: "#2F5596",
                 icon: 'error',
                 title: 'Gagal!',
-                text: 'Data gagal ditambahkan!',
+                text: `${txt}`,
             })
         }
     </script>
@@ -804,7 +827,10 @@
         <script>
             berhasil("{{ Session::get('success') }}")
         </script>
-        </div>
+    @elseif($message = Session::get('failed'))
+        <script>
+            gagal("{{ Session::get('failed') }}")
+        </script>
     @endif
 
     <!-- Sweet alert : confirm edit start -->
@@ -1032,36 +1058,6 @@
     </script>
     <!-- Initializing data tables end -->
 
-    {{-- script tambahan untuk menangkap session --}}
-    <script>
-        function berhasil(txt) {
-            new Audio("audio/success-edited.mp3").play();
-            // Swal.fire("Berhasil!", `${txt}`, "success");
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'success',
-                title: `Berhasil`,
-                text: `${txt}`,
-            })
-        }
-
-        function gagal(txt) {
-            new Audio("audio/cancel-edited.mp3").play();
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'error',
-                title: 'Gagal!',
-                text: `Data gagal ditambahkan! ${txt} 
-                `,
-            })
-        }
-    </script>
-
-    @if ($message = Session::get('success'))
-        <script>
-            // berhasil("{{ Session::get('success') }}")
-        </script>
-    @endif
 
     {{-- Bootstrap form validation start --}}
     <script>

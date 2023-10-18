@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Carbon\Carbon;
 use App\Models\Role;
+use App\Models\tindak_lanjut;
 use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -346,5 +347,28 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         // Sifat seeder end
+
+        $tindak_lanjut = [
+            'Mohon Pertimbangan',
+            'Mohon Pendapat',
+            'Mohon Keputusan',
+            'Mohon Petunjuk',
+            'Mohon Saran',
+            'Bicarakan',
+            'Teliti / Ikuti Perkembangan',
+            'Untuk Perhatian',
+            'Siapkan Laporan',
+            'Siapkan Konsep',
+            'Untuk Diproses',
+            'Selesaikan Sesuai Pembicaraan',
+            'Edaran',
+            'Tik / Gandakan',
+            'Arsip'
+        ];
+        foreach ($tindak_lanjut as $tl) {
+            $tindak_lanjut = new tindak_lanjut();
+            $tindak_lanjut->nama_tindak_lanjut = $tl;
+            $tindak_lanjut->save();
+        }
     }
 }
