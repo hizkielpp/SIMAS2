@@ -359,6 +359,7 @@ class DatabaseSeeder extends Seeder
                     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
                     'tujuanSurat' => 'aaa', // Ganti dengan pembuat surat yang sesuai
                     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+                    'lampiran' => 'applsci-11-04267.pdf', // Ganti dengan pembuat surat yang sesuai
                 ]);
             } else {
                 DB::table('suratkeluar')->insert([
@@ -373,6 +374,7 @@ class DatabaseSeeder extends Seeder
                     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
                     'tujuanSurat' => 'bbb', // Ganti dengan pembuat surat yang sesuai
                     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
+                    'lampiran' => 'applsci-11-04267.pdf', // Ganti dengan pembuat surat yang sesuai
                 ]);
             }
         }

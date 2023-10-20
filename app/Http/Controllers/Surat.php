@@ -252,10 +252,18 @@ class Surat extends Controller
     // Fungsi server side datatables start
     public function getSuratKeluar(Request $request)
     {
-        $perPage = $request->input('length');
-        $page = $request->input('start') / $perPage + 1;
+        $start = $request->input('mulai');
+        $end = $request->input('selesai');
 
+        if ($start && $end) {
+            return 'Masuk';
+        }
+        $perPage = $request->input('length');
         $user = session()->get('user');
+        if (!$request->input('length')) {
+            $perPage = DB::table('suratkeluar')->where('created_by', $user->nip)->get()->count();
+        }
+        $page = $request->input('start') / $perPage + 1;
 
         // $query = DB::table('suratkeluar')
         //     ->where('jenis', 'biasa')
@@ -266,7 +274,7 @@ class Surat extends Controller
         //     ->orderBy('nomorSurat', 'desc');
 
         // Ambil data surat keluar start
-        if (isset($_GET['start']) && isset($_GET['end'])) {
+        if (isset($_GET['mulai']) && isset($_GET['berakhir'])) {
             $start = strtotime($_GET['start']);
             $end = strtotime($_GET['end']);
 
@@ -349,65 +357,11 @@ class Surat extends Controller
     {
         $user = session()->get('user');
         $unit = DB::table('unit')->get();
-        if (isset($_GET['start']) && isset($_GET['end'])) {
-            $start = strtotime($_GET['start']);
-            $end = strtotime($_GET['end']);
-
-            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
-            if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratKeluar = DB::table('suratkeluar')
-                    ->where('jenis', 'biasa')
-                    ->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
-                    ->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
-                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
-                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->get();
-            }
-            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
-            else {
-                $suratKeluar = DB::table('suratkeluar')
-                    ->where('jenis', 'biasa')
-                    ->where('tanggalPengesahan', '>=', date('Y-m-d', $start) . ' 00:00:00.0')
-                    ->where('tanggalPengesahan', '<=', date('Y-m-d', $end) . ' 23:59:59.9')
-                    ->where('created_by', $user->nip)
-                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
-                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->get();
-            }
-        } else {
-            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
-            if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratKeluar = DB::table('suratkeluar')
-                    ->where('jenis', 'biasa')
-                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
-                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
-                    ->orderBy('tanggalPengesahan', 'desc')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->get();
-            }
-            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
-            else {
-                $suratKeluar = DB::table('suratkeluar')
-                    ->where('jenis', 'biasa')
-                    ->where('created_by', $user->nip)
-                    ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
-                    ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
-                    ->orderBy('tanggalPengesahan', 'desc')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->get();
-            }
-        }
-
         $sifat = DB::table('sifat')->get();
         $tujuan = DB::table('tujuan')->get();
         $hal = DB::table('hal')->get();
-        if ($suratKeluar) {
-            return view('surat-keluar')->with(['user' => $user, 'tujuan' => $tujuan, 'suratKeluar' => $suratKeluar, 'sifat' => $sifat, 'hal' => $hal, 'unit' => $unit]);
-        } else {
-            return view('surat-keluar')->with(['failed' => 'data surat keluar kosong', 'sifat' => $sifat, 'hal' => $hal]);
-        }
+
+        return view('surat-keluar')->with(['user' => $user, 'tujuan' => $tujuan, 'sifat' => $sifat, 'hal' => $hal, 'unit' => $unit]);
     }
     // Fungsi menampilkan halaman surat keluar end
 
