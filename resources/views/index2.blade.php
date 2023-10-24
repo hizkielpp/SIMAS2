@@ -44,7 +44,7 @@
                                         <h5 class="black__light fw__normal mb-2">
                                             Surat Masuk
                                         </h5>
-                                        <h4 class="black fw__ebold">{{ $jumlahSM }}</h4>
+                                        <h4 id="jumlahSm" class="black fw__ebold"></h4>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                         <h5 class="black__light fw__normal mb-2">
                                             Surat Keluar
                                         </h5>
-                                        <h4 class="black fw__ebold">{{ $jumlahSK }}
+                                        <h4 id="jumlahSk" class="black fw__ebold">
                                         </h4>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                         <h5 class="black__light fw__normal mb-2">
                                             Surat Antidatir
                                         </h5>
-                                        <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
+                                        <h4 id="jumlahSa" class="black fw__ebold"></h4>
                                     </div>
                                 </div>
                                 {{-- <span class="fw-normal ms-2 position-absolute"
@@ -91,9 +91,8 @@
                                 </span> --}}
                             </div>
                         </div>
-                    @else
                         {{-- Admin dan pimpinan end --}}
-
+                    @else
                         {{-- Operator start --}}
                         <div class="col-sm-6 col-12">
                             <div class="card position-relative surat justify-content-center py-2 px-4">
@@ -105,7 +104,7 @@
                                         <h5 class="black__light fw__normal mb-2">
                                             Surat Keluar
                                         </h5>
-                                        <h4 class="black fw__ebold">{{ $jumlahSK }}</h4>
+                                        <h4 id="jumlahSk" class="black fw__ebold"></h4>
                                     </div>
                                 </div>
                                 <span class="fw-normal ms-2 position-absolute"
@@ -122,7 +121,7 @@
                                         <h5 class="black__light fw__normal mb-2">
                                             Surat Antidatir
                                         </h5>
-                                        <h4 class="black fw__ebold">{{ $jumlahSA }}</h4>
+                                        <h4 id="jumlahSa" class="black fw__ebold"></h4>
                                     </div>
                                 </div>
                                 {{-- <span class="fw-normal ms-2 position-absolute"
@@ -184,10 +183,24 @@
     @endsection @section('js')
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{--
-<script src="sweetalert2.all.min.js"></script>
---}}
     {{-- Sweet alert end --}}
+
+    {{-- Format jumlah surat start --}}
+    <script>
+        const wrapperSm = document.getElementById('jumlahSm')
+        const wrapperSk = document.getElementById('jumlahSk')
+        const wrapperSa = document.getElementById('jumlahSa')
+        const jumlahSuratMasuk = `{{ $jumlahSM }}`;
+        const jumlahSuratKeluar = `{{ $jumlahSK }}`;
+        const jumlahSuratAntidatir = `{{ $jumlahSA }}`;
+        const formatedSuratMasuk = jumlahSuratMasuk.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const formatedSuratKeluar = jumlahSuratKeluar.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const formatedSuratAntidatir = jumlahSuratAntidatir.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        wrapperSm.innerText = `${formatedSuratMasuk}`
+        wrapperSk.innerText = `${formatedSuratKeluar}`
+        wrapperSa.innerText = `${formatedSuratAntidatir}`
+    </script>
+    {{-- Format jumlah surat start --}}
 
     {{-- Fungsi menampilkan login berhasil start --}}
     <script>
