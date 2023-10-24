@@ -11,24 +11,6 @@
             /* for responsiveness */
         }
     </style>
-    {{-- Fungsi rentang tanggal start --}}
-    <script>
-        $(document).ready(function() {
-
-        });
-    </script>
-    {{-- @if (isset($_GET['start']) and isset($_GET['end']))
-        <script>
-            let start = "{{ $_GET['start'] }}"
-            let end = "{{ $_GET['end'] }}"
-        </script>
-    @else
-        <script>
-            let start = ""
-            let end = ""
-        </script>
-    @endif --}}
-    {{-- Fungsi rentang tanggal start --}}
 
     {{-- Datepicker Jquery : registrasi surat --}}
     <script>
@@ -648,7 +630,6 @@
 
                             {{-- <th class="text-center">Sifat</th> --}}
                         </tr>
-
                     </thead>
                     <tbody>
                     </tbody>
@@ -1004,60 +985,11 @@
     @if ($user->role_id != 3)
         <script>
             $(document).ready(function() {
-                // var mulai = $('#inputTanggalStart').val()
-                // console.log(mulai);
-                // var selesai = $('#inputTanggalEnd').val()
-                // $('#inputTanggalStart').change(function() {
-                //     mulai = this.value
-                //     // if (mulai && selesai) {
-                //     table_server_side.ajax.reload()
-                //     // }
-                //     console.log(mulai);
-
-                // })
-                // $('#inputTanggalEnd').change(function() {
-                //     selesai = this.value
-                //     // if (mulai && selesai) {
-                //     table_server_side.ajax.reload()
-                //     // }
-                // })
-
-                $(function() {
-                    // Initializing
-                    $("#inputTanggalStart").datepicker()
-                    // Ganti tahun
-                    $("#inputTanggalStart").datepicker("option", "changeYear", true);
-                    // Ganti format tanggal
-                    $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
-
-                    // Simpan value ke variabel
-                    var start
-                    $('#inputTanggalStart').on('change', function() {
-                        start = $(this).val();
-                    });
-                });
-                $(function() {
-                    // Initializing
-                    $("#inputTanggalEnd").datepicker()
-                    // Ganti tahun
-                    $("#inputTanggalEnd").datepicker("option", "changeYear", true);
-                    // Ganti format tanggal
-                    $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
-
-                    // Simpan value ke variabel
-                    var end
-                    $('#inputTanggalEnd').on('change', function() {
-                        end = $(this).val();
-                    });
-                });
-
-
-                var table_server_side = $("#mytable").DataTable({
+                var table = $("#mytable").DataTable({
                     serverSide: true,
                     ajax: {
                         url: '/getSuratKeluar',
-                        type: 'GET',
-                        data: data
+                        type: 'GET'
                     },
                     pageLength: 10,
                     columns: [
@@ -1210,8 +1142,10 @@
                         {
                             targets: [5],
                             visible: false
-                        },
-                        {
+                        }, {
+                            "targets": 0, // Ganti dengan indeks kolom yang sesuai
+                            "className": "text-center"
+                        }, {
                             "width": "25%",
                             "targets": 1,
                         }, {
@@ -1229,7 +1163,7 @@
                             target: "",
                         },
                     },
-                    dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                    dom: '<"d-flex justify-content-between flex-wrap gap-3"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                     buttons: [{
                         text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
                         className: 'mybtn green',
@@ -1240,8 +1174,8 @@
                                 "Dibuat Oleh"
                             ];
                             let allData = table.rows().data().toArray();
-
                             let data = [];
+                            const user = `{{ $user->role_id }}`
 
                             // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
                             for (let i = 0; i < allData.length; i++) {
@@ -1345,10 +1279,16 @@
                             let formattedDate = dd + ' ' + month + ' ' + yyyy;
 
                             // Nama file Excel dengan tanggal hari ini
-                            let fileName =
-                                'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
-                                '- ' + day + ', ' +
-                                formattedDate + '.xlsx';
+                            let fileName = ''
+                            if (user == 1) {
+                                fileName =
+                                    'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                                    '- ' + day + ', ' +
+                                    formattedDate + '.xlsx';
+                            } else {
+                                fileName = 'Rekap Data Surat Keluar - ' + day + ', ' +
+                                    formattedDate + '.xlsx'
+                            }
 
                             // Ekspor file Excel
                             XLSX.writeFile(workbook, fileName);
@@ -1375,12 +1315,37 @@
                         [10, 50, 200, 1000, 10000],
                     ],
                 });
+
+                // Initializing
+                $("#inputTanggalStart").datepicker()
+                // Ganti tahun
+                $("#inputTanggalStart").datepicker("option", "changeYear", true);
+                // Ganti format tanggal
+                $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
+
+                // Initializing
+                $("#inputTanggalEnd").datepicker()
+                // Ganti tahun
+                $("#inputTanggalEnd").datepicker("option", "changeYear", true);
+                // Ganti format tanggal
+                $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
+
+                // Filter rentang tanggal start
+                $('#inputTanggalStart, #inputTanggalEnd').on('change', function() {
+                    var start = $('#inputTanggalStart').val();
+                    var end = $('#inputTanggalEnd').val();
+
+                    if (start && end) {
+                        table.ajax.url('getSuratKeluar?mulai=' + start + '&selesai=' + end).load();
+                    }
+                });
+                // Filter rentang tanggal end
             });
         </script>
     @else
         <script>
             $(document).ready(function() {
-                $("#mytable").DataTable({
+                var table = $("#mytable").DataTable({
                     serverSide: true,
                     ajax: {
                         url: '/getSuratKeluar',
@@ -1553,8 +1518,8 @@
                                 "Dibuat Oleh"
                             ];
                             let allData = table.rows().data().toArray();
-
                             let data = [];
+                            const user = `{{ $user->role_id }}`
 
                             // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
                             for (let i = 0; i < allData.length; i++) {
@@ -1620,7 +1585,6 @@
                                 return numA - numB;
                             });
 
-                            console.log(data);
                             // Tambahkan header ke data
                             let excelData = [dataTableHeaders].concat(data)
 
@@ -1659,10 +1623,16 @@
                             let formattedDate = dd + ' ' + month + ' ' + yyyy;
 
                             // Nama file Excel dengan tanggal hari ini
-                            let fileName =
-                                'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
-                                '- ' + day + ', ' +
-                                formattedDate + '.xlsx';
+                            let fileName = ''
+                            if (user == 1) {
+                                fileName =
+                                    'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                                    '- ' + day + ', ' +
+                                    formattedDate + '.xlsx';
+                            } else {
+                                fileName = 'Rekap Data Surat Keluar - ' + day + ', ' +
+                                    formattedDate + '.xlsx'
+                            }
 
                             // Ekspor file Excel
                             XLSX.writeFile(workbook, fileName);
@@ -1689,6 +1659,17 @@
                         [10, 50, 200, 1000, 10000],
                     ],
                 });
+
+                // Filter rentang tanggal start
+                $('#inputTanggalStart, #inputTanggalEnd').on('change', function() {
+                    var start = $('#inputTanggalStart').val();
+                    var end = $('#inputTanggalEnd').val();
+
+                    if (start && end) {
+                        table.ajax.url('getSuratKeluar?mulai=' + start + '&selesai=' + end).load();
+                    }
+                });
+                // Filter rentang tanggal end
             });
         </script>
     @endif
@@ -1704,12 +1685,14 @@
                 url: "/getSuratKeluar", // Ganti dengan rute yang sesuai
                 dataType: "json",
                 data: {
-                    'start': 1,
+                    'start': 0,
+                    'length': 10,
                 },
                 success: function(data) {
                     var dataTableData = data.data;
                     let semuaSudahArsip = true; // Inisialisasi dengan true
                     let jumlah = 0;
+                    console.log(dataTableData);
 
                     dataTableData.forEach(item => {
                         if (item.sifatSurat != 4 && !item.lampiran && item.status ==

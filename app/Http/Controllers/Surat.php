@@ -255,9 +255,6 @@ class Surat extends Controller
         $start = $request->input('mulai');
         $end = $request->input('selesai');
 
-        if ($start && $end) {
-            return 'Masuk';
-        }
         $perPage = $request->input('length');
         $user = session()->get('user');
         if (!$request->input('length')) {
@@ -265,18 +262,10 @@ class Surat extends Controller
         }
         $page = $request->input('start') / $perPage + 1;
 
-        // $query = DB::table('suratkeluar')
-        //     ->where('jenis', 'biasa')
-        //     ->where('created_by', $user->nip)
-        //     ->join('users', 'suratkeluar.created_by', '=', 'users.nip')
-        //     ->select('suratkeluar.*', 'users.name as name', 'users.bagian as bagian')
-        //     ->orderBy('tanggalPengesahan', 'desc')
-        //     ->orderBy('nomorSurat', 'desc');
-
         // Ambil data surat keluar start
-        if (isset($_GET['mulai']) && isset($_GET['berakhir'])) {
-            $start = strtotime($_GET['start']);
-            $end = strtotime($_GET['end']);
+        if ($start && $end) {
+            $start = strtotime($start);
+            $end = strtotime($end);
 
             // Kondisi untuk admin dan pimpinan dapat melihat semua surat
             if ($user->role_id == 1 || $user->role_id == 3) {
