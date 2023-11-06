@@ -1203,7 +1203,6 @@
                                     bulan);
                                 // Nomor surat : convert bulan ke romawi end
 
-
                                 // Tanggal disahkan : convert bulan ke bulan indonesia start
                                 const namaBulanIndonesia = [
                                     "Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -1240,6 +1239,32 @@
                                 // Membandingkan nomor untuk pengurutan
                                 return numA - numB;
                             });
+
+                            function parseDate(dateString) {
+                                const months = {
+                                    'Januari': '01',
+                                    'Februari': '02',
+                                    'Maret': '03',
+                                    'April': '04',
+                                    'Mei': '05',
+                                    'Juni': '06',
+                                    'Juli': '07',
+                                    'Agustus': '08',
+                                    'September': '09',
+                                    'Oktober': '10',
+                                    'November': '11',
+                                    'Desember': '12'
+                                };
+
+                                const [day, month, year] = dateString.split(' ');
+                                const monthNumber = months[month];
+                                if (monthNumber) {
+                                    return new Date(`${year}-${monthNumber}-${day}`);
+                                }
+                                return new Date(); // Atau tindakan lain jika format tanggal tidak valid
+                            }
+
+                            data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
 
                             // Tambahkan header ke data
                             let excelData = [dataTableHeaders].concat(data)
@@ -1585,6 +1610,32 @@
                                 return numA - numB;
                             });
 
+                            function parseDate(dateString) {
+                                const months = {
+                                    'Januari': '01',
+                                    'Februari': '02',
+                                    'Maret': '03',
+                                    'April': '04',
+                                    'Mei': '05',
+                                    'Juni': '06',
+                                    'Juli': '07',
+                                    'Agustus': '08',
+                                    'September': '09',
+                                    'Oktober': '10',
+                                    'November': '11',
+                                    'Desember': '12'
+                                };
+
+                                const [day, month, year] = dateString.split(' ');
+                                const monthNumber = months[month];
+                                if (monthNumber) {
+                                    return new Date(`${year}-${monthNumber}-${day}`);
+                                }
+                                return new Date(); // Atau tindakan lain jika format tanggal tidak valid
+                            }
+
+                            data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
+
                             // Tambahkan header ke data
                             let excelData = [dataTableHeaders].concat(data)
 
@@ -1692,7 +1743,6 @@
                     var dataTableData = data.data;
                     let semuaSudahArsip = true; // Inisialisasi dengan true
                     let jumlah = 0;
-                    console.log(dataTableData);
 
                     dataTableData.forEach(item => {
                         if (item.sifatSurat != 4 && !item.lampiran && item.status ==
