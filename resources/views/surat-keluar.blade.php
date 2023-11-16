@@ -1221,7 +1221,7 @@
                                 // Tanggal disahkan : convert bulan ke bulan indonesia end
 
                                 let nomorSuratLengkap =
-                                    `${nomorSurat}/${kodeHal}/${kodeUnit}/${romawiBulan}/${tahun}`
+                                    `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
                                 let subarrayTerpilih = [tanggalFixed, subarray
                                     .disahkanOleh,
                                     nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
@@ -1591,7 +1591,7 @@
                                 // Tanggal disahkan : convert bulan ke bulan indonesia end
 
                                 let nomorSuratLengkap =
-                                    `${nomorSurat}/${kodeHal}/${kodeUnit}/${romawiBulan}/${tahun}`
+                                    `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
                                 let subarrayTerpilih = [tanggalFixed, subarray
                                     .disahkanOleh,
                                     nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
