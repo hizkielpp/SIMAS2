@@ -8,48 +8,6 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-    {{-- Fungsi rentang tanggal start --}}
-    <script>
-        $(document).ready(function() {
-            $(function() {
-                // Initializing
-                $("#inputTanggalStart").datepicker()
-                // Ganti tahun
-                $("#inputTanggalStart").datepicker("option", "changeYear", true);
-                // Ganti format tanggal
-                $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
-                if (start) {
-                    $("#inputTanggalStart").datepicker("setDate", `${start}`)
-                    $("#inputTanggalStart").attr('value', start)
-                }
-            });
-            $(function() {
-                // Initializing
-                $("#inputTanggalEnd").datepicker()
-                // Ganti tahun
-                $("#inputTanggalEnd").datepicker("option", "changeYear", true);
-                // Ganti format tanggal
-                $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
-                if (end) {
-                    $("#inputTanggalEnd").datepicker("setDate", `${end}`)
-                    $("#inputTanggalEnd").attr('value', end)
-                }
-            });
-        });
-    </script>
-    @if (isset($_GET['start']) and isset($_GET['end']))
-        <script>
-            let start = "{{ $_GET['start'] }}"
-            let end = "{{ $_GET['end'] }}"
-        </script>
-    @else
-        <script>
-            let start = ""
-            let end = ""
-        </script>
-    @endif
-    {{-- Fungsi rentang tanggal start --}}
-
     {{-- Datepicker Jquery : registrasi surat --}}
     <script>
         $(function() {
@@ -179,7 +137,7 @@
                             class="mybtn" />
                         <i class="fa-solid fa-calendar-days position-absolute"></i>
                     </div>
-                    @if ($user->role_id != 3)
+                    {{-- @if ($user->role_id != 3)
                         @if ($semuaSudahArsip)
                             <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
                                 class="mybtn blue">
@@ -190,7 +148,8 @@
                                 <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
                             </button>
                         @endif
-                    @endif
+                    @endif --}}
+                    <div id="btnRegistrasi"></div>
                 </div>
             </div>
             {{-- Tabel header start --}}
@@ -690,44 +649,12 @@
                             <th>Disahkan Oleh / No. Surat</th>
                             <th>Tanggal Disahkan</th>
                             <th>Perihal</th>
-                            {{-- <th class="text-center">Sifat</th> --}}
-                            <th class="text-center">Aksi</th>
+                            <th>Aksi</th>
+                            <th>Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($suratAntidatir as $k => $v)
-                            <tr>
-                                <td class="no">{{ $k + 1 }}</td>
-                                <td>
-                                    {{ $v->disahkanOleh }} <br />
-                                    <div class="pt-2">
-                                        Nomor :
-                                        {{ $v->nomorSurat }}/{{ $v->kodeUnit }}/{{ $v->kodeHal }}/{{ convertToRomawi(date('m', strtotime($v->tanggalPengesahan))) }}/{{ date('Y', strtotime($v->tanggalPengesahan)) }}
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ date('d ', strtotime($v->tanggalPengesahan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengesahan))) }}{{ date(' Y', strtotime($v->tanggalPengesahan)) }}
-                                </td>
-                                <td>{{ $v->perihal }}</td>
-                                {{-- <td>
-                            @if ($v->sifatSurat == 1)
-                            <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Biasa</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 2)
-                            <div class="sifat penting d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Penting</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 3)
-                            <div class="sifat segera d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Segera</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 4)
-                            <div class="sifat rahasia d-flex justify-content-center align-items-center mx-auto">
-                                <h5 class="fw__semi">Rahasia</h5>
-                            </div>
-                            @endif
-                        </td> --}}
+                        {{-- <tr>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center gap-2">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
@@ -764,23 +691,9 @@
                                                 </div>
                                             </button>
                                         @endif
-                                        {{--
-                                <button type="button"
-                                    class="myicon position-relative red d-flex align-items-center justify-content-center"
-                                    onclick="confirmHapus('{{ $v->id }}')">
-                                    <i class="fa-solid fa-trash"></i>
-                                    <div class="position-absolute mytooltip">
-                                        <div class="text-white px-3 py-2 position-relative">
-                                            Hapus
-                                        </div>
-                                        <div id="arrow"></div>
-                                    </div>
-                                </button>
-                                --}}
                                     </div>
                                 </td>
-                            </tr>
-                        @endforeach
+                            </tr> --}}
                     </tbody>
                 </table>
             </div>
@@ -790,13 +703,6 @@
     </section>
     @endsection @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        const kirimin = (e) => {
-            e.preventDefault();
-            console.log($('#datepicker').val());
-        }
-    </script>
 
     {{-- Fungsi lihat lampiran start --}}
     <script>
@@ -921,25 +827,6 @@
             });
             $('input[name="idSurat"]').attr('value', id);
         }
-        $(document).ready(function() {
-            var start = $('#inputTanggalStart').attr('value')
-            var end = $('#inputTanggalEnd').attr('value')
-            oke = false
-            $('#inputTanggalStart').change(function() {
-                start = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-            $('#inputTanggalEnd').change(function() {
-                end = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratKeluar') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-        });
     </script>
     {{-- Fungsi detail surat end --}}
 
@@ -1066,74 +953,22 @@
         }
     </script>
 
-    <script>
-        function ambilNomor() {
-            if (dateNow == "") {
-                Swal.fire({
-                    confirmButtonColor: "#2F5596",
-                    text: "Silahkan isi tanggal disahkan terlebih dahulu!",
-                    icon: "warning",
-                });
-                new Audio("audio/error-edited.mp3").play();
-            } else {
-                $.ajax({
-                    type: "GET",
-                    url: "{{ route('ambilNomor') }}" +
-                        "?jenis=antidatir&tanggalPengesahan=" +
-                        dateNow,
-                    statusCode: {
-                        404: function(xhr) {
-                            new Audio("audio/error-edited.mp3").play();
-                            Swal.fire("Gagal!", xhr.responseText, "error");
-                        },
-                        401: function(xhr) {
-                            new Audio("audio/error-edited.mp3").play();
-                            Swal.fire("Gagal!", xhr.responseText, "error");
-                        },
-                        200: function(xhr) {
-                            $("#nomorSurat").attr("value", xhr);
-                            $("#datepicker").prop("disabled", true);
-                            $("#tglPengesahan").prop("disabled", false);
-                            $("#tglPengesahan").val($("#datepicker").val());
-                        },
-                    },
-                });
-            }
-        }
-    </script>
-    <script>
-        $(document).ready(function() {
-            var start = $('#inputTanggalStart').attr('value')
-            var end = $('#inputTanggalEnd').attr('value')
-            dateNow = ""
-            oke = false
-            $('#inputTanggalStart').change(function() {
-                start = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratAntidatir') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-            $('#datepicker').change(function() {
-                dateNow = this.value
-            })
-            $('#inputTanggalEnd').change(function() {
-                end = this.value
-                if (start && end) {
-                    window.location.href = '{{ route('suratAntidatir') }}' + '?start=' + start + '&end=' +
-                        end;
-                }
-            })
-        });
-    </script>
-    <!-- Data tables -->
+    <!-- Datatables CDN start -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
     </script>
+    <!-- Datatables CDN end -->
+
     <!-- Data tables : responsive -->
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 
+    {{-- Datatables button start --}}
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    {{-- Datatables button end --}}
+
+    {{-- Fungsi detail surat start --}}
     <script>
         $(document).ready(function() {
             $(".passId").click(function() {
@@ -1169,54 +1004,485 @@
             });
         });
     </script>
+    {{-- Fungsi detail surat end --}}
 
-    <!-- Initializing data tables -->
+    {{-- Fungsi ambil nomor surat start --}}
     <script>
-        var btn = document.getElementById("tes");
+        let dateNow = ""
+        $('#datepicker').change(function() {
+            dateNow = this.value
+        })
+
+        function ambilNomor() {
+            if (dateNow == "") {
+                Swal.fire({
+                    confirmButtonColor: "#2F5596",
+                    text: "Silahkan isi tanggal disahkan terlebih dahulu!",
+                    icon: "warning",
+                });
+                new Audio("audio/error-edited.mp3").play();
+            } else {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('ambilNomor') }}" +
+                        "?jenis=antidatir&tanggalPengesahan=" +
+                        dateNow,
+                    statusCode: {
+                        404: function(xhr) {
+                            new Audio("audio/error-edited.mp3").play();
+                            Swal.fire("Gagal!", xhr.responseText, "error");
+                        },
+                        401: function(xhr) {
+                            new Audio("audio/error-edited.mp3").play();
+                            Swal.fire("Gagal!", xhr.responseText, "error");
+                        },
+                        200: function(xhr) {
+                            $("#nomorSurat").attr("value", xhr);
+                            $("#datepicker").prop("disabled", true);
+                            $("#tglPengesahan").prop("disabled", false);
+                            $("#tglPengesahan").val($("#datepicker").val());
+                        },
+                    },
+                });
+            }
+        }
+    </script>
+    {{-- Fungsi ambil nomor surat end --}}
+
+    <!-- Initializing data tables start -->
+    @if ($user->role_id != 3)
+        <script>
+            $(document).ready(function() {
+                var table = $("#mytable").DataTable({
+                    serverSide: true,
+                    ajax: {
+                        url: '/getSuratAntidatir',
+                        type: 'GET'
+                    },
+                    pageLength: 10,
+                    columns: [
+                        // Indeks nomor start
+                        {
+                            render: function(data, type, row, meta) {
+                                return meta.row + 1
+                            }
+                        },
+                        // Indeks nomor end
+
+                        // Disahkan oleh / nomor surat start
+                        {
+                            render: function(data, type, row, meta) {
+                                let disahkanOleh = row.disahkanOleh
+                                let nomorSurat = row.nomorSurat
+                                let kodeUnit = row.kodeUnit
+                                let kodeHal = row.kodeHal
+                                let tanggalPengesahanOriginal = row.tanggalPengesahan
+                                let tanggalPengesahan = new Date(`${tanggalPengesahanOriginal}`)
+                                let tahun = tanggalPengesahan.getFullYear()
+                                let bulan = tanggalPengesahan.getMonth() + 1
+
+                                function angkaBulanKeRomawi(bulan) {
+                                    if (bulan < 1 || bulan > 12) {
+                                        return "Invalid";
+                                    }
+
+                                    const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
+                                        "VIII", "IX", "X", "XI", "XII"
+                                    ];
+                                    return romawi[bulan];
+                                }
+
+                                const romawiBulan = angkaBulanKeRomawi(
+                                    bulan); // Konversi angka bulan ke angka Romawi
+
+                                return `
+                                ${disahkanOleh} <br />
+                                <div class="pt-2">
+                                    Nomor : ${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}
+                                </div>
+                                `
+                            }
+                        },
+                        // Disahkan oleh / nomor surat end
+
+                        // Tanggal disahkan start
+                        {
+                            render: function(data, type, row, meta) {
+                                let tes = row
+                                let tanggalPengesahanOriginal = row.tanggalPengesahan
+                                let tanggal = new Date(tanggalPengesahanOriginal);
+
+                                const namaBulanIndonesia = [
+                                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                                    "Juli", "Agustus", "September", "Oktober", "November",
+                                    "Desember"
+                                ];
+
+                                const tanggalFormatted = tanggal.getDate().toString().padStart(2,
+                                    '0'); // Dapatkan tanggal dan format dengan 2 digit
+                                const namaBulan = namaBulanIndonesia[tanggal
+                                    .getMonth()]; // Dapatkan nama bulan sesuai indeks
+                                const tahun = tanggal.getFullYear(); // Dapatkan tahun
+
+                                return `${tanggalFormatted} ${namaBulan} ${tahun}`;
+                            }
+                        },
+                        // Tanggal disahkan end
+
+                        // Perihal start
+                        {
+                            data: "perihal"
+                        },
+                        // Perihal end
+
+                        // Aksi start
+                        {
+                            render: function(data, type, full, meta) {
+                                let id = full.id
+                                let lampiran = full.lampiran
+                                if (lampiran == null) {
+                                    return `
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
+                                            class="myicon position-relative blue d-flex align-items-center justify-content-center"
+                                                id="btnEdit" onclick="detailSurat('${id}')"
+                                                data-id="${id}" style="width: fit-content">
+                                                <i class="fa-solid fa-file-lines me-2"></i>Detail
+                                        </button>
+                                        <button type="button"
+                                                class="myicon position-relative yellow d-flex align-items-center justify-content-center"
+                                                data-bs-toggle="modal" data-bs-target="#uploadDokumen"
+                                                onclick="uploadDokumen('${id}')" id="btnUpload">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <div class="position-absolute mytooltip">
+                                                    <div class="text-white px-3 py-2 position-relative">
+                                                        Upload Arsip
+                                                    </div>
+                                                    <div id="arrow"></div>
+                                                </div>
+                                        </button>
+                                    </div>
+                                                `;
+                                } else {
+                                    return `
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
+                                            class="myicon position-relative blue d-flex align-items-center justify-content-center"
+                                                id="btnEdit" onclick="detailSurat('${id}')"
+                                                data-id="${id}" style="width: fit-content">
+                                                <i class="fa-solid fa-file-lines me-2"></i>Detail
+                                        </button>
+                                        <button type="button"
+                                                class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
+                                                data-bs-toggle="modal" data-bs-target="#lampiran"
+                                                onclick="lihatLampiran('${lampiran}')">
+                                                <i class="fa-solid fa-paperclip"></i>
+                                                <div class="position-absolute mytooltip">
+                                                    <div class="text-white px-3 py-2 position-relative">
+                                                        Lihat Arsip
+                                                    </div>
+                                                    <div id="arrow"></div>
+                                                </div>
+                                        </button>
+                                    </div>
+                                                `;
+                                }
+                            },
+                            orderable: false, // Agar kolom ini tidak dapat diurutkan
+                            searchable: false, // Agar kolom ini tidak dapat dicari
+                        },
+                        // Aksi end
+
+                        // Name start
+                        {
+                            render: function(data, type, row, meta) {
+                                let name = row.name
+                                return name
+                            }
+                        }
+                        // Name end
+                    ],
+                    columnDefs: [{
+                            orderable: false,
+                            targets: [0, 1, 2, 3, 4, 5]
+                        },
+                        {
+                            targets: [5],
+                            visible: false
+                        }, {
+                            "targets": 0, // Ganti dengan indeks kolom yang sesuai
+                            "className": "text-center"
+                        }, {
+                            "width": "25%",
+                            "targets": 1,
+                        }, {
+                            "width": "15%",
+                            "targets": 2,
+                        }, {
+                            "width": "40%",
+                            "targets": 3,
+                        }
+                    ],
+                    responsive: {
+                        details: {
+                            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                            type: "none",
+                            target: "",
+                        },
+                    },
+                    dom: '<"d-flex justify-content-between flex-wrap gap-3"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                    buttons: [{
+                        text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
+                        className: 'mybtn green',
+                        action: function exportExcel() {
+                            let table = $('#mytable').DataTable();
+                            let dataTableHeaders = ["Tanggal Disahkan", "Disahkan Oleh",
+                                "Nomor Surat", "Perihal", "Tujuan Surat",
+                                "Dibuat Oleh"
+                            ];
+                            let allData = table.rows().data().toArray();
+                            let data = [];
+                            const user = `{{ $user->role_id }}`
+
+                            // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
+                            for (let i = 0; i < allData.length; i++) {
+                                let subarray = allData[i];
+                                let nomorSurat = subarray.nomorSurat;
+                                let kodeHal = subarray.kodeHal;
+                                let kodeUnit = subarray.kodeUnit;
+                                let tanggalPengesahanOriginal = subarray.tanggalPengesahan
+                                let tanggalPengesahan = new Date(tanggalPengesahanOriginal)
+                                let bulan = tanggalPengesahan.getMonth() + 1
+                                let tahun = tanggalPengesahan.getFullYear()
+
+                                // Nomor surat : convert bulan ke romawi start
+                                function angkaBulanKeRomawi(bulan) {
+                                    if (bulan < 1 || bulan > 12) {
+                                        return "Invalid";
+                                    }
+
+                                    const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
+                                        "VIII", "IX", "X", "XI", "XII"
+                                    ];
+                                    return romawi[bulan];
+                                }
+                                const romawiBulan = angkaBulanKeRomawi(
+                                    bulan);
+                                // Nomor surat : convert bulan ke romawi end
+
+                                // Tanggal disahkan : convert bulan ke bulan indonesia start
+                                const namaBulanIndonesia = [
+                                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                                    "Juli", "Agustus", "September", "Oktober", "November",
+                                    "Desember"
+                                ];
+
+                                const tanggalFormatted = tanggalPengesahan.getDate().toString()
+                                    .padStart(2,
+                                        '0'); // Dapatkan tanggal dan format dengan 2 digit
+                                const namaBulan = namaBulanIndonesia[tanggalPengesahan
+                                    .getMonth()]; // Dapatkan nama bulan sesuai indeks
+                                const tahunOri = tanggalPengesahan.getFullYear(); // Dapatkan tahun
+
+                                let tanggalFixed = `${tanggalFormatted} ${namaBulan} ${tahunOri}`;
+                                // Tanggal disahkan : convert bulan ke bulan indonesia end
+
+                                let nomorSuratLengkap =
+                                    `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
+                                let subarrayTerpilih = [tanggalFixed, subarray
+                                    .disahkanOleh,
+                                    nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
+                                    subarray.name
+                                ];
+                                data.push(subarrayTerpilih);
+                            }
+
+                            // Menggunakan .sort() dengan fungsi perbandingan
+                            data.sort((a, b) => {
+                                // Mengambil nomor dari indeks ke-2 dalam masing-masing array
+                                const numA = parseInt(a[2].split('/')[0]);
+                                const numB = parseInt(b[2].split('/')[0]);
+
+                                // Membandingkan nomor untuk pengurutan
+                                return numA - numB;
+                            });
+
+                            function parseDate(dateString) {
+                                const months = {
+                                    'Januari': '01',
+                                    'Februari': '02',
+                                    'Maret': '03',
+                                    'April': '04',
+                                    'Mei': '05',
+                                    'Juni': '06',
+                                    'Juli': '07',
+                                    'Agustus': '08',
+                                    'September': '09',
+                                    'Oktober': '10',
+                                    'November': '11',
+                                    'Desember': '12'
+                                };
+
+                                const [day, month, year] = dateString.split(' ');
+                                const monthNumber = months[month];
+                                if (monthNumber) {
+                                    return new Date(`${year}-${monthNumber}-${day}`);
+                                }
+                                return new Date(); // Atau tindakan lain jika format tanggal tidak valid
+                            }
+
+                            data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
+
+                            // Tambahkan header ke data
+                            let excelData = [dataTableHeaders].concat(data)
+
+                            // Buat file Excel kosong menggunakan SheetJS
+                            let workbook = XLSX.utils.book_new();
+
+                            // Buat worksheet dalam file Excel
+                            let worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+                            // Sisipkan worksheet ke dalam file Excel
+                            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+                            // Dapatkan tanggal hari ini
+                            let today = new Date();
+                            let dd = String(today.getDate()).padStart(2, '0');
+                            let mm = String(today.getMonth() + 1).padStart(2,
+                                '0'); // Januari dimulai dari 0
+                            let yyyy = today.getFullYear();
+
+                            // Dapatkan hari ini
+                            let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                                'Sabtu'
+                            ];
+                            let day = days[today
+                                .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                            // Dapatkan nama bulan
+                            var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                'Juli', 'Agustus', 'September', 'Oktober',
+                                'November', 'Desember'
+                            ];
+                            var month = months[today
+                                .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                            // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                            let formattedDate = dd + ' ' + month + ' ' + yyyy;
+
+                            // Nama file Excel dengan tanggal hari ini
+                            let fileName = ''
+                            if (user == 1) {
+                                fileName =
+                                    'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                                    '- ' + day + ', ' +
+                                    formattedDate + '.xlsx';
+                            } else {
+                                fileName = 'Rekap Data Surat Keluar - ' + day + ', ' +
+                                    formattedDate + '.xlsx'
+                            }
+
+                            // Ekspor file Excel
+                            XLSX.writeFile(workbook, fileName);
+                        }
+                    }],
+                    destroy: true,
+                    order: false,
+                    language: {
+                        lengthMenu: "Tampilkan _MENU_",
+                        zeroRecords: "Surat antidatir tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
+                        info: "Menampilkan _PAGE_ dari _PAGES_",
+                        infoEmpty: "Baris tidak tersedia",
+                        infoFiltered: "",
+                        search: "Cari :",
+                    },
+                    oLanguage: {
+                        oPaginate: {
+                            sNext: '<span class="pagination-fa"><i class="fa-solid fa-angle-right"></i></span>',
+                            sPrevious: '<span class="pagination-fa"><i class="fa-solid fa-angle-left"></i></span>',
+                        },
+                    },
+                    lengthMenu: [
+                        [10, 50, 200, 1000, 10000],
+                        [10, 50, 200, 1000, 10000],
+                    ],
+                });
+
+                // Initializing
+                $("#inputTanggalStart").datepicker()
+                // Ganti tahun
+                $("#inputTanggalStart").datepicker("option", "changeYear", true);
+                // Ganti format tanggal
+                $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
+
+                // Initializing
+                $("#inputTanggalEnd").datepicker()
+                // Ganti tahun
+                $("#inputTanggalEnd").datepicker("option", "changeYear", true);
+                // Ganti format tanggal
+                $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
+
+                // Filter rentang tanggal start
+                $('#inputTanggalStart, #inputTanggalEnd').on('change', function() {
+                    var start = $('#inputTanggalStart').val();
+                    var end = $('#inputTanggalEnd').val();
+
+                    if (start && end) {
+                        table.ajax.url('getSuratKeluar?mulai=' + start + '&selesai=' + end).load();
+                    }
+                });
+                // Filter rentang tanggal end
+            });
+        </script>
+    @else
+    @endif
+    <!-- Initializing data tables end -->
+
+    {{-- Cek semua sudah arsip start --}}
+    <script>
         $(document).ready(function() {
-            $("#mytable").DataTable({
-                responsive: {
-                    details: {
-                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
-                        type: "none",
-                        target: "",
-                    },
+            let btnWrapper = document.getElementById('btnRegistrasi')
+            let user = '{{ $user->nip }}'
+
+            $.ajax({
+                url: "/getSuratAntidatir", // Ganti dengan rute yang sesuai
+                dataType: "json",
+                data: {
+                    'start': 0,
+                    'length': 10,
                 },
-                columnDefs: [{
-                    orderable: false,
-                    targets: [0, 1, 2, 3, 4],
-                }, ],
-                // dom: '<t<"d-flex align-items-center justify-content-between mt-3"<"d-flex align-items-center"li><"right"p>>>',
-                // dom: '<"table-responsive"tpf>',
-                dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
-                destroy: true,
-                order: false,
-                language: {
-                    lengthMenu: "Tampilkan _MENU_",
-                    zeroRecords: "Surat antidatir tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
-                    info: "Menampilkan _PAGE_ dari _PAGES_",
-                    infoEmpty: "Baris tidak tersedia",
-                    infoFiltered: "(filtered from _MAX_ total records)",
-                    search: "Cari :",
-                    // pagingType: "numbers",
-                    // paginate: {
-                    //   previous: "Sebelumnya",
-                    //   next: "Berikutnya",
-                    // },
-                },
-                oLanguage: {
-                    oPaginate: {
-                        sNext: '<span class="pagination-fa"><i class="fa-solid fa-angle-right"></i></span>',
-                        sPrevious: '<span class="pagination-fa"><i class="fa-solid fa-angle-left"></i></span>',
-                    },
-                },
-                lengthMenu: [
-                    [10, 20, -1],
-                    [10, 20, "Semua"],
-                ],
+                success: function(data) {
+                    var dataTableData = data.data;
+                    let semuaSudahArsip = true; // Inisialisasi dengan true
+                    let jumlah = 0;
+
+                    dataTableData.forEach(item => {
+                        if (item.sifatSurat != 4 && !item.lampiran && item.status ==
+                            'digunakan' && item.created_by == user) {
+                            semuaSudahArsip = false;
+                            jumlah++;
+                        }
+                    });
+
+                    if (semuaSudahArsip) {
+                        btnWrapper.innerHTML = `
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#registrasiSuratKeluar"
+                            class="mybtn blue">
+                            <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                        `
+                    } else {
+                        btnWrapper.innerHTML = `
+                        </button>
+                            <button type="button" onclick="reminderArsip()" class="mybtn blue">
+                                <i class="fa-solid fa-plus me-2"></i>Registrasi Surat
+                        </button>
+                        `
+                    }
+                }
             });
         });
     </script>
+    {{-- Cek semua sudah arsip end --}}
 
     <script>
         function berhasil(txt) {
