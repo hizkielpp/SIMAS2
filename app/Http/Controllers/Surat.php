@@ -829,12 +829,19 @@ class Surat extends Controller
         $today = Carbon::now();
         $month = $today->month;
 
-        // Input tanggal pengesahan start
-        $tanggalPengesahan = Carbon::create($request->input('tanggalPengesahan'));
+        // Ambil dan format tanggal pengesahan
+        $tanggalPengesahan = Carbon::createFromFormat('d-m-Y', $request->input('tanggalPengesahan'));
+        // Sesuaikan format tanggal pengesahan
         $tanggalPengesahanFormated = $tanggalPengesahan->format('d-m-Y');
+        // Ambil bulan tanggal pengesahan
         $bulanTanggalPengesahan = $tanggalPengesahan->month;
+        // Ambil tanggal terakhir pada bulan tanggal pengesahan
         $tanggalTerakhir = $tanggalPengesahan->endOfMonth();
-        while ($tanggalTerakhir->dayOfWeek === 0 || $tanggalTerakhir->dayOfWeek === 6) {
+
+        // while ($tanggalTerakhir->dayof === 0 || $tanggalTerakhir->dayOfWeek === 6) {
+        //     $tanggalTerakhir->subDay(); // Mengurangi satu hari
+        // }
+        while ($tanggalTerakhir->isDayOfWeek('Saturday') || $tanggalTerakhir->isDayOfWeek('Sunday')) {
             $tanggalTerakhir->subDay(); // Mengurangi satu hari
         }
         $tanggalTerakhirFormated = $tanggalTerakhir->format('d-m-Y');

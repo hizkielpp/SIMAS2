@@ -1011,6 +1011,7 @@
         let dateNow = ""
         $('#datepicker').change(function() {
             dateNow = this.value
+            console.log(dateNow);
         })
 
         function ambilNomor() {
