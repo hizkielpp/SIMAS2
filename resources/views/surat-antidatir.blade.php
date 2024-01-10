@@ -105,6 +105,16 @@
 
         {{-- Tabel wrapper start --}}
         <div class="card p-4 mt-3">
+            {{-- Loader start --}}
+            <div class="loader__tables w-100 h-100 position-absolute justify-content-center align-items-center"
+                style="z-index: 9; backdrop-filter: blur(4px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem; top: 0; left: 0;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div class="lds-dual-ring"></div>
+                    <p class="mt-3">Mohon tunggu sebentar</p>
+                </div>
+            </div>
+            {{-- Loader end --}}
+
             <!-- Modal lampiran surat start -->
             <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
                 aria-hidden="true">
@@ -968,50 +978,11 @@
         src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     {{-- Datatables button end --}}
 
-    {{-- Fungsi detail surat start --}}
-    <script>
-        $(document).ready(function() {
-            $(".passId").click(function() {
-                let url = "{{ route('getSK', ':id') }}";
-                url = url.replace(':id', $(this).data('id'));
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(data) {
-                        $('input[name="jenisSurat"]').val('antidatir')
-                        $("#tujuanSuratE").val(data.tujuanSurat)
-                        tanggal = new Date(data.tanggalPengesahan)
-                        y = tanggal.getFullYear()
-                        m = parseInt(tanggal.getMonth()) + 1
-                        d = tanggal.getDate()
-                        // Ganti tahun
-                        $("#datepickerEdit").datepicker(
-                            'setDate',
-                            `0${m}/${d}/${y}`);
-                        // console.log(data.tanggalPengesahan)
-                        $('#tanggalPengesahanE').val(`0${m}/${d}/${y}`)
-                        $('#tujuanSuratE').attr('value', data.tujuanSurat)
-                        $('#perihalE').val(data.perihal)
-                        $("#kodeHalE").val(data.kodeHal)
-                        $("#kodeUnitE").val(data.kodeUnit)
-                        $("#disahkanOlehE").val(data.disahkanOleh)
-                        $('#sifatSuratE').val(data.sifatSurat)
-                        $('#jumlahLampiranE').val(data.jumlahLampiran)
-                        $('#lampiranE').html(data.lampiran)
-                    }
-                });
-                $('input[name="idSurat"]').attr('value', $(this).data('id'));
-            });
-        });
-    </script>
-    {{-- Fungsi detail surat end --}}
-
     {{-- Fungsi ambil nomor surat start --}}
     <script>
         let dateNow = ""
         $('#datepicker').change(function() {
             dateNow = this.value
-            console.log(dateNow);
         })
 
         function ambilNomor() {
@@ -1042,6 +1013,7 @@
                             $("#datepicker").prop("disabled", true);
                             $("#tglPengesahan").prop("disabled", false);
                             $("#tglPengesahan").val($("#datepicker").val());
+                            console.log(xhr)
                         },
                     },
                 });
@@ -1158,6 +1130,18 @@
                                                 <div class="position-absolute mytooltip">
                                                     <div class="text-white px-3 py-2 position-relative">
                                                         Upload Arsip
+                                                    </div>
+                                                    <div id="arrow"></div>
+                                                </div>
+                                        </button>
+                                        <button type="button"
+                                                class="myicon red position-relative d-flex align-items-center justify-content-center"
+                                                data-bs-toggle="modal" data-bs-target=""
+                                                onclick="confirmHapus('${id}')">
+                                                <i class="fa-solid fa-trash"></i>
+                                                <div class="position-absolute mytooltip">
+                                                    <div class="text-white px-3 py-2 position-relative">
+                                                        Hapus
                                                     </div>
                                                     <div id="arrow"></div>
                                                 </div>
@@ -1375,11 +1359,11 @@
                             let fileName = ''
                             if (user == 1) {
                                 fileName =
-                                    'Data Surat Keluar Fakultas Kedokteran Universitas Diponegoro ' +
+                                    'Data Surat Antidatir Fakultas Kedokteran Universitas Diponegoro ' +
                                     '- ' + day + ', ' +
                                     formattedDate + '.xlsx';
                             } else {
-                                fileName = 'Rekap Data Surat Keluar - ' + day + ', ' +
+                                fileName = 'Rekap Data Surat Antidatir - ' + day + ', ' +
                                     formattedDate + '.xlsx'
                             }
 
@@ -1559,5 +1543,29 @@
         }
     </script>
     {{-- Sweetalert untuk melengkapi arsip surat end --}}
+
+    {{-- Loader length menu tables start --}}
+    <script>
+        $(document).ready(function() {
+            var table = $('#mytable').DataTable();
+
+            table.on('length.dt', function(e, settings, len) {
+                showLoading();
+            });
+
+            table.on('draw.dt', function() {
+                hideLoading();
+            });
+        });
+
+        function showLoading() {
+            $('.loader__tables').show();
+        }
+
+        function hideLoading() {
+            $('.loader__tables').hide();
+        }
+    </script>
+    {{-- Loader length menu tables end --}}
 
     @endsection @section('sa', 'active') @section('title', 'Surat Antidatir')

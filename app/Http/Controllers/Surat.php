@@ -827,9 +827,8 @@ class Surat extends Controller
             ->endOfMonth()
             ->toDateString();
         $today = Carbon::now();
-
         // Ambil dan format tanggal pengesahan
-        $tanggalPengesahan = Carbon::createFromFormat('d-m-Y', $request->input('tanggalPengesahan'));
+        $tanggalPengesahan = Carbon::createFromFormat('Y-m-d', $request->input('tanggalPengesahan'));
         // Sesuaikan format tanggal pengesahan
         $tanggalPengesahanFormated = $tanggalPengesahan->format('d-m-Y');
         // Ambil tanggal terakhir pada bulan tanggal pengesahan
@@ -843,7 +842,6 @@ class Surat extends Controller
         }
         $tanggalTerakhirFormated = $tanggalTerakhir->format('d-m-Y');
         $user = session()->get('user');
-
         // Surat keluar
         if ($request->input('jenis') == 'biasa') {
             // Ambil nomor surat terakhir
