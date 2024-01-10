@@ -26,8 +26,8 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     //hanya pak Mul
     Route::middleware('checkAdmin')->group(function () {
         Route::post('/deleteSM', [Surat::class, 'deleteSM'])->name('deleteSM');
-        Route::post('/deleteSK', [Surat::class, 'deleteSK'])->name('deleteSK');
     });
+    Route::post('/deleteSK', [Surat::class, 'deleteSK'])->name('deleteSK');
 
     // Surat Masuk
     Route::get('/suratMasuk', [Surat::class, 'indexSM'])->name('suratMasuk');

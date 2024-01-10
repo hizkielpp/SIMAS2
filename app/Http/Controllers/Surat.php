@@ -827,20 +827,7 @@ class Surat extends Controller
             ->endOfMonth()
             ->toDateString();
         $today = Carbon::now();
-        // Ambil dan format tanggal pengesahan
-        $tanggalPengesahan = Carbon::createFromFormat('Y-m-d', $request->input('tanggalPengesahan'));
-        // Sesuaikan format tanggal pengesahan
-        $tanggalPengesahanFormated = $tanggalPengesahan->format('d-m-Y');
-        // Ambil tanggal terakhir pada bulan tanggal pengesahan
-        $tanggalTerakhir = $tanggalPengesahan->endOfMonth();
 
-        // while ($tanggalTerakhir->dayof === 0 || $tanggalTerakhir->dayOfWeek === 6) {
-        //     $tanggalTerakhir->subDay(); // Mengurangi satu hari
-        // }
-        while ($tanggalTerakhir->isDayOfWeek('Saturday') || $tanggalTerakhir->isDayOfWeek('Sunday')) {
-            $tanggalTerakhir->subDay(); // Mengurangi satu hari
-        }
-        $tanggalTerakhirFormated = $tanggalTerakhir->format('d-m-Y');
         $user = session()->get('user');
         // Surat keluar
         if ($request->input('jenis') == 'biasa') {
@@ -851,7 +838,21 @@ class Surat extends Controller
                 ->max('nomorSurat');
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
             // Surat antidatir
-        } elseif ($request->input('jenis') == 'antidatir' and $tanggalPengesahan) {
+        } elseif ($request->input('jenis') == 'antidatir') {
+            // Ambil dan format tanggal pengesahan
+            $tanggalPengesahan = Carbon::createFromFormat('d-m-Y', $request->input('tanggalPengesahan'));
+            // Sesuaikan format tanggal pengesahan
+            $tanggalPengesahanFormated = $tanggalPengesahan->format('d-m-Y');
+            // Ambil tanggal terakhir pada bulan tanggal pengesahan
+            $tanggalTerakhir = $tanggalPengesahan->endOfMonth();
+
+            // Cek apakah tanggal terakhir merupakan hari sabtu atau minggu
+            while ($tanggalTerakhir->isDayOfWeek('Saturday') || $tanggalTerakhir->isDayOfWeek('Sunday')) {
+                $tanggalTerakhir->subDay(); // Mengurangi satu hari
+            }
+            // Sesuaikan format tanggal terakhir
+            $tanggalTerakhirFormated = $tanggalTerakhir->format('d-m-Y');
+
             $suratKeluar = DB::table('suratkeluar')
                 ->where('tanggalPengesahan', '=', date('Y-m-d', strtotime($request->input('tanggalPengesahan'))))
                 ->where('jenis', 'antidatir')

@@ -1380,7 +1380,32 @@
                             render: function(data, type, full, meta) {
                                 let id = full.id
                                 let lampiran = full.lampiran
+                                let sifat = full.sifatSurat
                                 if (lampiran == null) {
+                                    if (sifat == 4) {
+                                        return `
+                                            <div class="d-flex align-items-center gap-2">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
+                                                    class="myicon position-relative blue d-flex align-items-center justify-content-center"
+                                                        id="btnEdit" onclick="detailSurat('${id}')"
+                                                        data-id="${id}" style="width: fit-content">
+                                                        <i class="fa-solid fa-file-lines me-2"></i>Detail
+                                                </button>
+                                                <button type="button"
+                                                        class="myicon position-relative yellow d-flex align-items-center justify-content-center"
+                                                        data-bs-toggle="modal" data-bs-target="#uploadDokumen"
+                                                        onclick="uploadDokumen('${id}')" id="btnUpload">
+                                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                        <div class="position-absolute mytooltip">
+                                                            <div class="text-white px-3 py-2 position-relative">
+                                                                Upload Arsip
+                                                            </div>
+                                                            <div id="arrow"></div>
+                                                        </div>
+                                                </button>
+                                            </div>
+                                            `;
+                                    }
                                     return `
                                 <div class="d-flex align-items-center gap-2">
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratKeluar"
@@ -1403,7 +1428,6 @@
                                     </button>
                                     <button type="button"
                                             class="myicon red position-relative d-flex align-items-center justify-content-center"
-                                            data-bs-toggle="modal" data-bs-target=""
                                             onclick="confirmHapus('${id}')">
                                             <i class="fa-solid fa-trash"></i>
                                             <div class="position-absolute mytooltip">
@@ -1414,7 +1438,7 @@
                                             </div>
                                     </button>
                                 </div>
-                                            `;
+                                `;
                                 } else {
                                     return `
                                 <div class="d-flex align-items-center gap-2">
@@ -1780,6 +1804,7 @@
                             render: function(data, type, full, meta) {
                                 let id = full.id
                                 let lampiran = full.lampiran
+                                let sifat = full.sifatSurat
                                 if (lampiran == null) {
                                     return `
                             <div class="d-flex align-items-center gap-2">
@@ -1803,7 +1828,6 @@
                                 </button>
                                 <button type="button"
                                         class="myicon red position-relative d-flex align-items-center justify-content-center"
-                                        data-bs-toggle="modal" data-bs-target=""
                                         onclick="confirmHapus('${id}')">
                                         <i class="fa-solid fa-trash"></i>
                                         <div class="position-absolute mytooltip">
@@ -1838,7 +1862,6 @@
                                 </button>
                                 <button type="button"
                                         class="myicon red position-relative d-flex align-items-center justify-content-center"
-                                        data-bs-toggle="modal" data-bs-target=""
                                         onclick="confirmHapus('${id}')">
                                         <i class="fa-solid fa-trash"></i>
                                         <div class="position-absolute mytooltip">
