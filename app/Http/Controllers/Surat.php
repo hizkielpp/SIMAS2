@@ -827,14 +827,11 @@ class Surat extends Controller
             ->endOfMonth()
             ->toDateString();
         $today = Carbon::now();
-        $month = $today->month;
 
         // Ambil dan format tanggal pengesahan
         $tanggalPengesahan = Carbon::createFromFormat('d-m-Y', $request->input('tanggalPengesahan'));
         // Sesuaikan format tanggal pengesahan
         $tanggalPengesahanFormated = $tanggalPengesahan->format('d-m-Y');
-        // Ambil bulan tanggal pengesahan
-        $bulanTanggalPengesahan = $tanggalPengesahan->month;
         // Ambil tanggal terakhir pada bulan tanggal pengesahan
         $tanggalTerakhir = $tanggalPengesahan->endOfMonth();
 
@@ -845,7 +842,6 @@ class Surat extends Controller
             $tanggalTerakhir->subDay(); // Mengurangi satu hari
         }
         $tanggalTerakhirFormated = $tanggalTerakhir->format('d-m-Y');
-
         $user = session()->get('user');
 
         // Surat keluar
@@ -856,7 +852,6 @@ class Surat extends Controller
                 ->where('tanggalPengesahan', '<=', $end)
                 ->max('nomorSurat');
             return response($suratKeluar + 1, 200)->header('Content-Type', 'text/plain');
-
             // Surat antidatir
         } elseif ($request->input('jenis') == 'antidatir' and $tanggalPengesahan) {
             $suratKeluar = DB::table('suratkeluar')
@@ -864,8 +859,11 @@ class Surat extends Controller
                 ->where('jenis', 'antidatir')
                 ->where('status', 'belum')
                 ->min('nomorSurat');
-            if ($suratKeluar == 0) {
-                if (($tanggalTerakhirFormated == $tanggalPengesahanFormated) and ($bulanTanggalPengesahan < $month)) {
+            if (is_null($suratKeluar)) {
+                // fixed ternyata kondisi untuk menetukan bulan yang dituju kurang dari atau engga ini tidak valid setelah berganti tahun
+                // ambil kasus kita hanya bisa ambil antidatir unlimited di bulan februari saat sekarang bulan maret tetapi ini hanya berlaku di tahun yang sama
+                // solusinya adalah menambah tahun pada value tidak cukup hanya bulan
+                if (($tanggalTerakhirFormated == $tanggalPengesahanFormated) and ($tanggalPengesahan < $today)) {
                     try {
                         $suratKeluar = DB::table('suratkeluar')
                             ->where('tanggalPengesahan', '>=', date("Y-m-01", strtotime($request->input('tanggalPengesahan'))))
