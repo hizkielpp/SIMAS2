@@ -906,6 +906,18 @@ class Surat extends Controller
         }
     }
     // Fungsi ambil nomor surat keluar & antidatir end
+
+    // Fungsi cek tersedia antidatir pada datepicker
+    public function cekTersediaDatepicker(Request $req)
+    {
+        $suratAntidatir = DB::table('suratkeluar')
+            ->where('jenis', 'antidatir')
+            ->where('status', 'belum')
+            ->orderByDesc('tanggalPengesahan')
+            ->get();
+        return response($suratAntidatir, 200);
+    }
+    // End fungsi cek tersedia antidatir pada datepicker
     /* ---------------------------------------------- */
     /*               Fungsi bersama end               */
     /* ---------------------------------------------- */

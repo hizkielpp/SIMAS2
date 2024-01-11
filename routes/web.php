@@ -45,6 +45,7 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::post('/uploadDokumen', [Surat::class, 'uploadDokumen'])->name('uploadDokumen');
     Route::get('/getSuratKeluar', [Surat::class, 'getSuratKeluar'])->name('getSuratKeluar');
     Route::get('/getSuratAntidatir', [Surat::class, 'getSuratAntidatir'])->name('getSuratAntidatir');
+    Route::get('/cekTersediaDatepicker', [Surat::class, 'cekTersediaDatepicker'])->name('cekTersediaDatepicker');
 
     Route::middleware('checkAdmin')->group(function () {
         // Kelola Akun

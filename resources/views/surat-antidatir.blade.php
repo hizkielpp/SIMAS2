@@ -165,7 +165,7 @@
             {{-- Tabel header start --}}
 
             <!-- Modal registrasi start -->
-            <div class="modal modal__section fade" id="registrasiSuratKeluar" data-bs-backdrop="static" tabindex="-1"
+            <div class="modal modal__section fade" id="registrasiSuratKeluar" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
@@ -2376,5 +2376,38 @@
         }
     </script>
     {{-- Loader length menu tables end --}}
+
+    {{-- Fungsi cek surat antidatir tersedia pada datepicker --}}
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/cekTersediaDatepicker",
+                success: function(data) {
+                    let btnDatepicker = document.getElementById('datepicker')
+                    btnDatepicker.addEventListener('click', function() {
+                        let datepickerContent = document.getElementById(
+                            'ui-datepicker-div')
+                        let title = document.createElement('p')
+                        title.innerHTML = `
+                            <p class="mt-2 fw-bold px-2">Tanggal antidatir tersedia</p>
+                        `
+                        datepickerContent.appendChild(title)
+                        let contentWrapper = document.createElement('div')
+                        contentWrapper.classList.add('antidatir__date', 'd-flex', 'gap-2',
+                            'flex-wrap')
+                        data.forEach(element => {
+                            let content = document.createElement('p')
+                            content.innerHTML = `
+                            <p class="px-2">${element.tanggalPengesahan}</p>
+                            `
+                            contentWrapper.appendChild(content)
+                            datepickerContent.appendChild(contentWrapper)
+                        });
+                    })
+                }
+            });
+        })
+    </script>
+    {{-- End fungsi cek surat antidatir tersedia pada datepicker --}}
 
     @endsection @section('sa', 'active') @section('title', 'Surat Antidatir')

@@ -31,3 +31,13 @@
 .tes .dt-buttons button {
     border: none;
 }
+
+/* .modal:nth-of-type(even) {
+    z-index: 1062 !important;
+}
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1061 !important;
+} */
+.antidatir__date {
+    max-width: 359.5px;
+}
