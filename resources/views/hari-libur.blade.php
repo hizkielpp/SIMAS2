@@ -19,9 +19,10 @@
 </head>
 
 <body>
-    @dd($data)
-    <section class="d-flex justify-content-center align-items-center flex-column" style="height: 100vh;">
-        <img src="{{ asset('img/forbidden-image.webp') }}" alt="Forbidden Image" width="50%" class="">
+    {{-- @dd($data) --}}
+    <section class="d-flex justify-content-center align-items-center flex-column py-5" style="max-height: 100vh">
+        <img src="{{ asset('img/forbidden-image.webp') }}" alt="Forbidden Image" width="100%" style="max-width: 600px"
+            class="">
         <h1 class="fs-4 mb-3 fw-bold" style="color: #F68248">Mohon Maaf</h1>
         <h2 class="fs-6 text-center" style="line-height: 1.8">Aplikasi hanya dapat diakses pada hari kerja (Senin -
             Jumat). <br>

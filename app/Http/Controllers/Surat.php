@@ -708,8 +708,29 @@ class Surat extends Controller
         }
         $sifat = DB::table('sifat')->get();
         $hal = DB::table('hal')->get();
+
+        // Ambil tanggal antidatir tersedia
+        $antidatirTersedia = DB::table('suratkeluar')
+            ->where('jenis', 'antidatir')
+            ->where('status', 'belum')
+            ->select(DB::raw('DISTINCT tanggalPengesahan'))
+            ->get();
+        // Sesuaikan format
+        foreach ($antidatirTersedia as $item) {
+            $formatteddDate = Carbon::parse($item->tanggalPengesahan)->isoFormat('DD MMMM YYYY');
+            $item->tanggalPengesahan = $formatteddDate;
+        }
+
         if ($suratAntidatir) {
-            return view('surat-antidatir')->with(['user' => $user, 'suratAntidatir' => $suratAntidatir, 'sifat' => $sifat, 'hal' => $hal, 'unit' => $unit, 'tujuan' => $tujuan]);
+            return view('surat-antidatir')->with([
+                'user' => $user,
+                'suratAntidatir' => $suratAntidatir,
+                'sifat' => $sifat,
+                'hal' => $hal,
+                'unit' => $unit,
+                'tujuan' => $tujuan,
+                'antidatirTersedia' => $antidatirTersedia,
+            ]);
         } else {
             return view('surat-antidatir')->with(['failed' => 'data surat keluar kosong', 'sifat' => $sifat, 'hal' => $hal]);
         }
@@ -909,17 +930,6 @@ class Surat extends Controller
     }
     // Fungsi ambil nomor surat keluar & antidatir end
 
-    // Fungsi cek tersedia antidatir pada datepicker
-    public function cekTersediaDatepicker(Request $req)
-    {
-        $suratAntidatir = DB::table('suratkeluar')
-            ->where('jenis', 'antidatir')
-            ->where('status', 'belum')
-            ->orderByDesc('tanggalPengesahan')
-            ->get();
-        return response($suratAntidatir, 200);
-    }
-    // End fungsi cek tersedia antidatir pada datepicker
     /* ---------------------------------------------- */
     /*               Fungsi bersama end               */
     /* ---------------------------------------------- */

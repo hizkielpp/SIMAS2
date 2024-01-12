@@ -115,6 +115,109 @@
             </div>
             {{-- Loader end --}}
 
+            <!-- Modal cek tanggal antidatir -->
+            <div class="modal fade" id="modalTanggalAntidatir" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">Tanggal Antidatir Tersedia</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                @foreach ($antidatirTersedia as $item)
+                                    <div class="col-md-4 col-xl-3 col-12 pb-2" style="border-bottom: 1px solid #b4bec0">
+                                        <p>{{ $item->tanggalPengesahan }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                            {{-- <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">2023</th>
+                                            <th scope="col">2024</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Januari</th>
+                                            <td>1,2,3</td>
+                                            <td>4,5,6</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Februari</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Maret</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">April</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Mei</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Juni</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Juli</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Agustus</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">September</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Oktober</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">November</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Desember</th>
+                                            <td>4,5,6</td>
+                                            <td>7,8,9</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> --}}
+
+                            {{-- @foreach ($antidatirTersedia as $data)
+                                {{ $data->tanggalPengesahan }}
+                            @endforeach --}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End modal cek tanggal antidatir -->
+
             <!-- Modal lampiran surat start -->
             <div class="modal modal__section fade" id="lampiran" tabindex="-1" aria-labelledby="lampiranLabel"
                 aria-hidden="true">
@@ -173,7 +276,8 @@
                             <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
                                 Form Registrasi Surat Antidatir
                             </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form id="formRegistrasi" enctype="multipart/form-data" class="needs-validation" novalidate
@@ -710,6 +814,7 @@
             {{-- Tabel content end --}}
         </div>
         {{-- Tabel wrapper end --}}
+
     </section>
     @endsection @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1614,162 +1719,171 @@
                             target: "",
                         },
                     },
-                    dom: '<"d-flex justify-content-between flex-wrap gap-3"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                    dom: '<"d-flex justify-content-between flex-wrap gap-3"<"d-flex gap-4"B>f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                     buttons: [{
-                        text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
-                        className: 'mybtn green',
-                        action: function exportExcel() {
-                            let table = $('#mytable').DataTable();
-                            let dataTableHeaders = ["Tanggal Disahkan", "Disahkan Oleh",
-                                "Nomor Surat", "Perihal", "Tujuan Surat",
-                                "Dibuat Oleh"
-                            ];
-                            let allData = table.rows().data().toArray();
-                            let data = [];
-                            const user = `{{ $user->role_id }}`
+                            text: 'Cek tanggal tersedia',
+                            attr: {
+                                'data-bs-toggle': 'modal',
+                                'data-bs-target': '#modalTanggalAntidatir'
+                            },
+                            className: 'mybtn white bg-white',
+                        },
+                        {
+                            text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
+                            className: 'mybtn green',
+                            action: function exportExcel() {
+                                let table = $('#mytable').DataTable();
+                                let dataTableHeaders = ["Tanggal Disahkan", "Disahkan Oleh",
+                                    "Nomor Surat", "Perihal", "Tujuan Surat",
+                                    "Dibuat Oleh"
+                                ];
+                                let allData = table.rows().data().toArray();
+                                let data = [];
+                                const user = `{{ $user->role_id }}`
 
-                            // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
-                            for (let i = 0; i < allData.length; i++) {
-                                let subarray = allData[i];
-                                let nomorSurat = subarray.nomorSurat;
-                                let kodeHal = subarray.kodeHal;
-                                let kodeUnit = subarray.kodeUnit;
-                                let tanggalPengesahanOriginal = subarray.tanggalPengesahan
-                                let tanggalPengesahan = new Date(tanggalPengesahanOriginal)
-                                let bulan = tanggalPengesahan.getMonth() + 1
-                                let tahun = tanggalPengesahan.getFullYear()
+                                // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
+                                for (let i = 0; i < allData.length; i++) {
+                                    let subarray = allData[i];
+                                    let nomorSurat = subarray.nomorSurat;
+                                    let kodeHal = subarray.kodeHal;
+                                    let kodeUnit = subarray.kodeUnit;
+                                    let tanggalPengesahanOriginal = subarray.tanggalPengesahan
+                                    let tanggalPengesahan = new Date(tanggalPengesahanOriginal)
+                                    let bulan = tanggalPengesahan.getMonth() + 1
+                                    let tahun = tanggalPengesahan.getFullYear()
 
-                                // Nomor surat : convert bulan ke romawi start
-                                function angkaBulanKeRomawi(bulan) {
-                                    if (bulan < 1 || bulan > 12) {
-                                        return "Invalid";
+                                    // Nomor surat : convert bulan ke romawi start
+                                    function angkaBulanKeRomawi(bulan) {
+                                        if (bulan < 1 || bulan > 12) {
+                                            return "Invalid";
+                                        }
+
+                                        const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
+                                            "VIII", "IX", "X", "XI", "XII"
+                                        ];
+                                        return romawi[bulan];
                                     }
+                                    const romawiBulan = angkaBulanKeRomawi(
+                                        bulan);
+                                    // Nomor surat : convert bulan ke romawi end
 
-                                    const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
-                                        "VIII", "IX", "X", "XI", "XII"
+                                    // Tanggal disahkan : convert bulan ke bulan indonesia start
+                                    const namaBulanIndonesia = [
+                                        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                                        "Juli", "Agustus", "September", "Oktober", "November",
+                                        "Desember"
                                     ];
-                                    return romawi[bulan];
+
+                                    const tanggalFormatted = tanggalPengesahan.getDate().toString()
+                                        .padStart(2,
+                                            '0'); // Dapatkan tanggal dan format dengan 2 digit
+                                    const namaBulan = namaBulanIndonesia[tanggalPengesahan
+                                        .getMonth()]; // Dapatkan nama bulan sesuai indeks
+                                    const tahunOri = tanggalPengesahan.getFullYear(); // Dapatkan tahun
+
+                                    let tanggalFixed = `${tanggalFormatted} ${namaBulan} ${tahunOri}`;
+                                    // Tanggal disahkan : convert bulan ke bulan indonesia end
+
+                                    let nomorSuratLengkap =
+                                        `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
+                                    let subarrayTerpilih = [tanggalFixed, subarray
+                                        .disahkanOleh,
+                                        nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
+                                        subarray.name
+                                    ];
+                                    data.push(subarrayTerpilih);
                                 }
-                                const romawiBulan = angkaBulanKeRomawi(
-                                    bulan);
-                                // Nomor surat : convert bulan ke romawi end
 
-                                // Tanggal disahkan : convert bulan ke bulan indonesia start
-                                const namaBulanIndonesia = [
-                                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                                    "Juli", "Agustus", "September", "Oktober", "November",
-                                    "Desember"
-                                ];
+                                // Menggunakan .sort() dengan fungsi perbandingan
+                                data.sort((a, b) => {
+                                    // Mengambil nomor dari indeks ke-2 dalam masing-masing array
+                                    const numA = parseInt(a[2].split('/')[0]);
+                                    const numB = parseInt(b[2].split('/')[0]);
 
-                                const tanggalFormatted = tanggalPengesahan.getDate().toString()
-                                    .padStart(2,
-                                        '0'); // Dapatkan tanggal dan format dengan 2 digit
-                                const namaBulan = namaBulanIndonesia[tanggalPengesahan
-                                    .getMonth()]; // Dapatkan nama bulan sesuai indeks
-                                const tahunOri = tanggalPengesahan.getFullYear(); // Dapatkan tahun
+                                    // Membandingkan nomor untuk pengurutan
+                                    return numA - numB;
+                                });
 
-                                let tanggalFixed = `${tanggalFormatted} ${namaBulan} ${tahunOri}`;
-                                // Tanggal disahkan : convert bulan ke bulan indonesia end
+                                function parseDate(dateString) {
+                                    const months = {
+                                        'Januari': '01',
+                                        'Februari': '02',
+                                        'Maret': '03',
+                                        'April': '04',
+                                        'Mei': '05',
+                                        'Juni': '06',
+                                        'Juli': '07',
+                                        'Agustus': '08',
+                                        'September': '09',
+                                        'Oktober': '10',
+                                        'November': '11',
+                                        'Desember': '12'
+                                    };
 
-                                let nomorSuratLengkap =
-                                    `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
-                                let subarrayTerpilih = [tanggalFixed, subarray
-                                    .disahkanOleh,
-                                    nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
-                                    subarray.name
-                                ];
-                                data.push(subarrayTerpilih);
-                            }
-
-                            // Menggunakan .sort() dengan fungsi perbandingan
-                            data.sort((a, b) => {
-                                // Mengambil nomor dari indeks ke-2 dalam masing-masing array
-                                const numA = parseInt(a[2].split('/')[0]);
-                                const numB = parseInt(b[2].split('/')[0]);
-
-                                // Membandingkan nomor untuk pengurutan
-                                return numA - numB;
-                            });
-
-                            function parseDate(dateString) {
-                                const months = {
-                                    'Januari': '01',
-                                    'Februari': '02',
-                                    'Maret': '03',
-                                    'April': '04',
-                                    'Mei': '05',
-                                    'Juni': '06',
-                                    'Juli': '07',
-                                    'Agustus': '08',
-                                    'September': '09',
-                                    'Oktober': '10',
-                                    'November': '11',
-                                    'Desember': '12'
-                                };
-
-                                const [day, month, year] = dateString.split(' ');
-                                const monthNumber = months[month];
-                                if (monthNumber) {
-                                    return new Date(`${year}-${monthNumber}-${day}`);
+                                    const [day, month, year] = dateString.split(' ');
+                                    const monthNumber = months[month];
+                                    if (monthNumber) {
+                                        return new Date(`${year}-${monthNumber}-${day}`);
+                                    }
+                                    return new Date(); // Atau tindakan lain jika format tanggal tidak valid
                                 }
-                                return new Date(); // Atau tindakan lain jika format tanggal tidak valid
+
+                                data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
+
+                                // Tambahkan header ke data
+                                let excelData = [dataTableHeaders].concat(data)
+
+                                // Buat file Excel kosong menggunakan SheetJS
+                                let workbook = XLSX.utils.book_new();
+
+                                // Buat worksheet dalam file Excel
+                                let worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+                                // Sisipkan worksheet ke dalam file Excel
+                                XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+                                // Dapatkan tanggal hari ini
+                                let today = new Date();
+                                let dd = String(today.getDate()).padStart(2, '0');
+                                let mm = String(today.getMonth() + 1).padStart(2,
+                                    '0'); // Januari dimulai dari 0
+                                let yyyy = today.getFullYear();
+
+                                // Dapatkan hari ini
+                                let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                                    'Sabtu'
+                                ];
+                                let day = days[today
+                                    .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                                // Dapatkan nama bulan
+                                var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                    'Juli', 'Agustus', 'September', 'Oktober',
+                                    'November', 'Desember'
+                                ];
+                                var month = months[today
+                                    .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                                // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                                let formattedDate = dd + ' ' + month + ' ' + yyyy;
+
+                                // Nama file Excel dengan tanggal hari ini
+                                let fileName = ''
+                                if (user == 1) {
+                                    fileName =
+                                        'Data Surat Antidatir Fakultas Kedokteran Universitas Diponegoro ' +
+                                        '- ' + day + ', ' +
+                                        formattedDate + '.xlsx';
+                                } else {
+                                    fileName = 'Rekap Data Surat Antidatir - ' + day + ', ' +
+                                        formattedDate + '.xlsx'
+                                }
+
+                                // Ekspor file Excel
+                                XLSX.writeFile(workbook, fileName);
                             }
-
-                            data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
-
-                            // Tambahkan header ke data
-                            let excelData = [dataTableHeaders].concat(data)
-
-                            // Buat file Excel kosong menggunakan SheetJS
-                            let workbook = XLSX.utils.book_new();
-
-                            // Buat worksheet dalam file Excel
-                            let worksheet = XLSX.utils.aoa_to_sheet(excelData);
-
-                            // Sisipkan worksheet ke dalam file Excel
-                            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-
-                            // Dapatkan tanggal hari ini
-                            let today = new Date();
-                            let dd = String(today.getDate()).padStart(2, '0');
-                            let mm = String(today.getMonth() + 1).padStart(2,
-                                '0'); // Januari dimulai dari 0
-                            let yyyy = today.getFullYear();
-
-                            // Dapatkan hari ini
-                            let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
-                                'Sabtu'
-                            ];
-                            let day = days[today
-                                .getDay()]; // Mendapatkan nama hari berdasarkan indeks
-
-                            // Dapatkan nama bulan
-                            var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                'Juli', 'Agustus', 'September', 'Oktober',
-                                'November', 'Desember'
-                            ];
-                            var month = months[today
-                                .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
-
-                            // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
-                            let formattedDate = dd + ' ' + month + ' ' + yyyy;
-
-                            // Nama file Excel dengan tanggal hari ini
-                            let fileName = ''
-                            if (user == 1) {
-                                fileName =
-                                    'Data Surat Antidatir Fakultas Kedokteran Universitas Diponegoro ' +
-                                    '- ' + day + ', ' +
-                                    formattedDate + '.xlsx';
-                            } else {
-                                fileName = 'Rekap Data Surat Antidatir - ' + day + ', ' +
-                                    formattedDate + '.xlsx'
-                            }
-
-                            // Ekspor file Excel
-                            XLSX.writeFile(workbook, fileName);
                         }
-                    }],
+                    ],
                     destroy: true,
                     order: false,
                     language: {
@@ -1818,10 +1932,10 @@
                 // Filter rentang tanggal end
             });
         </script>
+    @else
         {{-- End operator --}}
 
         {{-- Admin --}}
-    @else
         <script>
             $(document).ready(function() {
                 var table = $("#mytable").DataTable({
@@ -2023,162 +2137,171 @@
                             target: "",
                         },
                     },
-                    dom: '<"d-flex justify-content-between flex-wrap gap-3"Bf>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
+                    dom: '<"d-flex justify-content-between flex-wrap gap-3"<"d-flex gap-4"B>f>rt<"d-flex justify-content-between mt-3 overflow-hidden"<"d-flex align-items-center"li>p>',
                     buttons: [{
-                        text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
-                        className: 'mybtn green',
-                        action: function exportExcel() {
-                            let table = $('#mytable').DataTable();
-                            let dataTableHeaders = ["Tanggal Disahkan", "Disahkan Oleh",
-                                "Nomor Surat", "Perihal", "Tujuan Surat",
-                                "Dibuat Oleh"
-                            ];
-                            let allData = table.rows().data().toArray();
-                            let data = [];
-                            const user = `{{ $user->role_id }}`
+                            text: 'Cek tanggal tersedia',
+                            attr: {
+                                'data-bs-toggle': 'modal',
+                                'data-bs-target': '#modalTanggalAntidatir'
+                            },
+                            className: 'mybtn white bg-white',
+                        },
+                        {
+                            text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
+                            className: 'mybtn green',
+                            action: function exportExcel() {
+                                let table = $('#mytable').DataTable();
+                                let dataTableHeaders = ["Tanggal Disahkan", "Disahkan Oleh",
+                                    "Nomor Surat", "Perihal", "Tujuan Surat",
+                                    "Dibuat Oleh"
+                                ];
+                                let allData = table.rows().data().toArray();
+                                let data = [];
+                                const user = `{{ $user->role_id }}`
 
-                            // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
-                            for (let i = 0; i < allData.length; i++) {
-                                let subarray = allData[i];
-                                let nomorSurat = subarray.nomorSurat;
-                                let kodeHal = subarray.kodeHal;
-                                let kodeUnit = subarray.kodeUnit;
-                                let tanggalPengesahanOriginal = subarray.tanggalPengesahan
-                                let tanggalPengesahan = new Date(tanggalPengesahanOriginal)
-                                let bulan = tanggalPengesahan.getMonth() + 1
-                                let tahun = tanggalPengesahan.getFullYear()
+                                // Ambil data yang dibutuhkan saja menyesuaikan excel pak mul start
+                                for (let i = 0; i < allData.length; i++) {
+                                    let subarray = allData[i];
+                                    let nomorSurat = subarray.nomorSurat;
+                                    let kodeHal = subarray.kodeHal;
+                                    let kodeUnit = subarray.kodeUnit;
+                                    let tanggalPengesahanOriginal = subarray.tanggalPengesahan
+                                    let tanggalPengesahan = new Date(tanggalPengesahanOriginal)
+                                    let bulan = tanggalPengesahan.getMonth() + 1
+                                    let tahun = tanggalPengesahan.getFullYear()
 
-                                // Nomor surat : convert bulan ke romawi start
-                                function angkaBulanKeRomawi(bulan) {
-                                    if (bulan < 1 || bulan > 12) {
-                                        return "Invalid";
+                                    // Nomor surat : convert bulan ke romawi start
+                                    function angkaBulanKeRomawi(bulan) {
+                                        if (bulan < 1 || bulan > 12) {
+                                            return "Invalid";
+                                        }
+
+                                        const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
+                                            "VIII", "IX", "X", "XI", "XII"
+                                        ];
+                                        return romawi[bulan];
                                     }
+                                    const romawiBulan = angkaBulanKeRomawi(
+                                        bulan);
+                                    // Nomor surat : convert bulan ke romawi end
 
-                                    const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
-                                        "VIII", "IX", "X", "XI", "XII"
+                                    // Tanggal disahkan : convert bulan ke bulan indonesia start
+                                    const namaBulanIndonesia = [
+                                        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                                        "Juli", "Agustus", "September", "Oktober", "November",
+                                        "Desember"
                                     ];
-                                    return romawi[bulan];
+
+                                    const tanggalFormatted = tanggalPengesahan.getDate().toString()
+                                        .padStart(2,
+                                            '0'); // Dapatkan tanggal dan format dengan 2 digit
+                                    const namaBulan = namaBulanIndonesia[tanggalPengesahan
+                                        .getMonth()]; // Dapatkan nama bulan sesuai indeks
+                                    const tahunOri = tanggalPengesahan.getFullYear(); // Dapatkan tahun
+
+                                    let tanggalFixed = `${tanggalFormatted} ${namaBulan} ${tahunOri}`;
+                                    // Tanggal disahkan : convert bulan ke bulan indonesia end
+
+                                    let nomorSuratLengkap =
+                                        `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
+                                    let subarrayTerpilih = [tanggalFixed, subarray
+                                        .disahkanOleh,
+                                        nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
+                                        subarray.name
+                                    ];
+                                    data.push(subarrayTerpilih);
                                 }
-                                const romawiBulan = angkaBulanKeRomawi(
-                                    bulan);
-                                // Nomor surat : convert bulan ke romawi end
 
-                                // Tanggal disahkan : convert bulan ke bulan indonesia start
-                                const namaBulanIndonesia = [
-                                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                                    "Juli", "Agustus", "September", "Oktober", "November",
-                                    "Desember"
-                                ];
+                                // Menggunakan .sort() dengan fungsi perbandingan
+                                data.sort((a, b) => {
+                                    // Mengambil nomor dari indeks ke-2 dalam masing-masing array
+                                    const numA = parseInt(a[2].split('/')[0]);
+                                    const numB = parseInt(b[2].split('/')[0]);
 
-                                const tanggalFormatted = tanggalPengesahan.getDate().toString()
-                                    .padStart(2,
-                                        '0'); // Dapatkan tanggal dan format dengan 2 digit
-                                const namaBulan = namaBulanIndonesia[tanggalPengesahan
-                                    .getMonth()]; // Dapatkan nama bulan sesuai indeks
-                                const tahunOri = tanggalPengesahan.getFullYear(); // Dapatkan tahun
+                                    // Membandingkan nomor untuk pengurutan
+                                    return numA - numB;
+                                });
 
-                                let tanggalFixed = `${tanggalFormatted} ${namaBulan} ${tahunOri}`;
-                                // Tanggal disahkan : convert bulan ke bulan indonesia end
+                                function parseDate(dateString) {
+                                    const months = {
+                                        'Januari': '01',
+                                        'Februari': '02',
+                                        'Maret': '03',
+                                        'April': '04',
+                                        'Mei': '05',
+                                        'Juni': '06',
+                                        'Juli': '07',
+                                        'Agustus': '08',
+                                        'September': '09',
+                                        'Oktober': '10',
+                                        'November': '11',
+                                        'Desember': '12'
+                                    };
 
-                                let nomorSuratLengkap =
-                                    `${nomorSurat}/${kodeUnit}/${kodeHal}/${romawiBulan}/${tahun}`
-                                let subarrayTerpilih = [tanggalFixed, subarray
-                                    .disahkanOleh,
-                                    nomorSuratLengkap, subarray.perihal, subarray.tujuanSurat,
-                                    subarray.name
-                                ];
-                                data.push(subarrayTerpilih);
-                            }
-
-                            // Menggunakan .sort() dengan fungsi perbandingan
-                            data.sort((a, b) => {
-                                // Mengambil nomor dari indeks ke-2 dalam masing-masing array
-                                const numA = parseInt(a[2].split('/')[0]);
-                                const numB = parseInt(b[2].split('/')[0]);
-
-                                // Membandingkan nomor untuk pengurutan
-                                return numA - numB;
-                            });
-
-                            function parseDate(dateString) {
-                                const months = {
-                                    'Januari': '01',
-                                    'Februari': '02',
-                                    'Maret': '03',
-                                    'April': '04',
-                                    'Mei': '05',
-                                    'Juni': '06',
-                                    'Juli': '07',
-                                    'Agustus': '08',
-                                    'September': '09',
-                                    'Oktober': '10',
-                                    'November': '11',
-                                    'Desember': '12'
-                                };
-
-                                const [day, month, year] = dateString.split(' ');
-                                const monthNumber = months[month];
-                                if (monthNumber) {
-                                    return new Date(`${year}-${monthNumber}-${day}`);
+                                    const [day, month, year] = dateString.split(' ');
+                                    const monthNumber = months[month];
+                                    if (monthNumber) {
+                                        return new Date(`${year}-${monthNumber}-${day}`);
+                                    }
+                                    return new Date(); // Atau tindakan lain jika format tanggal tidak valid
                                 }
-                                return new Date(); // Atau tindakan lain jika format tanggal tidak valid
+
+                                data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
+
+                                // Tambahkan header ke data
+                                let excelData = [dataTableHeaders].concat(data)
+
+                                // Buat file Excel kosong menggunakan SheetJS
+                                let workbook = XLSX.utils.book_new();
+
+                                // Buat worksheet dalam file Excel
+                                let worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+                                // Sisipkan worksheet ke dalam file Excel
+                                XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+                                // Dapatkan tanggal hari ini
+                                let today = new Date();
+                                let dd = String(today.getDate()).padStart(2, '0');
+                                let mm = String(today.getMonth() + 1).padStart(2,
+                                    '0'); // Januari dimulai dari 0
+                                let yyyy = today.getFullYear();
+
+                                // Dapatkan hari ini
+                                let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                                    'Sabtu'
+                                ];
+                                let day = days[today
+                                    .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                                // Dapatkan nama bulan
+                                var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                    'Juli', 'Agustus', 'September', 'Oktober',
+                                    'November', 'Desember'
+                                ];
+                                var month = months[today
+                                    .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                                // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                                let formattedDate = dd + ' ' + month + ' ' + yyyy;
+
+                                // Nama file Excel dengan tanggal hari ini
+                                let fileName = ''
+                                if (user == 1) {
+                                    fileName =
+                                        'Data Surat Antidatir Fakultas Kedokteran Universitas Diponegoro ' +
+                                        '- ' + day + ', ' +
+                                        formattedDate + '.xlsx';
+                                } else {
+                                    fileName = 'Rekap Data Surat Antidatir - ' + day + ', ' +
+                                        formattedDate + '.xlsx'
+                                }
+
+                                // Ekspor file Excel
+                                XLSX.writeFile(workbook, fileName);
                             }
-
-                            data.sort((a, b) => parseDate(a[0]) - parseDate(b[0]));
-
-                            // Tambahkan header ke data
-                            let excelData = [dataTableHeaders].concat(data)
-
-                            // Buat file Excel kosong menggunakan SheetJS
-                            let workbook = XLSX.utils.book_new();
-
-                            // Buat worksheet dalam file Excel
-                            let worksheet = XLSX.utils.aoa_to_sheet(excelData);
-
-                            // Sisipkan worksheet ke dalam file Excel
-                            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-
-                            // Dapatkan tanggal hari ini
-                            let today = new Date();
-                            let dd = String(today.getDate()).padStart(2, '0');
-                            let mm = String(today.getMonth() + 1).padStart(2,
-                                '0'); // Januari dimulai dari 0
-                            let yyyy = today.getFullYear();
-
-                            // Dapatkan hari ini
-                            let days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
-                                'Sabtu'
-                            ];
-                            let day = days[today
-                                .getDay()]; // Mendapatkan nama hari berdasarkan indeks
-
-                            // Dapatkan nama bulan
-                            var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                'Juli', 'Agustus', 'September', 'Oktober',
-                                'November', 'Desember'
-                            ];
-                            var month = months[today
-                                .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
-
-                            // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
-                            let formattedDate = dd + ' ' + month + ' ' + yyyy;
-
-                            // Nama file Excel dengan tanggal hari ini
-                            let fileName = ''
-                            if (user == 1) {
-                                fileName =
-                                    'Data Surat Antidatir Fakultas Kedokteran Universitas Diponegoro ' +
-                                    '- ' + day + ', ' +
-                                    formattedDate + '.xlsx';
-                            } else {
-                                fileName = 'Rekap Data Surat Antidatir - ' + day + ', ' +
-                                    formattedDate + '.xlsx'
-                            }
-
-                            // Ekspor file Excel
-                            XLSX.writeFile(workbook, fileName);
                         }
-                    }],
+                    ],
                     destroy: true,
                     order: false,
                     language: {
@@ -2227,8 +2350,8 @@
                 // Filter rentang tanggal end
             });
         </script>
+        {{-- End admin --}}
     @endif
-    {{-- End admin --}}
     <!-- Initializing data tables end -->
 
     {{-- Cek semua sudah arsip start --}}

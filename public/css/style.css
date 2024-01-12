@@ -145,6 +145,8 @@ p {
 }
 .mybtn.white,
 .mybtn.light {
+    height: 40px;
+    padding: 0.5rem 1.25rem;
     border: 1px solid var(--grey);
 }
 .mybtn.white:hover {
