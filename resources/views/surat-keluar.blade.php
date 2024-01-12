@@ -2137,7 +2137,7 @@
                 dataType: "json",
                 data: {
                     'start': 0,
-                    'length': 10,
+                    'length': 999999999999,
                 },
                 success: function(data) {
                     var dataTableData = data.data;

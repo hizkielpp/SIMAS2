@@ -1013,7 +1013,6 @@
                             $("#datepicker").prop("disabled", true);
                             $("#tglPengesahan").prop("disabled", false);
                             $("#tglPengesahan").val($("#datepicker").val());
-                            console.log(xhr)
                         },
                     },
                 });
@@ -2237,13 +2236,14 @@
         $(document).ready(function() {
             let btnWrapper = document.getElementById('btnRegistrasi')
             let user = '{{ $user->nip }}'
+            let userInt = parseInt(user)
 
             $.ajax({
                 url: "/getSuratAntidatir", // Ganti dengan rute yang sesuai
                 dataType: "json",
                 data: {
                     'start': 0,
-                    'length': 10,
+                    'length': 999999999999,
                 },
                 success: function(data) {
                     var dataTableData = data.data;
@@ -2378,7 +2378,7 @@
     {{-- Loader length menu tables end --}}
 
     {{-- Fungsi cek surat antidatir tersedia pada datepicker --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $.ajax({
                 url: "/cekTersediaDatepicker",
@@ -2407,7 +2407,7 @@
                 }
             });
         })
-    </script>
+    </script> --}}
     {{-- End fungsi cek surat antidatir tersedia pada datepicker --}}
 
     @endsection @section('sa', 'active') @section('title', 'Surat Antidatir')

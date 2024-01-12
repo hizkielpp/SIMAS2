@@ -323,7 +323,8 @@ class Surat extends Controller
                     ->orWhere('kodeUnit', 'like', '%' . $searchValue . '%')
                     ->orWhere('disahkanOleh', 'like', '%' . $searchValue . '%')
                     ->orWhere('tujuanSurat', 'like', '%' . $searchValue . '%')
-                    ->orWhere('perihal', 'like', '%' . $searchValue . '%');
+                    ->orWhere('perihal', 'like', '%' . $searchValue . '%')
+                    ->orWhere('name', 'like', '%' . $searchValue . '%');
                 // Tambahkan kolom-kolom lain sesuai kebutuhan
             });
         }
@@ -626,7 +627,8 @@ class Surat extends Controller
                     ->orWhere('kodeUnit', 'like', '%' . $searchValue . '%')
                     ->orWhere('disahkanOleh', 'like', '%' . $searchValue . '%')
                     ->orWhere('tujuanSurat', 'like', '%' . $searchValue . '%')
-                    ->orWhere('perihal', 'like', '%' . $searchValue . '%');
+                    ->orWhere('perihal', 'like', '%' . $searchValue . '%')
+                    ->orWhere('name', 'like', '%' . $searchValue . '%');
                 // Tambahkan kolom-kolom lain sesuai kebutuhan
             });
         }
