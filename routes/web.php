@@ -4,6 +4,9 @@ use App\Http\Controllers\Surat;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +18,33 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::get('test', function () {
+    // // Cek untuk menghindari hari sabtu/minggu dan hari libur nasional
+    // $client = new Client();
+    // $response = $client->get('https://api-harilibur.vercel.app/api', [
+    //     'headers' => [
+    //         'accept' => 'application/json'
+    //     ]
+    // ]);
+    // $data = json_decode($response->getBody(), true);
+    // $false = true;
+    // foreach ($data as $value) {
+    //     if (date('Y-m-d') == $value['holiday_date']) {
+    //         $false = false;
+    //     };
+    // }
+    // if ($false) {
+    //     return 'Bukan hari libur';
+    // } else {
+    //     return 'Hari libur';
+    // }
+    $today = Carbon::now();
+    $todayFormated = $today->format('Y-m-d');
+    $max = DB::table('suratkeluar')
+        ->where('tanggalPengesahan', $todayFormated)
+        ->max('nomorSurat');
+    return $max + 1;
+});
 Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
 
