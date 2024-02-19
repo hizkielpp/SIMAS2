@@ -18,12 +18,12 @@ return new class extends Migration {
             $table->unsignedBigInteger('id_surat');
             $table->foreign('id_surat')->references('id')->on('suratmasuk');
             // Foreign key tabel tindak lanjut
-            $table->unsignedBigInteger('id_tindak_lanjut');
+            $table->unsignedBigInteger('id_tindak_lanjut')->nullable();
             $table->foreign('id_tindak_lanjut')->references('id')->on('tindak_lanjut');
 
-            $table->string('tujuan_disposisi');
-            $table->string('status');
-            $table->string('isi');
+            $table->string('tujuan_disposisi')->nullable();
+            $table->string('status')->nullable();
+            $table->string('isi')->nullable();
             $table->timestamps();
         });
     }
