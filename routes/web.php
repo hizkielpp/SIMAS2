@@ -45,7 +45,7 @@ Route::get('test', function () {
         ->max('nomorSurat');
     return $max + 1;
 });
-Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
+Route::middleware(['checkAuth'])->group(function () {
     Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/downloadNaskah', [Surat::class, 'downloadNaskah'])->name('downloadNaskah');
@@ -95,9 +95,7 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
 Route::post('/login2', [AuthController::class, 'login'])->name('login2');
 
 // Halaman login
-Route::middleware('hariKerja')->group(function () {
-    Route::get('/login', [AuthController::class, 'index'])->name('login');
-});
+Route::get('/login', [AuthController::class, 'index'])->name('login');
 
 // Fungsi login
 Route::post('/customLogin', [AuthController::class, 'customLogin'])->name('login.custom');
