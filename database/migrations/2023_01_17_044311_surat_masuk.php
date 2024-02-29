@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer('jumlahLampiran')->nullable();
             $table->string('lampiran');
             $table->longText('perihal')->nullable();
+            $table->enum('status_disposisi', ['Belum Diproses', 'Diproses', 'Selesai'])->default('Belum Diproses');
             $table->timestamps();
         });
     }

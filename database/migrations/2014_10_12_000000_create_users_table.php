@@ -25,6 +25,10 @@ return new class extends Migration
             // $table->string('nip')->unique();
             $table->rememberToken();
             $table->timestamps();
+
+            // Foreign key jabatan
+            $table->unsignedBigInteger('id_jabatan');
+            $table->foreign('id_jabatan')->references('id')->on('jabatans');
         });
     }
 

@@ -1,12 +1,15 @@
 <?php
 
+use GuzzleHttp\Client;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Surat;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
+use App\Http\Controllers\DisposisiController;
+use App\Http\Controllers\SuratMasukController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,33 +21,6 @@ use Illuminate\Support\Carbon;
 |
 */
 
-Route::get('test', function () {
-    // // Cek untuk menghindari hari sabtu/minggu dan hari libur nasional
-    // $client = new Client();
-    // $response = $client->get('https://api-harilibur.vercel.app/api', [
-    //     'headers' => [
-    //         'accept' => 'application/json'
-    //     ]
-    // ]);
-    // $data = json_decode($response->getBody(), true);
-    // $false = true;
-    // foreach ($data as $value) {
-    //     if (date('Y-m-d') == $value['holiday_date']) {
-    //         $false = false;
-    //     };
-    // }
-    // if ($false) {
-    //     return 'Bukan hari libur';
-    // } else {
-    //     return 'Hari libur';
-    // }
-    $today = Carbon::now();
-    $todayFormated = $today->format('Y-m-d');
-    $max = DB::table('suratkeluar')
-        ->where('tanggalPengesahan', $todayFormated)
-        ->max('nomorSurat');
-    return $max + 1;
-});
 Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
 
@@ -60,12 +36,31 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::post('/deleteSK', [Surat::class, 'deleteSK'])->name('deleteSK');
 
     // Surat Masuk
-    Route::get('/suratMasuk', [Surat::class, 'indexSM'])->name('suratMasuk');
-    Route::get('/getSM/{id}', [Surat::class, 'getSM'])->name('getSM');
-    Route::post('/editSM', [Surat::class, 'editSM'])->name('editSM');
-    Route::get('/refreshSM', [Surat::class, 'refreshSM'])->name('refreshSM');
-    Route::post('/inputSM', [Surat::class, 'inputSM'])->name('inputSM');
-    Route::get('/disposisi', [Surat::class, 'disposisi'])->name('disposisi');
+    Route::controller(SuratMasukController::class)->group(function () {
+        Route::name('surat-masuk.')->group(function () {
+            Route::get('/surat-masuk', 'index')->name('index');
+            Route::get('/getSM/{id}', 'getSM')->name('getSM');
+            Route::get('/surat-masuk/detail/{id}', 'show')->name('show');
+            Route::post('/inputSM', 'inputSM')->name('inputSM');
+            Route::post('/editSM', 'editSM')->name('editSM');
+        });
+    });
+
+    // Disposisi start
+    Route::controller(DisposisiController::class)->group(function () {
+        Route::name('disposisi.')->group(function () {
+            Route::get('/disposisi', 'index')->name('index');
+            // Route::get('/drugs', 'drugs')->name('drugs');
+            // Route::get('/get/{id}', 'get')->name('get');
+            // Route::get('/tambah-obat', 'create')->name('create');
+            Route::post('/disposisi/teruskan', 'teruskan')->name('teruskan');
+            Route::post('/disposisi/store', 'store')->name('store');
+            // Route::get('/data-obat/edit-obat/{id}', 'edit')->name('edit');
+            // Route::post('/data-obat/update/{id}', 'update')->name('update');
+            // Route::post('/data-obat/delete/{id}', 'delete')->name('delete');
+        });
+    });
+    // Disposisi end
 
     // Surat Keluar dan Antidatir
     Route::get('/getSK/{id}', [Surat::class, 'getSK'])->name('getSK');

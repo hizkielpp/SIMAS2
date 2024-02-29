@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ $user->roleTabel->nama }} | @yield('title')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}" />
+    <!-- Template : theme style -->
+    <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}" />
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
 
     <!-- Fontawesome Icons -->
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" />
 
-    <!-- Template : theme style -->
-    <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}" />
 
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -101,7 +102,7 @@
                         </li>
                         @if ($user->role_id !== 2)
                             <li class="nav-item mb-2">
-                                <a href="{{ route('suratMasuk') }}" class="nav-link @yield('sm')">
+                                <a href="{{ route('surat-masuk.index') }}" class="nav-link @yield('sm')">
                                     <i class="fa-solid fa-envelope me-2"></i>
                                     <p class="fw-normal">Surat Masuk</p>
                                 </a>

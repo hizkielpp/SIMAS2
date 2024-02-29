@@ -149,11 +149,6 @@ p {
     padding: 0.5rem 1.25rem;
     border: 1px solid var(--grey);
 }
-.mybtn.white:hover {
-    background-color: var(--blue);
-    color: white;
-    transition: 0.3s;
-}
 .mybtn.light {
     color: var(--black);
 }
@@ -203,6 +198,9 @@ p {
 }
 .dt-buttons {
     gap: 0.5rem !important;
+}
+.dropdown button::after {
+    display: none;
 }
 /* Button end */
 
@@ -317,26 +315,17 @@ p {
 /* ================================== */
 /* Tabel start */
 #mytable {
-    width: 100% !important;
     padding: 0.5rem 0;
 }
 #mytable thead th {
     font-weight: 600;
-    font-size: 16px;
-    color: var(--black);
-    background-color: var(--light);
+    font-size: 14px;
+    color: #808489;
+    background-color: #f7f2ff;
     padding: 1rem;
-}
-#mytable thead th:first-child {
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
 }
 #mytable thead th:nth-child(2) {
     min-width: 200px;
-}
-#mytable thead th:last-child {
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
 }
 #mytable tbody tr td {
     color: var(--black);
@@ -547,6 +536,9 @@ p {
     border-color: var(--blue);
 }
 
+.form-control[readonly] {
+    background-color: white;
+}
 .input__nomor {
     cursor: not-allowed;
 }

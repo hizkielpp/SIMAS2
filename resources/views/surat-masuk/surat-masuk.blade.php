@@ -90,7 +90,14 @@
     <section class="surat__masuk content">
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
-            <h5 class="fw__semi black">SURAT MASUK</h5>
+            <div class="d-flex mt-3 justify-content-between align-items-center">
+                <h5 class="fw__semi black">SURAT MASUK</h5>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-0 bg-transparent mb-0">
+                        <li class="breadcrumb-item active" aria-current="page">Semua Surat Masuk</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
         {{-- Navigation end --}}
 
@@ -177,7 +184,7 @@
                         </div>
                         <div class="modal-body">
                             <form id="formRegistrasi" class="needs-validation" novalidate method="POST"
-                                action="{{ route('inputSM') }}" enctype="multipart/form-data">
+                                action="{{ route('surat-masuk.inputSM') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
@@ -201,7 +208,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="date" class="form-label black fw-normal">Tanggal
-                                                Surat</label>
+                                                Surat Diterima</label>
                                             <div class="position-relative input__tanggal__form">
                                                 <input type="text" id="datepicker" identifier="date"
                                                     placeholder="..." name="tanggalPengajuan" aria-placeholder="coba"
@@ -346,7 +353,7 @@
                         </div>
                         <div class="modal-body">
                             <form id="formEdit" enctype="multipart/form-data" method="POST"
-                                action="{{ route('editSM') }}">
+                                action="{{ route('surat-masuk.editSM') }}">
                                 @csrf
                                 <input type="text" id="idSurat" name="idSurat" hidden>
                                 <div class="row">
@@ -508,12 +515,68 @@
                             <th>Asal Surat / No. Surat</th>
                             <th>Tanggal Surat</th>
                             <th>Penerima</th>
-                            <th class="text-center">Perihal</th>
+                            <th>Perihal</th>
+                            <th>Status</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($suratMasuk as $k => $v)
+                            <!-- Modal teruskan ke start -->
+                            <div class="modal modal__section fade" data-bs-backdrop="static" id="teruskanKe"
+                                data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <form class="needs-validation" novalidate method="POST"
+                                        action="{{ route('disposisi.teruskan') }}">
+                                        @csrf
+                                        <div class="modal-content p-3">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
+                                                    Teruskan Surat Masuk Ke
+                                                </h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id_surat" value="{{ $v->id }}">
+                                                <div class="mb-3">
+                                                    <label for="nip_penerima" class="form-label black fw-normal">Teruskan
+                                                        Ke</label>
+                                                    <select class="form-select" required
+                                                        aria-label="Default select example" name="nip_penerima">
+                                                        <option selected disabled value="">...</option>
+                                                        @foreach ($tujuanTeruskan as $item)
+                                                            @if (old('nip_penerima') == $item->id_jabatan)
+                                                                <option value="{{ $item->id_jabatan }}" selected>
+                                                                    {{ $item->nama_jabatan }}
+                                                                </option>
+                                                            @else
+                                                                <option value="{{ $item->id_jabatan }}">
+                                                                    {{ $item->nama_jabatan }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Masukkan penerima surat dengan benar.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="mybtn light" data-bs-dismiss="modal">
+                                                    Batal
+                                                </button>
+                                                <button type="submit" class="mybtn blue" type="submit">
+                                                    Tambah
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Modal teruskan ke end -->
+
                             <tr>
                                 <td class="no">{{ $k + 1 }}</td>
                                 <td>
@@ -525,74 +588,25 @@
                                 </td>
                                 <td>{{ $v->namaTujuan }}</td>
                                 <td>
-                                    {{-- @if ($v->sifatSurat == 1)
-                            <div class="sifat biasa d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Biasa</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 2)
-                            <div class="sifat penting d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Penting</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 3)
-                            <div class="sifat segera d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Segera</h5>
-                            </div>
-                            @elseif ($v->sifatSurat == 4)
-                            <div class="sifat rahasia d-flex justify-content-center align-items-center mx-auto">
-                                <h5>Rahasia</h5>
-                            </div>
-                            @endif --}}
                                     {{ $v->perihal }}
                                 </td>
+                                <td>{{ $v->status_disposisi }}</td>
                                 <td class="text-center">
-                                    <div class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#editSuratMasuk"
-                                            class="myicon position-relative blue d-flex align-items-center justify-content-center"
-                                            id="btnEdit" onclick="detailSurat('{{ $v->id }}')"
-                                            data-id="{{ $v->id }}" style="width: fit-content">
-                                            <i class="fa-solid fa-file-lines me-2"></i>Detail
+                                    <div class="dropdown">
+                                        <button class="mybtn white dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
                                         </button>
-                                        <button type="button"
-                                            class="myicon light bg-white position-relative blue d-flex align-items-center justify-content-center"
-                                            data-bs-toggle="modal" data-bs-target="#lampiran"
-                                            onclick="lihatLampiran('{{ $v->lampiran }}')">
-                                            <i class="fa-solid fa-paperclip"></i>
-                                            <div class="position-absolute mytooltip">
-                                                <div class="text-white px-3 py-2 position-relative">
-                                                    Lihat Arsip
-                                                </div>
-                                                <div id="arrow"></div>
-                                            </div>
-                                        </button>
-                                        @if ($user->role_id != 3)
-                                            <button type="button"
-                                                class="myicon position-relative red d-flex align-items-center justify-content-center"
-                                                onclick="confirmHapus('{{ $v->id }}')">
-                                                <i class="fa-solid fa-trash"></i>
-                                                <div class="position-absolute mytooltip">
-                                                    <div class="text-white px-3 py-2 position-relative">
-                                                        Hapus
-                                                    </div>
-                                                    <div id="arrow"></div>
-                                                </div>
-                                            </button>
-                                        @endif
-                                        @if ($user->role_id != 3)
-                                            <a data-id="{{ $v->id }}" data-bs-toggle="modal"
-                                                data-bs-target="#disposisi"
-                                                class="test myicon position-relative green d-flex align-items-center justify-content-center"
-                                                onclick="showDisposisi('{{ $v->id }}')">
-                                                <i class="fa-solid fa-file-export"></i>
-                                                <div class="position-absolute mytooltip">
-                                                    <div class="text-white px-3 py-2 position-relative">
-                                                        Disposisi
-                                                    </div>
-                                                    <div id="arrow"></div>
-                                                </div>
-                                            </a>
-                                        @endif
-
-                                        <!-- {{ route('disposisi') . '?id=' . $v->id }} -->
+                                        <ul class="dropdown-menu p-0 py-2">
+                                            @if ($v->status_disposisi === 'Belum Diproses')
+                                                <li>
+                                                    <buttton type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#teruskanKe">Teruskan</buttton>
+                                                </li>
+                                            @endif
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('surat-masuk.show', $v->id) }}">Detail</a></li>
+                                        </ul>
                                     </div>
                                 </td>
 
@@ -614,17 +628,6 @@
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- Sweet alert end --}}
-
-    {{-- Fungsi lihat lampiran start --}}
-    <script>
-        function lihatLampiran(id) {
-            var options = {
-                fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
-            };
-            PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
-        }
-    </script>
-    {{-- Fungsi lihat lampiran end --}}
 
     {{-- Function refresh datatables start --}}
     <script>
@@ -770,12 +773,13 @@
             let loader = document.getElementById('myloader')
             loader.classList.remove('d-none')
 
-            let url = "{{ route('getSM', ':id') }}";
+            let url = "{{ route('surat-masuk.getSM', ':id') }}";
             url = url.replace(':id', id);
             $.ajax({
                 type: 'GET',
                 url: url,
                 success: function(data) {
+                    console.log(data);
                     loader.classList.add('d-none')
                     $('#nomorSuratE').attr('value', data.nomorSurat)
                     $("#tujuanSuratE").val(data.tujuanSurat)
@@ -852,14 +856,16 @@
                 // console.log(end)
                 start = this.value
                 if (start && end) {
-                    window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
+                    window.location.href = "{{ route('surat-masuk.index') }}" + '?start=' + start +
+                        '&end=' + end;
                 }
             })
             $('#inputTanggalEnd').change(function() {
                 // console.log(start)
                 end = this.value
                 if (start && end) {
-                    window.location.href = "{{ route('suratMasuk') }}" + '?start=' + start + '&end=' + end;
+                    window.location.href = "{{ route('surat-masuk.index') }}" + '?start=' + start +
+                        '&end=' + end;
                 }
             })
         });

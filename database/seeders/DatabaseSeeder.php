@@ -23,207 +23,79 @@ class DatabaseSeeder extends Seeder
         // Initializing carbon
         $dateNow = Carbon::now();
 
-        // Role seeder start
-        $role = [['1', 'Admin'], ['2', 'Operator'], ['3', 'Pimpinan']];
-        foreach ($role as $k => $v) {
-            DB::table('role')->insert([
-                'kode' => $v[0],
-                'nama' => $v[1],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-        // Role seeder start
-
         // User seeder start
-        // Admin start
         DB::table('users')->insert([
             'role_id' => 1,
             'name' => 'Pak Mul',
             'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
             'email' => 'pakmul@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '111',
-        ]);
-        // Admin end
-
-        // Pimpinan start
-        DB::table('users')->insert([
-            'role_id' => 3,
-            'name' => 'Bu Agnes',
-            'bagian' => 'Dekanat',
-            'password' => Hash::make('password'),
-            'email' => 'buagnes@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '222',
+            'nip' => '99',
+            'id_jabatan' => 7,
         ]);
         DB::table('users')->insert([
             'role_id' => 3,
-            'name' => 'Dekan',
+            'name' => 'dr. Yan Wisnu',
             'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'dekan@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '333',
-        ]);
-        // Pimpinan end
-
-        // Operator start
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 1',
-            'bagian' => 'Bagian 1',
-            'password' => Hash::make('password'),
-            'email' => 'tendik1@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'yanwisnu@gmail.com',
             'nip' => '1',
+            'id_jabatan' => 1,
         ]);
         DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 2',
-            'bagian' => 'Bagian 2',
+            'role_id' => 3,
+            'name' => 'dr. Udadi',
+            'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'tendik2@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'udadi@gmail.com',
             'nip' => '2',
+            'id_jabatan' => 2,
         ]);
         DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 3',
-            'bagian' => 'Bagian 3',
+            'role_id' => 3,
+            'name' => 'dr. Hermina',
+            'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'tendik3@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'hermina@gmail.com',
             'nip' => '3',
+            'id_jabatan' => 3,
         ]);
         DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 4',
-            'bagian' => 'Bagian 4',
+            'role_id' => 3,
+            'name' => 'Agnes',
+            'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'tendik4@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'agnes@gmail.com',
             'nip' => '4',
+            'id_jabatan' => 4,
         ]);
         DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 5',
-            'bagian' => 'Bagian 5',
+            'role_id' => 3,
+            'name' => 'Susilo Wanto',
+            'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'tendik5@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'susilowanto@gmail.com',
             'nip' => '5',
+            'id_jabatan' => 5,
         ]);
         DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 6',
-            'bagian' => 'Bagian 6',
+            'role_id' => 3,
+            'name' => 'Lulut',
+            'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'tendik6@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'lulut@gmail.com',
             'nip' => '6',
+            'id_jabatan' => 6,
         ]);
         DB::table('users')->insert([
             'role_id' => 2,
-            'name' => 'Tendik 7',
-            'bagian' => 'Bagian 7',
+            'name' => 'Musa',
+            'bagian' => 'Dekanat',
             'password' => Hash::make('password'),
-            'email' => 'tendik7@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'email' => 'musa@gmail.com',
             'nip' => '7',
+            'id_jabatan' => 7,
         ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 8',
-            'bagian' => 'Bagian 8',
-            'password' => Hash::make('password'),
-            'email' => 'tendik8@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '8',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 9',
-            'bagian' => 'Bagian 9',
-            'password' => Hash::make('password'),
-            'email' => 'tendik9@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '9',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 10',
-            'bagian' => 'Bagian 10',
-            'password' => Hash::make('password'),
-            'email' => 'tendik10@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '10',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 11',
-            'bagian' => 'Bagian 11',
-            'password' => Hash::make('password'),
-            'email' => 'tendik11@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '11',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 12',
-            'bagian' => 'Bagian 12',
-            'password' => Hash::make('password'),
-            'email' => 'tendik12@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '12',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 13',
-            'bagian' => 'Bagian 13',
-            'password' => Hash::make('password'),
-            'email' => 'tendik13@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '13',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 14',
-            'bagian' => 'Bagian 14',
-            'password' => Hash::make('password'),
-            'email' => 'tendik14@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '14',
-        ]);
-        DB::table('users')->insert([
-            'role_id' => 2,
-            'name' => 'Tendik 15',
-            'bagian' => 'Bagian 15',
-            'password' => Hash::make('password'),
-            'email' => 'tendik15@gmail.com',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'nip' => '15',
-        ]);
-        // Operator end
         // User seeder end
 
         // Unit seeder start
@@ -284,96 +156,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         // Sifat seeder end
-
-        // Surat keluar seeder start
-        $startNomorSurat = 1; // Nomor surat awal
-        $jumlahSurat = 20; // Jumlah surat yang ingin Anda buat
-
-        for ($i = 0; $i < $jumlahSurat; $i++) {
-            // Generate nomor surat dengan menggabungkan nomor awal dengan indeks loop
-            $nomorSurat = $startNomorSurat + $i;
-
-            if ($i % 2 === 0) {
-                # code...
-                DB::table('suratkeluar')->insert([
-                    'nomorSurat' => $nomorSurat, // Ganti sesuai format kode surat yang Anda inginkan
-                    'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
-                    'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
-                    'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
-                    'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
-                    'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
-                    'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
-                    'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
-                    'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
-                    'tujuanSurat' => 'aaa', // Ganti dengan pembuat surat yang sesuai
-                    'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
-                    'lampiran' => 'applsci-11-04267.pdf', // Ganti dengan pembuat surat yang sesuai
-                ]);
-            } else {
-                DB::table('suratkeluar')->insert([
-                    'nomorSurat' => $nomorSurat, // Ganti sesuai format kode surat yang Anda inginkan
-                    'kodeHal' => 'PP', // Ganti dengan pembuat surat yang sesuai
-                    'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
-                    'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
-                    'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
-                    'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
-                    'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
-                    'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
-                    'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
-                    'tujuanSurat' => 'bbb', // Ganti dengan pembuat surat yang sesuai
-                    'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
-                    'lampiran' => 'applsci-11-04267.pdf', // Ganti dengan pembuat surat yang sesuai
-                ]);
-            }
-        }
-
-        // DB::table('suratkeluar')->insert([
-        //     'nomorSurat' => 1, // Ganti sesuai format kode surat yang Anda inginkan
-        //     'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
-        //     'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
-        //     'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
-        //     'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
-        //     'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
-        //     'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
-        //     'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
-        //     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
-        //     'tujuanSurat' => 'aaa', // Ganti dengan pembuat surat yang sesuai
-        //     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
-        //     'created_at' => now(), // Ganti dengan pembuat surat yang sesuai
-        //     'updated_at' => now(), // Ganti dengan pembuat surat yang sesuai
-        // ]);
-        // DB::table('suratkeluar')->insert([
-        //     'nomorSurat' => 2, // Ganti sesuai format kode surat yang Anda inginkan
-        //     'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
-        //     'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
-        //     'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
-        //     'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
-        //     'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
-        //     'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
-        //     'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
-        //     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
-        //     'tujuanSurat' => 'bbb', // Ganti dengan pembuat surat yang sesuai
-        //     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
-        //     'created_at' => now(), // Ganti dengan pembuat surat yang sesuai
-        //     'updated_at' => now(), // Ganti dengan pembuat surat yang sesuai
-        // ]);
-        // DB::table('suratkeluar')->insert([
-        //     'nomorSurat' => 3, // Ganti sesuai format kode surat yang Anda inginkan
-        //     'kodeHal' => 'AK', // Ganti dengan pembuat surat yang sesuai
-        //     'sifatSurat' => 1, // Ganti dengan pembuat surat yang sesuai
-        //     'created_by' => 111, // Ganti dengan pembuat surat yang sesuai
-        //     'tanggalPengesahan' => '2023-10-03', // Ganti dengan pembuat surat yang sesuai
-        //     'kodeUnit' => 'UN7.F4', // Ganti dengan pembuat surat yang sesuai
-        //     'disahkanOleh' => 'Dekan', // Ganti dengan pembuat surat yang sesuai
-        //     'jenis' => 'biasa', // Ganti dengan pembuat surat yang sesuai
-        //     'status' => 'digunakan', // Ganti dengan pembuat surat yang sesuai
-        //     'tujuanSurat' => 'ccc', // Ganti dengan pembuat surat yang sesuai
-        //     'perihal' => 'tes', // Ganti dengan pembuat surat yang sesuai
-        //     'created_at' => now(), // Ganti dengan pembuat surat yang sesuai
-        //     'updated_at' => now(), // Ganti dengan pembuat surat yang sesuai
-        // ]);
-
-        // Surat keluar seeder end
 
         // Tindak lanjut seeder start
         $tindakLanjut = ['Mohon Pertimbangan', 'Mohon Pendapat', 'Mohon Keputusan', 'Mohon Petunjuk', 'Mohon Saran', 'Bicarakan', 'Teliti / Ikuti Perkembangan', 'Untuk Perhatian', 'Siapkan Laporan', 'Siapkan Konsep', 'Untuk Diproses', 'Selesaikan Sesuai Pembicaraan', 'Edaran', 'Tik / Gandakan', 'Arsip'];

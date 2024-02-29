@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -14,17 +15,22 @@ return new class extends Migration {
     {
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal_disposisi');
+            $table->string('isi_disposisi')->default('');
+            $table->enum('status_disposisi', ['Baru', 'Sedang Diproses', 'Selesai']);
+            $table->timestamps();
+
             // Foreign key tabel surat
             $table->unsignedBigInteger('id_surat');
             $table->foreign('id_surat')->references('id')->on('suratmasuk');
+
             // Foreign key tabel tindak lanjut
             $table->unsignedBigInteger('id_tindak_lanjut')->nullable();
             $table->foreign('id_tindak_lanjut')->references('id')->on('tindak_lanjut');
 
-            $table->string('tujuan_disposisi')->nullable();
-            $table->string('status')->nullable();
-            $table->string('isi')->nullable();
-            $table->timestamps();
+            // Foreign key tabel penerima
+            $table->unsignedBigInteger('nip_penerima');
+            $table->foreign('nip_penerima')->references('nip')->on('users');
         });
     }
 
