@@ -11,6 +11,28 @@
 @endsection
 @section('content')
     <section class="surat__masuk content">
+        {{-- Alert validasi gagal start --}}
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong class="mb-2 d-inline-block">Aksi gagal!</strong>
+                @foreach ($errors->all() as $error)
+                    <p class="mb-1" id="errorMessage">
+                        {{ $error }}
+                    </p>
+                @endforeach
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        {{-- Alert validasi gagal end --}}
+
+        {{-- Alert aksi berhasil start --}}
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        {{-- Alert aksi berhasil end --}}
+
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
             <div class="d-flex mt-3 justify-content-between align-items-center">
@@ -44,6 +66,8 @@
 
         {{-- Detail content start --}}
         <div class="card p-4 mt-3">
+            <h3 class="ms-auto fs-6 mb-3 black fw-normal">Status Disposisi: <span
+                    class="fw-semibold">{{ $surat->status_disposisi }}</span></h3>
             <div class="row">
                 <div class="col-md-6 col-12">
                     <div class="mb-3">
@@ -67,16 +91,16 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="penerima" class="form-label black fw-normal">Penerima</label>
+                        <label for="penerima" class="form-label black fw-normal">Ditujukan Kepada</label>
                         <input readonly type="text" class="form-control" name="penerima"
-                            value="{{ $surat->tujuanSurat }}" aria-describedby="emailHelp" />
+                            value="{{ $surat->nama_jabatan }} ({{ $surat->name }})" aria-describedby="emailHelp" />
                     </div>
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="mb-3">
                         <label for="penerima" class="form-label black fw-normal">Sifat</label>
-                        <input readonly type="text" class="form-control" name="penerima" value="{{ $surat->nama }}"
-                            aria-describedby="emailHelp" />
+                        <input readonly type="text" class="form-control" name="penerima"
+                            value="{{ $surat->sifat_surat }}" aria-describedby="emailHelp" />
                     </div>
                     <div class="mb-3">
                         <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
@@ -91,7 +115,8 @@
                                 <input readonly type="number" class="form-control" name="jumlahLampiran" min="0"
                                     value="{{ $surat->jumlahLampiran }}" />
                             @else
-                                <input readonly type="text" class="form-control" name="jumlahLampiran" value="-" />
+                                <input readonly type="text" class="form-control" name="jumlahLampiran"
+                                    value="-" />
                             @endif
                             <button type="button" data-bs-toggle="modal" data-bs-target="#lampiran"
                                 onclick="lihatLampiran('{{ $surat->lampiran }}')" class="mybtn white">
@@ -113,7 +138,8 @@
         <div class="modal modal__section fade" data-bs-backdrop="static" id="tambahDisposisi" data-bs-backdrop="static"
             tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                <form class="needs-validation" novalidate method="POST" action="{{ route('disposisi.store') }}">
+                <form class="needs-validation" novalidate method="POST"
+                    action="{{ route('surat-masuk.disposisiStore', $surat->id) }}">
                     @csrf
                     <div class="modal-content p-3">
                         <div class="modal-header">
@@ -129,14 +155,50 @@
                                 <select class="form-select" required aria-label="Default select example"
                                     name="nip_penerima">
                                     <option selected disabled value="">...</option>
-                                    @foreach ($penerimaDisposisi as $item)
+                                    @foreach ($ditujukanKepada as $item)
                                         <option value="{{ $item->nip }}">
-                                            {{ $item->name }}
+                                            {{ $item->nama_jabatan }} ({{ $item->name }})
                                         </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
                                     Masukkan penerima surat dengan benar.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggal_disposisi" class="form-label black fw-normal">Tanggal
+                                    Surat Didisposisikan</label>
+                                <div class="position-relative input__tanggal__form">
+                                    <input type="text" id="datepicker" identifier="date" placeholder="..."
+                                        name="tanggal_disposisi" aria-placeholder="coba" class="form-control"
+                                        value="" required>
+                                    <i class="fa-solid fa-calendar-days position-absolute"></i>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Masukkan tanggal pengajuan dengan benar.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_tindak_lanjut" class="form-label black fw-normal">Tindak Lanjut</label>
+                                <select class="form-select" required aria-label="Default select example"
+                                    name="id_tindak_lanjut">
+                                    <option selected disabled value="">...</option>
+                                    @foreach ($tindakLanjuts as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->deskripsi }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    Masukkan tindak lanjut surat dengan benar.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="isi_disposisi" class="form-label black fw-normal">Keterangan</label>
+                                <input type="text" class="form-control" placeholder="" name="isi_disposisi"
+                                    aria-describedby="emailHelp" required />
+                                <div class="invalid-feedback">
+                                    Masukkan keterangan disposisi dengan benar.
                                 </div>
                             </div>
                         </div>
@@ -158,9 +220,11 @@
         <div class="card p-4 mt-4">
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Disposisi Surat</h4>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi" class="mybtn blue">
-                    <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
-                </button>
+                @if ($user->id_jabatan !== 7)
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi" class="mybtn blue">
+                        <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
+                    </button>
+                @endif
             </div>
             <div class="table-responsive">
                 <table id="mytable" class="table table-borderless">
@@ -168,18 +232,18 @@
                         <tr>
                             <th class="no">#</th>
                             <th>Tanggal Surat Didisposisikan</th>
-                            <th>Tujuan</th>
+                            <th>Penerima Disposisi</th>
+                            <th>Tindak Lanjut</th>
                             <th>Isi</th>
-                            <th>Status</th>
                         </tr>
                     <tbody>
                         @foreach ($disposisis as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->tanggal_disposisi }}</td>
-                                <td>{{ $item->tujuan }}</td>
+                                <td>{{ $item->nama_jabatan }} ({{ $item->tujuan }})</td>
+                                <td>{{ $item->deskripsi }}</td>
                                 <td>{{ $item->isi_disposisi }}</td>
-                                <td>{{ $item->status_disposisi }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -196,9 +260,21 @@
 @section('sm', 'active')
 @section('title', 'Surat Masuk')
 @section('js')
-    {{-- Bootstrap form validation start --}}
     <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        // Initializing datapicker start
+        $("#datepicker").datepicker();
+        // Setter
+        $("#datepicker").datepicker("option", "changeYear", true);
+        $("#datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+        // Cek apakah ada old value tanggal kadaluarsa
+        let oldDate = "{{ old('tanggal_disposisi') }}";
+        if (oldDate) {
+            // Tetapkan nilai Datepicker dari old value
+            $("#datepicker").datepicker("setDate", oldDate);
+        }
+        // Initializing datapicker end
+
+        // {{-- Bootstrap form validation start --}}
         (() => {
             'use strict'
 
@@ -225,18 +301,27 @@
                 }, false)
             })
         })()
-    </script>
-    {{-- Bootstrap form validation end --}}
+        // {{-- Bootstrap form validation end --}}
 
-    {{-- Fungsi lihat lampiran start --}}
-    <script>
+        // {{-- Fungsi lihat lampiran start --}}
         function lihatLampiran(id) {
             var options = {
                 fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
             };
             PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
         }
-    </script>
-    {{-- Fungsi lihat lampiran end --}}
+        // {{-- Fungsi lihat lampiran end --}}
 
+        // Capitalize first error message start
+        @if ($errors->any())
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+            }
+            var errorMessage = document.getElementById('errorMessage').innerHTML;
+            errorMessage = errorMessage.trim()
+            errorMessage = errorMessage.replace(/_/g, ' ')
+            document.getElementById('errorMessage').innerHTML = capitalizeFirstLetter(errorMessage);
+        @endif
+        // Capitalize first error message start
+    </script>
 @endsection

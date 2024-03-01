@@ -323,6 +323,7 @@ p {
     color: #808489;
     background-color: #f7f2ff;
     padding: 1rem;
+    white-space: nowrap;
 }
 #mytable thead th:nth-child(2) {
     min-width: 200px;
@@ -331,6 +332,8 @@ p {
     color: var(--black);
     font-weight: 400;
     padding: 1rem;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 #mytable tfoot th {
     border-top: none !important;

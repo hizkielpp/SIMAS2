@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_disposisi');
-            $table->string('isi_disposisi')->default('');
+            $table->string('isi_disposisi');
             $table->enum('status_disposisi', ['Baru', 'Sedang Diproses', 'Selesai']);
             $table->timestamps();
 
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('id_surat')->references('id')->on('suratmasuk');
 
             // Foreign key tabel tindak lanjut
-            $table->unsignedBigInteger('id_tindak_lanjut')->nullable();
+            $table->unsignedBigInteger('id_tindak_lanjut');
             $table->foreign('id_tindak_lanjut')->references('id')->on('tindak_lanjut');
 
             // Foreign key tabel penerima

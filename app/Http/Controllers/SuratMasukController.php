@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -13,78 +13,56 @@ class SuratMasukController extends Controller
     // Fungsi menampilkan halaman surat masuk start
     public function index()
     {
+        // Ambil data user authorized
         $user = session()->get('user');
-        $jabatanUser = DB::table('jabatans')
-            ->where('id', $user->id_jabatan)
-            ->first();
-        if (isset($_GET['start']) && isset($_GET['end'])) {
-            $start = strtotime($_GET['start']);
-            $end = strtotime($_GET['end']);
 
-            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
-            if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratMasuk = DB::table('suratmasuk')
-                    ->where('tanggalPengajuan', '>=', date('Y-m-d', $start))
-                    ->where('tanggalPengajuan', '<=', date('Y-m-d', $end))
-                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->get();
-            }
-            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
-            else {
-                $suratMasuk = DB::table('suratmasuk')
-                    ->where('tanggalPengajuan', '>=', date('Y-m-d', $start))
-                    ->where('tanggalPengajuan', '<=', date('Y-m-d', $end))
-                    ->where('created_by', $user->nip)
-                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->get();
-            }
-        } else {
-            // Kondisi untuk admin dan pimpinan dapat melihat semua surat
-            if ($user->role_id == 1 || $user->role_id == 3) {
-                $suratMasuk = DB::table('suratmasuk')
-                    ->orderBy('nomorSurat', 'desc')
-                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-                    ->get();
-            }
-            // Kondisi untuk operator hanya dapat melihat suratnya sendiri
-            else {
-                $suratMasuk = DB::table('suratmasuk')
-                    ->where('created_by', $user->nip)
-                    ->orderBy('nomorSurat', 'desc')
-                    ->join('users', 'suratmasuk.created_by', '=', 'users.nip')
-                    ->join('tujuan', 'suratmasuk.tujuanSurat', '=', 'tujuan.kode')
-                    ->select('suratmasuk.*', 'users.name as name', 'users.bagian as bagian', 'tujuan.nama as namaTujuan')
-                    ->get();
-            }
-        }
-        $tujuan = DB::table('tujuan')->get();
-        $sifat = DB::table('sifat')->get();
-        $hal = DB::table('hal')->get();
-        $tujuanTeruskan = DB::table('users')->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+        // Ambil data ditujukan kepada pimpinan
+        $ditujukanKepada = DB::table('users')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
             ->select('users.*', 'jabatans.nama_jabatan')
-            ->whereIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha'])
+            ->whereNotIn('nama_jabatan', ['Tenaga Kependidikan'])
             ->get();
-        if ($suratMasuk) {
-            return view('surat-masuk.surat-masuk')->with([
-                'user' => $user,
-                'suratMasuk' => $suratMasuk,
-                'sifat' => $sifat,
-                'hal' => $hal,
-                'tujuan' => $tujuan,
-                'tujuanTeruskan' => $tujuanTeruskan,
-                'jabatanUser' => $jabatanUser,
-            ]);
-        } else {
-            return view('surat-masuk.surat-masuk')->with(['failed' => 'data surat masuk kosong', 'sifat' => $sifat, 'hal' => $hal]);
+
+        // Ambil data semua surat masuk
+        $surat = DB::table('suratMasuk')
+            ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+            ->orderByDesc('created_at');
+
+        // Cek kondisi admin dapat melihat semua surat
+        if ($user->role_id == 1) {
+            $surat = $surat->get();
         }
+        // Cek jika belum ada surat yang didisposisikan
+        else if (count(DB::table('disposisi')->get()) === 0) {
+            $surat = $surat->where('ditujukan_kepada', $user->nip)
+                ->get();
+        }
+        // Cek jika surat telah didisposisikan
+        else {
+            $surat = DB::table('disposisi')
+                ->where('nip_penerima', $user->nip)
+                ->join('suratMasuk', 'disposisi.id_surat', '=', 'suratMasuk.id')
+                ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->select('disposisi.*', 'suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+                ->get();
+        }
+
+        // Ambil data sifat surat 
+        $sifat = DB::table('sifat')->get();
+
+        // Ambil data kode hal surat 
+        $hal = DB::table('hal')->get();
+
+        return view('surat-masuk.surat-masuk')->with([
+            'user' => $user,
+            'suratMasuk' => $surat,
+            'sifat' => $sifat,
+            'hal' => $hal,
+            'ditujukanKepada' => $ditujukanKepada,
+        ]);
     }
     // Fungsi menampilkan halaman surat masuk end
 
@@ -97,20 +75,43 @@ class SuratMasukController extends Controller
         // Ambil data surat sesuai id
         $surat = DB::table('suratMasuk')->where('suratMasuk.id', $request->id)
             ->join('sifat', 'suratMasuk.sifatSurat', '=', 'sifat.kode')
+            ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->select('suratMasuk.*', 'sifat.nama as sifat_surat', 'users.name', 'jabatans.nama_jabatan')
             ->first();
 
         // Ambil data disposisi sesuai surat
         $disposisis = DB::table('disposisi')
             ->where('id_surat', $request->id)
             ->join('users', 'disposisi.nip_penerima', '=', 'users.nip')
-            ->select('disposisi.*', 'users.name as tujuan')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->join('tindak_lanjut', 'disposisi.id_tindak_lanjut', '=', 'tindak_lanjut.id')
+            ->select('disposisi.*', 'users.name as tujuan', 'tindak_lanjut.deskripsi', 'jabatans.nama_jabatan as nama_jabatan')
             ->get();
 
-        // Ambil data penerima disposisi start
-        $penerimaDisposisi = DB::table('users')
-            ->get();
-        // Ambil data penerima disposisi end
-        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'penerimaDisposisi'));
+        // Cek kondisi disposisi hanya kebawah
+        $ditujukanKepada = DB::table('users')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->select('users.*', 'jabatans.nama_jabatan');
+        if ($surat->nama_jabatan === 'Dekan') {
+            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan']);
+        } elseif ($surat->nama_jabatan === 'Wakil Dekan I') {
+            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I']);
+        } elseif ($surat->nama_jabatan === 'Wakil Dekan II') {
+            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II']);
+        } elseif ($surat->nama_jabatan === 'Manager Bagian Tata Usaha') {
+            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha']);
+        } elseif ($surat->nama_jabatan === 'Supervisor Akademik & Kemahasiswaan') {
+            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha', 'Supervisor Akademik & Kemahasiswaan']);
+        } elseif ($surat->nama_jabatan === 'Supervisor Sumber Daya') {
+            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha', 'Supervisor Akademik & Kemahasiswaan', 'Supervisor Sumber Daya']);
+        }
+        $ditujukanKepada = $ditujukanKepada->get();
+
+        // Ambil data tindak lanjut
+        $tindakLanjuts = DB::table('tindak_lanjut')->get();
+
+        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'ditujukanKepada', 'tindakLanjuts'));
     }
     // Menampilkan detail surat end
 
@@ -121,7 +122,6 @@ class SuratMasukController extends Controller
         $validatedData = $request->validate(
             [
                 'nomorSurat' => 'required|unique:suratmasuk,nomorSurat',
-                'tujuanSurat' => 'required',
                 'tanggalPengajuan' => 'required',
                 'asalSurat' => 'required',
                 'kodeHal' => 'required',
@@ -129,6 +129,7 @@ class SuratMasukController extends Controller
                 'lampiran' => 'required|mimes:docx,pdf|max:2048',
                 'perihal' => 'required',
                 'jumlahLampiran' => 'nullable',
+                'ditujukan_kepada' => 'required',
             ],
             [
                 'nomorSurat.unique' => 'Nomor surat telah digunakan. Silahkan gunakan nomor surat lain.',
@@ -251,25 +252,32 @@ class SuratMasukController extends Controller
     }
     // Fungsi get spesific surat masuk end
 
-    // Fungsi disposisi start
-    public function disposisi(Request $request)
+    // Menambahkan disposisi surat start
+    public function disposisiStore(Request $request)
     {
-        if (isset($_GET['id'])) {
-            $surat = DB::table('suratmasuk')
-                ->join('hal', 'hal.kode', '=', 'suratmasuk.kodeHal')
-                ->where('suratmasuk.id', $_GET['id'])
-                ->first();
-            // dd($surat);
-            if ($surat) {
-                return view('lembar-disposisi')->with('surat', $surat);
-            } else {
-                return redirect()
-                    ->route('surat-masuk.index')
-                    ->with('failed', 'gagal menampilkan lembar disposisi surat masuk');
-            }
-        } else {
-            return response('Request tidak valid', 400)->header('Content-Type', 'text/plain');
+        // Mendapatkan data surat berdasarkan ID
+        $surat = DB::table('suratMasuk')->where('id', $request->id)->first();
+
+        // Validasi inputan
+        $validated = $request->validate([
+            'nip_penerima' => 'required',
+            'tanggal_disposisi' => 'required|date',
+            'id_tindak_lanjut' => 'required',
+            'isi_disposisi' => 'required',
+        ]);
+
+        $validated['id_surat'] = $request->id;
+        $validated['tanggal_disposisi'] = Carbon::parse($request->input('tanggal_disposisi'))->format('Y-m-d H:i:s');
+
+        // Memastikan surat belum didisposisikan sebelumnya
+        DB::table('disposisi')->insert($validated);
+        if ($surat->status_disposisi == 'Belum Diproses') {
+            // Update status disposisi surat
+            DB::table('suratMasuk')->where('id', $request->id)->update(['status_disposisi' => 'Diproses']);
         }
+        return redirect()->back()->with('success', 'Surat berhasil didisposisikan!');
     }
-    // Fungsi disposisi start
+    // Menambahkan disposisi surat end
+
+
 }

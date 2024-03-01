@@ -26,12 +26,15 @@ return new class extends Migration
             $table->foreign('sifatSurat')->references('kode')->on('sifat')->onDelete('cascade');
             $table->date('tanggalPengajuan');
             $table->string('asalSurat');
-            $table->string('tujuanSurat');
             $table->integer('jumlahLampiran')->nullable();
             $table->string('lampiran');
             $table->longText('perihal')->nullable();
             $table->enum('status_disposisi', ['Belum Diproses', 'Diproses', 'Selesai'])->default('Belum Diproses');
             $table->timestamps();
+
+            // Foreign key
+            $table->unsignedBigInteger('ditujukan_kepada');
+            $table->foreign('ditujukan_kepada')->references('nip')->on('users')->onDelete('cascade');
         });
     }
 

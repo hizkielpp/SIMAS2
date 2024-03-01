@@ -101,6 +101,14 @@
         </div>
         {{-- Navigation end --}}
 
+        {{-- Alert berhasil start --}}
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        {{-- Alert berhasil end --}}
+
         {{-- Alert gagal menambahkan surat start --}}
         @if ($errors->any())
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -154,23 +162,6 @@
             </div>
             {{-- Tabel header end --}}
 
-            <!-- Modal lampiran surat start -->
-            <div class="modal modal__section fade" data-bs-backdrop="static" id="lampiran" tabindex="-1"
-                aria-labelledby="lampiranLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl h-100">
-                    <div class="modal-content modal-xl h-100">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="lampiranLabel">Lampiran Surat</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="example1"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal lampiran surat end -->
-
             <!-- Modal registrasi start -->
             <div class="modal modal__section fade" data-bs-backdrop="static" id="registrasiSuratMasuk"
                 data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
@@ -189,15 +180,6 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <div class="mb-3">
-                                            <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
-                                            <input type="text" class="form-control" id="asalSurat" name="asalSurat"
-                                                placeholder="Contoh : Ketua Departemen Kedokteran"
-                                                aria-describedby="emailHelp" value="{{ old('asalSurat') }}" required />
-                                            <div class="invalid-feedback">
-                                                Masukkan asal surat dengan benar.
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
                                             <label for="noSurat" class="form-label black fw-normal">Nomor Surat</label>
                                             <input type="text" class="form-control"
                                                 placeholder="Contoh : 1/UN7.F4/I/2023" id="noSurat" name="nomorSurat"
@@ -207,8 +189,17 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
+                                            <input type="text" class="form-control" id="asalSurat" name="asalSurat"
+                                                placeholder="Contoh : Ketua Departemen Kedokteran"
+                                                aria-describedby="emailHelp" value="{{ old('asalSurat') }}" required />
+                                            <div class="invalid-feedback">
+                                                Masukkan asal surat dengan benar.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="date" class="form-label black fw-normal">Tanggal
-                                                Surat Diterima</label>
+                                                Surat</label>
                                             <div class="position-relative input__tanggal__form">
                                                 <input type="text" id="datepicker" identifier="date"
                                                     placeholder="..." name="tanggalPengajuan" aria-placeholder="coba"
@@ -220,16 +211,18 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Penerima</label>
+                                            <label for="ditujukan_kepada" class="form-label black fw-normal">Ditujukan
+                                                Kepada</label>
                                             <select class="form-select" required aria-label="Default select example"
-                                                name="tujuanSurat">
+                                                name="ditujukan_kepada">
                                                 <option selected disabled value="">...</option>
-                                                @foreach ($tujuan as $k => $v)
-                                                    @if (old('tujuanSurat') == $v->kode)
-                                                        <option value="{{ $v->kode }}" selected>{{ $v->nama }}
+                                                @foreach ($ditujukanKepada as $k => $v)
+                                                    @if (old('ditujukan_kepada') == $v->nip)
+                                                        <option value="{{ $v->nip }}" selected>
+                                                            {{ $v->nama_jabatan }}
                                                         </option>
                                                     @else
-                                                        <option value="{{ $v->kode }}">{{ $v->nama }}
+                                                        <option value="{{ $v->nip }}">{{ $v->nama_jabatan }}
                                                         </option>
                                                     @endif
                                                 @endforeach
@@ -333,179 +326,6 @@
             </div>
             <!-- Modal registrasi end -->
 
-            <!-- Modal detail & edit start -->
-            <div class="modal modal__section fade" id="editSuratMasuk" data-bs-backdrop="static" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    {{-- Loader start --}}
-                    <div id="myloader" class="w-100 h-100 position-absolute justify-content-center align-items-center"
-                        style="z-index: 9999; backdrop-filter: blur(4px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem">
-                        <div class="lds-dual-ring"></div>
-                    </div>
-                    {{-- Loader end --}}
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="modalTitle">
-                                Detail Surat Masuk
-                            </h4>
-                            <button type="button" onclick="batalHandling()" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formEdit" enctype="multipart/form-data" method="POST"
-                                action="{{ route('surat-masuk.editSM') }}">
-                                @csrf
-                                <input type="text" id="idSurat" name="idSurat" hidden>
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="asalSurat" class="form-label black fw-normal">Asal Surat</label>
-                                            <input type="text" disabled class="form-control" id="asalSuratE"
-                                                name="asalSurat" placeholder="Contoh : Ketua Departemen Kedokteran"
-                                                aria-describedby="emailHelp" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="nomorSuratE" class="form-label black fw-normal">Nomor
-                                                Surat</label>
-                                            <input disabled type="text" class="form-control"
-                                                placeholder="Masukkan nomor surat" id="nomorSuratE" name="nomorSurat"
-                                                aria-describedby="emailHelp" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="date" class="form-label black fw-normal">Tanggal
-                                                Surat</label>
-                                            <div class="position-relative input__tanggal__form">
-                                                <input identifier="date" disabled class="form-control"
-                                                    name="tanggalPengajuan" id="tanggalPengajuanE" value="2020-06-16">
-                                                <i class="fa-solid fa-calendar-days position-absolute"></i>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Penerima</label>
-                                            <select class="form-select" disabled aria-label="Default select example"
-                                                name="tujuanSurat" id="tujuanSuratE">
-                                                <option selected>
-                                                    ...
-                                                </option>
-                                                @foreach ($tujuan as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}
-                                                        ({{ $v->kode }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="penerima" class="form-label black fw-normal">Sifat</label>
-                                            <select class="form-select" disabled id="sifatSuratE"
-                                                aria-label="Default select example" name="sifatSurat">
-                                                <option selected>
-                                                    ...
-                                                </option>
-                                                @foreach ($sifat as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="mb-3">
-                                            <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                                            <select class="form-select" disabled aria-label="Default select example"
-                                                id="kodeHalE" name="kodeHal">
-                                                <option selected>...</option>
-                                                @foreach ($hal as $k => $v)
-                                                    <option value="{{ $v->kode }}">{{ $v->nama }}
-                                                        ({{ $v->kode }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="lampiran" class="form-label black fw-normal">Upload
-                                                Arsip Surat Baru</label>
-                                            {{-- <div class="alert alert-primary gap-1 d-flex align-items-center"
-                                            role="alert">
-                                            <div class="fs-6">
-                                                Nama lampiran sebelumnya : <span class="fw-semibold"
-                                                    id="lampiranE"></span>
-                                            </div>
-                                        </div> --}}
-                                            <input type="file" disabled class="form-control" id="lampiran"
-                                                aria-describedby="emailHelp" name="lampiran" accept=".pdf" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
-                                                Lampiran</label>
-                                            <input id="jumlahLampiranE" disabled type="number" class="form-control"
-                                                id="jumlahLampiranE" name="jumlahLampiran" min="0" />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleFormControlTextarea1"
-                                                class="form-label black fw-normal">Perihal</label>
-                                            <textarea id="perihalE" disabled class="form-control perihal" id="exampleFormControlTextarea1" rows="1"
-                                                placeholder="Contoh : Permohonan perijinan penelitian" name="perihal" style="min-height: unset"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="alert border rounded-2 py-3 gap-2 d-flex align-items-start mt-3"
-                                    role="alert">
-                                    <i class="fa-solid fa-circle-info" class="icon__info"></i>
-                                    <div>
-                                        <span class="fw-semibold" style="font-size: 14px">Catatan</span>
-                                        <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
-                                            Surat ini ditambahkan oleh <span id="created_by"></span> (<span
-                                                id="bagian"></span>)
-                                            pada <span id="created_at"></span>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        @if ($user->role_id != 3)
-                            <div class="modal-footer">
-                                <div id="footer__edit" style="display: none">
-                                    <button type="button" onclick="batalHandling()" id="btnBatal" class="mybtn light"
-                                        data-bs-dismiss="modal">
-                                        Batal
-                                    </button>
-                                    <button type="button" class="mybtn blue" onclick="confirmEdit()">
-                                        Simpan
-                                    </button>
-                                </div>
-                                <div id="footer__detail">
-                                    <button type="button" onclick="editData()" class="mybtn blue"
-                                        onclick="confirmEdit()">
-                                        Edit
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <!-- Modal detail & edit end -->
-
-            <!-- Modal disposisi surat start -->
-            <div class="modal modal__section fade" data-bs-backdrop="static" id="disposisi" tabindex="-1"
-                aria-labelledby="ex ampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl h-100">
-                    <div class="modal-content p-3 h-100">
-                        <div class="modal-header">
-                            <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                Disposisi Surat
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <iframe src="" id="iframeDisposisi" frameborder="0" style="width:100%;"
-                                class="h-100"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal disposisi surat end -->
-
             {{-- Tabel content start --}}
             <div class="table-responsive">
                 <table id="mytable" class="table table-borderless">
@@ -513,49 +333,42 @@
                         <tr>
                             <th class="no">#</th>
                             <th>Asal Surat / No. Surat</th>
+                            <th>Ditujukan Kepada</th>
                             <th>Tanggal Surat</th>
-                            <th>Penerima</th>
                             <th>Perihal</th>
                             <th>Status</th>
-                            <th class="text-center">Aksi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($suratMasuk as $k => $v)
                             <!-- Modal teruskan ke start -->
-                            <div class="modal modal__section fade" data-bs-backdrop="static" id="teruskanKe"
+                            {{-- <div class="modal modal__section fade" data-bs-backdrop="static" id="teruskanKe"
                                 data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <form class="needs-validation" novalidate method="POST"
-                                        action="{{ route('disposisi.teruskan') }}">
+                                        action="{{ route('surat-masuk.teruskan', $v->id) }}">
                                         @csrf
                                         <div class="modal-content p-3">
                                             <div class="modal-header">
                                                 <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                                    Teruskan Surat Masuk Ke
+                                                    Teruskan Surat Ke
                                                 </h4>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <input type="hidden" name="id_surat" value="{{ $v->id }}">
                                                 <div class="mb-3">
-                                                    <label for="nip_penerima" class="form-label black fw-normal">Teruskan
-                                                        Ke</label>
+                                                    <label for="nip_penerima" class="form-label black fw-normal">Pilih
+                                                        Tujuan</label>
                                                     <select class="form-select" required
                                                         aria-label="Default select example" name="nip_penerima">
                                                         <option selected disabled value="">...</option>
-                                                        @foreach ($tujuanTeruskan as $item)
-                                                            @if (old('nip_penerima') == $item->id_jabatan)
-                                                                <option value="{{ $item->id_jabatan }}" selected>
-                                                                    {{ $item->nama_jabatan }}
-                                                                </option>
-                                                            @else
-                                                                <option value="{{ $item->id_jabatan }}">
-                                                                    {{ $item->nama_jabatan }}
-                                                                </option>
-                                                            @endif
+                                                        @foreach ($ditujukanKepada as $item)
+                                                            <option value="{{ $item->nip }}">
+                                                                {{ $item->nama_jabatan }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                     <div class="invalid-feedback">
@@ -574,36 +387,38 @@
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- Modal teruskan ke end -->
 
                             <tr>
-                                <td class="no">{{ $k + 1 }}</td>
+                                <td class="no">{{ $loop->iteration }}</td>
                                 <td>
                                     {{ $v->asalSurat }} <br> <span class="pt-2 d-inline-block">Nomor :
                                         {{ $v->nomorSurat }}
                                     </span>
                                 </td>
+                                <td>{{ $v->nama_jabatan }} <br> <span class="pt-2 d-inline-block">
+                                        {{ $v->name }}</td>
+                                </span>
                                 <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
                                 </td>
-                                <td>{{ $v->namaTujuan }}</td>
                                 <td>
                                     {{ $v->perihal }}
                                 </td>
                                 <td>{{ $v->status_disposisi }}</td>
-                                <td class="text-center">
+                                <td>
                                     <div class="dropdown">
                                         <button class="mybtn white dropdown-toggle" type="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fa-solid fa-ellipsis-vertical"></i>
                                         </button>
                                         <ul class="dropdown-menu p-0 py-2">
-                                            @if ($v->status_disposisi === 'Belum Diproses')
+                                            {{-- @if ($v->status_disposisi === 'Belum Diproses')
                                                 <li>
                                                     <buttton type="button" class="dropdown-item" data-bs-toggle="modal"
                                                         data-bs-target="#teruskanKe">Teruskan</buttton>
                                                 </li>
-                                            @endif
+                                            @endif --}}
                                             <li><a class="dropdown-item"
                                                     href="{{ route('surat-masuk.show', $v->id) }}">Detail</a></li>
                                         </ul>
@@ -625,233 +440,21 @@
 @section('sm', 'active')
 @section('title', 'Surat Masuk')
 @section('js')
+    <!-- Data tables start -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
+    </script>
+
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- Sweet alert end --}}
-
-    {{-- Function refresh datatables start --}}
-    <script>
-        function refreshDatatable() {
-            setInterval('location.reload()', 2000);
-        }
-    </script>
-    {{-- Function refresh datatables end --}}
-
-    <!-- Sweet alert : confirm delete start -->
-    <script>
-        function confirmHapus(id) {
-            new Audio("audio/warning-edited.mp3").play();
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Yakin ingin menghapus file?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, hapus!",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var token = $("meta[name='csrf-token']").attr("content");
-                    $.ajax({
-                        type: 'POST',
-                        url: "{{ route('deleteSM') }}",
-                        data: {
-                            "idSurat": id,
-                            "_token": token,
-                        },
-                        success: function(data) {
-                            Swal.fire("Berhasil!", data, "success");
-                            new Audio("audio/success-edited.mp3").play();
-                            refreshDatatable();
-                        },
-                        error: function(error) {
-                            Swal.fire("Gagal!", `${error.responseText}`, "error");
-                            new Audio("audio/error-edited.mp3").play();
-                        },
-
-                    });
-                    // Swal.fire("Berhasil!", "File anda berhasil dihapus.", "success");
-                    // new Audio("audio/success-edited.mp3").play();
-                } else {
-                    new Audio("audio/cancel-edited.mp3").play();
-                }
-            });
-        }
-    </script>
-    <!-- Sweet alert : confirm delete end -->
-
-    <!-- Sweet alert : confirm add start -->
-    <script>
-        function confirmAdd() {
-            new Audio("audio/warning-edited.mp3").play();
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Pastikan data yang anda masukkan benar!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Tambah",
-                cancelButtonText: "Batal",
-                reverseButtons: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // new Audio("audio/success-edited.mp3").play();
-                    // Swal.fire("Berhasil!", "Data berhasil ditambahkan.", "success");
-                    // $("#registrasiSuratMasuk").modal("hide");
-                    document.getElementById("formRegistrasi").submit();
-                } else {
-                    new Audio("audio/cancel-edited.mp3").play();
-                    // $("#registrasiSuratMasuk").modal("hide");
-                }
-            });
-
-        }
-
-        function berhasil(txt) {
-            new Audio("audio/success-edited.mp3").play();
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'success',
-                title: `Berhasil`,
-                text: `${txt}`,
-            })
-        }
-
-        function gagal() {
-            new Audio("audio/cancel-edited.mp3").play();
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Data gagal ditambahkan!',
-            })
-        }
-    </script>
-    <!-- Sweet alert : confirm add end -->
-
-    @if ($message = Session::get('success'))
-        <script>
-            berhasil("{{ Session::get('success') }}")
-        </script>
-        </div>
-    @endif
-
-    <!-- Sweet alert : confirm edit start -->
-    <script>
-        function confirmEdit() {
-            new Audio("audio/warning-edited.mp3").play();
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Pastikan data yang anda masukkan benar!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Simpan",
-                cancelButtonText: "Batal",
-                reverseButtons: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById("formEdit").submit();
-                    // new Audio("audio/success-edited.mp3").play();
-                    // Swal.fire("Berhasil!", "Data berhasil diperbarui.", "success");
-                    $("#editSuratMasuk").modal("hide");
-                } else {
-                    new Audio("audio/cancel-edited.mp3").play();
-                    $("#editSuratMasuk").modal("hide");
-                }
-            });
-        }
-    </script>
-    <!-- Sweet alert : confirm edit end -->
-
-    {{-- Fungsi detail surat start --}}
-    <script>
-        function detailSurat(id) {
-            let loader = document.getElementById('myloader')
-            loader.classList.remove('d-none')
-
-            let url = "{{ route('surat-masuk.getSM', ':id') }}";
-            url = url.replace(':id', id);
-            $.ajax({
-                type: 'GET',
-                url: url,
-                success: function(data) {
-                    console.log(data);
-                    loader.classList.add('d-none')
-                    $('#nomorSuratE').attr('value', data.nomorSurat)
-                    $("#tujuanSuratE").val(data.tujuanSurat)
-                    tanggal = new Date(data.tanggalPengajuan)
-                    y = tanggal.getFullYear()
-                    m = parseInt(tanggal.getMonth()) + 1
-                    d = tanggal.getDate()
-
-                    // Tanggal keterangan created at start
-                    const month = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
-                        "September", "Oktober", "November", "Desember"
-                    ];
-                    const weekday = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-                    tanggalDibuat = new Date(data.created_at)
-                    yd = tanggalDibuat.getFullYear()
-                    md = month[tanggalDibuat.getMonth()]
-                    dd = tanggalDibuat.getDate()
-                    dname = weekday[tanggalDibuat.getDay()]
-                    // Tanggal keterangan created at end
-
-                    $('#tanggalPengajuanE').val(`${d}-${m}-${y}`)
-                    $('#asalSuratE').attr('value', data.asalSurat)
-                    $("#kodeHalE").val(data.kodeHal)
-                    $('#sifatSuratE').val(data.sifatSurat)
-                    $('#perihalE').val(data.perihal)
-                    $('#jumlahLampiranE').val(data.jumlahLampiran)
-                    $('#lampiranE').html(data.lampiran)
-                    $('#created_by').text(data.name)
-                    $('#created_at').text(`${dname}, ${dd} ${md} ${yd}.`)
-                    $('#bagian').text(data.bagian)
-
-
-                }
-            });
-            $('#idSurat').attr('value', id);
-        }
-    </script>
-    {{-- Fungsi detail surat end --}}
-
-    {{-- Fungsi edit start --}}
-    <script>
-        const btnEdit = document.getElementById('footer__edit')
-        const btnDetail = document.getElementById('footer__detail')
-        let title = document.getElementById('modalTitle')
-
-        function editData() {
-            const btnBatal = document.getElementById('#btnBatal')
-            let input = document.querySelectorAll('[disabled]')
-
-            title.innerText = "Form Edit Surat Masuk"
-            input.forEach(item => item.removeAttribute('disabled'))
-            btnDetail.style.display = 'none'
-            btnEdit.classList.add('d-flex', 'gap-2')
-        }
-
-        function batalHandling() {
-            let input = document.querySelectorAll('#formEdit select, #formEdit input, #formEdit textarea')
-
-            title.innerText = "Detail Surat Masuk"
-            btnDetail.style.display = 'block'
-            btnEdit.classList.remove('d-flex', 'gap-2')
-            input.forEach(item => item.setAttribute('disabled', true))
-        }
-    </script>
-    {{-- Fungsi edit end --}}
 
     <script>
+        // Initializing dom start
         $(document).ready(function() {
+            // Filter tanggal start
             var start = $('#inputTanggalStart').attr('value')
             var end = $('#inputTanggalEnd').attr('value')
 
-            oke = false
             $('#inputTanggalStart').change(function() {
                 // console.log(end)
                 start = this.value
@@ -868,62 +471,15 @@
                         '&end=' + end;
                 }
             })
-        });
-    </script>
+            // Filter tanggal end
 
-    <!-- Data tables start -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
-    </script>
-    <!-- Data tables end -->
-
-    <!-- Data tables : responsive start -->
-    <script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <!-- Data tables : responsive end -->
-
-    <!-- Initializing data tables start -->
-    <script>
-        function showDisposisi(id) {
-            $('#iframeDisposisi').attr('src', `{{ url('disposisi?id=${id}') }}`)
-        }
-
-        function showLampiran(id) {
-            $('#iframeLampiran').attr('src', `{{ url('/uploads/${id}') }}`)
-        }
-
-        $(document).ready(function() {
-            $('.disposisi').on('click', function() {
-
-            })
+            // <!-- Initializing data tables start -->
             $("#mytable").DataTable({
                 columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5]
                 }],
-                responsive: {
-                    details: {
-                        display: $.fn.dataTable.Responsive.display.childRowImmediate,
-                        type: "none",
-                        target: "",
-                    },
-                },
                 dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 flex-wrap gap-2"<"d-flex align-items-center flex-wrap gap-2"li>p>',
-                // buttons: [{
-                //         extend: 'excelHtml5',
-                //         exportOptions: {
-                //             columns: [0, 1, 2, 3, 4]
-                //         },
-                //         className: 'mybtn btn__export'
-                //     },
-                //     {
-                //         extend: 'pdfHtml5',
-                //         exportOptions: {
-                //             columns: [0, 1, 2, 3, 4]
-                //         },
-                //         className: 'mybtn btn__export'
-                //     }
-                // ],
                 destroy: true,
                 order: false,
                 language: {
@@ -950,71 +506,79 @@
                     [10, 20, "Semua"],
                 ],
             });
-        });
-    </script>
-    <!-- Initializing data tables end -->
+            // <!-- Initializing data tables end -->
 
-    {{-- script tambahan untuk menangkap session --}}
-    <script>
-        function berhasil(txt) {
-            new Audio("audio/success-edited.mp3").play();
-            // Swal.fire("Berhasil!", `${txt}`, "success");
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'success',
-                title: `Berhasil`,
-                text: `${txt}`,
-            })
-        }
+            // {{-- Bootstrap form validation start --}}
+            (() => {
+                'use strict'
 
-        function gagal(txt) {
-            new Audio("audio/cancel-edited.mp3").play();
-            Swal.fire({
-                confirmButtonColor: "#2F5596",
-                icon: 'error',
-                title: 'Gagal!',
-                text: `Data gagal ditambahkan! ${txt} 
-                `,
-            })
-        }
-    </script>
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation')
 
-    @if ($message = Session::get('success'))
-        <script>
-            // berhasil("{{ Session::get('success') }}")
-        </script>
-    @endif
+                // Validasi nomor surat jika sudah digunakan
+                function cekNomorSurat() {
 
-    {{-- Bootstrap form validation start --}}
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
+                }
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
+                // Loop over them and prevent submission
+                Array.from(forms).forEach(form => {
+                    // console.log('tes')
+                    // console.log(form)
+                    form.addEventListener('submit', event => {
+                        if (!form.checkValidity()) {
 
-            // Validasi nomor surat jika sudah digunakan
-            function cekNomorSurat() {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
 
-            }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            })()
+            // {{-- Bootstrap form validation end --}}
 
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                // console.log('tes')
-                // console.log(form)
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
+            // <!-- Sweet alert : confirm delete start -->
+            function confirmHapus(id) {
+                new Audio("audio/warning-edited.mp3").play();
+                Swal.fire({
+                    title: "Konfirmasi",
+                    text: "Yakin ingin menghapus file?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#2F5596",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var token = $("meta[name='csrf-token']").attr("content");
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('deleteSM') }}",
+                            data: {
+                                "idSurat": id,
+                                "_token": token,
+                            },
+                            success: function(data) {
+                                Swal.fire("Berhasil!", data, "success");
+                                new Audio("audio/success-edited.mp3").play();
+                                refreshDatatable();
+                            },
+                            error: function(error) {
+                                Swal.fire("Gagal!", `${error.responseText}`, "error");
+                                new Audio("audio/error-edited.mp3").play();
+                            },
 
-                        event.preventDefault()
-                        event.stopPropagation()
+                        });
+                        // Swal.fire("Berhasil!", "File anda berhasil dihapus.", "success");
+                        // new Audio("audio/success-edited.mp3").play();
+                    } else {
+                        new Audio("audio/cancel-edited.mp3").play();
                     }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
+                });
+            }
+            // <!-- Sweet alert : confirm delete end -->
+        })
+        // Initializing dom end
     </script>
-    {{-- Bootstrap form validation end --}}
-
 @endsection

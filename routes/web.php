@@ -35,7 +35,7 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     });
     Route::post('/deleteSK', [Surat::class, 'deleteSK'])->name('deleteSK');
 
-    // Surat Masuk
+    // Surat masuk start
     Route::controller(SuratMasukController::class)->group(function () {
         Route::name('surat-masuk.')->group(function () {
             Route::get('/surat-masuk', 'index')->name('index');
@@ -43,24 +43,10 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
             Route::get('/surat-masuk/detail/{id}', 'show')->name('show');
             Route::post('/inputSM', 'inputSM')->name('inputSM');
             Route::post('/editSM', 'editSM')->name('editSM');
+            Route::post('/surat-masuk/detail/store-disposisi/{id}', 'disposisiStore')->name('disposisiStore');
         });
     });
-
-    // Disposisi start
-    Route::controller(DisposisiController::class)->group(function () {
-        Route::name('disposisi.')->group(function () {
-            Route::get('/disposisi', 'index')->name('index');
-            // Route::get('/drugs', 'drugs')->name('drugs');
-            // Route::get('/get/{id}', 'get')->name('get');
-            // Route::get('/tambah-obat', 'create')->name('create');
-            Route::post('/disposisi/teruskan', 'teruskan')->name('teruskan');
-            Route::post('/disposisi/store', 'store')->name('store');
-            // Route::get('/data-obat/edit-obat/{id}', 'edit')->name('edit');
-            // Route::post('/data-obat/update/{id}', 'update')->name('update');
-            // Route::post('/data-obat/delete/{id}', 'delete')->name('delete');
-        });
-    });
-    // Disposisi end
+    // Surat masuk end
 
     // Surat Keluar dan Antidatir
     Route::get('/getSK/{id}', [Surat::class, 'getSK'])->name('getSK');
