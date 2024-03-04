@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -72,6 +73,11 @@ class SuratMasukController extends Controller
         // Ambil data user
         $user = session()->get('user');
 
+        // Ambil data jabatan user
+        $jabatanUser = DB::table('jabatans')
+            ->where('id', $user->id_jabatan)
+            ->first()->nama_jabatan;
+
         // Ambil data surat sesuai id
         $surat = DB::table('suratMasuk')->where('suratMasuk.id', $request->id)
             ->join('sifat', 'suratMasuk.sifatSurat', '=', 'sifat.kode')
@@ -89,29 +95,28 @@ class SuratMasukController extends Controller
             ->select('disposisi.*', 'users.name as tujuan', 'tindak_lanjut.deskripsi', 'jabatans.nama_jabatan as nama_jabatan')
             ->get();
 
-        // Cek kondisi disposisi hanya kebawah
-        $ditujukanKepada = DB::table('users')
-            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
-            ->select('users.*', 'jabatans.nama_jabatan');
-        if ($surat->nama_jabatan === 'Dekan') {
-            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan']);
-        } elseif ($surat->nama_jabatan === 'Wakil Dekan I') {
-            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I']);
-        } elseif ($surat->nama_jabatan === 'Wakil Dekan II') {
-            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II']);
-        } elseif ($surat->nama_jabatan === 'Manager Bagian Tata Usaha') {
-            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha']);
-        } elseif ($surat->nama_jabatan === 'Supervisor Akademik & Kemahasiswaan') {
-            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha', 'Supervisor Akademik & Kemahasiswaan']);
-        } elseif ($surat->nama_jabatan === 'Supervisor Sumber Daya') {
-            $ditujukanKepada->whereNotIn('nama_jabatan', ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II', 'Manager Bagian Tata Usaha', 'Supervisor Akademik & Kemahasiswaan', 'Supervisor Sumber Daya']);
-        }
-        $ditujukanKepada = $ditujukanKepada->get();
-
         // Ambil data tindak lanjut
         $tindakLanjuts = DB::table('tindak_lanjut')->get();
 
-        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'ditujukanKepada', 'tindakLanjuts'));
+        // Ambil data jabatan keseluruhan
+        $jabatans = DB::table('jabatans')->get();
+
+        // Mencari index jabatan user yang login dalam array
+        $indexJabatanUser = $jabatans->search(function ($jabatan) use ($jabatanUser) {
+            return $jabatan->nama_jabatan == $jabatanUser;
+        });
+
+        // Mengambil jabatan setelah jabatan user yang login
+        $jabatanDapatDipilih = $jabatans->slice($indexJabatanUser + 1)->pluck('nama_jabatan', 'id')->toArray();
+
+        // Mengambil data users dengan join ke tabel jabatans
+        $usersWithJabatan = DB::table('users')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->whereIn('jabatans.id', array_keys($jabatanDapatDipilih))
+            ->select('users.*', 'jabatans.nama_jabatan')
+            ->get();
+
+        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts'));
     }
     // Menampilkan detail surat end
 

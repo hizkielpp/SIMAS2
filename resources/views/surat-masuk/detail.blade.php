@@ -66,7 +66,7 @@
 
         {{-- Detail content start --}}
         <div class="card p-4 mt-3">
-            <h3 class="ms-auto fs-6 mb-3 black fw-normal">Status Disposisi: <span
+            <h3 class="ms-auto fs-6 mb-3 black fw-normal">Status Surat: <span
                     class="fw-semibold">{{ $surat->status_disposisi }}</span></h3>
             <div class="row">
                 <div class="col-md-6 col-12">
@@ -155,7 +155,7 @@
                                 <select class="form-select" required aria-label="Default select example"
                                     name="nip_penerima">
                                     <option selected disabled value="">...</option>
-                                    @foreach ($ditujukanKepada as $item)
+                                    @foreach ($usersWithJabatan as $item)
                                         <option value="{{ $item->nip }}">
                                             {{ $item->nama_jabatan }} ({{ $item->name }})
                                         </option>
