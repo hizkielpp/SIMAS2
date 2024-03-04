@@ -24,30 +24,33 @@ class SuratMasukController extends Controller
             ->whereNotIn('nama_jabatan', ['Tenaga Kependidikan'])
             ->get();
 
-        // Ambil data semua surat masuk
-        $surat = DB::table('suratMasuk')
-            ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
-            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
-            ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
-            ->orderByDesc('created_at');
-
         // Cek kondisi admin dapat melihat semua surat
-        if ($user->role_id == 1) {
-            $surat = $surat->get();
-        }
-        // Cek jika belum ada surat yang didisposisikan
-        else if (count(DB::table('disposisi')->get()) === 0) {
-            $surat = $surat->where('ditujukan_kepada', $user->nip)
-                ->get();
-        }
-        // Cek jika surat telah didisposisikan
-        else {
-            $surat = DB::table('disposisi')
-                ->where('nip_penerima', $user->nip)
-                ->join('suratMasuk', 'disposisi.id_surat', '=', 'suratMasuk.id')
+        if ($user->role_id === 1) {
+            $surat = DB::table('suratMasuk')
                 ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
                 ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
-                ->select('disposisi.*', 'suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+                ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+                ->orderByDesc('created_at')
+                ->get();
+        }
+        // Cek kondisi selain admin dapat melihat surat yang ditujukan kepadanya
+        // Atau terdapat disposisi yang ditujukan kepadanya
+        else {
+            // Ambil nip user
+            $userNIP = $user->nip;
+
+            $surat = DB::table('suratMasuk')
+                ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+                ->where('ditujukan_kepada', $userNIP)
+                ->orWhere(function ($query) use ($userNIP) {
+                    $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
+                        $subquery->select('id_surat')
+                            ->from('disposisi')
+                            ->where('nip_penerima', $userNIP);
+                    });
+                })
                 ->get();
         }
 
@@ -79,7 +82,8 @@ class SuratMasukController extends Controller
             ->first()->nama_jabatan;
 
         // Ambil data surat sesuai id
-        $surat = DB::table('suratMasuk')->where('suratMasuk.id', $request->id)
+        $surat = DB::table('suratMasuk')
+            ->where('suratMasuk.id', $request->id)
             ->join('sifat', 'suratMasuk.sifatSurat', '=', 'sifat.kode')
             ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
             ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
