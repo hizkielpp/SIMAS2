@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_disposisi');
+            $table->dateTime('tanggal_disposisi');
             $table->string('keterangan');
             $table->timestamps();
 

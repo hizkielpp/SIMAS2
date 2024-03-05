@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 
 use Illuminate\Http\Request;
 
@@ -98,6 +99,15 @@ class SuratMasukController extends Controller
             ->join('tindak_lanjut', 'disposisi.id_tindak_lanjut', '=', 'tindak_lanjut.id')
             ->select('disposisi.*', 'users.name as tujuan', 'tindak_lanjut.deskripsi', 'jabatans.nama_jabatan as nama_jabatan')
             ->get();
+
+        // Atur format tanggal disposisi
+        // Setel lokal bahasa Indonesia
+        App::setLocale('id');
+        foreach ($disposisis as $key) {
+            $carbonTanggal = Carbon::parse($key->tanggal_disposisi);
+            $formatTanggal = $carbonTanggal->isoFormat('DD MMMM YYYY HH:mm:ss');
+            $key->tanggal_disposisi = $formatTanggal;
+        }
 
         // Ambil data tindak lanjut
         $tindakLanjuts = DB::table('tindak_lanjut')->get();
@@ -308,8 +318,16 @@ class SuratMasukController extends Controller
             'id_tindak_lanjut.required' => 'Tindak lanjut wajib diisi!',
         ]);
 
+        // Sesuaikan tanggal jquery datepicker dengan format database 
+        $tanggalDisposisi = Carbon::parse($request->input('tanggal_disposisi'))->format('Y-m-d');
+        $waktuSaatSubmit = Carbon::now();
+        $waktuFormatted = $waktuSaatSubmit->format('H:i:s');
+        $tanggalWaktuDisposisi = $tanggalDisposisi . ' ' . $waktuFormatted;
+
+        $validated['tanggal_disposisi'] = $tanggalWaktuDisposisi;
         $validated['id_surat'] = $request->id;
-        $validated['tanggal_disposisi'] = Carbon::parse($request->input('tanggal_disposisi'))->format('Y-m-d H:i:s');
+        $validated['created_at'] = Carbon::now();
+        $validated['updated_at'] = Carbon::now();
 
         // Memastikan surat belum didisposisikan sebelumnya
         DB::table('disposisi')->insert($validated);
