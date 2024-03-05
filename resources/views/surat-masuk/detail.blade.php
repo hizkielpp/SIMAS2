@@ -160,17 +160,22 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="nip_penerima" class="form-label black fw-normal">Disposisikan Kepada</label>
-                                <select class="form-select" required aria-label="Default select example"
-                                    name="nip_penerima">
+                                <select class="form-select" aria-label="Default select example" name="nip_penerima">
                                     <option selected disabled value="">...</option>
                                     @foreach ($usersWithJabatan as $item)
-                                        <option value="{{ $item->nip }}">
-                                            {{ $item->nama_jabatan }} ({{ $item->name }})
-                                        </option>
+                                        @if (old('nip_penerima') == $item->nip)
+                                            <option value="{{ $item->nip }}" selected>
+                                                {{ $item->nama_jabatan }} ({{ $item->name }})
+                                            </option>
+                                        @else
+                                            <option value="{{ $item->nip }}">
+                                                {{ $item->nama_jabatan }} ({{ $item->name }})
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
-                                    Masukkan penerima surat dengan benar.
+                                    Penerima disposisi wajib diisi.
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -181,9 +186,9 @@
                                         name="tanggal_disposisi" aria-placeholder="coba" class="form-control"
                                         value="" required>
                                     <i class="fa-solid fa-calendar-days position-absolute"></i>
-                                </div>
-                                <div class="invalid-feedback">
-                                    Masukkan tanggal pengajuan dengan benar.
+                                    <div class="invalid-feedback">
+                                        Tanggal surat didisposisikan wajib diisi.
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -192,21 +197,26 @@
                                     name="id_tindak_lanjut">
                                     <option selected disabled value="">...</option>
                                     @foreach ($tindakLanjuts as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->deskripsi }}
-                                        </option>
+                                        @if (old('id_tindak_lanjut') == $item->id)
+                                            <option value="{{ $item->id }}" selected>
+                                                {{ $item->deskripsi }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->deskripsi }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
-                                    Masukkan tindak lanjut surat dengan benar.
+                                    Tindak lanjut wajib diisi.
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="isi_disposisi" class="form-label black fw-normal">Keterangan</label>
-                                <input type="text" class="form-control" placeholder="" name="isi_disposisi"
-                                    aria-describedby="emailHelp" required />
+                                <label for="keterangan" class="form-label black fw-normal">Keterangan</label>
+                                <textarea name="keterangan" class="form-control" rows="4" placeholder="" required>{{ old('keterangan') }}</textarea>
                                 <div class="invalid-feedback">
-                                    Masukkan keterangan disposisi dengan benar.
+                                    Keterangan wajib diisi.
                                 </div>
                             </div>
                         </div>
@@ -242,7 +252,7 @@
                             <th>Tanggal Surat Didisposisikan</th>
                             <th>Penerima Disposisi</th>
                             <th>Tindak Lanjut</th>
-                            <th>Isi</th>
+                            <th>Keterangan</th>
                         </tr>
                     <tbody>
                         @foreach ($disposisis as $item)
@@ -251,7 +261,7 @@
                                 <td>{{ $item->tanggal_disposisi }}</td>
                                 <td>{{ $item->nama_jabatan }} ({{ $item->tujuan }})</td>
                                 <td>{{ $item->deskripsi }}</td>
-                                <td>{{ $item->isi_disposisi }}</td>
+                                <td>{{ $item->keterangan }}</td>
                             </tr>
                         @endforeach
                     </tbody>

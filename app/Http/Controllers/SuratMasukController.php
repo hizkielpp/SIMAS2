@@ -296,7 +296,10 @@ class SuratMasukController extends Controller
             'nip_penerima' => 'required',
             'tanggal_disposisi' => 'required|date',
             'id_tindak_lanjut' => 'required',
-            'isi_disposisi' => 'required',
+            'keterangan' => 'required',
+        ], [
+            'nip_penerima.required' => 'Penerima disposisi wajib diisi!',
+            'id_tindak_lanjut.required' => 'Tindak lanjut wajib diisi!',
         ]);
 
         $validated['id_surat'] = $request->id;

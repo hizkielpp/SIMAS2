@@ -759,9 +759,8 @@ p {
     cursor: default;
 }
 .input__tanggal__form svg {
-    top: 50%;
+    top: 20%;
     right: 5%;
-    transform: translateY(-50%);
 }
 
 /* Invalid feedback */

@@ -158,7 +158,24 @@ class DatabaseSeeder extends Seeder
         // Sifat seeder end
 
         // Tindak lanjut seeder start
-        $tindakLanjut = ['Mohon Pertimbangan', 'Mohon Pendapat', 'Mohon Keputusan', 'Mohon Petunjuk', 'Mohon Saran', 'Bicarakan', 'Teliti / Ikuti Perkembangan', 'Untuk Perhatian', 'Siapkan Laporan', 'Siapkan Konsep', 'Untuk Diproses', 'Selesaikan Sesuai Pembicaraan', 'Edaran', 'Tik / Gandakan', 'Arsip'];
+        $tindakLanjut = [
+            'Mohon Pertimbangan',
+            'Mohon Pendapat',
+            'Mohon Keputusan',
+            'Mohon Petunjuk',
+            'Mohon Saran',
+            'Bicarakan',
+            'Teliti / Ikuti Perkembangan',
+            'Untuk Perhatian',
+            'Siapkan Laporan',
+            'Siapkan Konsep',
+            'Untuk Diproses',
+            'Selesaikan Sesuai Pembicaraan',
+            'Edaran',
+            'Tik / Gandakan',
+            'Arsip',
+            'Lain-lain',
+        ];
         foreach ($tindakLanjut as $item) {
             DB::table('tindak_lanjut')->insert(['deskripsi' => $item]);
         }

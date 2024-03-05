@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('disposisi', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_disposisi');
-            $table->string('isi_disposisi');
-            $table->enum('status_disposisi', ['Baru', 'Sedang Diproses', 'Selesai']);
+            $table->string('keterangan');
             $table->timestamps();
 
             // Foreign key tabel surat
