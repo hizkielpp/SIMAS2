@@ -113,6 +113,17 @@ class SuratMasukController extends Controller
         // Mengambil jabatan setelah jabatan user yang login
         $jabatanDapatDipilih = $jabatans->slice($indexJabatanUser + 1)->pluck('nama_jabatan', 'id')->toArray();
 
+        // Mengambil NIP yang sudah mendapatkan disposisi
+        $nipsYangSudahDisposisi = DB::table('riwayat_disposisi')
+            ->where('pengirim_nip', $user->nip) // Ganti dengan NIP user yang login
+            ->pluck('penerima_nip')
+            ->toArray();
+
+        // Menghilangkan NIP yang sudah mendapatkan disposisi dari jabatanDapatDipilih
+        $jabatanDapatDipilih = collect($jabatanDapatDipilih)->reject(function ($jabatan, $nip) use ($nipsYangSudahDisposisi) {
+            return in_array($nip, $nipsYangSudahDisposisi);
+        })->toArray();
+
         // Mengambil data users dengan join ke tabel jabatans
         $usersWithJabatan = DB::table('users')
             ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
@@ -267,6 +278,19 @@ class SuratMasukController extends Controller
         // Mendapatkan data surat berdasarkan ID
         $surat = DB::table('suratMasuk')->where('id', $request->id)->first();
 
+        // Ambil data user
+        $userNIP = session()->get('user')->nip;
+
+        $userTelahDispo = DB::table('riwayat_disposisi')
+            ->where('pengirim_nip', $userNIP)
+            ->where('penerima_nip', $request->input('nip_penerima'))
+            ->where('id_surat', $request->id)
+            ->exists();
+
+        if ($userTelahDispo) {
+            return redirect()->back()->with('error', 'User telah mendapat disposisi!');
+        }
+
         // Validasi inputan
         $validated = $request->validate([
             'nip_penerima' => 'required',
@@ -280,6 +304,15 @@ class SuratMasukController extends Controller
 
         // Memastikan surat belum didisposisikan sebelumnya
         DB::table('disposisi')->insert($validated);
+
+        // Tambahkan data ke riwayat disposisi
+        DB::table('riwayat_disposisi')->insert([
+            'pengirim_nip' => $userNIP,
+            'penerima_nip' => $request->input('nip_penerima'),
+            'id_surat' => $request->id,
+            'created_at' => now(),
+        ]);
+
         if ($surat->status_disposisi == 'Belum Diproses') {
             // Update status disposisi surat
             DB::table('suratMasuk')->where('id', $request->id)->update(['status_disposisi' => 'Diproses']);

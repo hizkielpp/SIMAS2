@@ -33,6 +33,14 @@
         @endif
         {{-- Alert aksi berhasil end --}}
 
+        {{-- Alert aksi berhasil start --}}
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+        {{-- Alert aksi berhasil end --}}
+
         {{-- Navigation start --}}
         <div class="navigation__content mb-4">
             <div class="d-flex mt-3 justify-content-between align-items-center">
