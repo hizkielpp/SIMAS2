@@ -146,7 +146,7 @@
         <div class="modal modal__section fade" data-bs-backdrop="static" id="tambahDisposisi" data-bs-backdrop="static"
             tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                <form class="needs-validation" novalidate method="POST"
+                <form id="formTambahDisposisi" class="needs-validation" novalidate method="POST"
                     action="{{ route('surat-masuk.disposisiStore', $surat->id) }}">
                     @csrf
                     <div class="modal-content p-3">
@@ -224,7 +224,7 @@
                             <button type="button" class="mybtn light" data-bs-dismiss="modal">
                                 Batal
                             </button>
-                            <button type="submit" class="mybtn blue" type="submit">
+                            <button type="button" id="btnTambah" onclick="confirmTambahDisposisi()" class="mybtn blue">
                                 Tambah
                             </button>
                         </div>
@@ -278,6 +278,9 @@
 @section('sm', 'active')
 @section('title', 'Surat Masuk')
 @section('js')
+    {{-- Sweet alert cdn start --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         // Initializing datapicker start
         $("#datepicker").datepicker();
@@ -341,5 +344,27 @@
             document.getElementById('errorMessage').innerHTML = capitalizeFirstLetter(errorMessage);
         @endif
         // Capitalize first error message start
+
+        // Sweetalert confirm delete start
+        function confirmTambahDisposisi() {
+            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+            Swal.fire({
+                title: "Yakin ingin menambah data?",
+                text: "Pastikan data yang anda masukkan benar!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#2F5596",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Tambah",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#formTambahDisposisi').submit();
+                } else {
+                    new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
+                }
+            });
+        }
+        // Sweetalert confirm delete end
     </script>
 @endsection
