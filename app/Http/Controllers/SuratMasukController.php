@@ -131,7 +131,13 @@ class SuratMasukController extends Controller
             ->select('users.*', 'jabatans.nama_jabatan')
             ->get();
 
-        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts'));
+        // Cek kondisi user hanya dapat melakukan disposisi 1 kali
+        $userTelahDispo = DB::table('riwayat_disposisi')
+            ->where('pengirim_nip', $user->nip)
+            ->where('id_surat', $request->id)
+            ->exists();
+
+        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts', 'userTelahDispo'));
     }
     // Menampilkan detail surat end
 

@@ -238,7 +238,7 @@
         <div class="card p-4 mt-4">
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Disposisi Surat</h4>
-                @if ($user->id_jabatan !== 7)
+                @if ($user->id_jabatan !== 7 && $userTelahDispo == 0)
                     <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi" class="mybtn blue">
                         <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
                     </button>
