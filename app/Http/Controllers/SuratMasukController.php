@@ -348,5 +348,15 @@ class SuratMasukController extends Controller
     }
     // Menambahkan disposisi surat end
 
+    // Menyelesaikan disposisi surat start
+    public function disposisiEnd(Request $request)
+    {
+        // Mendapatkan data surat berdasarkan ID
+        $surat = DB::table('suratMasuk')->where('id', $request->id)->update(['status_disposisi' => 'Selesai']);
+
+        return redirect()->back()->with('success', 'Disposisi surat telah selesai!');
+    }
+    // Menyelesaikan disposisi surat end
+
 
 }

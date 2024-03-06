@@ -74,7 +74,7 @@
 
         {{-- Detail content start --}}
         <div class="card p-4 mt-3">
-            <h3 class="ms-auto fs-6 mb-3 black fw-normal">Status Surat: <span
+            <h3 class="ms-auto fs-6 mb-3 black fw-normal">Status Disposisi Surat: <span
                     class="fw-semibold">{{ $surat->status_disposisi }}</span></h3>
             <div class="row">
                 <div class="col-md-6 col-12">
@@ -235,10 +235,10 @@
         <!-- Modal tambah disposisi end -->
 
         {{-- Disposisi tabel start --}}
-        <div class="card p-4 mt-4">
+        <div class="p-4 mt-4 card d-block">
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Disposisi Surat</h4>
-                @if ($user->id_jabatan !== 7 && $userTelahDispo == 0)
+                @if ($user->id_jabatan !== 7 && $userTelahDispo == 0 && $surat->status_disposisi !== 'Selesai')
                     <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi" class="mybtn blue">
                         <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
                     </button>
@@ -270,6 +270,15 @@
                     </tbody>
                 </table>
             </div>
+            @if ($user->id_jabatan !== 7 && $userTelahDispo == 0 && $surat->status_disposisi !== 'Selesai')
+                <form id="formSelesaikanDisposisi" class="needs-validation mt-4" novalidate method="POST"
+                    action="{{ route('surat-masuk.disposisiEnd', $surat->id) }}">
+                    @csrf
+                    <button type="button" class="mybtn green ms-auto" onclick="confirmSelesaikanDisposisi()">
+                        <i class="fa-solid fa-check-to-slot me-2"></i>Selesaikan Disposisi
+                    </button>
+                </form>
+            @endif
         </div>
         {{-- Disposisi tabel end --}}
 
@@ -366,5 +375,27 @@
             });
         }
         // Sweetalert confirm delete end
+
+        // Sweetalert confirm selesaikan disposisi start
+        function confirmSelesaikanDisposisi() {
+            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+            Swal.fire({
+                title: "Yakin ingin menyelesaikan disposisi?",
+                text: "Pastikan data yang anda masukkan benar!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#2F5596",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Tambah",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#formSelesaikanDisposisi').submit();
+                } else {
+                    new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
+                }
+            });
+        }
+        // Sweetalert confirm selesaikan disposisi end
     </script>
 @endsection

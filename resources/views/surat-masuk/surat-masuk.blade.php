@@ -336,7 +336,7 @@
                             <th>Ditujukan Kepada</th>
                             <th>Tanggal Surat</th>
                             <th>Perihal</th>
-                            <th>Status</th>
+                            <th>Status Disposisi Surat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
