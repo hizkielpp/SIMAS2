@@ -54,6 +54,31 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <div class="icon-wrapper notifications border border-1 me-3">
+                    <button type="button">
+                        <i class="fa-solid fa-bell"></i>
+                    </button>
+                    <div class="notification-mark notification-mark--pulsing"></div>
+                </div>
+                <div class="dropdown__wrapper hide dropdown__wrapper--fade-in none">
+                    <div class="notifications-top">
+                        <h2 class="fs-6">Notifikasi</h2>
+                    </div>
+                    <div class="notification-items">
+                        <div class="notification-item notification-item--recent">
+                            <i class="fa-solid fa-circle-user fs-4"></i>
+                            <div class="notification-item__body">
+                                <div class="fs-6">
+                                    <strong>Dekan</strong> mengirim disposisi kepada Anda
+                                </div>
+                                <span class="time">
+                                    6 min ago
+                                </span>
+                            </div>
+                            <div class="border"></div>
+                        </div>
+                    </div>
+                </div>
                 <li class="nav-item d-flex align-items-center user">
                     <i class="fa-solid fa-user"></i>
                     <div class="dropdown">

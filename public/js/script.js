@@ -1,19 +1,19 @@
-// const hamburger = document.getElementById("hamburger");
-// const navbar = document.getElementById("navbar");
-// const sidebar = document.getElementById("sidebar");
-// const main = document.getElementById("main");
-// const iconText = document.getElementsByClassName("text");
-// // console.log(iconText);
-// const brandText = document.getElementById("brandText");
+// Navbar start
+const notifications = document.querySelector(".notifications");
+const dropdown = document.querySelector(".dropdown__wrapper");
 
-// // console.log(iconText);
+notifications.addEventListener("click", () => {
+    dropdown.classList.remove("none");
+    dropdown.classList.toggle("hide");
+});
 
-// hamburger.addEventListener("click", function () {
-//     //   navbar.classList.toggle("slide");
-//     sidebar.classList.toggle("close");
-//     navbar.classList.toggle("close");
-//     main.classList.toggle("close");
-//     brandText.classList.toggle("close");
-//     iconText.classList.toggle("close");
-//     // console.log("tes");
-// });
+document.addEventListener("click", (event) => {
+    const isClickInsideDropdown = dropdown.contains(event.target);
+    const isClicked = notifications.contains(event.target);
+
+    if (!isClickInsideDropdown && !isClicked) {
+        dropdown.classList.add("hide");
+        dropdown.classList.add("dropdown__wrapper--fade-in");
+    }
+});
+// Navbar end
