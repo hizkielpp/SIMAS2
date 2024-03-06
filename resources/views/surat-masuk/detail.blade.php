@@ -318,7 +318,8 @@
                         <div>
                             <span class="fw-semibold" style="font-size: 14px">Keterangan</span>
                             <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
-                                Tidak ada disposisi
+                                Surat ini tidak memiliki disposisi (Diselesaikan langsung oleh
+                                {{ $surat->nama_jabatan }}).
                             </h5>
                         </div>
                     </div>
