@@ -255,15 +255,21 @@
                             <th>Keterangan</th>
                         </tr>
                     <tbody>
-                        @foreach ($disposisis as $item)
+                        @if (count($disposisis) !== 0)
+                            @foreach ($disposisis as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->tanggal_disposisi }}</td>
+                                    <td>{{ $item->nama_jabatan }} ({{ $item->tujuan }})</td>
+                                    <td>{{ $item->deskripsi }}</td>
+                                    <td>{{ $item->keterangan }}</td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->tanggal_disposisi }}</td>
-                                <td>{{ $item->nama_jabatan }} ({{ $item->tujuan }})</td>
-                                <td>{{ $item->deskripsi }}</td>
-                                <td>{{ $item->keterangan }}</td>
+                                <td colspan="5" class="text-center">Disposisi tidak tersedia.</td>
                             </tr>
-                        @endforeach
+                        @endif
                     </tbody>
                     </thead>
                     <tbody>
