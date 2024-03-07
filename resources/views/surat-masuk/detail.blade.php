@@ -74,8 +74,12 @@
 
         {{-- Detail content start --}}
         <div class="card p-4 mt-3">
-            <h3 class="ms-auto fs-6 mb-3 black fw-normal">Status Disposisi Surat: <span
-                    class="fw-semibold">{{ $surat->status_disposisi }}</span></h3>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fs-6 black fw-normal">Tanggal Surat Diterima Admin: <span
+                        class="fw-semibold">{{ $surat->created_at }}</span></h3>
+                <h3 class="fs-6 black fw-normal">Status Disposisi Surat: <span
+                        class="fw-semibold">{{ $surat->status_disposisi }}</span></h3>
+            </div>
             <div class="row">
                 <div class="col-md-6 col-12">
                     <div class="mb-3">
@@ -112,8 +116,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                        <input readonly type="text" class="form-control" name="penerima" value="{{ $surat->kodeHal }}"
-                            aria-describedby="emailHelp" />
+                        <input readonly type="text" class="form-control" name="penerima"
+                            value="{{ $surat->kodeHal }}" aria-describedby="emailHelp" />
                     </div>
                     <div class="mb-3">
                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah

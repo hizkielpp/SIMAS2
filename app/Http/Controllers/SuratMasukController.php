@@ -100,14 +100,24 @@ class SuratMasukController extends Controller
             ->select('disposisi.*', 'users.name as tujuan', 'tindak_lanjut.deskripsi', 'jabatans.nama_jabatan as nama_jabatan')
             ->get();
 
-        // Atur format tanggal disposisi
-        // Setel lokal bahasa Indonesia
+        // Atur format waktu lokal bahasa indonesia
         App::setLocale('id');
+        // Tanggal disposisi
         foreach ($disposisis as $key) {
             $carbonTanggal = Carbon::parse($key->tanggal_disposisi);
             $formatTanggal = $carbonTanggal->isoFormat('DD MMMM YYYY HH:mm:ss');
             $key->tanggal_disposisi = $formatTanggal;
+
+            // Tanggal surat diterima / created_at
+            $carbonTanggalCreatedAt = Carbon::parse($key->created_at);
+            $formatTanggalCreatedAt = $carbonTanggalCreatedAt->isoFormat('DD MMMM YYYY HH:mm:ss');
+            $key->created_at = $formatTanggalCreatedAt;
         }
+
+        // Tanggal surat diterima / created_at
+        $suratCreatedAt = Carbon::parse($surat->created_at);
+        $formatTanggal = $suratCreatedAt->isoFormat('DD MMMM YYYY HH:mm:ss');
+        $surat->created_at = $formatTanggal;
 
         // Ambil data tindak lanjut
         $tindakLanjuts = DB::table('tindak_lanjut')->get();
