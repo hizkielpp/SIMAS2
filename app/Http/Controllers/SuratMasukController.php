@@ -52,6 +52,7 @@ class SuratMasukController extends Controller
                             ->where('nip_penerima', $userNIP);
                     });
                 })
+                ->orderByDesc('created_at')
                 ->get();
         }
 
