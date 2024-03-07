@@ -223,6 +223,7 @@
                                     Keterangan wajib diisi.
                                 </div>
                             </div>
+                            <input type="hidden" name="nip_pengirim" value="{{ $user->nip }}">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="mybtn light" data-bs-dismiss="modal">
@@ -242,10 +243,18 @@
         <div class="p-4 mt-4 card d-block">
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Disposisi Surat</h4>
-                @if ($user->id_jabatan !== 7 && $userTelahDispo == 0 && $surat->status_disposisi !== 'Selesai')
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi" class="mybtn blue">
-                        <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
-                    </button>
+                @if ($user->id_jabatan !== 7 && $surat->status_disposisi !== 'Selesai')
+                    @if (in_array($user->id_jabatan, [1, 2, 3]))
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi"
+                            class="mybtn blue">
+                            <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
+                        </button>
+                    @elseif(!$userTelahDispo)
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi"
+                            class="mybtn blue">
+                            <i class="fa-solid fa-plus me-2"></i>Tambah Disposisi
+                        </button>
+                    @endif
                 @endif
             </div>
             <div class="table-responsive">
@@ -254,6 +263,7 @@
                         <tr>
                             <th class="no">#</th>
                             <th>Tanggal Surat Didisposisikan</th>
+                            <th>Pengirim Disposisi</th>
                             <th>Penerima Disposisi</th>
                             <th>Tindak Lanjut</th>
                             <th>Keterangan</th>
@@ -264,7 +274,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->tanggal_disposisi }}</td>
-                                    <td>{{ $item->nama_jabatan }} ({{ $item->tujuan }})</td>
+                                    <td>{{ $item->jabatan_pengirim }}</td>
+                                    <td>{{ $item->jabatan_penerima }}</td>
                                     <td>{{ $item->deskripsi }}</td>
                                     <td>{{ $item->keterangan }}</td>
                                 </tr>

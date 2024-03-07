@@ -30,6 +30,10 @@ return new class extends Migration
             // Foreign key tabel penerima
             $table->unsignedBigInteger('nip_penerima');
             $table->foreign('nip_penerima')->references('nip')->on('users');
+
+            // Foreign key tabel pengirim
+            $table->unsignedBigInteger('nip_pengirim');
+            $table->foreign('nip_pengirim')->references('nip')->on('users');
         });
     }
 

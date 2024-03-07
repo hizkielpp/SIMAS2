@@ -94,10 +94,16 @@ class SuratMasukController extends Controller
         // Ambil data disposisi sesuai surat
         $disposisis = DB::table('disposisi')
             ->where('id_surat', $request->id)
+            // Ambil data penerima disposisi
             ->join('users', 'disposisi.nip_penerima', '=', 'users.nip')
             ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+
+            // Ambil data pengirim disposisi
+            ->leftJoin('users as user_pengirim', 'disposisi.nip_pengirim', '=', 'user_pengirim.nip')
+            ->leftJoin('jabatans as jabatan_pengirim', 'user_pengirim.id_jabatan', '=', 'jabatan_pengirim.id')
+
             ->join('tindak_lanjut', 'disposisi.id_tindak_lanjut', '=', 'tindak_lanjut.id')
-            ->select('disposisi.*', 'users.name as tujuan', 'tindak_lanjut.deskripsi', 'jabatans.nama_jabatan as nama_jabatan')
+            ->select('disposisi.*', 'users.name as nama_penerima', 'jabatans.nama_jabatan as jabatan_penerima', 'user_pengirim.name as nama_pengirim', 'jabatan_pengirim.nama_jabatan as jabatan_pengirim', 'tindak_lanjut.deskripsi',)
             ->get();
 
         // Atur format waktu lokal bahasa indonesia
@@ -319,6 +325,7 @@ class SuratMasukController extends Controller
 
         // Validasi inputan
         $validated = $request->validate([
+            'nip_pengirim' => 'required',
             'nip_penerima' => 'required',
             'tanggal_disposisi' => 'required|date',
             'id_tindak_lanjut' => 'required',
