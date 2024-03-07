@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('lampiran');
             $table->longText('perihal')->nullable();
             $table->enum('status_disposisi', ['Belum Diproses', 'Diproses', 'Selesai'])->default('Belum Diproses');
+            $table->dateTime('tanggal_penyelesaian_disposisi')->nullable();
             $table->timestamps();
 
             // Foreign key

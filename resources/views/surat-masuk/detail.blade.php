@@ -300,6 +300,30 @@
                     </button>
                 </form>
             @endif
+            @if ($surat->status_disposisi === 'Selesai')
+                @if (count($disposisis) !== 0)
+                    <div class="alert border rounded-2 py-3 gap-2 d-flex align-items-start mt-4" role="alert">
+                        <i class="fa-solid fa-circle-info" class="icon__info"></i>
+                        <div>
+                            <span class="fw-semibold" style="font-size: 14px">Keterangan</span>
+                            <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
+                                Disposisi telah diselesaikan oleh <span>{{ $disposisiTerakhir->nama_jabatan }}</span>
+                                pada <span>{{ $surat->tanggal_penyelesaian_disposisi }}</span>
+                            </h5>
+                        </div>
+                    </div>
+                @else
+                    <div class="alert border rounded-2 py-3 gap-2 d-flex align-items-start mt-4" role="alert">
+                        <i class="fa-solid fa-circle-info" class="icon__info"></i>
+                        <div>
+                            <span class="fw-semibold" style="font-size: 14px">Keterangan</span>
+                            <h5 class="mt-1 fw-normal" style="line-height: 1.5; font-size: 14px">
+                                Tidak ada disposisi
+                            </h5>
+                        </div>
+                    </div>
+                @endif
+            @endif
         </div>
         {{-- Disposisi tabel end --}}
 

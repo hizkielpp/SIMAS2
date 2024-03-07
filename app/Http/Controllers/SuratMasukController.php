@@ -106,6 +106,14 @@ class SuratMasukController extends Controller
             ->select('disposisi.*', 'users.name as nama_penerima', 'jabatans.nama_jabatan as jabatan_penerima', 'user_pengirim.name as nama_pengirim', 'jabatan_pengirim.nama_jabatan as jabatan_pengirim', 'tindak_lanjut.deskripsi',)
             ->get();
 
+        // Ambil data yang menyelesaikan disposisi/disposisi terakhir
+        $disposisiTerakhir = DB::table('disposisi')
+            ->where('id_surat', $request->id)
+            ->join('users', 'disposisi.nip_penerima', '=', 'users.nip')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->orderByDesc('disposisi.created_at')
+            ->first();
+
         // Atur format waktu lokal bahasa indonesia
         App::setLocale('id');
         // Tanggal disposisi
@@ -119,11 +127,14 @@ class SuratMasukController extends Controller
             $formatTanggalCreatedAt = $carbonTanggalCreatedAt->isoFormat('DD MMMM YYYY HH:mm:ss');
             $key->created_at = $formatTanggalCreatedAt;
         }
-
         // Tanggal surat diterima / created_at
         $suratCreatedAt = Carbon::parse($surat->created_at);
-        $formatTanggal = $suratCreatedAt->isoFormat('DD MMMM YYYY HH:mm:ss');
+        $formatTanggal = $suratCreatedAt->isoFormat('dddd, DD MMMM YYYY HH:mm:ss');
         $surat->created_at = $formatTanggal;
+        // Tanggal penyelesaian disposisi
+        $tanggalPenyelesaianDisposisi = Carbon::parse($surat->tanggal_penyelesaian_disposisi);
+        $tanggalPenyelesaianDisposisiFormatted = $tanggalPenyelesaianDisposisi->isoFormat('dddd, DD MMMM YYYY HH:mm:ss');
+        $surat->tanggal_penyelesaian_disposisi = $tanggalPenyelesaianDisposisiFormatted;
 
         // Ambil data tindak lanjut
         $tindakLanjuts = DB::table('tindak_lanjut')->get();
@@ -141,6 +152,7 @@ class SuratMasukController extends Controller
 
         // Mengambil NIP yang sudah mendapatkan disposisi
         $nipsYangSudahDisposisi = DB::table('riwayat_disposisi')
+            ->where('id_surat', $request->id)
             ->where('pengirim_nip', $user->nip) // Ganti dengan NIP user yang login
             ->pluck('penerima_nip')
             ->toArray();
@@ -151,15 +163,16 @@ class SuratMasukController extends Controller
         })->toArray();
 
         // Mengambil data users dengan join ke tabel jabatans
-        // Dekan/wakil dekan 1/wakil dekan 2 dapat melakukan dispo lebih dari sekali
-        // Cek kondisi dropdown
+        // Manager kebawah hanya dapat dispo ke bawahannya
         if (!in_array($jabatanUser, ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II'])) {
             $usersWithJabatan = DB::table('users')
                 ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
                 ->whereIn('jabatans.id', array_keys($jabatanDapatDipilih))
                 ->select('users.*', 'jabatans.nama_jabatan')
                 ->get();
-        } else {
+        }
+        // Dekan/wakil dekan 1/wakil dekan 2 dapat melakukan dispo lebih dari sekali
+        else {
             $usersWithJabatan =  DB::table('users')
                 ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
                 ->whereNotIn('jabatans.id', [$user->id_jabatan])
@@ -173,7 +186,7 @@ class SuratMasukController extends Controller
             ->where('id_surat', $request->id)
             ->exists();
 
-        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts', 'userTelahDispo'));
+        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts', 'userTelahDispo', 'disposisiTerakhir'));
     }
     // Menampilkan detail surat end
 
@@ -382,7 +395,10 @@ class SuratMasukController extends Controller
     public function disposisiEnd(Request $request)
     {
         // Mendapatkan data surat berdasarkan ID
-        $surat = DB::table('suratMasuk')->where('id', $request->id)->update(['status_disposisi' => 'Selesai']);
+        DB::table('suratMasuk')->where('id', $request->id)->update([
+            'status_disposisi' => 'Selesai',
+            'tanggal_penyelesaian_disposisi' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
 
         return redirect()->back()->with('success', 'Disposisi surat telah selesai!');
     }
