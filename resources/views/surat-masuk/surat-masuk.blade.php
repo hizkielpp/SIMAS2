@@ -314,6 +314,9 @@
                             </form>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" onclick="fillData()" class="mybtn light me-auto">
+                                Testing
+                            </button>
                             <button type="button" class="mybtn light" data-bs-dismiss="modal">
                                 Batal
                             </button>
@@ -578,7 +581,20 @@
                 });
             }
             // <!-- Sweet alert : confirm delete end -->
+
         })
+        // Button testing start
+        function fillData() {
+            $("input[name='nomorSurat']").val('1')
+            $("input[name='asalSurat']").val('a')
+            $("#datepicker").datepicker("setDate", "01-03-2024");
+            $("select[name='ditujukan_kepada']").val('1')
+            $("select[name='sifatSurat']").val('1')
+            $("select[name='kodeHal']").val('AK')
+            $("input[name='jumlahLampiran']").val(1)
+            $("textarea[name='perihal']").val('a')
+        }
+        // Button testing end
         // Initializing dom end
     </script>
 @endsection
