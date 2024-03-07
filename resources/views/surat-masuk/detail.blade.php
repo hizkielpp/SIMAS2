@@ -291,7 +291,7 @@
                     </tbody>
                 </table>
             </div>
-            @if ($user->id_jabatan !== 7 && $userTelahDispo == 0 && $surat->status_disposisi !== 'Selesai')
+            @if ($user->id_jabatan !== 7 && $surat->status_disposisi !== 'Selesai')
                 <form id="formSelesaikanDisposisi" class="needs-validation mt-4" novalidate method="POST"
                     action="{{ route('surat-masuk.disposisiEnd', $surat->id) }}">
                     @csrf

@@ -151,11 +151,21 @@ class SuratMasukController extends Controller
         })->toArray();
 
         // Mengambil data users dengan join ke tabel jabatans
-        $usersWithJabatan = DB::table('users')
-            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
-            ->whereIn('jabatans.id', array_keys($jabatanDapatDipilih))
-            ->select('users.*', 'jabatans.nama_jabatan')
-            ->get();
+        // Dekan/wakil dekan 1/wakil dekan 2 dapat melakukan dispo lebih dari sekali
+        // Cek kondisi dropdown
+        if (!in_array($jabatanUser, ['Dekan', 'Wakil Dekan I', 'Wakil Dekan II'])) {
+            $usersWithJabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->whereIn('jabatans.id', array_keys($jabatanDapatDipilih))
+                ->select('users.*', 'jabatans.nama_jabatan')
+                ->get();
+        } else {
+            $usersWithJabatan =  DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->whereNotIn('jabatans.id', [$user->id_jabatan])
+                ->select('users.*', 'jabatans.nama_jabatan')
+                ->get();
+        }
 
         // Cek kondisi user hanya dapat melakukan disposisi 1 kali
         $userTelahDispo = DB::table('riwayat_disposisi')
@@ -311,17 +321,20 @@ class SuratMasukController extends Controller
         $surat = DB::table('suratMasuk')->where('id', $request->id)->first();
 
         // Ambil data user
-        $userNIP = session()->get('user')->nip;
+        $user = session()->get('user');
 
-        $userTelahDispo = DB::table('riwayat_disposisi')
-            ->where('pengirim_nip', $userNIP)
-            ->where('penerima_nip', $request->input('nip_penerima'))
-            ->where('id_surat', $request->id)
-            ->exists();
+        // Cek user hanya dapat melakukan sekali disposisi
+        // if (in_array($user->id_jabatan, [1, 2, 3])) {
+        //     $userTelahDispo = DB::table('riwayat_disposisi')
+        //         ->where('pengirim_nip', $user->nip)
+        //         ->where('penerima_nip', $request->input('nip_penerima'))
+        //         ->where('id_surat', $request->id)
+        //         ->exists();
+        // }
 
-        if ($userTelahDispo) {
-            return redirect()->back()->with('error', 'User telah mendapat disposisi!');
-        }
+        // if ($userTelahDispo) {
+        //     return redirect()->back()->with('error', 'User telah mendapat disposisi!');
+        // }
 
         // Validasi inputan
         $validated = $request->validate([
@@ -351,7 +364,7 @@ class SuratMasukController extends Controller
 
         // Tambahkan data ke riwayat disposisi
         DB::table('riwayat_disposisi')->insert([
-            'pengirim_nip' => $userNIP,
+            'pengirim_nip' => $user->nip,
             'penerima_nip' => $request->input('nip_penerima'),
             'id_surat' => $request->id,
             'created_at' => now(),
