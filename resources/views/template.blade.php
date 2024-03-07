@@ -102,7 +102,7 @@
         {{-- Sidebar container start --}}
         <aside id="sidebar" class="main-sidebar sidebar-dark-primary">
             {{-- Sidebar brand start --}}
-            <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center border-0">
+            <a href="{{ route('dashboard.dashboard') }}" class="brand-link d-flex align-items-center border-0">
                 <div class="d-flex justify-content-center align-items-center abjad me-2">
                     <h3 class="black fw__med">S</h3>
                 </div>
@@ -120,7 +120,7 @@
                         data-accordion="false">
                         <li class="nav-item nav-link mb-2 text-secondary pb-0" style="font-size: 14px">MENU</li>
                         <li class="nav-item mb-2">
-                            <a href="{{ route('dashboard') }}" class="nav-link @yield('db')">
+                            <a href="{{ route('dashboard.dashboard') }}" class="nav-link @yield('db')">
                                 <i class="fa-solid fa-house me-2"></i>
                                 <p class="fw-normal">Dashboard</p>
                             </a>

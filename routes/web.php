@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\SuratMasukController;
 
@@ -22,7 +23,13 @@ use App\Http\Controllers\SuratMasukController;
 */
 
 Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
-    Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
+    // Dashboard start
+    Route::controller(DashboardController::class)->group(function () {
+        Route::name('dashboard.')->group(function () {
+            Route::get('/', 'dashboard')->name('dashboard');
+        });
+    });
+    // Dashboard end
 
     Route::get('/downloadNaskah', [Surat::class, 'downloadNaskah'])->name('downloadNaskah');
 
