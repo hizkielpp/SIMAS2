@@ -20,7 +20,6 @@
         {{-- Cek apakah semua surat telah memiliki arsip end --}}
 
         {{-- Main section start --}}
-        {{ count($jumlahSuratMasuk) }}
         <div class="d-flex gap-3 flex-wrap flex-xl-nowrap dashboard">
             <div class="" style="flex: 1 1 70%">
                 {{-- Info pengguna start --}}
@@ -38,25 +37,26 @@
                 {{-- Info pengguna end --}}
                 {{-- Jumlah surat start --}}
                 <div class="row g-3">
-                    {{-- Admin dan pimpinan start --}}
-                    @if ($user->role_id !== 2)
-                        <div class="col-sm-6 col-xl-4 col-12">
-                            <div class="card surat justify-content-center py-2 px-4">
-                                <div class="d-flex flex-wrap gap-3 align-items-center masuk">
-                                    <div class="icon d-flex justify-content-center align-items-center">
-                                        <i class="fa-solid fa-envelope masuk"></i>
-                                    </div>
-                                    <div class="text">
-                                        <h5 class="black__light fw__normal mb-2">
-                                            Surat Masuk
-                                        </h5>
-                                        <h4 id="jumlahSm" class="black fw__ebold"></h4>
-                                    </div>
+                    {{-- Surat masuk start --}}
+                    <div class="col-sm-6 col-xl-4 col-12">
+                        <div class="card surat justify-content-center py-2 px-4 position-relative">
+                            <div class="d-flex flex-wrap gap-3 align-items-center masuk">
+                                <div class="icon d-flex justify-content-center align-items-center">
+                                    <i class="fa-solid fa-envelope masuk"></i>
+                                </div>
+                                <div class="text">
+                                    <h5 class="black__light fw__normal mb-2">
+                                        Surat Masuk
+                                    </h5>
+                                    <h4 class="black fw__ebold">{{ count($jumlahSuratMasuk) }}</h4>
                                 </div>
                             </div>
+                            <span class="fw-normal ms-2 position-absolute"
+                                style="font-size: 16px">(+{{ count($jumlahSuratMasukPerHari) }})
+                            </span>
                         </div>
-                    @endif
-                    {{-- Admin dan pimpinan end --}}
+                    </div>
+                    {{-- Surat masuk end --}}
 
                     {{-- Admin dan pimpinan start --}}
                     @if ($user->role_id !== 2)
