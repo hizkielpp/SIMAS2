@@ -5,7 +5,12 @@
             $semuaSudahArsip = true; // Inisialisasi dengan true
             $jumlah = 0;
             foreach ($suratKeluar as $item) {
-                if ($item->sifatSurat != 4 && !$item->lampiran && $item->status == 'digunakan' && $item->created_by == $user->nip) {
+                if (
+                    $item->sifatSurat != 4 &&
+                    !$item->lampiran &&
+                    $item->status == 'digunakan' &&
+                    $item->created_by == $user->nip
+                ) {
                     // Jika ada surat yang belum memiliki arsip, ubah status menjadi false
                     $semuaSudahArsip = false;
                     $jumlah++;
@@ -15,6 +20,7 @@
         {{-- Cek apakah semua surat telah memiliki arsip end --}}
 
         {{-- Main section start --}}
+        {{ count($jumlahSuratMasuk) }}
         <div class="d-flex gap-3 flex-wrap flex-xl-nowrap dashboard">
             <div class="" style="flex: 1 1 70%">
                 {{-- Info pengguna start --}}

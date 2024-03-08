@@ -75,6 +75,27 @@ class DashboardController extends Controller
                 ->where('updated_at', $formattedDate)
                 ->count();
         }
+
+        // Ambil data jumlah surat masuk
+        // Ambil nip user yang login
+        $userNIP = $user->nip;
+        // Cek kondisi admin
+        if ($user->role_id === 1) {
+            $jumlahSuratMasuk = DB::table('suratMasuk')->get();
+        }
+        // Cek kondisi selain admin
+        else {
+            $jumlahSuratMasuk = DB::table('suratMasuk')
+                ->where('ditujukan_kepada', $userNIP)
+                ->orWhere(function ($query) use ($userNIP) {
+                    $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
+                        $subquery->select('id_surat')
+                            ->from('disposisi')
+                            ->where('nip_penerima', $userNIP);
+                    });
+                })
+                ->get();
+        }
         return view('index2')->with([
             'jumlahSM' => $jumlahSM,
             'jumlahSK' => $jumlahSK,
@@ -84,6 +105,7 @@ class DashboardController extends Controller
             'date' => now(),
             'user' => $user,
             'suratKeluar' => $suratKeluar,
+            'jumlahSuratMasuk' => $jumlahSuratMasuk,
         ]);
     }
 }
