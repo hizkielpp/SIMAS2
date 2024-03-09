@@ -79,14 +79,20 @@ class DashboardController extends Controller
         // Ambil nip user yang login
         $userNIP = $user->nip;
 
-        // Ambil data jumlah surat masuk
+        // Ambil data jumlah surat masuk keseluruan
         // Cek kondisi admin
         if ($user->role_id === 1) {
             $jumlahSuratMasuk = DB::table('suratMasuk')->get();
+            foreach ($jumlahSuratMasuk as $key) {
+                $key->created_at = Carbon::parse($key->created_at)->format('Y-m-d');
+            }
+            // Ambil data jumlah surat masuk per hari
+            $jumlahSuratMasukPerHari = $jumlahSuratMasuk->where('created_at', Carbon::today()->format('Y-m-d'));
         }
         // Cek kondisi selain admin
         else {
             $jumlahSuratMasuk = DB::table('suratMasuk')
+                ->leftJoin('disposisi', 'suratMasuk.id', '=', 'disposisi.id_surat')
                 ->where('ditujukan_kepada', $userNIP)
                 ->orWhere(function ($query) use ($userNIP) {
                     $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
@@ -95,30 +101,18 @@ class DashboardController extends Controller
                             ->where('nip_penerima', $userNIP);
                     });
                 })
+                ->select('suratMasuk.*', 'disposisi.tanggal_disposisi')
                 ->get();
-        }
-
-        // Ambil data jumlah surat masuk per hari
-        // Cek kondisi admin
-        if ($user->role_id === 1) {
-            $suratMasuk = DB::table('suratMasuk')->get();
-            foreach ($suratMasuk as $key) {
+            foreach ($jumlahSuratMasuk as $key) {
                 $key->created_at = Carbon::parse($key->created_at)->format('Y-m-d');
+                if ($key->tanggal_disposisi !== null) {
+                    $key->tanggal_disposisi = Carbon::parse($key->tanggal_disposisi)->format('Y-m-d');
+                }
             }
-            $jumlahSuratMasukPerHari = $suratMasuk->where('created_at', Carbon::today()->format('Y-m-d'));
-        }
-        // Cek kondisi selain admin
-        else {
-            $jumlahSuratMasukPerHari = DB::table('suratMasuk')
-                ->where('ditujukan_kepada', $userNIP)
-                ->orWhere(function ($query) use ($userNIP) {
-                    $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
-                        $subquery->select('id_surat')
-                            ->from('disposisi')
-                            ->where('nip_penerima', $userNIP);
-                    });
-                })
-                ->get();
+            // Ambil data jumlah surat masuk per hari
+            $jumlahSuratMasukPerHari = array_filter($jumlahSuratMasuk->toArray(), function ($surat) {
+                return $surat->created_at == Carbon::today()->format('Y-m-d') || $surat->tanggal_disposisi == Carbon::today()->format('Y-m-d');
+            });
         }
 
         return view('index2')->with([
