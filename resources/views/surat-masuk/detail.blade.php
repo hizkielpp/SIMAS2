@@ -265,8 +265,10 @@
                             <th>Tanggal Surat Didisposisikan</th>
                             <th>Pengirim Disposisi</th>
                             <th>Penerima Disposisi</th>
-                            <th>Tindak Lanjut</th>
-                            <th>Keterangan</th>
+                            @if ($user->role_id !== 1)
+                                <th>Tindak Lanjut</th>
+                                <th>Keterangan</th>
+                            @endif
                         </tr>
                     <tbody>
                         @if (count($disposisis) !== 0)
@@ -276,8 +278,10 @@
                                     <td>{{ $item->tanggal_disposisi }}</td>
                                     <td>{{ $item->jabatan_pengirim }}</td>
                                     <td>{{ $item->jabatan_penerima }}</td>
-                                    <td>{{ $item->deskripsi }}</td>
-                                    <td>{{ $item->keterangan }}</td>
+                                    @if ($user->role_id !== 1)
+                                        <td>{{ $item->deskripsi }}</td>
+                                        <td>{{ $item->keterangan }}</td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @else
