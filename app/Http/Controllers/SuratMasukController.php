@@ -52,6 +52,13 @@ class SuratMasukController extends Controller
                             ->where('nip_penerima', $userNIP);
                     });
                 })
+                ->orWhere(function ($query) use ($userNIP) {
+                    $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
+                        $subquery->select('id_surat')
+                            ->from('tembusan')
+                            ->where('nip_tembusan', $userNIP);
+                    });
+                })
                 ->orderByDesc('created_at')
                 ->get();
         }
@@ -187,7 +194,14 @@ class SuratMasukController extends Controller
             ->where('id_surat', $request->id)
             ->exists();
 
-        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts', 'userTelahDispo', 'disposisiTerakhir'));
+        // Ambil data tembusan
+        $tembusans = DB::table('tembusan')
+            ->where('id_surat', $surat->id)
+            ->join('users', 'tembusan.nip_tembusan', '=', 'users.nip')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->get();
+
+        return view('surat-masuk.detail', compact('surat', 'user', 'disposisis', 'usersWithJabatan', 'tindakLanjuts', 'userTelahDispo', 'disposisiTerakhir', 'tembusans'));
     }
     // Menampilkan detail surat end
 
@@ -236,12 +250,20 @@ class SuratMasukController extends Controller
         $validatedData['updated_at'] = now();
         // Set input end
 
-        try {
-            DB::table('suratmasuk')->insert($validatedData);
-            return back()->with('success', 'Data surat masuk berhasil ditambahkan');
-        } catch (\Exception $e) {
-            return $e;
+        $suratMasukId = DB::table('suratmasuk')->insertGetId($validatedData);
+
+        if ($request->has('tembusan')) {
+            foreach ($request->input('tembusan') as $nip) {
+                DB::table('tembusan')->insert([
+                    'id_surat' => $suratMasukId,
+                    'nip_tembusan' => $nip,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ]);
+            }
         }
+
+        return back()->with('success', 'Data surat masuk berhasil ditambahkan');
     }
     // Fungsi menambahkan surat masuk end
 

@@ -143,6 +143,14 @@
                     </div>
                 </div>
             </div>
+            <div class="pt-3 mt-4 border-top">
+                <label for="tembusan" class="form-label black fw-normal mb-2">Tembusan :</label>
+                @foreach ($tembusans as $item)
+                    <p class="mb-2">
+                        {{ $loop->iteration }}. {{ $item->nama_jabatan }}
+                    </p>
+                @endforeach
+            </div>
         </div>
         {{-- Detail content end --}}
 
@@ -295,14 +303,16 @@
                     </tbody>
                 </table>
             </div>
-            @if ($user->id_jabatan !== 7 && $surat->status_disposisi !== 'Selesai' && $user->nip === $disposisiTerakhir->nip)
-                <form id="formSelesaikanDisposisi" class="needs-validation mt-4" novalidate method="POST"
-                    action="{{ route('surat-masuk.disposisiEnd', $surat->id) }}">
-                    @csrf
-                    <button type="button" class="mybtn green ms-auto" onclick="confirmSelesaikanDisposisi()">
-                        <i class="fa-solid fa-check-to-slot me-2"></i>Selesaikan Disposisi
-                    </button>
-                </form>
+            @if ($user->id_jabatan !== 7 && $surat->status_disposisi !== 'Selesai')
+                @if (!empty($disposisiTerakhir) && $user->nip === $disposisiTerakhir->nip)
+                    <form id="formSelesaikanDisposisi" class="needs-validation mt-4" novalidate method="POST"
+                        action="{{ route('surat-masuk.disposisiEnd', $surat->id) }}">
+                        @csrf
+                        <button type="button" class="mybtn green ms-auto" onclick="confirmSelesaikanDisposisi()">
+                            <i class="fa-solid fa-check-to-slot me-2"></i>Selesaikan Disposisi
+                        </button>
+                    </form>
+                @endif
             @endif
             @if ($surat->status_disposisi === 'Selesai')
                 @if (count($disposisis) !== 0)

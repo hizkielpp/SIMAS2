@@ -85,6 +85,11 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
+
+    {{-- Multiple select bootstrap --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 @endsection
 @section('content')
     <section class="surat__masuk content">
@@ -232,6 +237,26 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="tembusan" class="form-label black fw-normal">Tembusan</label>
+                                            <select class="form-select" id="multiple-select-field" data-placeholder="..."
+                                                name="tembusan[]" multiple>
+                                                {{-- <option selected value="">...</option> --}}
+                                                @foreach ($ditujukanKepada as $k => $v)
+                                                    @if (old('tembusan') == $v->nip)
+                                                        <option value="{{ $v->nip }}" selected>
+                                                            {{ $v->nama_jabatan }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $v->nip }}">{{ $v->nama_jabatan }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Masukkan tembusan surat dengan benar.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="penerima" class="form-label black fw-normal">Sifat</label>
                                             <select class="form-select" aria-label="Default select example" required
                                                 name="sifatSurat">
@@ -249,6 +274,8 @@
                                                 Masukkan sifat surat dengan benar.
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
                                         <div class="mb-3">
                                             <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
                                             <select class="form-select" required aria-label="Default select example"
@@ -270,8 +297,6 @@
                                                 Masukkan kode hal surat dengan benar.
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
                                         <div class="mb-3">
                                             <label for="lampiran" class="form-label black fw-normal">Upload
                                                 Arsip Surat</label>
@@ -451,6 +476,9 @@
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- Multiple select bootstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
         // Initializing dom start
         $(document).ready(function() {
@@ -582,6 +610,15 @@
             }
             // <!-- Sweet alert : confirm delete end -->
 
+            // Multiple select start
+            $('#multiple-select-field').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
+                    'style',
+                placeholder: $(this).data('placeholder'),
+                closeOnSelect: false,
+            });
+            // Multiple select end
         })
         // Button testing start
         function fillData() {

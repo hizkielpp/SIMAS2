@@ -18,12 +18,6 @@ return new class extends Migration
             $table->id();
             $table->integer('nomorAgenda')->unique();
             $table->string('nomorSurat')->unique();
-            $table->string('kodeHal');
-            $table->string('sifatSurat');
-            $table->unsignedBigInteger('created_by');
-            $table->foreign('created_by')->references('nip')->on('users')->onDelete('cascade');
-            $table->foreign('kodeHal')->references('kode')->on('hal')->onDelete('cascade');
-            $table->foreign('sifatSurat')->references('kode')->on('sifat')->onDelete('cascade');
             $table->date('tanggalPengajuan');
             $table->string('asalSurat');
             $table->integer('jumlahLampiran')->nullable();
@@ -33,7 +27,19 @@ return new class extends Migration
             $table->dateTime('tanggal_penyelesaian_disposisi')->nullable();
             $table->timestamps();
 
-            // Foreign key
+            // Foreign key tabel sifat
+            $table->string('sifatSurat');
+            $table->foreign('sifatSurat')->references('kode')->on('sifat')->onDelete('cascade');
+
+            // Foreign key tabel kode hal
+            $table->string('kodeHal');
+            $table->foreign('kodeHal')->references('kode')->on('hal')->onDelete('cascade');
+
+            // Foreign key tabel users
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('nip')->on('users')->onDelete('cascade');
+
+            // Foreign key tabel users
             $table->unsignedBigInteger('ditujukan_kepada');
             $table->foreign('ditujukan_kepada')->references('nip')->on('users')->onDelete('cascade');
         });
