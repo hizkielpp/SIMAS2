@@ -251,7 +251,20 @@
         <div class="p-4 mt-4 card d-block">
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Disposisi Surat</h4>
-                @if ($user->id_jabatan !== 7 && $surat->status_disposisi !== 'Selesai')
+                @php
+                    $dispoKeUser = false;
+                    // Cek jika surat ditujukan_kepada sama dengan user yang login
+                    if ($surat->ditujukan_kepada === $user->nip) {
+                        $dispoKeUser = true;
+                    }
+                    // Cek jika terdapat disposisi ke user yang login
+                    foreach ($disposisis as $key) {
+                        if ($key->nip_penerima === $user->nip) {
+                            $dispoKeUser = true;
+                        }
+                    }
+                @endphp
+                @if ($user->id_jabatan !== 7 && $surat->status_disposisi !== 'Selesai' && $dispoKeUser)
                     @if (in_array($user->id_jabatan, [1, 2, 3]))
                         <button type="button" data-bs-toggle="modal" data-bs-target="#tambahDisposisi"
                             class="mybtn blue">
