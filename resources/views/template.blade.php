@@ -65,18 +65,21 @@
                         <h2 class="fs-6">Notifikasi</h2>
                     </div>
                     <div class="notification-items">
-                        <div class="notification-item notification-item--recent">
-                            <i class="fa-solid fa-circle-user fs-4"></i>
-                            <div class="notification-item__body">
-                                <div class="fs-6">
-                                    <strong>Dekan</strong> mengirim disposisi kepada Anda
+                        @foreach ($allDisposisi as $disposisi)
+                            <div class="notification-item notification-item--recent">
+                                <i class="fa-solid fa-circle-user fs-4"></i>
+                                <div class="notification-item__body">
+                                    <div class="fs-6">
+                                        <strong>{{ $disposisi->jabatan_pengirim }}</strong> mengirim disposisi kepada
+                                        {{ $disposisi->jabatan_penerima }}
+                                    </div>
+                                    <span class="time">
+                                        {{ $disposisi->selisih_waktu }}
+                                    </span>
                                 </div>
-                                <span class="time">
-                                    6 min ago
-                                </span>
+                                <div class="border"></div>
                             </div>
-                            <div class="border"></div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <li class="nav-item d-flex align-items-center user">
