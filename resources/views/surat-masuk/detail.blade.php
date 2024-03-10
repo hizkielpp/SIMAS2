@@ -2,10 +2,6 @@
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Datepicker Jquery -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
 @endsection
@@ -116,8 +112,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                        <input readonly type="text" class="form-control" name="penerima"
-                            value="{{ $surat->kodeHal }}" aria-describedby="emailHelp" />
+                        <input readonly type="text" class="form-control" name="penerima" value="{{ $surat->kodeHal }}"
+                            aria-describedby="emailHelp" />
                     </div>
                     <div class="mb-3">
                         <label for="jumlahLampiran" class="form-label black fw-normal">Jumlah
@@ -194,9 +190,9 @@
                                 <label for="tanggal_disposisi" class="form-label black fw-normal">Tanggal
                                     Surat Didisposisikan</label>
                                 <div class="position-relative input__tanggal__form">
-                                    <input type="text" id="datepicker" identifier="date" placeholder="..."
+                                    <input type="text" readonly identifier="date" placeholder="..."
                                         name="tanggal_disposisi" aria-placeholder="coba" class="form-control"
-                                        value="" required>
+                                        style="cursor: not-allowed" value="" required>
                                     <i class="fa-solid fa-calendar-days position-absolute"></i>
                                     <div class="invalid-feedback">
                                         Tanggal surat didisposisikan wajib diisi.
@@ -364,18 +360,21 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Initializing datapicker start
-        $("#datepicker").datepicker();
-        // Setter
-        $("#datepicker").datepicker("option", "changeYear", true);
-        $("#datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
-        // Cek apakah ada old value tanggal kadaluarsa
-        let oldDate = "{{ old('tanggal_disposisi') }}";
-        if (oldDate) {
-            // Tetapkan nilai Datepicker dari old value
-            $("#datepicker").datepicker("setDate", oldDate);
-        }
-        // Initializing datapicker end
+        // Set input date dengan hari ini start
+        var today = new Date();
+
+        // Mendapatkan komponen tanggal dan waktu
+        var year = today.getFullYear();
+        var month = (today.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
+        var day = today.getDate().toString().padStart(2, '0');
+        var hours = today.getHours().toString().padStart(2, '0');
+        var minutes = today.getMinutes().toString().padStart(2, '0');
+        var seconds = today.getSeconds().toString().padStart(2, '0');
+
+        // Menggabungkan komponen-komponen tersebut menjadi format yang diinginkan
+        var formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+        $("input[name='tanggal_disposisi']").val(formattedDate)
+        // Set input date dengan hari ini end
 
         // {{-- Bootstrap form validation start --}}
         (() => {
