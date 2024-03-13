@@ -513,12 +513,13 @@ p {
 .form-select,
 .myform input,
 .myform select,
-.myform textarea {
+.myform textarea,
+.select2-selection--multiple {
     font-weight: 400;
-    color: var(--black-light);
-    border-color: var(--grey);
+    color: var(--black-light) !important;
+    border-color: var(--grey) !important;
     padding: 0.5rem 0.75rem !important;
-    height: 42px;
+    min-height: 42px !important;
     font-size: 16px;
 }
 
@@ -531,12 +532,15 @@ p {
 .form-control:focus,
 .myform select:focus,
 .myform input:focus,
-.myform textarea:focus {
+.myform textarea:focus,
+#multiple-select-field .select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection,
+.select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection
+{
     font-weight: 400;
     color: var(--black);
-    outline: none;
-    box-shadow: none;
-    border-color: var(--blue);
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: var(--blue) !important;
 }
 
 .form-control[readonly] {
@@ -587,6 +591,7 @@ p {
     border: none;
     outline: none;
 }
+
 
 /* ================================== */
 /*           Modal section            */
