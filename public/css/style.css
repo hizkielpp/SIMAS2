@@ -514,7 +514,8 @@ p {
 .myform input,
 .myform select,
 .myform textarea,
-.select2-selection--multiple {
+.select2-selection--multiple,
+.select2-selection--single {
     font-weight: 400;
     color: var(--black-light) !important;
     border-color: var(--grey) !important;

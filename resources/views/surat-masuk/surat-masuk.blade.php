@@ -86,7 +86,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/surat-masuk-style.css') }}" />
 
-    {{-- Multiple select bootstrap --}}
+    {{-- Select2 bootstrap --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
@@ -168,14 +168,15 @@
             {{-- Tabel header end --}}
 
             <!-- Modal registrasi start -->
-            <div class="modal modal__section fade" data-bs-backdrop="static" id="registrasiSuratMasuk"
-                data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel" aria-hidden="true">
+            <div class="modal modal__section fade" data-bs-backdrop="static" tabindex="-1" id="registrasiSuratMasuk"
+                data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content p-3">
                         <div class="modal-header">
                             <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
                                 Form Registrasi Surat Masuk
                             </h4>
+
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -218,10 +219,11 @@
                                         <div class="mb-3">
                                             <label for="ditujukan_kepada" class="form-label black fw-normal">Ditujukan
                                                 Kepada</label>
-                                            <select class="form-select" required aria-label="Default select example"
-                                                name="ditujukan_kepada">
-                                                <option selected disabled value="">...</option>
+                                            <select class="form-select" id="single-select-field" data-placeholder="..."
+                                                name="ditujukan_kepada" required>
                                                 @foreach ($ditujukanKepada as $k => $v)
+                                                    <option>
+                                                    </option>
                                                     @if (old('ditujukan_kepada') == $v->nip)
                                                         <option value="{{ $v->nip }}" selected>
                                                             {{ $v->nama_jabatan }}
@@ -278,10 +280,11 @@
                                     <div class="col-lg-6 col-12">
                                         <div class="mb-3">
                                             <label for="kodeHal" class="form-label black fw-normal">Kode Hal</label>
-                                            <select class="form-select" required aria-label="Default select example"
-                                                id="kodeHal" name="kodeHal">
-                                                <option selected disabled value="">...</option>
+                                            <select class="form-select" id="single-select-field2" data-placeholder="..."
+                                                name="kodeHal" required>
                                                 @foreach ($hal as $k => $v)
+                                                    <option>
+                                                    </option>
                                                     @if (old('kodeHal') == $v->kode)
                                                         <option value="{{ $v->kode }}" selected>{{ $v->nama }}
                                                             ({{ $v->kode }})
@@ -300,14 +303,14 @@
                                         <div class="mb-3">
                                             <label for="lampiran" class="form-label black fw-normal">Upload
                                                 Arsip Surat</label>
-                                            <div class="alert alert-warning gap-2 d-flex align-items-start"
-                                                role="alert">
+                                            <div class="alert alert-warning gap-2 py-2 d-flex align-items-start"
+                                                role="alert" style="margin-bottom: 1.5rem">
                                                 <i class="fa-solid fa-triangle-exclamation"></i>
-                                                <div>
+                                                <p>
                                                     Format file .pdf dan ukuran file
                                                     maksimal 2
                                                     MB.
-                                                </div>
+                                                </p>
                                             </div>
                                             <input type="file" class="form-control" id="lampiran" name="lampiran"
                                                 aria-describedby="emailHelp" accept=".pdf" required />
@@ -329,7 +332,8 @@
                                             <label for="exampleFormControlTextarea1"
                                                 class="form-label black fw-normal">Perihal</label>
                                             <textarea class="form-control perihal" id="exampleFormControlTextarea1" rows="4"
-                                                placeholder="Contoh : Permohonan perijinan penelitian" name="perihal" required>{{ old('perihal') }}</textarea>
+                                                placeholder="Contoh : Permohonan perijinan penelitian" name="perihal" required
+                                                style="min-height: 8.3rem !important">{{ old('perihal') }}</textarea>
                                             <div class="invalid-feedback">
                                                 Masukkan perihal surat dengan benar.
                                             </div>
@@ -476,7 +480,7 @@
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- Multiple select bootstrap --}}
+    {{-- Select2 boot --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
@@ -610,11 +614,33 @@
             }
             // <!-- Sweet alert : confirm delete end -->
 
+            // Single select start
+            $('#single-select-field').select2({
+                dropdownParent: $("#registrasiSuratMasuk"),
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass(
+                    'w-100') ? '100%' : 'style',
+                placeholder: $(this).data('placeholder'),
+                allowClear: true
+            });
+            // Single select end
+
+            // Single select start
+            $('#single-select-field2').select2({
+                dropdownParent: $("#registrasiSuratMasuk"),
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass(
+                    'w-100') ? '100%' : 'style',
+                placeholder: $(this).data('placeholder'),
+                allowClear: true
+            });
+            // Single select end
+
             // Multiple select start
             $('#multiple-select-field').select2({
                 theme: "bootstrap-5",
-                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
-                    'style',
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass(
+                    'w-100') ? '100%' : 'style',
                 placeholder: $(this).data('placeholder'),
                 closeOnSelect: false,
             });
@@ -625,9 +651,9 @@
             $("input[name='nomorSurat']").val('1')
             $("input[name='asalSurat']").val('a')
             $("#datepicker").datepicker("setDate", "01-03-2024");
-            $("select[name='ditujukan_kepada']").val('1')
+            $("#single-select-field").val('1').trigger('change')
             $("select[name='sifatSurat']").val('1')
-            $("select[name='kodeHal']").val('AK')
+            $("#single-select-field2").val("AK").trigger('change')
             $("input[name='jumlahLampiran']").val(1)
             $("textarea[name='perihal']").val('a')
         }
