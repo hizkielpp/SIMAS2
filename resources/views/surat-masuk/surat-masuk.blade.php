@@ -9,54 +9,11 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-    {{-- Fungsi rentang tanggal start --}}
-    <script>
-        $(document).ready(function() {
-            $(function() {
-                // Initializing
-                $("#inputTanggalStart").datepicker()
-                // Ganti tahun
-                $("#inputTanggalStart").datepicker("option", "changeYear", true);
-                // Ganti format tanggal
-                $("#inputTanggalStart").datepicker("option", "dateFormat", "dd-mm-yy")
-                if (start) {
-                    $("#inputTanggalStart").datepicker("setDate", `${start}`)
-                    $("#inputTanggalStart").attr('value', start)
-                }
-            });
-            $(function() {
-                // Initializing
-                $("#inputTanggalEnd").datepicker()
-                // Ganti tahun
-                $("#inputTanggalEnd").datepicker("option", "changeYear", true);
-                // Ganti format tanggal
-                $("#inputTanggalEnd").datepicker("option", "dateFormat", "dd-mm-yy");
-                if (end) {
-                    $("#inputTanggalEnd").datepicker("setDate", `${end}`)
-                    $("#inputTanggalEnd").attr('value', end)
-                }
-            });
-        });
-    </script>
-    @if (isset($_GET['start']) and isset($_GET['end']))
-        <script>
-            let start = "{{ $_GET['start'] }}"
-            let end = "{{ $_GET['end'] }}"
-        </script>
-    @else
-        <script>
-            let start = ""
-            let end = ""
-        </script>
-    @endif
-    {{-- Fungsi rentang tanggal start --}}
-
     {{-- Datepicker Jquery : registrasi surat --}}
     <script>
         $(function() {
             // Initializing
             $("#datepicker").datepicker();
-
             // Ganti tahun
             $("#datepicker").datepicker("option", "changeYear", true);
             // Ganti format tanggal
@@ -67,19 +24,6 @@
                 // Tetapkan nilai Datepicker dari old value
                 $("#datepicker").datepicker("setDate", oldDate);
             }
-        });
-    </script>
-
-    {{-- Datepicker Jquery : edit surat --}}
-    <script>
-        $(function() {
-            // Initializing
-            $("#tanggalPengajuanE").datepicker();
-
-            // Ganti tahun
-            $("#tanggalPengajuanE").datepicker("option", "changeYear", true);
-            // Ganti format tanggal
-            $("#tanggalPengajuanE").datepicker("option", "dateFormat", "dd-mm-yy");
         });
     </script>
 
@@ -142,6 +86,16 @@
 
         {{-- Tabel wrapper start --}}
         <div class="card p-4 mt-3">
+            {{-- Loader start --}}
+            <div class="loader__tables w-100 h-100 position-absolute justify-content-center align-items-center"
+                style="z-index: 9; backdrop-filter: blur(4px); background-color: rgba(256, 256, 256, .8); display: flex; border-radius: .3rem; top: 0; left: 0;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div class="lds-dual-ring"></div>
+                    <p class="mt-3">Mohon tunggu sebentar</p>
+                </div>
+            </div>
+            {{-- Loader end --}}
+
             {{-- Tabel header start --}}
             <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
                 <h4 class="fw-semibold black">Daftar Surat Masuk</h4>
@@ -373,92 +327,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($suratMasuk as $k => $v)
-                            <!-- Modal teruskan ke start -->
-                            {{-- <div class="modal modal__section fade" data-bs-backdrop="static" id="teruskanKe"
-                                data-bs-backdrop="static" tabindex="-1" aria-labelledby="ex ampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <form class="needs-validation" novalidate method="POST"
-                                        action="{{ route('surat-masuk.teruskan', $v->id) }}">
-                                        @csrf
-                                        <div class="modal-content p-3">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title fw-semibold black" id="exampleModalLabel">
-                                                    Teruskan Surat Ke
-                                                </h4>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label for="nip_penerima" class="form-label black fw-normal">Pilih
-                                                        Tujuan</label>
-                                                    <select class="form-select" required
-                                                        aria-label="Default select example" name="nip_penerima">
-                                                        <option selected disabled value="">...</option>
-                                                        @foreach ($ditujukanKepada as $item)
-                                                            <option value="{{ $item->nip }}">
-                                                                {{ $item->nama_jabatan }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Masukkan penerima surat dengan benar.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="mybtn light" data-bs-dismiss="modal">
-                                                    Batal
-                                                </button>
-                                                <button type="submit" class="mybtn blue" type="submit">
-                                                    Tambah
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div> --}}
-                            <!-- Modal teruskan ke end -->
-
-                            <tr>
-                                <td class="no">{{ $loop->iteration }}</td>
-                                <td>
-                                    {{ $v->asalSurat }} <br> <span class="pt-2 d-inline-block">Nomor :
-                                        {{ $v->nomorSurat }}
-                                    </span>
-                                </td>
-                                <td>{{ $v->nama_jabatan }} <br> <span class="pt-2 d-inline-block">
-                                        {{ $v->name }}</td>
-                                </span>
-                                <td>{{ date('d ', strtotime($v->tanggalPengajuan)) }}{{ convertToBulan(date('F', strtotime($v->tanggalPengajuan))) }}{{ date(' Y', strtotime($v->tanggalPengajuan)) }}
-                                </td>
-                                <td>
-                                    {{ $v->perihal }}
-                                </td>
-                                <td>{{ $v->status_disposisi }}</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="mybtn white dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu p-0 py-2">
-                                            {{-- @if ($v->status_disposisi === 'Belum Diproses')
-                                                <li>
-                                                    <buttton type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#teruskanKe">Teruskan</buttton>
-                                                </li>
-                                            @endif --}}
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('surat-masuk.show', $v->id) }}">Detail</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-
-                            </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -486,30 +354,96 @@
     <script>
         // Initializing dom start
         $(document).ready(function() {
-            // Filter tanggal start
-            var start = $('#inputTanggalStart').attr('value')
-            var end = $('#inputTanggalEnd').attr('value')
+            // Format tanggal local start
+            function formatTanggal(inputTanggal) {
+                // Parsing tanggal dari string input
+                const tanggal = new Date(inputTanggal);
 
-            $('#inputTanggalStart').change(function() {
-                // console.log(end)
-                start = this.value
-                if (start && end) {
-                    window.location.href = "{{ route('surat-masuk.index') }}" + '?start=' + start +
-                        '&end=' + end;
-                }
-            })
-            $('#inputTanggalEnd').change(function() {
-                // console.log(start)
-                end = this.value
-                if (start && end) {
-                    window.location.href = "{{ route('surat-masuk.index') }}" + '?start=' + start +
-                        '&end=' + end;
-                }
-            })
-            // Filter tanggal end
+                // Daftar nama bulan dalam bahasa Indonesia
+                const namaBulan = [
+                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                ];
+
+                // Mendapatkan tanggal, bulan, dan tahun dari objek tanggal
+                const tanggalFormatted = tanggal.getDate();
+                const bulanFormatted = namaBulan[tanggal.getMonth()];
+                const tahunFormatted = tanggal.getFullYear();
+
+                // Menggabungkan hasilnya untuk membentuk format tanggal yang diinginkan
+                return tanggalFormatted + " " + bulanFormatted + " " + tahunFormatted;
+            }
+            // Format tanggal local end
 
             // <!-- Initializing data tables start -->
-            $("#mytable").DataTable({
+            var table = $("#mytable").DataTable({
+                serverSide: true,
+                ajax: {
+                    url: '/getSuratMasuk',
+                    type: 'GET'
+                },
+                pageLength: 10,
+                columns: [{
+                        render: function(data, type, row, meta) {
+                            return meta.row + 1
+                        }
+                    },
+                    {
+                        render: function(data, type, row, meta) {
+                            let asalSurat = row.asalSurat
+                            let nomorSurat = row.nomorSurat
+
+                            return `
+                                ${asalSurat} <br> <span class="pt-2 d-inline-block">Nomor :
+                                ${nomorSurat}</span>
+                            `
+                        }
+                    },
+                    {
+                        render: function(data, type, row, meta) {
+                            let namaJabatan = row.nama_jabatan
+                            let name = row.name
+
+                            return `
+                                ${namaJabatan} <br> <span class="pt-2 d-inline-block">
+                                ${name}
+                            `
+                        }
+                    },
+                    {
+                        render: function(data, type, row, meta) {
+                            let tanggalSurat = row.tanggalPengajuan
+
+                            return formatTanggal(tanggalSurat)
+                        }
+                    },
+                    {
+                        data: "perihal"
+                    },
+                    {
+                        data: "status_disposisi"
+                    },
+                    {
+                        render: function(data, type, row, meta) {
+                            let idSurat = row.id
+                            let url = "{{ route('surat-masuk.show', ':id') }}";
+                            url = url.replace(':id', idSurat);
+
+                            return `
+                                <div class="dropdown">
+                                    <button class="mybtn white dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu p-0 py-2">
+                                        <li><a class="dropdown-item"
+                                            href="${url}">Detail</a></li>
+                                    </ul>
+                                </div>
+                            `
+                        }
+                    },
+                ],
                 columnDefs: [{
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5]
@@ -524,11 +458,6 @@
                     infoEmpty: "Baris tidak tersedia",
                     infoFiltered: "(filtered from _MAX_ total records)",
                     search: "Cari :",
-                    // pagingType: "numbers",
-                    // paginate: {
-                    //   previous: "Sebelumnya",
-                    //   next: "Berikutnya",
-                    // },
                 },
                 oLanguage: {
                     oPaginate: {
@@ -542,6 +471,65 @@
                 ],
             });
             // <!-- Initializing data tables end -->
+
+            // Initializing datepicker
+            const datepickerConfig = {
+                changeYear: true,
+                dateFormat: "dd-mm-yy"
+            };
+
+            // Inisialisasi datepicker untuk filter start
+            const inputTanggalStart = $("#inputTanggalStart");
+            inputTanggalStart.datepicker(datepickerConfig);
+
+            // Inisialisasi datepicker untuk filter end
+            const inputTanggalEnd = $("#inputTanggalEnd");
+            inputTanggalEnd.datepicker(datepickerConfig);
+
+            // Filter rentang tanggal start
+            $('#inputTanggalStart, #inputTanggalEnd').on('change', function() {
+                const start = $('#inputTanggalStart').val();
+                const end = $('#inputTanggalEnd').val();
+
+                // Parsing tanggal input menjadi objek Date
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+
+                // Memeriksa apakah tanggal awal lebih besar dari tanggal akhir
+                if (startDate > endDate) {
+                    Swal.fire({
+                        confirmButtonColor: "#2F5596",
+                        icon: 'warning',
+                        title: `Perhatian`,
+                        text: `Tanggal awal tidak boleh lebih besar dari tanggal akhir!`,
+                    })
+                    new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+                }
+
+                if (start && end) {
+                    table.ajax.url('getSuratMasuk?mulai=' + start + '&selesai=' + end).load();
+                }
+            });
+            // Filter rentang tanggal end
+
+            // Set loader tabel start
+            table.on('length.dt', function(e, settings, len) {
+                showLoading();
+            });
+            table.on('draw.dt', function() {
+                hideLoading();
+            });
+            // Set loader tabel start
+
+            // Fungsi loader start
+            function showLoading() {
+                $('.loader__tables').show();
+            }
+
+            function hideLoading() {
+                $('.loader__tables').hide();
+            }
+            // Fungsi loader end
 
             // {{-- Bootstrap form validation start --}}
             (() => {

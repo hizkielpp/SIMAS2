@@ -18,16 +18,9 @@ class SuratMasukController extends Controller
         // Ambil data user authorized
         $user = session()->get('user');
 
-        // Ambil data ditujukan kepada pimpinan
-        $ditujukanKepada = DB::table('users')
-            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
-            ->select('users.*', 'jabatans.nama_jabatan')
-            ->whereNotIn('nama_jabatan', ['Tenaga Kependidikan'])
-            ->get();
-
         // Cek kondisi admin dapat melihat semua surat
         if ($user->role_id === 1) {
-            $surat = DB::table('suratMasuk')
+            $suratMasuk = DB::table('suratMasuk')
                 ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
                 ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
                 ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
@@ -40,7 +33,7 @@ class SuratMasukController extends Controller
             // Ambil nip user
             $userNIP = $user->nip;
 
-            $surat = DB::table('suratMasuk')
+            $suratMasuk = DB::table('suratMasuk')
                 ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
                 ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
                 ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
@@ -63,6 +56,13 @@ class SuratMasukController extends Controller
                 ->get();
         }
 
+        // Ambil data ditujukan kepada pimpinan
+        $ditujukanKepada = DB::table('users')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->select('users.*', 'jabatans.nama_jabatan')
+            ->whereNotIn('nama_jabatan', ['Tenaga Kependidikan'])
+            ->get();
+
         // Ambil data sifat surat 
         $sifat = DB::table('sifat')->get();
 
@@ -71,13 +71,126 @@ class SuratMasukController extends Controller
 
         return view('surat-masuk.surat-masuk')->with([
             'user' => $user,
-            'suratMasuk' => $surat,
+            'suratMasuk' => $suratMasuk,
             'sifat' => $sifat,
             'hal' => $hal,
             'ditujukanKepada' => $ditujukanKepada,
         ]);
     }
     // Fungsi menampilkan halaman surat masuk end
+
+    // Mengambil data surat masuk untuk admin start
+    protected function getSuratMasukForAdmin($start, $end)
+    {
+        $query = DB::table('suratMasuk')
+            ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+            ->orderByDesc('created_at');
+
+        if ($start && $end) {
+            $query->whereBetween('tanggalPengajuan', [date('Y-m-d', $start), date('Y-m-d', $end)]);
+        }
+
+        return $query;
+    }
+    // Mengambil data surat masuk untuk admin end
+
+    // Mengambil data surat masuk untuk user start
+    protected function getSuratMasukForUser($user, $start, $end)
+    {
+        // Ambil nip user
+        $userNIP = $user->nip;
+
+        $query = DB::table('suratMasuk')
+            ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
+            ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+            ->select('suratMasuk.*', 'users.name', 'jabatans.nama_jabatan')
+            ->where('ditujukan_kepada', $userNIP);
+
+        if ($start && $end) {
+            $query->whereBetween('tanggalPengajuan', [date('Y-m-d', $start), date('Y-m-d', $end)]);
+        }
+
+        $query->orWhere(function ($query) use ($userNIP) {
+            $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
+                $subquery->select('id_surat')
+                    ->from('disposisi')
+                    ->where('nip_penerima', $userNIP);
+            });
+        })
+            ->orWhere(function ($query) use ($userNIP) {
+                $query->whereIn('suratMasuk.id', function ($subquery) use ($userNIP) {
+                    $subquery->select('id_surat')
+                        ->from('tembusan')
+                        ->where('nip_tembusan', $userNIP);
+                });
+            })
+            ->orderByDesc('created_at');
+
+        return $query;
+    }
+    // Mengambil data surat masuk untuk user end
+
+    // Fungsi untuk menerapkan pencarian start
+    protected function applySearch($query, $searchValue)
+    {
+        $searchQuery = $query;
+
+        if (!empty($searchValue)) {
+            $searchQuery = $query->where(function ($searchQuery) use ($searchValue) {
+                $searchQuery->where('nomorSurat', 'like', '%' . $searchValue . '%')
+                    ->orWhere('asalSurat', 'like', '%' . $searchValue . '%')
+                    ->orWhere('lampiran', 'like', '%' . $searchValue . '%')
+                    ->orWhere('perihal', 'like', '%' . $searchValue . '%')
+                    ->orWhere('status_disposisi', 'like', '%' . $searchValue . '%')
+                    ->orWhere('kodeHal', 'like', '%' . $searchValue . '%')
+                    ->orWhere('name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('nama_jabatan', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        return $searchQuery;
+    }
+    // Fungsi untuk menerapkan pencarian start
+
+    // Fungsi server side datatables start
+    public function getSuratMasuk(Request $request)
+    {
+        // Ambil data user yang login
+        $user = session()->get('user');
+
+        // Tentukan batas data per halamana
+        $perPage = $request->input('length');
+        $page = $request->input('start') / $perPage + 1;
+
+        // Ambil value filter tanggal
+        $start = strtotime($request->input('mulai'));
+        $end = strtotime($request->input('selesai'));
+
+        // Cek kondisi dengan role user yang login
+        if ($user->role_id === 1) {
+            $query = $this->getSuratMasukForAdmin($start, $end);
+        } else {
+            $query = $this->getSuratMasukForUser($user, $start, $end);
+        }
+
+        // Terapkan pencarian jika ada
+        $searchValue = $request->input('search.value');
+        $query = $this->applySearch($query, $searchValue);
+
+        $filteredData = $query->count();
+        $query->skip(($page - 1) * $perPage)->take($perPage);
+        $suratMasuk = $query->get();
+        $totalData = DB::table('suratmasuk')->count(); // Total jumlah data keseluruhan
+
+        return response()->json([
+            'data' => $suratMasuk,
+            'recordsTotal' => $totalData,
+            'recordsFiltered' => $filteredData,
+        ]);
+    }
+    // Fungsi server side datatables end
 
     // Menampilkan detail surat start
     public function show(Request $request)

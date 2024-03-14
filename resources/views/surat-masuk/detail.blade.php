@@ -360,114 +360,112 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Set input date dengan hari ini start
-        var today = new Date();
+        $(document).ready(function() {
+            // Set input date dengan hari ini start
+            let today = new Date();
 
-        // Mendapatkan komponen tanggal dan waktu
-        var year = today.getFullYear();
-        var month = (today.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
-        var day = today.getDate().toString().padStart(2, '0');
-        var hours = today.getHours().toString().padStart(2, '0');
-        var minutes = today.getMinutes().toString().padStart(2, '0');
-        var seconds = today.getSeconds().toString().padStart(2, '0');
+            // Mendapatkan komponen tanggal dan waktu
+            let year = today.getFullYear();
+            let month = (today.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
+            let day = today.getDate().toString().padStart(2, '0');
+            let hours = today.getHours().toString().padStart(2, '0');
+            let minutes = today.getMinutes().toString().padStart(2, '0');
+            let seconds = today.getSeconds().toString().padStart(2, '0');
 
-        // Menggabungkan komponen-komponen tersebut menjadi format yang diinginkan
-        var formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-        $("input[name='tanggal_disposisi']").val(formattedDate)
-        // Set input date dengan hari ini end
+            // Menggabungkan komponen-komponen tersebut menjadi format yang diinginkan
+            let formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+            $("input[name='tanggal_disposisi']").val(formattedDate)
+            // Set input date dengan hari ini end
 
-        // {{-- Bootstrap form validation start --}}
-        (() => {
-            'use strict'
+            // {{-- Bootstrap form validation start --}}
+            (() => {
+                'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation')
 
-            // Validasi nomor surat jika sudah digunakan
-            function cekNomorSurat() {
+                // Loop over them and prevent submission
+                Array.from(forms).forEach(form => {
+                    // console.log('tes')
+                    // console.log(form)
+                    form.addEventListener('submit', event => {
+                        if (!form.checkValidity()) {
 
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            })()
+            // {{-- Bootstrap form validation end --}}
+
+            // {{-- Fungsi lihat lampiran start --}}
+            function lihatLampiran(id) {
+                var options = {
+                    fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
+                };
+                PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
             }
+            // {{-- Fungsi lihat lampiran end --}}
 
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                // console.log('tes')
-                // console.log(form)
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
+            // Capitalize first error message start
+            @if ($errors->any())
+                function capitalizeFirstLetter(string) {
+                    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+                }
+                var errorMessage = document.getElementById('errorMessage').innerHTML;
+                errorMessage = errorMessage.trim()
+                errorMessage = errorMessage.replace(/_/g, ' ')
+                document.getElementById('errorMessage').innerHTML = capitalizeFirstLetter(errorMessage);
+            @endif
+            // Capitalize first error message start
 
-                        event.preventDefault()
-                        event.stopPropagation()
+            // Sweetalert confirm delete start
+            function confirmTambahDisposisi() {
+                new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+                Swal.fire({
+                    title: "Yakin ingin menambah data?",
+                    text: "Pastikan data yang anda masukkan benar!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#2F5596",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Tambah",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#formTambahDisposisi').submit();
+                    } else {
+                        new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
                     }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-        // {{-- Bootstrap form validation end --}}
-
-        // {{-- Fungsi lihat lampiran start --}}
-        function lihatLampiran(id) {
-            var options = {
-                fallbackLink: "<p>Silahkan lihat arsip dokumen surat melalui link berikut. <a href='[url]'>Lihat arsip.</a></p>"
-            };
-            PDFObject.embed(`{{ asset('public/uploads/${id}') }}`, "#example1", options);
-        }
-        // {{-- Fungsi lihat lampiran end --}}
-
-        // Capitalize first error message start
-        @if ($errors->any())
-            function capitalizeFirstLetter(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+                });
             }
-            var errorMessage = document.getElementById('errorMessage').innerHTML;
-            errorMessage = errorMessage.trim()
-            errorMessage = errorMessage.replace(/_/g, ' ')
-            document.getElementById('errorMessage').innerHTML = capitalizeFirstLetter(errorMessage);
-        @endif
-        // Capitalize first error message start
+            // Sweetalert confirm delete end
 
-        // Sweetalert confirm delete start
-        function confirmTambahDisposisi() {
-            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
-            Swal.fire({
-                title: "Yakin ingin menambah data?",
-                text: "Pastikan data yang anda masukkan benar!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Tambah",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#formTambahDisposisi').submit();
-                } else {
-                    new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
-                }
-            });
-        }
-        // Sweetalert confirm delete end
+            // Sweetalert confirm selesaikan disposisi start
+            function confirmSelesaikanDisposisi() {
+                new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+                Swal.fire({
+                    title: "Yakin ingin menyelesaikan disposisi?",
+                    text: "Pastikan data yang anda masukkan benar!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#2F5596",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Tambah",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#formSelesaikanDisposisi').submit();
+                    } else {
+                        new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
+                    }
+                });
+            }
+            // Sweetalert confirm selesaikan disposisi end
 
-        // Sweetalert confirm selesaikan disposisi start
-        function confirmSelesaikanDisposisi() {
-            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
-            Swal.fire({
-                title: "Yakin ingin menyelesaikan disposisi?",
-                text: "Pastikan data yang anda masukkan benar!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#2F5596",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Tambah",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#formSelesaikanDisposisi').submit();
-                } else {
-                    new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
-                }
-            });
-        }
-        // Sweetalert confirm selesaikan disposisi end
+        })
     </script>
 @endsection

@@ -46,6 +46,7 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
     Route::controller(SuratMasukController::class)->group(function () {
         Route::name('surat-masuk.')->group(function () {
             Route::get('/surat-masuk', 'index')->name('index');
+            Route::get('/getSuratMasuk', 'getSuratMasuk')->name('getSuratMasuk');
             Route::get('/getSM/{id}', 'getSM')->name('getSM');
             Route::get('/surat-masuk/detail/{id}', 'show')->name('show');
             Route::post('/inputSM', 'inputSM')->name('inputSM');
