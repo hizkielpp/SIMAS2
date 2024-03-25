@@ -79,6 +79,29 @@ class DashboardController extends Controller
         // Ambil nip user yang login
         $userNIP = $user->nip;
 
+        // Cek surat yang ditampilkan untuk sekretaris
+        // Sekretaris dekan
+        if ($user->bagian === 'Sekretaris Dekan') {
+            $jabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->where('nama_jabatan', 'Dekan')->first();
+            $userNIP = $jabatan->nip;
+        }
+        // Sekretaris wakil dekan I
+        elseif ($user->bagian === 'Sekretaris Wakil Dekan I') {
+            $jabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->where('nama_jabatan', 'Wakil Dekan I')->first();
+            $userNIP = $jabatan->nip;
+        }
+        // Sekretaris wakil dekan II
+        elseif ($user->bagian === 'Sekretaris Wakil Dekan II') {
+            $jabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->where('nama_jabatan', 'Wakil Dekan II')->first();
+            $userNIP = $jabatan->nip;
+        }
+
         // Ambil data jumlah surat masuk keseluruan
         // Cek kondisi admin
         if ($user->role_id === 1) {
