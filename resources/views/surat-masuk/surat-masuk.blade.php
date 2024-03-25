@@ -3,7 +3,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap data tables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
 
     <!-- Datepicker Jquery -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -345,6 +344,11 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js">
     </script>
 
+    {{-- Data tables : button export start --}}
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    {{-- Data tables : button export end --}}
+
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -448,7 +452,112 @@
                     orderable: false,
                     targets: [0, 1, 2, 3, 4, 5]
                 }],
-                dom: '<"d-flex justify-content-end"f>rt<"d-flex justify-content-between mt-3 flex-wrap gap-2"<"d-flex align-items-center flex-wrap gap-2"li>p>',
+                dom: '<"d-flex justify-content-between flex-wrap gap-3"Bf>rt<"d-flex justify-content-between mt-3 flex-wrap gap-2"<"d-flex align-items-center flex-wrap gap-2"li>p>',
+                buttons: [{
+                    text: '<i class="fa-solid fa-file-arrow-down"></i> Export Excel',
+                    className: 'mybtn green',
+                    action: function exportExcel() {
+                        // Ambil data dari tabel menggunakan DataTables
+                        const table = $('#mytable').DataTable();
+
+                        // Daftar header yang akan digunakan dalam file Excel
+                        const dataTableHeaders = ["Nomor Surat", "Asal Surat",
+                            "Ditujukan Kepada", "Tanggal Surat", "Perihal",
+                            "Riwayat Disposisi"
+                        ];
+
+                        // Ambil semua data dari tabel
+                        const allData = table.rows().data().toArray();
+
+                        // Array untuk menyimpan data yang akan diekspor
+                        const data = [];
+
+                        // ID peran pengguna
+                        const userRoleId = "{{ $user->role_id }}";
+
+                        // Fungsi untuk mengonversi angka bulan menjadi romawi
+                        function angkaBulanKeRomawi(bulan) {
+                            if (bulan < 1 || bulan > 12) {
+                                return "Invalid";
+                            }
+                            const romawi = ["", "I", "II", "III", "IV", "V", "VI", "VII",
+                                "VIII", "IX", "X", "XI", "XII"
+                            ];
+                            return romawi[bulan];
+                        }
+
+                        // Fungsi untuk memformat tanggal
+                        function formatDate(tanggalSuratFormatted) {
+                            const namaBulanIndonesia = ["Januari", "Februari", "Maret", "April",
+                                "Mei", "Juni", "Juli", "Agustus", "September", "Oktober",
+                                "November", "Desember"
+                            ];
+                            const tanggalFormatted = tanggalSuratFormatted.getDate().toString()
+                                .padStart(2, '0');
+                            const namaBulan = namaBulanIndonesia[tanggalSuratFormatted
+                                .getMonth()];
+                            const tahunOri = tanggalSuratFormatted.getFullYear();
+                            return `${tanggalFormatted} ${namaBulan} ${tahunOri}`;
+                        }
+
+                        // Loop melalui semua data dan memprosesnya
+                        allData.forEach(subarray => {
+                            const nomorSurat = subarray.nomorSurat;
+                            const asalSurat = subarray.asalSurat;
+                            const ditujukanKepada = subarray.name;
+                            const kodeHal = subarray.kodeHal;
+                            const tanggalSurat = subarray.tanggalPengajuan;
+                            const tanggalSuratFormatted = new Date(tanggalSurat);
+                            const bulan = tanggalSuratFormatted.getMonth() + 1;
+                            const tahun = tanggalSuratFormatted.getFullYear();
+                            const romawiBulan = angkaBulanKeRomawi(bulan);
+                            const tanggalFixed = formatDate(tanggalSuratFormatted);
+                            const nomorSuratLengkap =
+                                `${nomorSurat}/${kodeHal}/${romawiBulan}/${tahun}`;
+                            const subarrayTerpilih = [nomorSuratLengkap, asalSurat,
+                                ditujukanKepada, tanggalFixed, subarray.perihal
+                            ];
+                            data.push(subarrayTerpilih);
+                        });
+
+                        // Membuat workbook Excel dan menambahkan data ke dalamnya
+                        const workbook = XLSX.utils.book_new();
+                        const worksheet = XLSX.utils.aoa_to_sheet([dataTableHeaders, ...data]);
+                        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+                        // Dapatkan tanggal hari ini
+                        const today = new Date();
+                        const dd = String(today.getDate()).padStart(2, '0');
+                        const mm = String(today.getMonth() + 1).padStart(2,
+                            '0'); // Januari dimulai dari 0
+                        const yyyy = today.getFullYear();
+
+                        // Dapatkan hari ini
+                        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat',
+                            'Sabtu'
+                        ];
+                        const day = days[today
+                            .getDay()]; // Mendapatkan nama hari berdasarkan indeks
+
+                        // Dapatkan nama bulan
+                        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                            'Juli', 'Agustus', 'September', 'Oktober', 'November',
+                            'Desember'
+                        ];
+                        const month = months[today
+                            .getMonth()]; // Mendapatkan nama bulan berdasarkan indeks
+
+                        // Format tanggal sesuai keinginan Anda (contoh: DD-MM-YYYY)
+                        const formattedDate = `${dd} ${month} ${yyyy}`;
+
+                        // Nama file Excel dengan tanggal hari ini
+                        let fileName =
+                            `Data Surat Masuk Fakultas Kedokteran Universitas Diponegoro - ${day}, ${formattedDate}.xlsx`;
+
+                        // Menyimpan dan mengekspor file Excel
+                        XLSX.writeFile(workbook, fileName);
+                    }
+                }],
                 destroy: true,
                 order: false,
                 language: {
@@ -456,7 +565,7 @@
                     zeroRecords: "Surat masuk tidak tersedia. <br>Silahkan registrasi surat terlebih dahulu.",
                     info: "Menampilkan _PAGE_ dari _PAGES_",
                     infoEmpty: "Baris tidak tersedia",
-                    infoFiltered: "(filtered from _MAX_ total records)",
+                    infoFiltered: "",
                     search: "Cari :",
                 },
                 oLanguage: {
