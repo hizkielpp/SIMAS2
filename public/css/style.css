@@ -30,72 +30,29 @@ body {
     font-family: "Poppins", sans-serif;
     min-height: 100vh;
 }
-h1 {
-    font-size: 24px;
-}
-h2 {
-    font-size: 20px;
-}
-h3 {
-    font-size: 18px;
-}
-h4 {
-    font-size: 16px;
-}
-h5 {
-    font-size: 14px;
-}
-h6 {
-    font-size: 12px;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-    margin-bottom: 0;
-}
 
-/* Font weight start */
-.fw__light {
-    font-weight: 300;
-}
-.fw__normal {
-    font-weight: 400;
-}
-.fw__med {
-    font-weight: 500;
-}
-.fw__semi {
-    font-weight: 600;
-}
-.fw__bold {
-    font-weight: 700;
-}
-.fw__ebold {
-    font-weight: 800;
-}
-/* Font weight start */
+h1 { font-size: 24px; }
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
 
-/* Color start */
-.blue {
-    color: var(--blue);
-}
-.blue__light {
-    color: var(--blue-light);
-}
-.black {
-    color: var(--black);
-}
-.black__light {
-    color: var(--black-light);
-}
-.light {
-    color: var(--light);
-}
-/* Color end */
+/* Font weight */
+.fw__light { font-weight: 300; }
+.fw__normal { font-weight: 400; }
+.fw__med { font-weight: 500; }
+.fw__semi { font-weight: 600; }
+.fw__bold { font-weight: 700; }
+.fw__ebold { font-weight: 800; }
+
+/* Color */
+.blue { color: var(--blue); }
+.blue__light { color: var(--blue-light); }
+.black { color: var(--black); }
+.black__light { color: var(--black-light); }
+.light { color: var(--light); }
 
 /* Button start */
 .mybtn {
