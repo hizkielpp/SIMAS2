@@ -96,6 +96,33 @@ class DatabaseSeeder extends Seeder
             'nip' => '7',
             'id_jabatan' => 7,
         ]);
+        DB::table('users')->insert([
+            'role_id' => 2,
+            'name' => 'Galih',
+            'bagian' => 'Sekretaris Dekan',
+            'password' => Hash::make('password'),
+            'email' => 'galih@gmail.com',
+            'nip' => '8',
+            'id_jabatan' => 7,
+        ]);
+        DB::table('users')->insert([
+            'role_id' => 2,
+            'name' => 'Dyah',
+            'bagian' => 'Sekretaris Wakil Dekan I',
+            'password' => Hash::make('password'),
+            'email' => 'dyah@gmail.com',
+            'nip' => '9',
+            'id_jabatan' => 7,
+        ]);
+        DB::table('users')->insert([
+            'role_id' => 2,
+            'name' => 'Winda',
+            'bagian' => 'Sekretaris Wakil Dekan II',
+            'password' => Hash::make('password'),
+            'email' => 'winda@gmail.com',
+            'nip' => '10',
+            'id_jabatan' => 7,
+        ]);
         // User seeder end
 
         // Unit seeder start

@@ -422,27 +422,7 @@
             @endif
             // Capitalize first error message start
 
-            // Sweetalert confirm delete start
-            function confirmTambahDisposisi() {
-                new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
-                Swal.fire({
-                    title: "Yakin ingin menambah data?",
-                    text: "Pastikan data yang anda masukkan benar!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#2F5596",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Tambah",
-                    cancelButtonText: "Batal",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#formTambahDisposisi').submit();
-                    } else {
-                        new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
-                    }
-                });
-            }
-            // Sweetalert confirm delete end
+
 
             // Sweetalert confirm selesaikan disposisi start
             function confirmSelesaikanDisposisi() {
@@ -467,5 +447,27 @@
             // Sweetalert confirm selesaikan disposisi end
 
         })
+
+        // Sweetalert confirm delete start
+        function confirmTambahDisposisi() {
+            new Audio("{{ asset('audio/warning-edited.mp3') }}").play();
+            Swal.fire({
+                title: "Yakin ingin menambah data?",
+                text: "Pastikan data yang anda masukkan benar!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#2F5596",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Tambah",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#formTambahDisposisi').submit();
+                } else {
+                    new Audio("{{ asset('audio/cancel-edited.mp3') }}").play();
+                }
+            });
+        }
+        // Sweetalert confirm delete end
     </script>
 @endsection

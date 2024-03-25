@@ -102,6 +102,29 @@ class SuratMasukController extends Controller
         // Ambil nip user
         $userNIP = $user->nip;
 
+        // Cek surat yang ditampilkan untuk sekretaris
+        // Sekretaris dekan
+        if ($user->bagian === 'Sekretaris Dekan') {
+            $jabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->where('nama_jabatan', 'Dekan')->first();
+            $userNIP = $jabatan->nip;
+        }
+        // Sekretaris wakil dekan I
+        elseif ($user->bagian === 'Sekretaris Wakil Dekan I') {
+            $jabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->where('nama_jabatan', 'Wakil Dekan I')->first();
+            $userNIP = $jabatan->nip;
+        }
+        // Sekretaris wakil dekan II
+        elseif ($user->bagian === 'Sekretaris Wakil Dekan II') {
+            $jabatan = DB::table('users')
+                ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
+                ->where('nama_jabatan', 'Wakil Dekan II')->first();
+            $userNIP = $jabatan->nip;
+        }
+
         $query = DB::table('suratMasuk')
             ->join('users', 'suratMasuk.ditujukan_kepada', '=', 'users.nip')
             ->join('jabatans', 'users.id_jabatan', '=', 'jabatans.id')
@@ -471,19 +494,6 @@ class SuratMasukController extends Controller
 
         // Ambil data user
         $user = session()->get('user');
-
-        // Cek user hanya dapat melakukan sekali disposisi
-        // if (in_array($user->id_jabatan, [1, 2, 3])) {
-        //     $userTelahDispo = DB::table('riwayat_disposisi')
-        //         ->where('pengirim_nip', $user->nip)
-        //         ->where('penerima_nip', $request->input('nip_penerima'))
-        //         ->where('id_surat', $request->id)
-        //         ->exists();
-        // }
-
-        // if ($userTelahDispo) {
-        //     return redirect()->back()->with('error', 'User telah mendapat disposisi!');
-        // }
 
         // Validasi inputan
         $validated = $request->validate([
