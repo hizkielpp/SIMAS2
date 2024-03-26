@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('Asia/Jakarta');
 
         View::composer('*', function ($view) {
+            // Cek kondisi mengirim data kecuali halaman login
             if (!in_array($view->getName(), ['login'])) {
                 // Ambil data user authorized
                 $user = session()->get('user')->nip;
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
 
                     ->join('tindak_lanjut', 'disposisi.id_tindak_lanjut', '=', 'tindak_lanjut.id')
                     ->select('disposisi.*', 'users.name as nama_penerima', 'jabatans.nama_jabatan as jabatan_penerima', 'user_pengirim.name as nama_pengirim', 'jabatan_pengirim.nama_jabatan as jabatan_pengirim', 'tindak_lanjut.deskripsi',)
+                    ->orderByDesc('tanggal_disposisi')
                     ->get();
 
                 foreach ($allDisposisi as $disposisi) {

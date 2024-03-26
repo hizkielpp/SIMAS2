@@ -550,5 +550,17 @@ class SuratMasukController extends Controller
     }
     // Menyelesaikan disposisi surat end
 
+    // Handle tandai disposisi telah dibaca start
+    public function disposisiOpened(Request $request)
+    {
+        $disposisi = DB::table('disposisi')
+            ->where('id', $request->id)
+            ->update(['isOpened' => 1]);
+
+        return response()->json([
+            'success' => 'success',
+        ]);
+    }
+    // Handle tandai disposisi telah dibaca end
 
 }

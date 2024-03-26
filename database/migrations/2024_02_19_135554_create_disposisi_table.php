@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('tanggal_disposisi');
             $table->string('keterangan');
+            $table->boolean('isOpened')->default(false);
             $table->timestamps();
 
             // Foreign key tabel surat

@@ -53,6 +53,7 @@ Route::middleware(['checkAuth', 'hariKerja'])->group(function () {
             Route::post('/editSM', 'editSM')->name('editSM');
             Route::post('/surat-masuk/detail/store-disposisi/{id}', 'disposisiStore')->name('disposisiStore');
             Route::post('/surat-masuk/detail/end-disposisi/{id}', 'disposisiEnd')->name('disposisiEnd');
+            Route::get('/disposisiOpened/{id}', 'disposisiOpened')->name('disposisiOpened');
         });
     });
     // Surat masuk end

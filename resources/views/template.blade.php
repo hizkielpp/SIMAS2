@@ -37,6 +37,19 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+    @php
+        // Inisialisasi semua telah dibaca dengan true
+        $semuaTelahDibaca = true;
+
+        // Periksa setiap disposisi
+        foreach ($allDisposisi as $key) {
+            // Jika disposisi belum dibaca, atur $semuaTelahDibaca menjadi false dan hentikan iterasi
+            if ($key->isOpened == false) {
+                $semuaTelahDibaca = false;
+                break;
+            }
+        }
+    @endphp
     <div class="wrapper">
         {{-- Preloader start --}}
         <div class="preloader flex-column justify-content-center align-items-center">
@@ -58,33 +71,44 @@
                     <button type="button">
                         <i class="fa-solid fa-bell"></i>
                     </button>
-                    <div class="notification-mark notification-mark--pulsing"></div>
+                    @if (!$semuaTelahDibaca)
+                        <div class="notification-mark notification-mark--pulsing"></div>
+                    @endif
                 </div>
                 <div class="dropdown__wrapper hide dropdown__wrapper--fade-in none">
                     <div class="notifications-top">
-                        <h2 class="fs-6">Notifikasi</h2>
+                        <h2 class="fs-6">Notifikasi Disposisi</h2>
                     </div>
                     <div class="notification-items">
-                        @foreach ($allDisposisi as $disposisi)
-                            <div class="notification-item notification-item--recent">
-                                <i class="fa-solid fa-circle-user fs-4"></i>
-                                <div class="notification-item__body">
-                                    <div class="fs-6">
-                                        <strong>{{ $disposisi->jabatan_pengirim }}</strong> mengirim disposisi kepada
-                                        {{ $disposisi->jabatan_penerima }}
+                        <div class="notification-item notification-item--recent">
+                            @if (count($allDisposisi) === 0)
+                                <p>Tidak ada pemberitahuan disposisi.</p>
+                            @else
+                                @foreach ($allDisposisi as $disposisi)
+                                    <i class="fa-solid fa-circle-user fs-4"></i>
+                                    <div class="notification-item__body">
+                                        <div class="fs-6">
+                                            <strong>{{ $disposisi->jabatan_pengirim }}</strong> mengirim disposisi
+                                            kepada
+                                            {{ $disposisi->jabatan_penerima }}
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="time">
+                                                {{ $disposisi->selisih_waktu }}
+                                            </span>
+                                            @if (!$disposisi->isOpened)
+                                                <a class="text-decoration-underline telah-dibaca-button"
+                                                    data-id="{{ $disposisi->id }}"
+                                                    style="font-size: 0.8rem; cursor: pointer;">Telah dibaca </a>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="time">
-                                            {{ $disposisi->selisih_waktu }}
-                                        </span>
-                                        <a class="text-decoration-underline"
-                                            style="font-size: 0.8rem; cursor: pointer;">Telah dibaca </a>
-                                    </div>
-                                </div>
-                                <div class="border"></div>
-                            </div>
-                        @endforeach
+                                    <div class="border"></div>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
+
                 </div>
                 <li class="nav-item d-flex align-items-center user">
                     <i class="fa-solid fa-user"></i>
@@ -178,6 +202,21 @@
             <div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0</div>
         </footer>
         {{-- Footer end --}}
+
+        {{-- Toast start --}}
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Berhasil!</strong>
+                    <small>Baru saja</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Menandai disposisi telah dibaca.
+                </div>
+            </div>
+        </div>
+        {{-- Toast end --}}
     </div>
 
     <!-- Template : AdminLTE App -->
@@ -196,5 +235,30 @@
 
 {{-- PDF Object --}}
 <script src="{{ asset('js/pdfobject.min.js') }}"></script>
+
+<script>
+    // Initializing toast bootstrap start
+    const toastLiveExample = document.getElementById('liveToast')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+
+    // Handler telah dibaca start
+    $(document).on('click', '.telah-dibaca-button', function() {
+        let id = $(this).data('id');
+        let url = "{{ route('surat-masuk.disposisiOpened', ':id') }}".replace(':id', id);
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(result) {
+                $('.telah-dibaca-button[data-id="' + id + '"]').hide();
+                toastBootstrap.show();
+            },
+            error: function(xhr) {
+                alert(xhr);
+            }
+        });
+    });
+    // Handler telah dibaca end
+</script>
 
 </html>
