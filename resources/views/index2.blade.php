@@ -1,4 +1,5 @@
-@extends('template') @section('content')
+@extends('template')
+@section('content')
     <section class="content">
         {{-- Cek apakah semua surat telah memiliki arsip start --}}
         @php
@@ -166,6 +167,33 @@
         </div>
         {{-- Main section end --}}
 
+        {{-- Statistik section start --}}
+        <div class="row mt-3">
+            <div class="col-md-8 col-12">
+                <div class="card bg-white border-0 p-4 mt-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="fs-5 fw-semibold">Statistik Surat</h2>
+                        <div class="dropdown">
+                            <select class="form-select" id="selectDate" aria-label="Default select example">
+                                <option value="2023">2023</option>
+                                <option value="2024" selected>2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="myChart" style="max-height: 400px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="card bg-white border-0 p-4 mt-3">
+                </div>
+            </div>
+        </div>
+        {{-- Statistik section end --}}
+
         {{-- Alert warning start --}}
         @if (!$semuaSudahArsip)
             <div class="alert alert-warning gap-2 d-flex align-items-start mt-4" role="alert"
@@ -186,10 +214,53 @@
         {{-- Alert warning end --}}
 
     </section>
-    @endsection @section('js')
+@endsection
+@section('js')
     {{-- Sweet alert start --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- Sweet alert end --}}
+
+    {{-- ChartJS --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{-- Initializing dom start --}}
+    <script>
+        $(document).ready(function() {
+            const chart = document.getElementById('myChart');
+
+            const config = {
+                type: 'bar',
+                data: {
+                    labels: 'tes',
+                    datasets: [{
+                            label: 'Surat Masuk',
+                            data: [1, 2],
+                            borderWidth: 1,
+                            backgroundColor: '#fef1de',
+                            borderColor: '#f99f25',
+                        },
+                        {
+                            label: 'Surat Keluar',
+                            data: [3, 4],
+                            borderWidth: 1,
+                            backgroundColor: '#e3f7ed',
+                            borderColor: '#47ca84',
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {}
+                }
+            };
+
+            let statistikChart = new Chart(chart, config);
+        })
+    </script>
+    {{-- Initializing dom end --}}
 
     {{-- Format jumlah surat start --}}
     <script>
@@ -229,4 +300,7 @@
             berhasil("{{ Session::get('success') }}");
         </script>
         {{-- Cek pertama kali login end --}}
-    @endif @endsection @section('db', 'active') @section('title', 'Dashboard')
+    @endif
+@endsection
+@section('db', 'active')
+@section('title', 'Dashboard')

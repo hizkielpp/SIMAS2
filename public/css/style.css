@@ -31,28 +31,70 @@ body {
     min-height: 100vh;
 }
 
-h1 { font-size: 24px; }
-h2 { font-size: 20px; }
-h3 { font-size: 18px; }
-h4 { font-size: 16px; }
-h5 { font-size: 14px; }
-h6 { font-size: 12px; }
-h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
+h1 {
+    font-size: 24px;
+}
+h2 {
+    font-size: 20px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 12px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-bottom: 0;
+}
 
 /* Font weight */
-.fw__light { font-weight: 300; }
-.fw__normal { font-weight: 400; }
-.fw__med { font-weight: 500; }
-.fw__semi { font-weight: 600; }
-.fw__bold { font-weight: 700; }
-.fw__ebold { font-weight: 800; }
+.fw__light {
+    font-weight: 300;
+}
+.fw__normal {
+    font-weight: 400;
+}
+.fw__med {
+    font-weight: 500;
+}
+.fw__semi {
+    font-weight: 600;
+}
+.fw__bold {
+    font-weight: 700;
+}
+.fw__ebold {
+    font-weight: 800;
+}
 
 /* Color */
-.blue { color: var(--blue); }
-.blue__light { color: var(--blue-light); }
-.black { color: var(--black); }
-.black__light { color: var(--black-light); }
-.light { color: var(--light); }
+.blue {
+    color: var(--blue);
+}
+.blue__light {
+    color: var(--blue-light);
+}
+.black {
+    color: var(--black);
+}
+.black__light {
+    color: var(--black-light);
+}
+.light {
+    color: var(--light);
+}
 
 /* Button start */
 .mybtn {
@@ -650,7 +692,6 @@ h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
 /* Notification */
 .icon-wrapper {
     position: relative;
-    cursor: pointer;
     display: grid;
     place-items: center;
     border-radius: 50%;
@@ -658,13 +699,12 @@ h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
     height: 2.25rem;
     border: none;
     background-color: transparent;
-    cursor: pointer;
+    cursor: default;
     transition: all 0.2s ease-in-out;
 }
 .icon-wrapper button {
     background-color: transparent;
     border: none;
-    cursor: pointer;
 }
 .icon-wrapper .icon {
     width: 2rem;
@@ -684,7 +724,7 @@ h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
     width: 3.25rem;
     height: 3.25rem;
     background-color: transparent;
-    cursor: pointer;
+    cursor: default;
     border-radius: 50%;
     border: 2px solid #f7f7f7;
     transition: all 0.2s ease-in-out;
@@ -697,17 +737,17 @@ h1, h2, h3, h4, h5, h6, p { margin-bottom: 0; }
     display: block;
     top: 0.45rem;
     right: 0.45rem;
-    width: 0.7rem;
-    height: 0.7rem;
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 50%;
-    background-color: var(--important);
+    background-color: rgb(240, 76, 76);
 }
 .notifications-top {
     padding: 1rem;
 }
 .notification-item {
     display: flex;
-    cursor: pointer;
+    cursor: default;
     flex-direction: row;
     align-items: center;
     gap: 0.75rem;

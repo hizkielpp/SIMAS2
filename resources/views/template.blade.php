@@ -73,9 +73,13 @@
                                         <strong>{{ $disposisi->jabatan_pengirim }}</strong> mengirim disposisi kepada
                                         {{ $disposisi->jabatan_penerima }}
                                     </div>
-                                    <span class="time">
-                                        {{ $disposisi->selisih_waktu }}
-                                    </span>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="time">
+                                            {{ $disposisi->selisih_waktu }}
+                                        </span>
+                                        <a class="text-decoration-underline"
+                                            style="font-size: 0.8rem; cursor: pointer;">Telah dibaca </a>
+                                    </div>
                                 </div>
                                 <div class="border"></div>
                             </div>
